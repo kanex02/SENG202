@@ -18,6 +18,7 @@ public class App {
      * @param args program arguments from command line
      */
     public static void main(String[] args) {
+        //SINGLE LINE COMMENT!!
         System.out.println("Test");
         log.info("Hello World!");
         log.warn("This is a warning message! Use this log type to 'warn' if something is not quite right");
