@@ -40,8 +40,13 @@ public class AppTest
         assertEquals(9+10,19);
     }
 
+    @Test
     public void ellaTest()
     {
         assertEquals(1+4,5);
     }
+
+    @Test
+    public void katieTest() { assertEquals(1+3,4); }
+
 }
