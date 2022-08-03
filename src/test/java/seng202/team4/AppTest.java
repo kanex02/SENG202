@@ -31,4 +31,9 @@ public class AppTest
     {
         assertEquals(9+10,19);
     }
+
+    public void ellaTest()
+    {
+        assertEquals(1+3,4);
+    }
 }
