@@ -19,6 +19,7 @@ public class App {
      */
     public static void main(String[] args) {
         //SINGLE LINE COMMENT!!
+        //SECOND SINGLE LINE COMMENT!!!
         System.out.println("Test");
         System.out.println("Testing");
         log.info("Hello World!");
