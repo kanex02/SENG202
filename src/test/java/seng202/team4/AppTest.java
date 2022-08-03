@@ -26,4 +26,9 @@ public class AppTest
         assertEquals(1+1,2);
     }
 
+    @Test
+    public void danielTest()
+    {
+        assertEquals(9+10,19);
+    }
 }
