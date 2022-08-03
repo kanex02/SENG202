@@ -20,6 +20,14 @@ public class AppTest
         assertTrue( true );
     }
 
+    /**
+     * KX test
+     */
+    @Test
+    public void testKX(){
+        assertTrue((1==1));
+    }
+
     @Test
     public void tomTest()
     {
