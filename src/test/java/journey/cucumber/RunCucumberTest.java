@@ -1,4 +1,4 @@
-package seng202.team4.cucumber;
+package journey.cucumber;
 
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;

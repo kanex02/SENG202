@@ -1,10 +1,8 @@
-package seng202.team4;
+package journey;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test for simple App, default from Maven
@@ -25,7 +23,7 @@ public class AppTest
      */
     @Test
     public void testKX(){
-        assertTrue((1==1));
+        assertFalse(false);
     }
 
     @Test
