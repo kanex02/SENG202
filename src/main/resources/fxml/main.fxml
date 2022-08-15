@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="787.0" style="-fx-background-color: DARKGREY;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.gui.MainController">
+   <children>
+      <Pane layoutX="-7.0" layoutY="-10.0" prefHeight="63.0" prefWidth="793.0" style="-fx-background-color: white;">
+         <children>
+            <Label layoutX="331.0" layoutY="10.0" prefHeight="47.0" prefWidth="132.0" text="Journey" textAlignment="CENTER" underline="true">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </Label>
+            <Button layoutX="699.0" layoutY="19.0" mnemonicParsing="false" onAction="#userDropdown" prefHeight="26.0" prefWidth="81.0" text="My Profile" />
+         </children>
+      </Pane>
+      <Pane layoutX="21.0" layoutY="108.0" prefHeight="358.0" prefWidth="216.0" style="-fx-background-color: white;">
+         <children>
+            <Label alignment="CENTER" layoutX="23.0" layoutY="14.0" prefHeight="26.0" prefWidth="170.0" text="REGISTER A VEHICLE" textAlignment="CENTER" underline="true">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="11.0" layoutY="45.0" prefHeight="24.0" prefWidth="81.0" text="Registration:" />
+            <TextField fx:id="registrationTextBox" layoutX="100.0" layoutY="45.0" prefHeight="25.0" prefWidth="104.0" promptText="Registration" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
+            <Label layoutX="11.0" layoutY="77.0" prefHeight="24.0" prefWidth="81.0" text="Charger Type:" />
+            <ChoiceBox fx:id="chargerBox" layoutX="101.0" layoutY="76.0" prefHeight="26.0" prefWidth="104.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
+            <Label layoutX="70.0" layoutY="135.0" text="MY STUFF">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Button fx:id="viewPrevJourneys" alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="167.0" mnemonicParsing="false" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="View Previous Journeys" />
+         </children>
+      </Pane>
+      <Pane layoutX="273.0" layoutY="108.0" prefHeight="358.0" prefWidth="241.0" style="-fx-background-color: white;">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="14.0" prefHeight="26.0" prefWidth="188.0" text="FIND A CHARGING STATION" underline="true">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="filterList" layoutX="14.0" layoutY="50.0" prefHeight="25.0" prefWidth="104.0" promptText="Filter" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
+            <ComboBox fx:id="sortList" layoutX="124.0" layoutY="50.0" prefHeight="25.0" prefWidth="104.0" promptText="Sort" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
+            <ScrollPane hbarPolicy="NEVER" layoutX="24.0" layoutY="93.0" prefHeight="250.0" prefWidth="200.0" style="-fx-border-color: BLACK;" vbarPolicy="ALWAYS" vmax="2.0">
+              <content>
+                <AnchorPane fx:id="scrollPane_inner" minHeight="0.0" minWidth="0.0" prefHeight="246.0" prefWidth="200.0" style="-fx-background-color: LIGHTGREEN;" />
+              </content>
+            </ScrollPane>
+         </children>
+      </Pane>
+      <SplitPane dividerPositions="0.4" layoutX="551.0" layoutY="108.0" orientation="VERTICAL" prefHeight="358.0" prefWidth="216.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: WHITE;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="14.0" text="RECORD A JOURNEY" underline="true">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="recordJourneyStartButton" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="Start" />
+                  <Button fx:id="recordJourneyEndButton" layoutX="133.0" layoutY="43.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="68.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="End" />
+                  <Label layoutX="20.0" layoutY="83.0" prefHeight="41.0" prefWidth="54.0" text="Charging Details:" wrapText="true" />
+                  <TextField fx:id="chargingStationTextField" layoutX="97.0" layoutY="91.0" prefHeight="26.0" prefWidth="104.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: WHITE;">
+               <children>
+                  <Label layoutX="27.0" layoutY="14.0" prefHeight="51.0" prefWidth="160.0" text="RECORD DETAILS ABOUT A STATION" textAlignment="CENTER" underline="true" wrapText="true">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="stationDetailTextArea" layoutX="12.0" layoutY="72.0" prefHeight="123.0" prefWidth="188.0" style="-fx-border-color: BLACK;" />
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
