@@ -1,5 +1,9 @@
 package journey.data;
 
+import static java.lang.Math.acos;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+
 /**
  * A class that models a station, for use in results and queries.
  * X and Y have been excluded, as latitude and longitude are more widely used.
@@ -22,6 +26,62 @@ public class Station {
     private int numberOfConnectors;
     private String[] connectorsList;
     private Boolean hasChargingCost;
+
+    /**
+     * Initialises a new station.
+
+     * @param id id according to the database
+     * @param name name
+     * @param operator operator
+     * @param owner owner
+     * @param address location of station
+     * @param is24Hours whether the station is open 24 hours
+     * @param carParkCount number of car parks
+     * @param hasCarparkCost whether parking costs money
+     * @param maxTimeLimit maximum time allowed to stay
+     * @param hasTouristAttraction whether there is an attraction nearby
+     * @param latitude latitude
+     * @param longitude longitude
+     * @param currentType type of current provided (AC/DC/Mixed)
+     * @param dateFirstOperational date first online
+     * @param numberOfConnectors number of connectors
+     * @param connectorsList information about connectors
+     * @param hasChargingCost whether charging costs money
+     */
+    public Station(int id, String name, String operator, String owner, String address,
+                   Boolean is24Hours, int carParkCount, Boolean hasCarparkCost,
+                   int maxTimeLimit, Boolean hasTouristAttraction, float latitude,
+                   float longitude, String currentType, String dateFirstOperational,
+                   int numberOfConnectors, String[] connectorsList, Boolean hasChargingCost) {
+        this.id = id;
+        this.name = name;
+        this.operator = operator;
+        this.owner = owner;
+        this.address = address;
+        this.is24Hours = is24Hours;
+        this.carParkCount = carParkCount;
+        this.hasCarparkCost = hasCarparkCost;
+        this.maxTimeLimit = maxTimeLimit;
+        this.hasTouristAttraction = hasTouristAttraction;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.currentType = currentType;
+        this.dateFirstOperational = dateFirstOperational;
+        this.numberOfConnectors = numberOfConnectors;
+        this.connectorsList = connectorsList;
+        this.hasChargingCost = hasChargingCost;
+    }
+
+    /**
+     * Calculates the distance between this station and another one.
+
+     * @param other The other station.
+     * @return Distance between the stations, in km.
+     */
+    public double distanceTo(Station other) {
+        return 6378.8 * acos((sin(this.latitude) * sin(other.latitude))
+                + cos(this.latitude) * cos(other.latitude) * cos(other.longitude - this.longitude));
+    }
 
     public int getId() {
         return id;
