@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="787.0" style="-fx-background-color: DARKGREY;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.gui.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: DARKGREY;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <children>
-      <Pane layoutX="-7.0" layoutY="-10.0" prefHeight="63.0" prefWidth="793.0" style="-fx-background-color: white;">
+      <Pane layoutX="-7.0" layoutY="-6.0" prefHeight="59.0" prefWidth="807.0" style="-fx-background-color: white;">
          <children>
             <Label layoutX="331.0" layoutY="10.0" prefHeight="47.0" prefWidth="132.0" text="Journey" textAlignment="CENTER" underline="true">
                <font>
@@ -26,13 +26,14 @@
             <Label layoutX="11.0" layoutY="45.0" prefHeight="24.0" prefWidth="81.0" text="Registration:" />
             <TextField fx:id="registrationTextBox" layoutX="100.0" layoutY="45.0" prefHeight="25.0" prefWidth="104.0" promptText="Registration" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
             <Label layoutX="11.0" layoutY="77.0" prefHeight="24.0" prefWidth="81.0" text="Charger Type:" />
-            <ChoiceBox fx:id="chargerBox" layoutX="101.0" layoutY="76.0" prefHeight="26.0" prefWidth="104.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
-            <Label layoutX="70.0" layoutY="135.0" text="MY STUFF">
+            <ChoiceBox fx:id="chargerBox" onAction="#chargerTypeChoice" layoutX="100.0" layoutY="76.0" prefHeight="27.0" prefWidth="104.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
+            <Button onAction="#registerVehicle" layoutX="64.0" layoutY="125.0" mnemonicParsing="false" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="Register Vehicle" />
+            <Label layoutX="70.0" layoutY="166.0" text="MY STUFF">
                <font>
                   <Font size="17.0" />
                </font>
             </Label>
-            <Button fx:id="viewPrevJourneys" alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="167.0" mnemonicParsing="false" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="View Previous Journeys" />
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="197.0" mnemonicParsing="false" onAction="#viewPrevJourneys" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="View Previous Journeys" />
          </children>
       </Pane>
       <Pane layoutX="273.0" layoutY="108.0" prefHeight="358.0" prefWidth="241.0" style="-fx-background-color: white;">
@@ -60,8 +61,8 @@
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Button fx:id="recordJourneyStartButton" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="Start" />
-                  <Button fx:id="recordJourneyEndButton" layoutX="133.0" layoutY="43.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="68.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="End" />
+                  <Button onAction = "#startJourneyButton" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="Start" />
+                  <Button onAction = "#endJourneyButton" layoutX="133.0" layoutY="43.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="68.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="End" />
                   <Label layoutX="20.0" layoutY="83.0" prefHeight="41.0" prefWidth="54.0" text="Charging Details:" wrapText="true" />
                   <TextField fx:id="chargingStationTextField" layoutX="97.0" layoutY="91.0" prefHeight="26.0" prefWidth="104.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
                </children>

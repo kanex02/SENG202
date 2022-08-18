@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import journey.controller.MainController;
 
 /**
  * Class starts the javaFX application window
@@ -25,12 +26,17 @@ public class MainWindow extends Application {
         Parent root = baseLoader.load();
 
         MainController baseController = baseLoader.getController();
-        //baseController.init(primaryStage);
+        baseController.init(primaryStage);
 
         primaryStage.setTitle("Journey");
         Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
+        // set the min height and width so the window opens at the correct size
+        primaryStage.setMinHeight(500);
+        primaryStage.setMinWidth(800);
+
+
     }
 
     /**
