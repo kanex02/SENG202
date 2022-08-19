@@ -185,4 +185,92 @@ public final class Database {
     public static void setCurrentUser(User currentUser) {
         Database.currentUser = currentUser;
     }
+
+    public static Station queryStation(int id) {
+        connect();
+        try {
+            String sqlQuery = "SELECT * FROM Stations WHERE ID = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            // Create a new station object. TODO: Clean up code (do in a more readable way, Process connectorsList properly
+            Station station = new Station(resultSet.getInt("ID"),
+                resultSet.getString("name"), resultSet.getString("operator"),
+                resultSet.getString("owner"), resultSet.getString("address"),
+                resultSet.getBoolean("is24Hours"), resultSet.getInt("carParkCount"),
+                resultSet.getBoolean("hasCarParkCost"), resultSet.getInt("maxTimeLimit"),
+                resultSet.getBoolean("hasTouristAttraction"), resultSet.getInt("latitude"),
+                resultSet.getInt("longitude"), resultSet.getString("currentType"), resultSet.getString("dateFirstOperational"),
+                resultSet.getInt("numberOfConnectors"), null,
+                resultSet.getBoolean("hasChargingCost"));
+            disconnect();
+            return station;
+        } catch (SQLException ex) {
+            disconnect();
+            throw new RuntimeException(ex);
+        }
+    }
+    /**
+     * Inserts all features of the station into the database
+     * @param id
+     * @param name
+     * @param operator
+     * @param owner
+     * @param address
+     * @param is24Hours
+     * @param carParkCount
+     * @param hasCarparkCost
+     * @param maxTimeLimit
+     * @param hasTouristAttraction
+     * @param latitude
+     * @param longitude
+     * @param currentType
+     * @param dateFirstOperational
+     * @param numberOfConnectors
+     * @param connectorsList
+     * @param hasChargingCost
+     */
+    public static void createStation(int id, String name, String operator, String owner, String address,
+                                     Boolean is24Hours, int carParkCount, Boolean hasCarparkCost, int maxTimeLimit,
+                                     Boolean hasTouristAttraction, float latitude, float longitude, String currentType,
+                                     String dateFirstOperational, int numberOfConnectors, String[] connectorsList,
+                                     Boolean hasChargingCost) {
+        //Creates new station in database. TODO: handle connectorsList properly
+        connect();
+        try {
+            String sqlQuery = "INSERT INTO Stations VALUES (?,null,null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement ps  = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, id);
+            ps.setString(2, name);
+            ps.setString(3, operator);
+            ps.setString(4, owner);
+            ps.setString(5, address);
+            ps.setBoolean(6, is24Hours);
+            ps.setInt(7, carParkCount);
+            ps.setBoolean(8, hasCarparkCost);
+            ps.setInt(9, maxTimeLimit);
+            ps.setBoolean(10, hasTouristAttraction);
+            ps.setFloat(11, latitude);
+            ps.setFloat(12, longitude);
+            ps.setString(13, currentType);
+            ps.setString(14, dateFirstOperational);
+            ps.setInt(15, numberOfConnectors);
+            ps.setString(16,"I have 3 connectors");
+            ps.setBoolean(17, hasChargingCost);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        disconnect();
+    }
+    public static void deleteStation(int id) {}
+
+    public static void main(String[] args) {
+        Database db = new Database();
+        Station station = db.queryStation(1);
+        System.out.println(station.getAddress());
+        System.out.println(station.getCarParkCount());
+        System.out.println(station.getHasCarparkCost());
+    }
+}
 }
