@@ -20,4 +20,11 @@ class DatabaseTest {
         Database.updateUser(1);
         assertEquals(Database.getCurrentUser().getName(), "Krane");
     }
+
+    @Test
+    void convertArrToStr() {
+        String[] strArr = {"a","b","c","d"};
+        String stri = Database.convertArrayToString(strArr, ":");
+        assertEquals(stri, "a:b:c:d:");
+    }
 }

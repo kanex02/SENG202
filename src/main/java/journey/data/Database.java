@@ -185,4 +185,100 @@ public final class Database {
     public static void setCurrentUser(User currentUser) {
         Database.currentUser = currentUser;
     }
+
+    public static String convertArrayToString(String[] arr, String delimiter) {
+        StringBuilder newString = new StringBuilder();
+        for (Object ob : arr) {
+            newString.append(ob.toString()).append(delimiter);
+        }
+        return newString.toString();
+    }
+    public static Station queryStation(int id) {
+        connect();
+        try {
+            String sqlQuery = "SELECT * FROM Stations WHERE ID = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            // Create a new station object. TODO: Clean up code (do in a more readable way, Process connectorsList properly
+            Station station = new Station(resultSet.getInt("ID"),
+                resultSet.getString("name"), resultSet.getString("operator"),
+                resultSet.getString("owner"), resultSet.getString("address"),
+                resultSet.getBoolean("is24Hours"), resultSet.getInt("carParkCount"),
+                resultSet.getBoolean("hasCarParkCost"), resultSet.getInt("maxTimeLimit"),
+                resultSet.getBoolean("hasTouristAttraction"), resultSet.getInt("latitude"),
+                resultSet.getInt("longitude"), resultSet.getString("currentType"), resultSet.getString("dateFirstOperational"),
+                resultSet.getInt("numberOfConnectors"), (resultSet.getString("connectorsList")).split(":"),
+                resultSet.getBoolean("hasChargingCost"));
+            disconnect();
+            return station;
+        } catch (SQLException ex) {
+            disconnect();
+            throw new RuntimeException(ex);
+        }
+    }
+    /**
+     * Inserts all features of the station into the database
+     * @param id station id
+     * @param name station name
+     * @param operator station operator
+     * @param owner station owner
+     * @param address station address
+     * @param is24Hours whether station is open 24/7
+     * @param carParkCount how many car parks station has
+     * @param hasCarparkCost whether station carpark costs to park at
+     * @param maxTimeLimit maximum time allowed at station
+     * @param hasTouristAttraction whether there are touris attractions nearby
+     * @param latitude stations latitude
+     * @param longitude stations longitude
+     * @param currentType stations current type
+     * @param dateFirstOperational date station was first operational
+     * @param numberOfConnectors number of connectors available to charge with
+     * @param connectorsList list of connectors
+     * @param hasChargingCost cost of charging
+     */
+    public static void createStation(int id, String name, String operator, String owner, String address,
+                                     Boolean is24Hours, int carParkCount, Boolean hasCarparkCost, int maxTimeLimit,
+                                     Boolean hasTouristAttraction, float latitude, float longitude, String currentType,
+                                     String dateFirstOperational, int numberOfConnectors, String[] connectorsList,
+                                     Boolean hasChargingCost) {
+        //TODO: add helper function to format string array to string
+        //Creates new station in database. TODO: handle connectorsList properly
+        connect();
+        try {
+            String sqlQuery = "INSERT INTO Stations VALUES (?,null,null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement ps  = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, id);
+            ps.setString(2, name);
+            ps.setString(3, operator);
+            ps.setString(4, owner);
+            ps.setString(5, address);
+            ps.setBoolean(6, is24Hours);
+            ps.setInt(7, carParkCount);
+            ps.setBoolean(8, hasCarparkCost);
+            ps.setInt(9, maxTimeLimit);
+            ps.setBoolean(10, hasTouristAttraction);
+            ps.setFloat(11, latitude);
+            ps.setFloat(12, longitude);
+            ps.setString(13, currentType);
+            ps.setString(14, dateFirstOperational);
+            ps.setInt(15, numberOfConnectors);
+            ps.setString(16,convertArrayToString(connectorsList, ":"));
+            ps.setBoolean(17, hasChargingCost);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        disconnect();
+    }
+    public static void deleteStation(int id) {}
+
+    public static void main(String[] args) {
+        Database db = new Database();
+
+
+    }
 }
+
+
+
