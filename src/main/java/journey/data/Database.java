@@ -186,6 +186,13 @@ public final class Database {
         Database.currentUser = currentUser;
     }
 
+    public static String convertArrayToString(String[] arr, String delimiter) {
+        StringBuilder newString = new StringBuilder();
+        for (Object ob : arr) {
+            newString.append(ob.toString()).append(delimiter);
+        }
+        return newString.toString();
+    }
     public static Station queryStation(int id) {
         connect();
         try {
@@ -201,7 +208,7 @@ public final class Database {
                 resultSet.getBoolean("hasCarParkCost"), resultSet.getInt("maxTimeLimit"),
                 resultSet.getBoolean("hasTouristAttraction"), resultSet.getInt("latitude"),
                 resultSet.getInt("longitude"), resultSet.getString("currentType"), resultSet.getString("dateFirstOperational"),
-                resultSet.getInt("numberOfConnectors"), null,
+                resultSet.getInt("numberOfConnectors"), (resultSet.getString("connectorsList")).split(":"),
                 resultSet.getBoolean("hasChargingCost"));
             disconnect();
             return station;
@@ -212,29 +219,30 @@ public final class Database {
     }
     /**
      * Inserts all features of the station into the database
-     * @param id
-     * @param name
-     * @param operator
-     * @param owner
-     * @param address
-     * @param is24Hours
-     * @param carParkCount
-     * @param hasCarparkCost
-     * @param maxTimeLimit
-     * @param hasTouristAttraction
-     * @param latitude
-     * @param longitude
-     * @param currentType
-     * @param dateFirstOperational
-     * @param numberOfConnectors
-     * @param connectorsList
-     * @param hasChargingCost
+     * @param id station id
+     * @param name station name
+     * @param operator station operator
+     * @param owner station owner
+     * @param address station address
+     * @param is24Hours whether station is open 24/7
+     * @param carParkCount how many car parks station has
+     * @param hasCarparkCost whether station carpark costs to park at
+     * @param maxTimeLimit maximum time allowed at station
+     * @param hasTouristAttraction whether there are touris attractions nearby
+     * @param latitude stations latitude
+     * @param longitude stations longitude
+     * @param currentType stations current type
+     * @param dateFirstOperational date station was first operational
+     * @param numberOfConnectors number of connectors available to charge with
+     * @param connectorsList list of connectors
+     * @param hasChargingCost cost of charging
      */
     public static void createStation(int id, String name, String operator, String owner, String address,
                                      Boolean is24Hours, int carParkCount, Boolean hasCarparkCost, int maxTimeLimit,
                                      Boolean hasTouristAttraction, float latitude, float longitude, String currentType,
                                      String dateFirstOperational, int numberOfConnectors, String[] connectorsList,
                                      Boolean hasChargingCost) {
+        //TODO: add helper function to format string array to string
         //Creates new station in database. TODO: handle connectorsList properly
         connect();
         try {
@@ -255,7 +263,7 @@ public final class Database {
             ps.setString(13, currentType);
             ps.setString(14, dateFirstOperational);
             ps.setInt(15, numberOfConnectors);
-            ps.setString(16,"I have 3 connectors");
+            ps.setString(16,convertArrayToString(connectorsList, ":"));
             ps.setBoolean(17, hasChargingCost);
             ps.execute();
         } catch (SQLException e) {
@@ -267,10 +275,10 @@ public final class Database {
 
     public static void main(String[] args) {
         Database db = new Database();
-        Station station = db.queryStation(1);
-        System.out.println(station.getAddress());
-        System.out.println(station.getCarParkCount());
-        System.out.println(station.getHasCarparkCost());
+
+
     }
 }
-}
+
+
+
