@@ -1,5 +1,6 @@
 package journey.data;
 
+import com.opencsv.bean.CsvBindByName;
 import static java.lang.Math.acos;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -9,23 +10,67 @@ import static java.lang.Math.sin;
  * X and Y have been excluded, as latitude and longitude are more widely used.
  */
 public class Station {
-    private int id;
+    @CsvBindByName
+    private float X;
+    @CsvBindByName
+    private float Y;
+    @CsvBindByName
+    private int OBJECTID;
+    @CsvBindByName
     private String name;
+    @CsvBindByName
     private String operator;
+    @CsvBindByName
     private String owner;
+    @CsvBindByName
     private String address;
-    private Boolean is24Hours;
+    @CsvBindByName
+    private boolean is24Hours;
+    @CsvBindByName
     private int carParkCount;
-    private Boolean hasCarparkCost;
-    private int maxTimeLimit;
-    private Boolean hasTouristAttraction;
+    @CsvBindByName
+    private boolean hasCarParkCost;
+    @CsvBindByName
+    private String maxTimeLimit;
+    @CsvBindByName
+    private boolean hasTouristAttraction;
+    @CsvBindByName
     private float latitude;
+    @CsvBindByName
     private float longitude;
+    @CsvBindByName
     private String currentType;
+    @CsvBindByName
     private String dateFirstOperational;
+    @CsvBindByName
     private int numberOfConnectors;
-    private String[] connectorsList;
-    private Boolean hasChargingCost;
+    @CsvBindByName
+    private String connectorsList;
+    @CsvBindByName
+    private boolean hasChargingCost;
+
+
+    private int maxTime;
+    private String[] connectors;
+
+    public int getMaxTime() {
+        return maxTime;
+    }
+
+    public void setMaxTime(int maxTime) {
+        this.maxTime = maxTime;
+    }
+
+    public String[] getConnectors() {
+        return connectors;
+    }
+
+    public void setConnectors(String[] connectors) {
+        this.connectors = connectors;
+    }
+
+
+
 
     /**
      * Initialises a new station.
@@ -37,7 +82,7 @@ public class Station {
      * @param address location of station
      * @param is24Hours whether the station is open 24 hours
      * @param carParkCount number of car parks
-     * @param hasCarparkCost whether parking costs money
+     * @param hasCarParkCost whether parking costs money
      * @param maxTimeLimit maximum time allowed to stay
      * @param hasTouristAttraction whether there is an attraction nearby
      * @param latitude latitude
@@ -49,26 +94,26 @@ public class Station {
      * @param hasChargingCost whether charging costs money
      */
     public Station(int id, String name, String operator, String owner, String address,
-                   Boolean is24Hours, int carParkCount, Boolean hasCarparkCost,
+                   Boolean is24Hours, int carParkCount, Boolean hasCarParkCost,
                    int maxTimeLimit, Boolean hasTouristAttraction, float latitude,
                    float longitude, String currentType, String dateFirstOperational,
                    int numberOfConnectors, String[] connectorsList, Boolean hasChargingCost) {
-        this.id = id;
+        this.OBJECTID = id;
         this.name = name;
         this.operator = operator;
         this.owner = owner;
         this.address = address;
         this.is24Hours = is24Hours;
         this.carParkCount = carParkCount;
-        this.hasCarparkCost = hasCarparkCost;
-        this.maxTimeLimit = maxTimeLimit;
+        this.hasCarParkCost = hasCarParkCost;
+        this.maxTime = maxTimeLimit;
         this.hasTouristAttraction = hasTouristAttraction;
         this.latitude = latitude;
         this.longitude = longitude;
         this.currentType = currentType;
         this.dateFirstOperational = dateFirstOperational;
         this.numberOfConnectors = numberOfConnectors;
-        this.connectorsList = connectorsList;
+        this.connectors = connectorsList;
         this.hasChargingCost = hasChargingCost;
     }
 
@@ -83,28 +128,20 @@ public class Station {
                 + cos(this.latitude) * cos(other.latitude) * cos(other.longitude - this.longitude));
     }
 
-    public int getId() {
-        return id;
+    public float getX() {
+        return X;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setX(float x) {
+        this.X = x;
     }
 
-    public String getName() {
-        return name;
+    public float getY() {
+        return Y;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
+    public void setY(float y) {
+        this.Y = y;
     }
 
     public String getOwner() {
@@ -123,11 +160,11 @@ public class Station {
         this.address = address;
     }
 
-    public Boolean getIs24Hours() {
+    public boolean isIs24Hours() {
         return is24Hours;
     }
 
-    public void setIs24Hours(Boolean is24Hours) {
+    public void setIs24Hours(boolean is24Hours) {
         this.is24Hours = is24Hours;
     }
 
@@ -139,27 +176,27 @@ public class Station {
         this.carParkCount = carParkCount;
     }
 
-    public Boolean getHasCarparkCost() {
-        return hasCarparkCost;
+    public boolean isHasCarParkCost() {
+        return hasCarParkCost;
     }
 
-    public void setHasCarparkCost(Boolean hasCarparkCost) {
-        this.hasCarparkCost = hasCarparkCost;
+    public void setHasCarParkCost(boolean hasCarParkCost) {
+        this.hasCarParkCost = hasCarParkCost;
     }
 
-    public int getMaxTimeLimit() {
+    public String getMaxTimeLimit() {
         return maxTimeLimit;
     }
 
-    public void setMaxTimeLimit(int maxTimeLimit) {
+    public void setMaxTimeLimit(String maxTimeLimit) {
         this.maxTimeLimit = maxTimeLimit;
     }
 
-    public Boolean getHasTouristAttraction() {
+    public boolean isHasTouristAttraction() {
         return hasTouristAttraction;
     }
 
-    public void setHasTouristAttraction(Boolean hasTouristAttraction) {
+    public void setHasTouristAttraction(boolean hasTouristAttraction) {
         this.hasTouristAttraction = hasTouristAttraction;
     }
 
@@ -203,19 +240,47 @@ public class Station {
         this.numberOfConnectors = numberOfConnectors;
     }
 
-    public String[] getConnectorsList() {
+    public String getConnectorsList() {
         return connectorsList;
     }
 
-    public void setConnectorsList(String[] connectorsList) {
+    public void setConnectorsList(String connectorsList) {
         this.connectorsList = connectorsList;
     }
 
-    public Boolean getHasChargingCost() {
+    public boolean isHasChargingCost() {
         return hasChargingCost;
     }
 
-    public void setHasChargingCost(Boolean hasChargingCost) {
+    public void setHasChargingCost(boolean hasChargingCost) {
         this.hasChargingCost = hasChargingCost;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOBJECTID(int OBJECTID) {
+        this.OBJECTID = OBJECTID;
+    }
+
+    public int getOBJECTID() {
+        return OBJECTID;
+    }
+
+
+
+
 }
