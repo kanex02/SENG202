@@ -1,9 +1,11 @@
 package journey.data;
 
-import com.opencsv.bean.CsvBindByName;
+
 import static java.lang.Math.acos;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+
+import com.opencsv.bean.CsvBindByName;
 
 /**
  * A class that models a station, for use in results and queries.
@@ -49,6 +51,9 @@ public class Station {
     @CsvBindByName
     private boolean hasChargingCost;
 
+
+    public Station() {
+    }
 
     private int maxTime;
     private String[] connectors;

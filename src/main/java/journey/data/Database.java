@@ -93,8 +93,6 @@ public final class Database {
         String stationsSql = """
                 CREATE TABLE IF NOT EXISTS Stations (
                     ID INTEGER PRIMARY KEY,
-                    x INTEGER,
-                    y INTEGER,
                     name TEXT NOT NULL,
                     operator TEXT,
                     owner TEXT,
@@ -193,6 +191,7 @@ public final class Database {
         }
         return newString.toString();
     }
+
     public static Station queryStation(int id) {
         connect();
         try {
@@ -246,7 +245,7 @@ public final class Database {
         //Creates new station in database. TODO: handle connectorsList properly
         connect();
         try {
-            String sqlQuery = "INSERT INTO Stations VALUES (?,null,null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sqlQuery = "INSERT INTO Stations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps  = conn.prepareStatement(sqlQuery);
             ps.setInt(1, id);
             ps.setString(2, name);
@@ -263,7 +262,7 @@ public final class Database {
             ps.setString(13, currentType);
             ps.setString(14, dateFirstOperational);
             ps.setInt(15, numberOfConnectors);
-            ps.setString(16,convertArrayToString(connectorsList, ":"));
+            ps.setString(16,convertArrayToString(connectorsList, "//"));
             ps.setBoolean(17, hasChargingCost);
             ps.execute();
         } catch (SQLException e) {

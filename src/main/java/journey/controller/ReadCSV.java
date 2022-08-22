@@ -5,6 +5,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import journey.data.Database;
 import journey.data.Station;
 
+import javax.xml.crypto.Data;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
@@ -23,15 +24,13 @@ public class ReadCSV {
         }
     }
 
-    public void readStations() throws FileNotFoundException {
+    public static void readStations() throws FileNotFoundException {
         FileReader file = new FileReader("src/main/resources/EV_Roam_charging_stations.csv");
 
         List<Station> beans = new CsvToBeanBuilder<Station>(file)
                 .withType(Station.class)
                 .build()
                 .parse();
-
-        Database database = new Database();
 
         for (Station s : beans) {
             String connectors = s.getConnectorsList();
@@ -56,7 +55,9 @@ public class ReadCSV {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        ReadCSV reader = new ReadCSV();
-        reader.readStations();
+        Database.connect();
+        Database.setup();
+        Database.disconnect();
+        readStations();
     }
 }
