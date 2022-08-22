@@ -95,6 +95,7 @@ public class MainController {
         event.consume();
     }
 
+    // Populates the station list with expandable buttons.
     private void updateStations() {
         QueryResult stations = Database.catchEmAll();
         ObservableList<Button> locations = FXCollections.observableArrayList();
