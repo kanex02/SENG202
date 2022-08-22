@@ -40,11 +40,13 @@ public class MainWindow extends Application {
 
         primaryStage.setTitle("Journey");
         Scene scene = new Scene(root, 600, 400);
+        // scene.getStylesheets().add("src/main/resources/gui/style.css");
         primaryStage.setScene(scene);
         primaryStage.show();
         // set the min height and width so the window opens at the correct size
         primaryStage.setMinHeight(500);
         primaryStage.setMinWidth(800);
+
 
 
     }

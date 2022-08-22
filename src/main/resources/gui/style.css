@@ -1,0 +1,5 @@
+.stationButton {
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-border-radius: 0;
+    -fx-padding: 0;
+}

@@ -1,5 +1,7 @@
 package journey.controller;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.Event;
@@ -51,7 +53,7 @@ public class MainController {
     @FXML private TextField chargingStationTextField;
     @FXML private TextArea stationDetailTextArea;
 
-    @FXML private ListView<String> stationsList;
+    @FXML private ListView<Button> stationsList;
 
     // Function run when user dropdown button pressed
     @FXML private void userDropdown(Event event) {
@@ -95,11 +97,27 @@ public class MainController {
 
     private void updateStations() {
         QueryResult stations = Database.catchEmAll();
-        ObservableList<String> locations = FXCollections.observableArrayList();
+        ObservableList<Button> locations = FXCollections.observableArrayList();
         for (Station station : stations.getStations()) {
             String newstring = Arrays.toString(Arrays.copyOfRange(station.getAddress().split(","), 0, 2));
             newstring = newstring.substring(1, newstring.length()-1);
-            locations.add(newstring);
+            Button stationButton = new Button(newstring);
+            stationButton.setStyle("-fx-background-color: rgba(0, 0, 0, 0);"
+                    + "    -fx-border-radius: 0;");
+            String expandedText = newstring
+                    + "\n  lat: " + station.getLatitude()
+                    + "\n  long: " + station.getLongitude();
+            String finalNewstring = newstring;
+            stationButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override public void handle(ActionEvent event) {
+                    if (!stationButton.getText().contains("\n")) {
+                        stationButton.setText(expandedText);
+                    } else {
+                        stationButton.setText(finalNewstring);
+                    }
+                }
+            });
+            locations.add(stationButton);
         }
 
         stationsList.setItems(locations);
