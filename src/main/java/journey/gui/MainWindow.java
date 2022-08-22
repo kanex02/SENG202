@@ -1,19 +1,29 @@
 package journey.gui;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListCell;
 import javafx.stage.Stage;
+import javafx.scene.control.ListView;
 
 import java.io.IOException;
 import journey.controller.MainController;
+import journey.data.Database;
+import journey.data.QueryResult;
+import journey.data.Station;
 
 /**
  * Class starts the javaFX application window
  * @author Journey dev team
  */
 public class MainWindow extends Application {
+
+
 
     /**
      * Opens the gui with the fxml content specified in resources/fxml/main

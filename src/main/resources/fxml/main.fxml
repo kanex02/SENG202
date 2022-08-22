@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: DARKGREY;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: DARKGREY;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <children>
       <Pane layoutX="-7.0" layoutY="-6.0" prefHeight="59.0" prefWidth="807.0" style="-fx-background-color: white;">
          <children>
@@ -26,8 +34,8 @@
             <Label layoutX="11.0" layoutY="45.0" prefHeight="24.0" prefWidth="81.0" text="Registration:" />
             <TextField fx:id="registrationTextBox" layoutX="100.0" layoutY="45.0" prefHeight="25.0" prefWidth="104.0" promptText="Registration" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
             <Label layoutX="11.0" layoutY="77.0" prefHeight="24.0" prefWidth="81.0" text="Charger Type:" />
-            <ChoiceBox fx:id="chargerBox" onAction="#chargerTypeChoice" layoutX="100.0" layoutY="76.0" prefHeight="27.0" prefWidth="104.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
-            <Button onAction="#registerVehicle" layoutX="64.0" layoutY="125.0" mnemonicParsing="false" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="Register Vehicle" />
+            <ChoiceBox fx:id="chargerBox" layoutX="100.0" layoutY="76.0" onAction="#chargerTypeChoice" prefHeight="27.0" prefWidth="104.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
+            <Button layoutX="64.0" layoutY="125.0" mnemonicParsing="false" onAction="#registerVehicle" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="Register Vehicle" />
             <Label layoutX="70.0" layoutY="166.0" text="MY STUFF">
                <font>
                   <Font size="17.0" />
@@ -45,11 +53,7 @@
             </Label>
             <ComboBox fx:id="filterList" layoutX="14.0" layoutY="50.0" prefHeight="25.0" prefWidth="104.0" promptText="Filter" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
             <ComboBox fx:id="sortList" layoutX="124.0" layoutY="50.0" prefHeight="25.0" prefWidth="104.0" promptText="Sort" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
-            <ScrollPane hbarPolicy="NEVER" layoutX="24.0" layoutY="93.0" prefHeight="250.0" prefWidth="200.0" style="-fx-border-color: BLACK;" vbarPolicy="ALWAYS" vmax="2.0">
-              <content>
-                <AnchorPane fx:id="scrollPane_inner" minHeight="0.0" minWidth="0.0" prefHeight="246.0" prefWidth="200.0" style="-fx-background-color: LIGHTGREEN;" />
-              </content>
-            </ScrollPane>
+            <ListView fx:id="stationsList" layoutX="24.0" layoutY="93.0" prefHeight="250.0" prefWidth="200.0" style="-fx-border-color: BLACK;" />
          </children>
       </Pane>
       <SplitPane dividerPositions="0.4" layoutX="551.0" layoutY="108.0" orientation="VERTICAL" prefHeight="358.0" prefWidth="216.0">
@@ -61,8 +65,8 @@
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Button onAction = "#startJourneyButton" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="Start" />
-                  <Button onAction = "#endJourneyButton" layoutX="133.0" layoutY="43.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="68.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="End" />
+                  <Button layoutX="14.0" layoutY="43.0" mnemonicParsing="false" onAction="#startJourneyButton" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="Start" />
+                  <Button layoutX="133.0" layoutY="43.0" mnemonicParsing="false" onAction="#endJourneyButton" prefHeight="27.0" prefWidth="68.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" text="End" />
                   <Label layoutX="20.0" layoutY="83.0" prefHeight="41.0" prefWidth="54.0" text="Charging Details:" wrapText="true" />
                   <TextField fx:id="chargingStationTextField" layoutX="97.0" layoutY="91.0" prefHeight="26.0" prefWidth="104.0" style="-fx-background-color: LIGHTGREEN; -fx-border-color: BLACK;" />
                </children>

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  * Static utility class to make queries to the database.
@@ -272,9 +273,38 @@ public final class Database {
     }
     public static void deleteStation(int id) {}
 
-    public static void main(String[] args) {
-        Database db = new Database();
+    public static QueryResult catchEmAll() {
+        connect();
+        ArrayList<Station> res = new ArrayList<>();
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM Stations");
+            while (rs.next()) {
+                res.add(new Station(rs.getInt("ID"),
+                        rs.getString("name"), rs.getString("operator"),
+                        rs.getString("owner"), rs.getString("address"),
+                        rs.getBoolean("is24Hours"), rs.getInt("carParkCount"),
+                        rs.getBoolean("hasCarParkCost"), rs.getInt("maxTimeLimit"),
+                        rs.getBoolean("hasTouristAttraction"), rs.getInt("latitude"),
+                        rs.getInt("longitude"), rs.getString("currentType"), rs.getString("dateFirstOperational"),
+                        rs.getInt("numberOfConnectors"), (rs.getString("connectorsList")).split(":"),
+                        rs.getBoolean("hasChargingCost")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        disconnect();
+        QueryResult result = new QueryResult();
+        result.setStations(res.toArray(Station[]::new));
+        return result;
+    }
 
+    public static void main(String[] args) {
+        QueryResult queryResult = catchEmAll();
+        Station[] stuff = queryResult.getStations();
+        for (Station station : stuff) {
+            System.out.println(station.getAddress());
+        }
 
     }
 }

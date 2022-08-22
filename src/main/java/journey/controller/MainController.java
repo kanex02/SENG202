@@ -7,8 +7,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.stage.Stage;
+import journey.data.Database;
+import journey.data.QueryResult;
+import journey.data.Station;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Arrays;
 
 /**
  * Controller for the main window
@@ -45,6 +50,8 @@ public class MainController {
     @FXML private AnchorPane scrollPane_inner;
     @FXML private TextField chargingStationTextField;
     @FXML private TextArea stationDetailTextArea;
+
+    @FXML private ListView<String> stationsList;
 
     // Function run when user dropdown button pressed
     @FXML private void userDropdown(Event event) {
@@ -86,6 +93,18 @@ public class MainController {
         event.consume();
     }
 
+    private void updateStations() {
+        QueryResult stations = Database.catchEmAll();
+        ObservableList<String> locations = FXCollections.observableArrayList();
+        for (Station station : stations.getStations()) {
+            String newstring = Arrays.toString(Arrays.copyOfRange(station.getAddress().split(","), 0, 2));
+            newstring = newstring.substring(1, newstring.length()-1);
+            locations.add(newstring);
+        }
+
+        stationsList.setItems(locations);
+    }
+
     private String getRegistrationTextBox() {
         return registrationTextBox.getText();
     }
@@ -100,5 +119,10 @@ public class MainController {
         filterList.setItems(filterListOptions);
         chargerBox.setItems(chargerTypeOptions);
         sortList.setItems(sortListOptions);
+
+        updateStations();
+
     }
+
+
 }
