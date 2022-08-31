@@ -46,7 +46,7 @@
       </Pane>
       <Pane layoutX="273.0" layoutY="108.0" prefHeight="358.0" prefWidth="241.0" style="-fx-background-color: white;">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="14.0" prefHeight="26.0" prefWidth="188.0" text="FIND A CHARGING STATION" underline="true">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="14.0" prefHeight="26.0" prefWidth="188.0" text="FIND A CHARGING STATION" underline="true" onMouseClicked="#viewStations">
                <font>
                   <Font size="13.0" />
                </font>
