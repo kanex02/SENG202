@@ -135,7 +135,7 @@ public final class Database {
                 """;
         String notesSql = """
                 CREATE TABLE IF NOT EXISTS Notes (
-                    ID INTEGER PRIMARY KEY,
+                    ID INTEGER IDENTITY(1,1) PRIMARY KEY,
                     user_ID INTEGER NOT NULL REFERENCES Users(ID),
                     station_ID INTEGER NOT NULL REFERENCES Stations(ID),
                     note TEXT
@@ -297,6 +297,54 @@ public final class Database {
         QueryResult result = new QueryResult();
         result.setStations(res.toArray(Station[]::new));
         return result;
+    }
+
+    public static void setNote(Note note) {
+        connect();
+        // Currently user is just set to ID of 1
+        // TODO: Get the current user from database
+        Station currStation = note.getStation();
+        String noteString = note.getNote();
+        try {
+            String sqlQuery = "INSERT INTO Notes VALUES (?,?,?,?)";
+            PreparedStatement ps  = conn.prepareStatement(sqlQuery);
+            ps.setInt(2, 1); // UserID set to 1 as no users exist yet.
+            ps.setInt(3, currStation.getOBJECTID());
+            ps.setString(4, noteString);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        disconnect();
+    }
+
+    public static Note getNoteFromStation(Station station) {
+        connect();
+
+        int stationID = station.getOBJECTID();
+
+        try {
+            String sqlQuery = "SELECT * FROM Notes WHERE station_ID = ? AND user_ID = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, stationID);
+            ps.setInt(2, 1); // TODO: Change to the user ID from database
+
+            ResultSet resultSet = ps.executeQuery();
+
+            // If there is no item in result set we return an empty note
+            if(!resultSet.isBeforeFirst()) {
+                return new Note(null, null);
+            }
+
+            Note newNote = new Note(station, resultSet.getString(4));
+
+            disconnect();
+            return newNote;
+
+        }  catch (SQLException ex) {
+            disconnect();
+            throw new RuntimeException(ex);
+        }
     }
 
     public static void main(String[] args) {

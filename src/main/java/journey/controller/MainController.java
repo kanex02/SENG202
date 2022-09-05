@@ -22,6 +22,9 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.Arrays;
 
+import journey.data.Note;
+import journey.data.Database;
+
 /**
  * Controller for the main window
  * @author journey dev team
@@ -29,6 +32,8 @@ import java.util.Arrays;
 public class MainController {
 
     private static final Logger log = LogManager.getLogger();
+
+    private static Station selectedStation = null;
 
     private static final ObservableList<String> filterListOptions =
         FXCollections.observableArrayList (
@@ -56,8 +61,7 @@ public class MainController {
     @FXML private ComboBox<String> sortList;
     @FXML private AnchorPane scrollPane_inner;
     @FXML private TextField chargingStationTextField;
-    @FXML private TextArea stationDetailTextArea;
-
+    @FXML private TextArea stationNoteTextArea;
     @FXML private ListView<Button> stationsList;
 
     // Function run when user dropdown button pressed
@@ -121,7 +125,7 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        event.consume();
     }
 
     // Populates the station list with expandable buttons.
@@ -139,10 +143,17 @@ public class MainController {
                     + "\n  long: " + station.getLongitude();
             String finalNewstring = newstring;
             stationButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override public void handle(ActionEvent event) {
-                    if (!stationButton.getText().contains("\n")) {
+                @Override public void handle(ActionEvent event){
+
+                    if (!stationButton.getText().contains("\n")) { // If the station hasn't been toggled
+
+                        setSelectedStation(station);
+                        setNoteText();
                         stationButton.setText(expandedText);
                     } else {
+
+                        setSelectedStation(null);
+                        setChargerNoteText(""); // Clear the text in the note box when station unselected
                         stationButton.setText(finalNewstring);
                     }
                 }
@@ -156,6 +167,45 @@ public class MainController {
     private String getRegistrationTextBox() {
         return registrationTextBox.getText();
     }
+
+    private String getChargerNoteText() {
+        return stationNoteTextArea.getText();
+    }
+
+    private void setChargerNoteText(String s) {
+        stationNoteTextArea.setText(s);
+    }
+
+
+    private void setSelectedStation(Station curStation) {
+        selectedStation = curStation;
+    }
+
+    private Station getSelectedStation() {
+        return selectedStation;
+    }
+
+    private void setNoteText() {
+        Station currStation = getSelectedStation();
+        if (currStation != null) {
+            Note note = Database.getNoteFromStation(currStation); // Retrieve note from database
+            setChargerNoteText(note.getNote());
+        }
+    }
+
+    @FXML private void submitNotes(Event event) {
+
+        Station curStation = getSelectedStation();
+        String stationNote = getChargerNoteText();
+
+        if (curStation != null) {
+            Note newNote = new Note(curStation, stationNote);
+            // Set the note on the database
+            Database.setNote(newNote);
+        }
+        event.consume();
+    }
+
 
     /**
      * Initialize the window
