@@ -299,19 +299,50 @@ public final class Database {
         return result;
     }
 
+    /**
+     * Sets a given note into the Notes database.
+     * If no note for the given station and user exists
+     * it creates a new entry. Otherwise, updates the current note.
+
+     * @param note The note to send to the database
+     */
+
     public static void setNote(Note note) {
         connect();
         // Currently user is just set to ID of 1
-        // TODO: Get the current user from database
-        Station currStation = note.getStation();
         String noteString = note.getNote();
+        Station currStation = note.getStation();
+        int stationID = currStation.getOBJECTID();
+        final int userID = 1; // TODO: Get the current user from database instead of hardcoding.
+
         try {
-            String sqlQuery = "INSERT INTO Notes VALUES (?,?,?,?)";
-            PreparedStatement ps  = conn.prepareStatement(sqlQuery);
-            ps.setInt(2, 1); // UserID set to 1 as no users exist yet.
-            ps.setInt(3, currStation.getOBJECTID());
-            ps.setString(4, noteString);
-            ps.execute();
+            // Query database to see if a note exists
+            String findNoteQuery = "SELECT * FROM Notes WHERE station_id = ? AND user_id = ?";
+            PreparedStatement findNoteStatement = conn.prepareStatement(findNoteQuery);
+            findNoteStatement.setInt(1, stationID);
+            findNoteStatement.setInt(2, userID);
+            ResultSet findNoteSet = findNoteStatement.executeQuery();
+
+            /*
+            * If result set is empty there isn't a note for the station yet
+            * In this case we just insert a new note into the station
+            */
+            if (!findNoteSet.isBeforeFirst()) {
+                String insertQuery = "INSERT INTO notes VALUES (?,?,?,?)";
+                PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
+                insertStatement.setInt(2, userID); // UserID set to 1 as no users exist yet.
+                insertStatement.setInt(3, stationID);
+                insertStatement.setString(4, noteString);
+                insertStatement.execute();
+            } else {
+                // A note exists, therefore we update it
+                String updateQuery = "UPDATE Notes SET note = ? WHERE station_ID = ? AND user_ID = ?";
+                PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
+                updateStatement.setString(1, noteString); // Updating the note field with the new note string.
+                updateStatement.setInt(2, stationID);
+                updateStatement.setInt(3, userID); // Hardcoded userID, update with actual id of user.
+                updateStatement.execute();
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -322,21 +353,24 @@ public final class Database {
         connect();
 
         int stationID = station.getOBJECTID();
+        final int userID = 1; // TODO: change to the user ID from the database, should be passed as a param
 
         try {
             String sqlQuery = "SELECT * FROM Notes WHERE station_ID = ? AND user_ID = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, stationID);
-            ps.setInt(2, 1); // TODO: Change to the user ID from database
+            ps.setInt(2, userID); // Hardcoded user ID
 
             ResultSet resultSet = ps.executeQuery();
 
-            // If there is no item in result set we return an empty note
+            // If there is no item in result set we disconnect first and return an empty note
             if(!resultSet.isBeforeFirst()) {
+                disconnect();
                 return new Note(null, null);
             }
 
-            Note newNote = new Note(station, resultSet.getString(4));
+            String stationNote = resultSet.getString(4); // Get the note from the result set
+            Note newNote = new Note(station, stationNote);
 
             disconnect();
             return newNote;
@@ -356,6 +390,3 @@ public final class Database {
 
     }
 }
-
-
-
