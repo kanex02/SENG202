@@ -44,8 +44,9 @@ public class MainWindow extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         // set the min height and width so the window opens at the correct size
-        primaryStage.setMinHeight(500);
-        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(900);
+        primaryStage.setFullScreen(true);
 
 
 

@@ -49,8 +49,9 @@ public class MainController {
     @FXML private TextField registrationTextBox;
     @FXML private ComboBox<String> filterList;
     @FXML private ComboBox<String> sortList;
+
     @FXML private AnchorPane scrollPane_inner;
-    @FXML private TextField chargingStationTextField;
+    @FXML private TextArea chargingStationTextArea;
     @FXML private TextArea stationDetailTextArea;
 
     @FXML private ListView<Button> stationsList;
