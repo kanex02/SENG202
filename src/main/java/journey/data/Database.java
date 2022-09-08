@@ -62,7 +62,6 @@ public final class Database {
 
     /**
      * Updates the current user to one specified.
-
      * @param userId ID of the user to update to.
      */
     public static void updateUser(int userId) {
@@ -206,8 +205,8 @@ public final class Database {
                 resultSet.getString("owner"), resultSet.getString("address"),
                 resultSet.getBoolean("is24Hours"), resultSet.getInt("carParkCount"),
                 resultSet.getBoolean("hasCarParkCost"), resultSet.getInt("maxTimeLimit"),
-                resultSet.getBoolean("hasTouristAttraction"), resultSet.getInt("latitude"),
-                resultSet.getInt("longitude"), resultSet.getString("currentType"), resultSet.getString("dateFirstOperational"),
+                resultSet.getBoolean("hasTouristAttraction"), resultSet.getFloat("latitude"),
+                resultSet.getFloat("longitude"), resultSet.getString("currentType"), resultSet.getString("dateFirstOperational"),
                 resultSet.getInt("numberOfConnectors"), (resultSet.getString("connectorsList")).split(":"),
                 resultSet.getBoolean("hasChargingCost"));
             disconnect();
@@ -285,8 +284,8 @@ public final class Database {
                         rs.getString("owner"), rs.getString("address"),
                         rs.getBoolean("is24Hours"), rs.getInt("carParkCount"),
                         rs.getBoolean("hasCarParkCost"), rs.getInt("maxTimeLimit"),
-                        rs.getBoolean("hasTouristAttraction"), rs.getInt("latitude"),
-                        rs.getInt("longitude"), rs.getString("currentType"), rs.getString("dateFirstOperational"),
+                        rs.getBoolean("hasTouristAttraction"), rs.getFloat("latitude"),
+                        rs.getFloat("longitude"), rs.getString("currentType"), rs.getString("dateFirstOperational"),
                         rs.getInt("numberOfConnectors"), (rs.getString("connectorsList")).split(":"),
                         rs.getBoolean("hasChargingCost")));
             }
