@@ -132,6 +132,26 @@ public class MainController {
         event.consume();
     }
 
+    @FXML private void viewMap(Event event) {
+        Parent root;
+        try {
+            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/map.fxml"));
+            root = baseLoader.load();
+            MapController controller = baseLoader.getController();
+
+            Stage mapStage = new Stage(StageStyle.UNDECORATED);
+            controller.init(mapStage);
+
+            mapStage.setTitle("Map");
+            Scene scene = new Scene(root);
+            mapStage.setScene(scene);
+            mapStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        event.consume();
+    }
+
     // Populates the station list with expandable buttons.
     private void updateStations() {
         QueryResult stations = Database.catchEmAll();

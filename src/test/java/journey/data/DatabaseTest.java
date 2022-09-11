@@ -15,11 +15,11 @@ class DatabaseTest {
 
     }
 
-    @Test
-    void updateUser() {
-        Database.updateUser(1);
-        assertEquals(Database.getCurrentUser().getName(), "Krane");
-    }
+//    @Test
+//    void updateUser() {
+//        Database.updateUser(1);
+//        assertEquals(Database.getCurrentUser().getName(), "Krane");
+//    }
 
     @Test
     void convertArrToStr() {

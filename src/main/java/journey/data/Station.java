@@ -285,6 +285,9 @@ public class Station {
         return OBJECTID;
     }
 
+    public String getDescription() {
+        return String.format("%s, %s", name, address);
+    }
 
 
 
