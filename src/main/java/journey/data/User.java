@@ -12,6 +12,7 @@ public class User {
     private ArrayList<Station> stations;
     private ArrayList<Journey> journeys;
     private ArrayList<Note> notes;
+    private ArrayList<String> chargerTypes;
 
     public User(int id) {
         this.id = id;
@@ -63,5 +64,22 @@ public class User {
 
     public void setNotes(ArrayList<Note> notes) {
         this.notes = notes;
+    }
+
+    public ArrayList<String> getChargerTypes() {
+        return chargerTypes;
+    }
+    public void newVehicle(Vehicle vehicle) {
+        this.vehicles.add(vehicle);
+    }
+    public void newCharger(String charger) {
+        this.chargerTypes.add(charger);
+    }
+
+    public void findChargerTypes() {
+        for (Vehicle vehicle : vehicles) {
+            String charger = vehicle.getFuelType();
+            this.chargerTypes.add(charger);
+        }
     }
 }

@@ -13,16 +13,13 @@ import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import journey.data.Database;
-import journey.data.QueryResult;
-import journey.data.Station;
+import journey.data.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import journey.data.Note;
 import journey.data.Database;
 
 /**
@@ -95,12 +92,17 @@ public class MainController {
         event.consume();
     }
 
+    private User user;
     // Run when the user clicks the register vehicle button
     // Placeholder, just prints a string representation of the values entered
     @FXML private void registerVehicle(Event event) {
         String registration = getRegistrationTextBox();
-        System.out.println("New vehicle with registration " + registration
-        + " and charger type " + chargerTypeChoice);
+        int id = 1;
+        int year = 2014;
+        String make = "Ford";
+        String model = "Focus";
+        Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
+        user.newVehicle(newVehicle);
         event.consume();
     }
 
