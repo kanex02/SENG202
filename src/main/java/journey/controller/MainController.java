@@ -56,9 +56,11 @@ public class MainController {
     @FXML private TextField registrationTextBox;
     @FXML private ComboBox<String> filterList;
     @FXML private ComboBox<String> sortList;
+
     @FXML private AnchorPane scrollPane_inner;
-    @FXML private TextField chargingStationTextField;
-    @FXML private TextArea stationNoteTextArea;
+    @FXML private TextArea chargingStationTextArea;
+    @FXML private TextArea stationDetailTextArea;
+
     @FXML private ListView<Button> stationsList;
 
     // Function run when user dropdown button pressed
@@ -148,9 +150,6 @@ public class MainController {
                 @Override public void handle(ActionEvent event){
 
                     if (!stationButton.getText().contains("\n")) { // If the station hasn't been toggled
-
-                        setSelectedStation(station);
-                        setNoteText();
                         stationButton.setText(expandedText);
                     } else {
 
@@ -171,11 +170,11 @@ public class MainController {
     }
 
     private String getChargerNoteText() {
-        return stationNoteTextArea.getText();
+        return stationDetailTextArea.getText();
     }
 
     private void setChargerNoteText(String s) {
-        stationNoteTextArea.setText(s);
+        stationDetailTextArea.setText(s);
     }
 
 
