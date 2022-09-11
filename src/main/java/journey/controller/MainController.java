@@ -170,6 +170,9 @@ public class MainController {
                 @Override public void handle(ActionEvent event){
 
                     if (!stationButton.getText().contains("\n")) { // If the station hasn't been toggled
+
+                        setSelectedStation(station);
+                        setNoteText();
                         stationButton.setText(expandedText);
                     } else {
 
