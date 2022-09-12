@@ -59,4 +59,9 @@ public class Vehicle {
     public void setRegistration(String registration) {
         this.registration = registration;
     }
+
+    public String getStringRepresentation() {
+        String returnString = registration + ": " + year + " " + make + " " + model;
+        return returnString;
+    }
 }

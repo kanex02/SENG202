@@ -97,7 +97,6 @@ public class MainController {
         event.consume();
     }
 
-    private User user;
     // Run when the user clicks the register vehicle button
     // Placeholder, just prints a string representation of the values entered
     @FXML private void registerVehicle(Event event) {
@@ -108,10 +107,12 @@ public class MainController {
         String model = getModelTextBox();
         chargerTypeChoice(event);
         Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
-        //System.out.println("Your vehicle:\nMake: " + make + "\nModel: " + model + "\nYear: " + year + "\nRegistration: " + registration + "\nCharger type: " + chargerTypeChoice);
-        user.newVehicle(newVehicle);
+        System.out.println("Your vehicle:\nMake: " + make + "\nModel: " + model + "\nYear: " + year + "\nRegistration: " + registration + "\nCharger type: " + chargerTypeChoice);
         event.consume();
     }
+
+
+
 
     // Opens up the station view.
     @FXML private void viewStations(Event event) {
@@ -262,5 +263,12 @@ public class MainController {
 
     }
 
+    public void myProfileButton(ActionEvent actionEvent) {
+        //dummy code for a user
+        User user = new User(1);
+        user.setName("Ella");
+        Vehicle newVehicle = new Vehicle(2014, "Ford", "Focus", "AC", "HTC535");
+        user.newVehicle(newVehicle);
 
+    }
 }
