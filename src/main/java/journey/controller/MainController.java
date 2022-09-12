@@ -54,6 +54,9 @@ public class MainController {
     private String chargerTypeChoice;
     @FXML private ChoiceBox<String> chargerBox;
     @FXML private TextField registrationTextBox;
+    @FXML private TextField makeTextBox;
+    @FXML private TextField modelTextBox;
+    @FXML private TextField yearTextBox;
     @FXML private ComboBox<String> filterList;
     @FXML private ComboBox<String> sortList;
 
@@ -100,10 +103,12 @@ public class MainController {
     @FXML private void registerVehicle(Event event) {
         String registration = getRegistrationTextBox();
         int id = 1;
-        int year = 2014;
-        String make = "Ford";
-        String model = "Focus";
+        int year = getYearTextBox();
+        String make = getMakeTextBox();
+        String model = getModelTextBox();
+        chargerTypeChoice(event);
         Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
+        //System.out.println("Your vehicle:\nMake: " + make + "\nModel: " + model + "\nYear: " + year + "\nRegistration: " + registration + "\nCharger type: " + chargerTypeChoice);
         user.newVehicle(newVehicle);
         event.consume();
     }
@@ -190,6 +195,17 @@ public class MainController {
 
     private String getRegistrationTextBox() {
         return registrationTextBox.getText();
+    }
+    private String getMakeTextBox() {
+        return makeTextBox.getText();
+    }
+    private String getModelTextBox() {
+        return modelTextBox.getText();
+    }
+    private int getYearTextBox() {
+        String year = yearTextBox.getText();
+        int intYear = Integer.parseInt(year);
+        return intYear;
     }
 
     private String getChargerNoteText() {

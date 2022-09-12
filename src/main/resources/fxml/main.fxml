@@ -80,10 +80,10 @@
                         <Button layoutX="34.0" layoutY="206.0" mnemonicParsing="false" onAction="#registerVehicle" style="-fx-background-color: #E0E6B2;" text="Register Vehicle" />
                         <Label layoutY="48.0" text="Make:" />
                         <Label layoutY="117.0" text="Year:" />
-                        <TextField layoutX="81.0" layoutY="78.0" prefHeight="26.0" prefWidth="85.0" />
+                        <TextField fx:id="modelTextBox" layoutX="81.0" layoutY="78.0" prefHeight="26.0" prefWidth="85.0" />
                         <Label layoutY="82.0" text="Model:" />
-                        <TextField layoutX="81.0" layoutY="44.0" prefHeight="26.0" prefWidth="85.0" />
-                        <TextField layoutX="81.0" layoutY="112.0" prefHeight="26.0" prefWidth="85.0" />
+                        <TextField fx:id="makeTextBox" layoutX="81.0" layoutY="44.0" prefHeight="26.0" prefWidth="85.0" />
+                        <TextField fx:id="yearTextBox" layoutX="81.0" layoutY="112.0" prefHeight="26.0" prefWidth="85.0" />
                      </children>
                   </Pane>
                   <Label text="MY STUFF" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
