@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import journey.data.*;
@@ -78,6 +79,10 @@ public class MainController {
     @FXML private TableColumn<Station, String> operatorCol;
     @FXML private TableColumn<Station, Integer> timeLimitCol;
     @FXML private TableView<Station> stationTable;
+    @FXML
+    private AnchorPane searchPane;
+    @FXML
+    private HBox searchRow;
 
 
     // Function run when user dropdown button pressed
@@ -287,8 +292,12 @@ public class MainController {
         // Fill the combo boxes
         chargerBox.setItems(chargerTypeOptions);
         getData(stage);
-//        updateStations();
 
+        //Add selection listener
+        stationTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldStation, newStation) -> {
+            selectedStationFromTable = newStation.getOBJECTID();
+            System.out.println(selectedStationFromTable);
+        }));
     }
 
 
