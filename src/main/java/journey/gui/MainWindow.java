@@ -5,14 +5,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 
 import java.io.IOException;
 import journey.controller.MainController;
+import journey.controller.TableService;
 import journey.data.Database;
 import journey.data.QueryResult;
 import journey.data.Station;
@@ -46,7 +49,14 @@ public class MainWindow extends Application {
         // set the min height and width so the window opens at the correct size
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(900);
-        primaryStage.setFullScreen(true);
+        primaryStage.setMaximized(true);
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        primaryStage.setX(bounds.getMinX());
+        primaryStage.setY(bounds.getMinY());
+        primaryStage.setWidth(bounds.getWidth());
+        primaryStage.setHeight(bounds.getHeight());
 
 
 

@@ -3,9 +3,7 @@ package journey.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import journey.data.Database;
@@ -46,6 +44,7 @@ public class TableService {
 
     @FXML private Button closeButton;
 
+
     /**
      * Closes the scene.
      */
@@ -56,6 +55,7 @@ public class TableService {
 
     /**
      * Imports the data.
+
      * @param stage The stage to import into.
      */
     public void getData(Stage stage) {
@@ -74,5 +74,28 @@ public class TableService {
         QueryResult data = Database.catchEmAll();
         ObservableList<Station> stations = FXCollections.observableArrayList(data.getStations());
         stationTable.setItems(stations);
+    }
+
+    /**
+     * Initialises the table.
+
+     * @param stage The stage to init.
+     */
+    public void init(Stage stage) {
+        getData(stage);
+
+        // Selects the station that was previously selected.
+        if (MainController.getSelectedStationFromTable() != -1) {
+            for (int i = 0; i < stationTable.getItems().size(); i++) {
+                if (stationTable.getItems().get(i).getOBJECTID() == MainController.getSelectedStationFromTable()) {
+                    stationTable.getSelectionModel().select(i);
+                    break;
+                }
+            }
+        }
+        stationTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldStation, newStation) -> {
+            MainController.setSelectedStationFromTable(newStation.getOBJECTID());
+            System.out.println(MainController.getSelectedStationFromTable());
+        }));
     }
 }

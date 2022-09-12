@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.Event;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
@@ -31,6 +32,8 @@ public class MainController {
     private static final Logger log = LogManager.getLogger();
 
     private static Station selectedStation = null;
+
+    private static int selectedStationFromTable = -1;
 
     private static final ObservableList<String> filterListOptions =
         FXCollections.observableArrayList (
@@ -62,6 +65,20 @@ public class MainController {
     @FXML private TextArea stationDetailTextArea;
 
     @FXML private ListView<Button> stationsList;
+    @FXML private TableColumn<Station, String> addressCol;
+    @FXML private TableColumn<Station, Boolean> attractionCol;
+    @FXML private TableColumn<Station, Integer> carparksCol;
+    @FXML private TableColumn<Station, Integer> connectorsCol;
+    @FXML private TableColumn<Station, String> currentTypeCol;
+    @FXML private TableColumn<Station, Boolean> isFreePark;
+    @FXML private TableColumn<Station, Boolean> isFreeCharge;
+    @FXML private TableColumn<Station, Integer> latCol;
+    @FXML private TableColumn<Station, Integer> longCol;
+    @FXML private TableColumn<Station, String> nameCol;
+    @FXML private TableColumn<Station, String> operatorCol;
+    @FXML private TableColumn<Station, Integer> timeLimitCol;
+    @FXML private TableView<Station> stationTable;
+
 
     // Function run when user dropdown button pressed
     @FXML private void userDropdown(Event event) {
@@ -118,7 +135,7 @@ public class MainController {
             TableService controller = baseLoader.getController();
 
             Stage tableStage = new Stage(StageStyle.UNDECORATED);
-            controller.getData(tableStage);
+            controller.init(tableStage);
 
             tableStage.setTitle("Stations");
             Scene scene = new Scene(root);
@@ -230,6 +247,36 @@ public class MainController {
         event.consume();
     }
 
+    public static int getSelectedStationFromTable() {
+        return selectedStationFromTable;
+    }
+
+    public static void setSelectedStationFromTable(int selectedId) {
+        MainController.selectedStationFromTable = selectedId;
+    }
+
+    /**
+     * Imports the data.
+
+     * @param stage The stage to import into.
+     */
+    public void getData(Stage stage) {
+        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        attractionCol.setCellValueFactory(new PropertyValueFactory<>("hasTouristAttraction"));
+        carparksCol.setCellValueFactory(new PropertyValueFactory<>("carParkCount"));
+        connectorsCol.setCellValueFactory(new PropertyValueFactory<>("numberOfConnectors"));
+        currentTypeCol.setCellValueFactory(new PropertyValueFactory<>("currentType"));
+        isFreePark.setCellValueFactory(new PropertyValueFactory<>("hasCarParkCost"));
+        isFreeCharge.setCellValueFactory(new PropertyValueFactory<>("hasChargingCost"));
+        latCol.setCellValueFactory(new PropertyValueFactory<>("latitude"));
+        longCol.setCellValueFactory(new PropertyValueFactory<>("longitude"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        operatorCol.setCellValueFactory(new PropertyValueFactory<>("operator"));
+        timeLimitCol.setCellValueFactory(new PropertyValueFactory<>("maxTime"));
+        QueryResult data = Database.catchEmAll();
+        ObservableList<Station> stations = FXCollections.observableArrayList(data.getStations());
+        stationTable.setItems(stations);
+    }
 
     /**
      * Initialize the window
@@ -238,11 +285,9 @@ public class MainController {
      */
     public void init(Stage stage) {
         // Fill the combo boxes
-        filterList.setItems(filterListOptions);
         chargerBox.setItems(chargerTypeOptions);
-        sortList.setItems(sortListOptions);
-
-        updateStations();
+        getData(stage);
+//        updateStations();
 
     }
 

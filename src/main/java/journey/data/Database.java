@@ -75,7 +75,8 @@ public final class Database {
             PreparedStatement statement = conn.prepareStatement(userQuery);
             statement.setInt(1, userId);
             ResultSet res = statement.executeQuery();
-            user.setName(res.getString(2));
+            String name = res.getString("name");
+            user.setName(name);
             disconnect();
         } catch (SQLException e) {
             throw new RuntimeException(e);
