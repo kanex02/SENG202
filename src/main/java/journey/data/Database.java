@@ -187,6 +187,7 @@ public final class Database {
     public static void setCurrentUser(String username) {
         // Update the currentUser variable and User database if neccessary
         try {
+            connect();
             String userQuery = "SELECT * FROM Users WHERE name = ?";
 
             PreparedStatement findNoteStatement = conn.prepareStatement(userQuery);
@@ -198,7 +199,7 @@ public final class Database {
              * we insert a new user into the database.
              */
             if (!findNoteSet.isBeforeFirst()) {
-                String insertQuery = "INSERT INTO User VALUES (?,?)";
+                String insertQuery = "INSERT INTO Users VALUES (?,?)";
                 PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
                 insertStatement.setString(2, username); // UserID set to 1 as no users exist yet.
                 insertStatement.execute();
@@ -206,9 +207,10 @@ public final class Database {
             }
             updateUser(username);
             System.out.println("User updated");
-
+            disconnect();
         } catch(SQLException e) {
             e.printStackTrace();
+            disconnect();
         }
     }
 
