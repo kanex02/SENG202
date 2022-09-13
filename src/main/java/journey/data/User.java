@@ -14,8 +14,8 @@ public class User {
     private ArrayList<Note> notes;
     private ArrayList<String> chargerTypes;
 
-    public User(int id) {
-        this.id = id;
+    public User(String name) {
+        this.name = name;
     }
 
     public int getId() {

@@ -122,7 +122,7 @@ public final class Database {
                 """;
         String usersSql = """
                 CREATE TABLE IF NOT EXISTS Users (
-                    ID INTEGER PRIMARY KEY,
+                    ID INTEGER IDENTITY(1, 1) PRIMARY KEY,
                     name TEXT
                 );
                 """;
