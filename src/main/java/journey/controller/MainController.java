@@ -225,6 +225,7 @@ public class MainController {
         searchStation.setAddress(addressSearch.getText());
         searchStation.setName(nameSearch.getText());
         searchStation.setOperator(operatorSearch.getText());
+        searchStation.setMaxTime(Integer.parseInt(timeSearch.getText()));
         currentStations = Database.query(searchStation);
         viewMap();
         viewTable();

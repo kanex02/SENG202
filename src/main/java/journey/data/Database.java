@@ -326,6 +326,12 @@ public final class Database {
             queryString.append("AND operator LIKE '%").append(operator).append("%' ");
         }
 
+        int maxTime = searchStation.getMaxTime();
+        if (maxTime > 0) {
+            queryString.append("AND (maxTimeLimit >= ").append(maxTime)
+                    .append(" OR maxTimeLimit = 0) ");
+        }
+
         ArrayList<Station> res = new ArrayList<>();
         try {
             Statement statement = conn.createStatement();
