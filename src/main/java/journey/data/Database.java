@@ -114,6 +114,7 @@ public final class Database {
         String vehiclesSql = """
                 CREATE TABLE IF NOT EXISTS Vehicles (
                     ID INTEGER PRIMARY KEY,
+                    User_ID INTEGER NOT NULL REFERENCES Users(ID),
                     year INTEGER,
                     make TEXT,
                     model TEXT,
@@ -140,12 +141,12 @@ public final class Database {
                     note TEXT
                 );
                 """;
-        String userVehiclesSql = """
-                CREATE TABLE IF NOT EXISTS UserVehicles (
-                    user_ID INTEGER NOT NULL REFERENCES Users(ID),
-                    vehicle_ID INTEGER NOT NULL REFERENCES Vehicles(ID)
-                );
-                """;
+//        String userVehiclesSql = """
+//                CREATE TABLE IF NOT EXISTS UserVehicles (
+//                    user_ID INTEGER NOT NULL REFERENCES Users(ID),
+//                    vehicle_ID INTEGER NOT NULL REFERENCES Vehicles(ID)
+//                );
+//                """;
         String favouriteStationsSql = """
                 CREATE TABLE IF NOT EXISTS FavouriteStations (
                     user_ID INTEGER NOT NULL REFERENCES Users(ID),
@@ -168,7 +169,7 @@ public final class Database {
             statement.execute(usersSql);
             statement.execute(journeysSql);
             statement.execute(notesSql);
-            statement.execute(userVehiclesSql);
+            //statement.execute(userVehiclesSql);
             statement.execute(favouriteStationsSql);
             statement.execute(userJourneysSql);
         } catch (SQLException e) {

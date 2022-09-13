@@ -54,6 +54,9 @@ public class MainController {
     private String chargerTypeChoice;
     @FXML private ChoiceBox<String> chargerBox;
     @FXML private TextField registrationTextBox;
+    @FXML private TextField makeTextBox;
+    @FXML private TextField modelTextBox;
+    @FXML private TextField yearTextBox;
     @FXML private ComboBox<String> filterList;
     @FXML private ComboBox<String> sortList;
 
@@ -94,19 +97,22 @@ public class MainController {
         event.consume();
     }
 
-    private User user;
     // Run when the user clicks the register vehicle button
     // Placeholder, just prints a string representation of the values entered
     @FXML private void registerVehicle(Event event) {
         String registration = getRegistrationTextBox();
         int id = 1;
-        int year = 2014;
-        String make = "Ford";
-        String model = "Focus";
+        int year = getYearTextBox();
+        String make = getMakeTextBox();
+        String model = getModelTextBox();
+        chargerTypeChoice(event);
         Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
-        user.newVehicle(newVehicle);
+        //System.out.println("Your vehicle:\nMake: " + make + "\nModel: " + model + "\nYear: " + year + "\nRegistration: " + registration + "\nCharger type: " + chargerTypeChoice);
         event.consume();
     }
+
+
+
 
     // Opens up the station view.
     @FXML private void viewStations(Event event) {
@@ -191,6 +197,17 @@ public class MainController {
     private String getRegistrationTextBox() {
         return registrationTextBox.getText();
     }
+    private String getMakeTextBox() {
+        return makeTextBox.getText();
+    }
+    private String getModelTextBox() {
+        return modelTextBox.getText();
+    }
+    private int getYearTextBox() {
+        String year = yearTextBox.getText();
+        int intYear = Integer.parseInt(year);
+        return intYear;
+    }
 
     private String getChargerNoteText() {
         return stationDetailTextArea.getText();
@@ -246,5 +263,26 @@ public class MainController {
 
     }
 
+    @FXML private void myProfileButton(Event event) {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+            root = loader.load();
 
+            ProfileController controller = loader.getController();
+
+            Stage profileStage = new Stage(StageStyle.UNDECORATED);
+            //controller.getData(profileStage);
+
+            profileStage.setTitle("Profile");
+            Scene scene = new Scene(root);
+            profileStage.setScene(scene);
+            profileStage.show();
+            profileStage.setMinHeight(300);
+            profileStage.setMinWidth(300);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        event.consume();
+    }
 }

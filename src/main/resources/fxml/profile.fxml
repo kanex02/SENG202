@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
+   <children>
+      <GridPane layoutX="33.0" layoutY="33.0" prefHeight="234.0" prefWidth="235.0" style="-fx-background-color: white;">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="86.0" minHeight="10.0" prefHeight="49.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="185.0" minHeight="10.0" prefHeight="185.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="MY PROFILE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <Label layoutX="20.0" layoutY="20.0" text="Name:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="21.0" layoutY="51.0" text="Vehicles:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <ListView layoutX="20.0" layoutY="70.0" prefHeight="107.0" prefWidth="201.0" style="-fx-background-color: #E0E6B2;" />
+                  <Label layoutX="80.0" layoutY="21.0" prefHeight="23.0" prefWidth="144.0" style="-fx-background-color: #E0E6B2;" text="Label">
+                     <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </GridPane>
+      <Button fx:id="closeButton" layoutX="268.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeScene" style="-fx-background-color: white; -fx-background-radius: 10;" text="X" />
+   </children>
+</AnchorPane>
