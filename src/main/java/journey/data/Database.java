@@ -181,8 +181,35 @@ public final class Database {
         return currentUser;
     }
 
-    public static void setCurrentUser(User currentUser) {
-        Database.currentUser = currentUser;
+
+
+    // TODO: Handle non-unique users.
+    public static void setCurrentUser(String username) {
+        // Update the currentUser variable and User database if neccessary
+        try {
+            String userQuery = "SELECT * FROM Users WHERE name = ?";
+
+            PreparedStatement findNoteStatement = conn.prepareStatement(userQuery);
+            findNoteStatement.setString(1, username);
+            ResultSet findNoteSet = findNoteStatement.executeQuery();
+
+            /*
+             * If result set is empty there isn't a user so
+             * we insert a new user into the database.
+             */
+            if (!findNoteSet.isBeforeFirst()) {
+                String insertQuery = "INSERT INTO User VALUES (?,?)";
+                PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
+                insertStatement.setString(2, username); // UserID set to 1 as no users exist yet.
+                insertStatement.execute();
+
+            }
+            updateUser(username);
+            System.out.println("User updated");
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String convertArrayToString(String[] arr, String delimiter) {
