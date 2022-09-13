@@ -64,6 +64,11 @@ public class MainController {
     @FXML private AnchorPane scrollPane_inner;
     @FXML private TextArea chargingStationTextArea;
     @FXML private TextArea stationDetailTextArea;
+    @FXML private ComboBox<String> stationDropDown;
+    @FXML private ListView<String> visitedStationsList;
+    @FXML private TextField startTextBox;
+    @FXML private TextField endTextBox;
+
 
     @FXML private ListView<Button> stationsList;
     @FXML private TableColumn<Station, String> addressCol;
@@ -283,6 +288,24 @@ public class MainController {
         stationTable.setItems(stations);
     }
 
+    @FXML private void selectStation(Event event) {
+        if(stationDropDown.getValue() != null) {
+            ObservableList<String> visitedStations = visitedStationsList.getItems();
+            visitedStations.add(stationDropDown.getValue());
+            visitedStationsList.setItems(visitedStations);
+        }
+        event.consume();
+    }
+
+    @FXML private void addJourney(Event event) {
+        if(startTextBox.getText() != "" && endTextBox.getText() != "") {
+            System.out.println("Start: " + startTextBox.getText() + ", End: " + endTextBox.getText());
+            for(String station : visitedStationsList.getItems()) {
+                System.out.println(station);
+            }
+        }
+    }
+
     /**
      * Initialize the window
      *
@@ -292,6 +315,16 @@ public class MainController {
         // Fill the combo boxes
         chargerBox.setItems(chargerTypeOptions);
         getData(stage);
+
+        QueryResult stations = Database.catchEmAll();
+        ObservableList<String> stationList = FXCollections.observableArrayList();
+        for (Station station : stations.getStations()) {
+            String newString = Arrays.toString(Arrays.copyOfRange(station.getAddress().split(","), 0, 2));
+            newString = newString.substring(1, newString.length() - 1);
+            stationList.add(newString);
+        }
+
+        stationDropDown.setItems(stationList);
 
         //Add selection listener
         stationTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldStation, newStation) -> {
