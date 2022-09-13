@@ -43,5 +43,6 @@
             </Pane>
          </children>
       </GridPane>
+      <Button fx:id="closeButton" layoutX="268.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeScene" style="-fx-background-color: white; -fx-background-radius: 10;" text="X" />
    </children>
 </AnchorPane>

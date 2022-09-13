@@ -107,7 +107,7 @@ public class MainController {
         String model = getModelTextBox();
         chargerTypeChoice(event);
         Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
-        System.out.println("Your vehicle:\nMake: " + make + "\nModel: " + model + "\nYear: " + year + "\nRegistration: " + registration + "\nCharger type: " + chargerTypeChoice);
+        //System.out.println("Your vehicle:\nMake: " + make + "\nModel: " + model + "\nYear: " + year + "\nRegistration: " + registration + "\nCharger type: " + chargerTypeChoice);
         event.consume();
     }
 
@@ -263,12 +263,26 @@ public class MainController {
 
     }
 
-    public void myProfileButton(ActionEvent actionEvent) {
-        //dummy code for a user
-        User user = new User(1);
-        user.setName("Ella");
-        Vehicle newVehicle = new Vehicle(2014, "Ford", "Focus", "AC", "HTC535");
-        user.newVehicle(newVehicle);
+    @FXML private void myProfileButton(Event event) {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+            root = loader.load();
 
+            ProfileController controller = loader.getController();
+
+            Stage profileStage = new Stage(StageStyle.UNDECORATED);
+            //controller.getData(profileStage);
+
+            profileStage.setTitle("Profile");
+            Scene scene = new Scene(root);
+            profileStage.setScene(scene);
+            profileStage.show();
+            profileStage.setMinHeight(300);
+            profileStage.setMinWidth(300);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        event.consume();
     }
 }
