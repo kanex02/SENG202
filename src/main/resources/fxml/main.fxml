@@ -113,8 +113,20 @@
                   <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                </GridPane.margin>
                <children>
-                  <TabPane prefWidth="0.0" VBox.vgrow="ALWAYS">
+                  <TabPane fx:id="mainTabs" prefWidth="0.0" VBox.vgrow="ALWAYS">
                      <tabs>
+                        <Tab closable="false" onSelectionChanged="#selectMapViewTab" text="Map">
+                           <content>
+                              <AnchorPane fx:id="mapPaneWrapper" prefHeight="635.0">
+                                 <children>
+                                    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <BorderPane fx:id="mapPane" prefHeight="320.0" prefWidth="367.0" VBox.vgrow="ALWAYS" />
+                                       </children>
+                                    </VBox>
+                                 </children></AnchorPane>
+                           </content>
+                        </Tab>
                         <Tab closable="false" text="Table">
                            <content>
                               <AnchorPane prefHeight="635.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
@@ -137,11 +149,6 @@
                                     </TableView>
                                  </VBox>
                               </AnchorPane>
-                           </content>
-                        </Tab>
-                        <Tab closable="false" text="Map">
-                           <content>
-                              <Pane />
                            </content>
                         </Tab>
                         <Tab closable="false" text="Previous Journeys">

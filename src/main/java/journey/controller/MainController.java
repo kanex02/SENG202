@@ -12,7 +12,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import journey.data.*;
@@ -31,6 +33,8 @@ import journey.data.Database;
 public class MainController {
 
     private static final Logger log = LogManager.getLogger();
+
+    private Stage stage;
 
     private static int selectedStation = -1;
 
@@ -82,11 +86,17 @@ public class MainController {
     @FXML private TableColumn<Station, String> operatorCol;
     @FXML private TableColumn<Station, Integer> timeLimitCol;
     @FXML private TableView<Station> stationTable;
-    @FXML
-    private AnchorPane searchPane;
-    @FXML
-    private HBox searchRow;
+    @FXML private AnchorPane searchPane;
+    @FXML private HBox searchRow;
+    @FXML private BorderPane mapPane;
+    @FXML private TabPane mainTabs;
 
+    /**
+     * Loads the open layers map view into the tab pane;
+     */
+    @FXML void selectMapViewTab() {
+        viewMap(stage);
+    }
 
     // Function run when user dropdown button pressed
     @FXML private void userDropdown(Event event) {
@@ -132,26 +142,26 @@ public class MainController {
         user.newVehicle(newVehicle);
         event.consume();
     }
-
-    @FXML private void viewMap(Event event) {
-        Parent root;
+    /**
+     * Loads the OpenLayers map view into the main part of the main window
+     * @param stage stage to load with
+     */
+    private void viewMap(Stage stage) {
         try {
-            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/map.fxml"));
-            root = baseLoader.load();
-            MapController controller = baseLoader.getController();
+            FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map.fxml"));
+            Parent mapViewParent = mapViewLoader.load();
 
-            Stage mapStage = new Stage(StageStyle.UNDECORATED);
-            controller.init(mapStage);
+            MapController mapViewController = mapViewLoader.getController();
+            mapViewController.init(stage);
+            mapPane.setCenter(mapViewParent);
+            mapPane.prefWidthProperty().bind(mainTabs.widthProperty());
+//            mapPane.prefHeightProperty().bind(stationTable.heightProperty());
 
-            mapStage.setTitle("Map");
-            Scene scene = new Scene(root);
-            mapStage.setScene(scene);
-            mapStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        event.consume();
     }
+
 
 
     private String getRegistrationTextBox() {
@@ -235,6 +245,7 @@ public class MainController {
      */
     public void init(Stage stage) {
         // Fill the combo boxes
+        this.stage = stage;
         chargerBox.setItems(chargerTypeOptions);
         getData(stage);
 
@@ -247,7 +258,7 @@ public class MainController {
         }
 
         stationDropDown.setItems(stationList);
-
+        viewMap(stage);
         //Add selection listener
         stationTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldStation, newStation) -> {
             selectedStation = newStation.getOBJECTID();

@@ -16,8 +16,7 @@ import java.util.Objects;
 
 
 public class MapController {
-    @FXML
-    private WebView webView;
+    @FXML private WebView webView;
     private WebEngine webEngine;
     private StationManager stationManager;
     private JSObject javaScriptConnector;
@@ -32,7 +31,6 @@ public class MapController {
         // Database db = new Database();
         stationManager = new StationManager();
         initMap();
-        stage.sizeToScene();
     }
 
     /**
