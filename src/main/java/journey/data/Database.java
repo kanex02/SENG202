@@ -113,12 +113,12 @@ public final class Database {
                 """;
         String vehiclesSql = """
                 CREATE TABLE IF NOT EXISTS Vehicles (
-                    ID INTEGER PRIMARY KEY,
+                    Registration TEXT PRIMARY KEY,
                     User_ID INTEGER NOT NULL REFERENCES Users(ID),
-                    year INTEGER,
-                    make TEXT,
-                    model TEXT,
-                    fuelType TEXT
+                    Year INTEGER,
+                    Make TEXT,
+                    Model TEXT,
+                    ChargerType TEXT
                 );
                 """;
         String usersSql = """
@@ -208,6 +208,7 @@ public final class Database {
             updateUser(username);
             System.out.println("User updated");
             disconnect();
+
         } catch(SQLException e) {
             e.printStackTrace();
             disconnect();
@@ -407,6 +408,44 @@ public final class Database {
         }  catch (SQLException ex) {
             disconnect();
             throw new RuntimeException(ex);
+        }
+    }
+
+    public static void setVehicle(Vehicle v) {
+        try {
+            connect();
+
+            String sqlQuery = "SELECT * FROM Vehicles WHERE user_ID = ? AND Registration = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, currentUser.getId());
+            ps.setString(2, v.getRegistration());
+            ResultSet resultSet = ps.executeQuery();
+
+            // If there is no item in result set we disconnect first and return an empty note
+            if(!resultSet.isBeforeFirst()) {
+
+                String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?)";
+                PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
+                insertStatement.setString(1, v.getRegistration());
+                insertStatement.setInt(2, currentUser.getId());
+                insertStatement.setInt(3, v.getYear());
+                insertStatement.setString(4, v.getMake());
+                insertStatement.setString(5, v.getModel());
+                insertStatement.setString(6, v.getChargerType());
+
+                insertStatement.execute();
+
+                // Insert into list of vehicles for current user
+                currentUser.newVehicle(v);
+
+                disconnect();
+            } else { // TODO: Handle error if vehicle already exists
+                System.out.println("bad error");
+            }
+            disconnect();
+        } catch(SQLException e) {
+            e.printStackTrace();
+            disconnect();
         }
     }
 

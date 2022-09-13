@@ -107,7 +107,10 @@ public class MainController {
         String model = getModelTextBox();
         chargerTypeChoice(event);
         Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
-        //System.out.println("Your vehicle:\nMake: " + make + "\nModel: " + model + "\nYear: " + year + "\nRegistration: " + registration + "\nCharger type: " + chargerTypeChoice);
+
+        // Send vehicle to database
+        Database.setVehicle(newVehicle);
+
         event.consume();
     }
 

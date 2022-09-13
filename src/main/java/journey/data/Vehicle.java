@@ -7,16 +7,16 @@ public class Vehicle {
     int year;
     String make;
     String model;
-    String fuelType;
+    String chargerType;
 
     String registration;
 
 
-    public Vehicle(int year, String make, String model, String fuelType, String registration) {
+    public Vehicle(int year, String make, String model, String chargerType, String registration) {
         this.year = year;
         this.make = make;
         this.model = model;
-        this.fuelType = fuelType;
+        this.chargerType = chargerType;
         this.registration = registration;
     }
 
@@ -44,12 +44,12 @@ public class Vehicle {
         this.model = model;
     }
 
-    public String getFuelType() {
-        return fuelType;
+    public String getChargerType() {
+        return chargerType;
     }
 
     public void setFuelType(String fuelType) {
-        this.fuelType = fuelType;
+        this.chargerType = chargerType;
     }
 
     public String getRegistration() {
