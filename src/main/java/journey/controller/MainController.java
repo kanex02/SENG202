@@ -32,9 +32,7 @@ public class MainController {
 
     private static final Logger log = LogManager.getLogger();
 
-    private static Station selectedStation = null;
-
-    private static int selectedStationFromTable = -1;
+    private static int selectedStation = -1;
 
     private static final ObservableList<String> filterListOptions =
         FXCollections.observableArrayList (
@@ -130,30 +128,6 @@ public class MainController {
         event.consume();
     }
 
-    // Opens up the station view.
-    @FXML private void viewStations(Event event) {
-        Parent root;
-        try {
-            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/table.fxml"));
-            root = baseLoader.load();
-
-            TableService controller = baseLoader.getController();
-
-            Stage tableStage = new Stage(StageStyle.UNDECORATED);
-            controller.init(tableStage);
-
-            tableStage.setTitle("Stations");
-            Scene scene = new Scene(root);
-            tableStage.setScene(scene);
-            tableStage.show();
-            tableStage.setMinHeight(500);
-            tableStage.setMinWidth(800);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        event.consume();
-    }
-
     @FXML private void viewMap(Event event) {
         Parent root;
         try {
@@ -174,41 +148,6 @@ public class MainController {
         event.consume();
     }
 
-    // Populates the station list with expandable buttons.
-    private void updateStations() {
-        QueryResult stations = Database.catchEmAll();
-        ObservableList<Button> locations = FXCollections.observableArrayList();
-        for (Station station : stations.getStations()) {
-            String newstring = Arrays.toString(Arrays.copyOfRange(station.getAddress().split(","), 0, 2));
-            newstring = newstring.substring(1, newstring.length()-1);
-            Button stationButton = new Button(newstring);
-            stationButton.setStyle("-fx-background-color: rgba(0, 0, 0, 0);"
-                    + "    -fx-border-radius: 0;");
-            String expandedText = newstring
-                    + "\n  lat: " + station.getLatitude()
-                    + "\n  long: " + station.getLongitude();
-            String finalNewstring = newstring;
-            stationButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override public void handle(ActionEvent event){
-
-                    if (!stationButton.getText().contains("\n")) { // If the station hasn't been toggled
-
-                        setSelectedStation(station);
-                        setNoteText();
-                        stationButton.setText(expandedText);
-                    } else {
-
-                        setSelectedStation(null);
-                        setChargerNoteText(""); // Clear the text in the note box when station unselected
-                        stationButton.setText(finalNewstring);
-                    }
-                }
-            });
-            locations.add(stationButton);
-        }
-
-        stationsList.setItems(locations);
-    }
 
     private String getRegistrationTextBox() {
         return registrationTextBox.getText();
@@ -222,17 +161,8 @@ public class MainController {
         stationDetailTextArea.setText(s);
     }
 
-
-    private void setSelectedStation(Station curStation) {
-        selectedStation = curStation;
-    }
-
-    private Station getSelectedStation() {
-        return selectedStation;
-    }
-
     private void setNoteText() {
-        Station currStation = getSelectedStation();
+        Station currStation = Database.queryStation(selectedStation);
         if (currStation != null) {
             Note note = Database.getNoteFromStation(currStation); // Retrieve note from database
             setChargerNoteText(note.getNote());
@@ -241,23 +171,15 @@ public class MainController {
 
     @FXML private void submitNotes(Event event) {
 
-        Station curStation = getSelectedStation();
+        Station currStation = Database.queryStation(selectedStation);
         String stationNote = getChargerNoteText();
 
-        if (curStation != null) {
-            Note newNote = new Note(curStation, stationNote);
+        if (currStation != null) {
+            Note newNote = new Note(currStation, stationNote);
             // Set the note on the database
             Database.setNote(newNote);
         }
         event.consume();
-    }
-
-    public static int getSelectedStationFromTable() {
-        return selectedStationFromTable;
-    }
-
-    public static void setSelectedStationFromTable(int selectedId) {
-        MainController.selectedStationFromTable = selectedId;
     }
 
     /**
@@ -295,8 +217,8 @@ public class MainController {
 
         //Add selection listener
         stationTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldStation, newStation) -> {
-            selectedStationFromTable = newStation.getOBJECTID();
-            System.out.println(selectedStationFromTable);
+            selectedStation = newStation.getOBJECTID();
+            setNoteText();
         }));
     }
 

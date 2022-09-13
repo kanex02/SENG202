@@ -15,7 +15,6 @@ import javafx.scene.control.ListView;
 
 import java.io.IOException;
 import journey.controller.MainController;
-import journey.controller.TableService;
 import journey.data.Database;
 import journey.data.QueryResult;
 import journey.data.Station;
