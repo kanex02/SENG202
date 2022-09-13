@@ -168,16 +168,16 @@
                           <AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefWidth="365.0">
                                  <children>
                                     <Label layoutX="14.0" layoutY="15.0" text="Address:" />
-                                    <TextField layoutX="90.0" layoutY="11.0" prefHeight="25.0" prefWidth="276.0" />
+                                    <TextField fx:id="addressSearch" layoutX="90.0" layoutY="11.0" prefHeight="25.0" prefWidth="276.0" />
+                                    <TextField fx:id="nameSearch" layoutX="90.0" layoutY="46.0" prefHeight="25.0" prefWidth="276.0" />
                                     <Label layoutX="14.0" layoutY="50.0" text="Name:" />
-                                    <TextField layoutX="90.0" layoutY="46.0" prefHeight="25.0" prefWidth="276.0" />
                                     <Label layoutX="14.0" layoutY="85.0" text="Operator:" />
-                                    <TextField layoutX="90.0" layoutY="81.0" prefHeight="25.0" prefWidth="276.0" />
+                                    <TextField fx:id="operatorSearch" layoutX="90.0" layoutY="81.0" prefHeight="25.0" prefWidth="276.0" />
                                     <Label layoutX="14.0" layoutY="120.0" text="Current:" />
                                     <ChoiceBox fx:id="chargerBoxSearch" layoutX="90.0" layoutY="116.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #E0E6B2;" />
                                     <Label layoutX="14.0" layoutY="155.0" text="Time Limit:" />
                                     <Label layoutX="90.0" layoutY="155.0" text="At least" />
-                                    <TextField layoutX="145.0" layoutY="151.0" prefHeight="25.0" prefWidth="46.0" />
+                                    <TextField fx:id="timeSearch" layoutX="145.0" layoutY="151.0" prefHeight="25.0" prefWidth="46.0" />
                                     <Label layoutX="195.0" layoutY="155.0" text="minutes" />
                                     <Label layoutX="14.0" layoutY="190.0" text="Attractions: " />
                                     <CheckBox layoutX="90.0" layoutY="190.0" mnemonicParsing="false" />
@@ -191,7 +191,7 @@
                                                 <TextField layoutX="160.0" prefHeight="25.0" prefWidth="70.0" promptText="long" />
                                              </children>
                                           </Pane>
-                                          <Button mnemonicParsing="false" onAction="#submitNotes" style="-fx-background-color: #E0E6B2;" text="Search" HBox.hgrow="NEVER" />
+                                          <Button mnemonicParsing="false" onAction="#search" style="-fx-background-color: #E0E6B2;" text="Search" HBox.hgrow="NEVER" />
                                        </children>
                                        <padding>
                                           <Insets left="14.0" right="14.0" />

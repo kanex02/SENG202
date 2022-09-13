@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Static utility class to make queries to the database.
@@ -273,23 +274,63 @@ public final class Database {
     }
     public static void deleteStation(int id) {}
 
+    private static void insertRsIntoArray(ResultSet rs, ArrayList<Station> res) throws SQLException {
+        while (rs.next()) {
+            res.add(new Station(rs.getInt("ID"),
+                    rs.getString("name"), rs.getString("operator"),
+                    rs.getString("owner"), rs.getString("address"),
+                    rs.getBoolean("is24Hours"), rs.getInt("carParkCount"),
+                    rs.getBoolean("hasCarParkCost"), rs.getInt("maxTimeLimit"),
+                    rs.getBoolean("hasTouristAttraction"), rs.getFloat("latitude"),
+                    rs.getFloat("longitude"), rs.getString("currentType"), rs.getString("dateFirstOperational"),
+                    rs.getInt("numberOfConnectors"), (rs.getString("connectorsList")).split(":"),
+                    rs.getBoolean("hasChargingCost")));
+        }
+    }
+
     public static QueryResult catchEmAll() {
         connect();
         ArrayList<Station> res = new ArrayList<>();
         try {
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM Stations");
-            while (rs.next()) {
-                res.add(new Station(rs.getInt("ID"),
-                        rs.getString("name"), rs.getString("operator"),
-                        rs.getString("owner"), rs.getString("address"),
-                        rs.getBoolean("is24Hours"), rs.getInt("carParkCount"),
-                        rs.getBoolean("hasCarParkCost"), rs.getInt("maxTimeLimit"),
-                        rs.getBoolean("hasTouristAttraction"), rs.getFloat("latitude"),
-                        rs.getFloat("longitude"), rs.getString("currentType"), rs.getString("dateFirstOperational"),
-                        rs.getInt("numberOfConnectors"), (rs.getString("connectorsList")).split(":"),
-                        rs.getBoolean("hasChargingCost")));
-            }
+            insertRsIntoArray(rs, res);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        disconnect();
+        QueryResult result = new QueryResult();
+        result.setStations(res.toArray(Station[]::new));
+        return result;
+    }
+
+    public static QueryResult query(Station searchStation) {
+        connect();
+
+        //query with WHERE that is always true so that further statements can be chained on
+        StringBuilder queryString = new StringBuilder("SELECT * FROM Stations WHERE id LIKE'%' ");
+
+        //monster that builds up the query
+        String address = searchStation.getAddress();
+        if (address != null && address.trim().length() > 0) {
+            queryString.append("AND address LIKE '%").append(address).append("%' ");
+        }
+
+        String name = searchStation.getName();
+        if (name != null && name.trim().length() > 0) {
+            queryString.append("AND name LIKE '%").append(name).append("%' ");
+        }
+
+        String operator = searchStation.getOperator();
+        if (operator != null && operator.trim().length() > 0) {
+            queryString.append("AND operator LIKE '%").append(operator).append("%' ");
+        }
+
+        ArrayList<Station> res = new ArrayList<>();
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(queryString.toString());
+            insertRsIntoArray(rs, res);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

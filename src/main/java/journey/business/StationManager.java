@@ -1,5 +1,6 @@
 package journey.business;
 
+import journey.controller.MainController;
 import journey.data.Database;
 import journey.data.QueryResult;
 import journey.data.Station;
@@ -10,7 +11,7 @@ public class StationManager {
      * @return Object list of all Stations
      */
     public Station[] getAllStations() {
-        QueryResult data = Database.catchEmAll();
+        QueryResult data = MainController.getStations();
         return data.getStations();
     }
 

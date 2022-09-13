@@ -50,7 +50,7 @@ public class TableController {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         operatorCol.setCellValueFactory(new PropertyValueFactory<>("operator"));
         timeLimitCol.setCellValueFactory(new PropertyValueFactory<>("maxTime"));
-        QueryResult data = Database.catchEmAll();
+        QueryResult data = MainController.getStations();
         ObservableList<Station> stations = FXCollections.observableArrayList(data.getStations());
         stationTable.setItems(stations);
     }

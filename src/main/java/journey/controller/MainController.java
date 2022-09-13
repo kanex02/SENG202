@@ -51,6 +51,8 @@ public class MainController {
             "Decreasing"
         );
 
+
+    private static QueryResult currentStations;
     private String chargerTypeChoice;
     @FXML private ChoiceBox<String> chargerBox;
     @FXML private TextField registrationTextBox;
@@ -69,6 +71,11 @@ public class MainController {
     @FXML private BorderPane mapPane;
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
+    @FXML private TextField addressSearch;
+    @FXML private TextField nameSearch;
+    @FXML private TextField operatorSearch;
+    @FXML private TextField timeSearch;
+
 
     /**
      * Loads the open layers map view into the tab pane;
@@ -213,6 +220,16 @@ public class MainController {
         }
     }
 
+    @FXML private void search(Event event) {
+        Station searchStation = new Station();
+        searchStation.setAddress(addressSearch.getText());
+        searchStation.setName(nameSearch.getText());
+        searchStation.setOperator(operatorSearch.getText());
+        currentStations = Database.query(searchStation);
+        viewMap();
+        viewTable();
+    }
+
     public static int getSelectedStation() {
         return selectedStation;
     }
@@ -221,12 +238,17 @@ public class MainController {
         MainController.selectedStation = selectedStation;
     }
 
+    public static QueryResult getStations() {
+        return currentStations;
+    }
+
     /**
      * Initialize the window
      *
      * @param stage Top level container for this window
      */
     public void init(Stage stage) {
+        currentStations = Database.catchEmAll();
         // Fill the combo boxes
         this.stage = stage;
         chargerBox.setItems(chargerTypeOptions);
