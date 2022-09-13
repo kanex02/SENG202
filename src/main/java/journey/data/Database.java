@@ -208,9 +208,9 @@ public final class Database {
                 insertStatement.execute();
 
             }
+            disconnect();
             updateUser(username);
             System.out.println("User updated");
-            disconnect();
 
         } catch(SQLException e) {
             e.printStackTrace();

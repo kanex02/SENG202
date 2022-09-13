@@ -10,12 +10,14 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import journey.gui.MainWindow;
 
 import java.io.IOException;
 
 
 public class LoginController {
     @FXML private TextField nameTextBox;
+
     @FXML private void registerUser(ActionEvent actionEvent) {
         String name = getNameTextBox();
         Database.setCurrentUser(name);
@@ -33,20 +35,19 @@ public class LoginController {
 
             stage.setTitle("Journey");
             Scene scene = new Scene(root, 600, 400);
-            // scene.getStylesheets().add("src/main/resources/gui/style.css");
             stage.setScene(scene);
 
             // set the min height and width so the window opens at the correct size
             stage.setMinHeight(600);
             stage.setMinWidth(900);
-            stage.setFullScreen(true);
-
+            MainWindow.getStage().close();
             stage.show();
 
         } catch(IOException e) {
             System.out.println("Exception in loading");
             e.printStackTrace();
         }
+
 
 
 
