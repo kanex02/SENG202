@@ -78,7 +78,7 @@ public class User {
 
     public void findChargerTypes() {
         for (Vehicle vehicle : vehicles) {
-            String charger = vehicle.getFuelType();
+            String charger = vehicle.getChargerType();
             this.chargerTypes.add(charger);
         }
     }

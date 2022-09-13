@@ -163,6 +163,7 @@ public final class Database {
                 """;
 
         try {
+            connect();
             Statement statement = conn.createStatement();
             statement.execute(stationsSql);
             statement.execute(vehiclesSql);
@@ -172,7 +173,9 @@ public final class Database {
             //statement.execute(userVehiclesSql);
             statement.execute(favouriteStationsSql);
             statement.execute(userJourneysSql);
+            disconnect();
         } catch (SQLException e) {
+            disconnect();
             throw new RuntimeException(e);
         }
     }
@@ -438,18 +441,18 @@ public final class Database {
                 // Insert into list of vehicles for current user
                 currentUser.newVehicle(v);
 
-                disconnect();
             } else { // TODO: Handle error if vehicle already exists
                 System.out.println("bad error");
             }
             disconnect();
         } catch(SQLException e) {
-            e.printStackTrace();
             disconnect();
+            e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
+        setup();
         QueryResult queryResult = catchEmAll();
         Station[] stuff = queryResult.getStations();
         for (Station station : stuff) {
