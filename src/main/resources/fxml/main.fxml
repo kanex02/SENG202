@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <children>
       <GridPane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -89,7 +113,7 @@
                               <TextField layoutX="5.0" layoutY="82.0" prefHeight="26.0" prefWidth="85.0" />
                               <TextField layoutX="5.0" layoutY="116.0" prefHeight="26.0" prefWidth="85.0" />
                               <TextField layoutX="5.0" layoutY="48.0" prefHeight="26.0" prefWidth="85.0" />
-                              <Button layoutX="5.0" layoutY="184.0" mnemonicParsing="false" onAction="#registerVehicle" prefHeight="40.0" prefWidth="85.0" style="-fx-background-color: #E0E6B2;" text=" Register Vehicle" textAlignment="CENTER" wrapText="true" />
+                              <Button layoutX="-10.0" layoutY="190.0" mnemonicParsing="false" onAction="#registerVehicle" style="-fx-background-color: #E0E6B2;" text="Register Vehicle" />
                            </children>
                         </Pane>
                      </children>
@@ -158,27 +182,27 @@
                           <AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefWidth="365.0">
                                  <children>
                                     <Label layoutX="14.0" layoutY="15.0" text="Address:" />
-                                    <TextField layoutX="90.0" layoutY="11.0" prefHeight="25.0" prefWidth="276.0" />
+                                    <TextField layoutX="80.0" layoutY="11.0" prefHeight="25.0" prefWidth="276.0" />
                                     <Label layoutX="14.0" layoutY="50.0" text="Name:" />
-                                    <TextField layoutX="90.0" layoutY="46.0" prefHeight="25.0" prefWidth="276.0" />
+                                    <TextField layoutX="80.0" layoutY="46.0" prefHeight="25.0" prefWidth="276.0" />
                                     <Label layoutX="14.0" layoutY="85.0" text="Operator:" />
-                                    <TextField layoutX="90.0" layoutY="81.0" prefHeight="25.0" prefWidth="276.0" />
+                                    <TextField layoutX="80.0" layoutY="81.0" prefHeight="25.0" prefWidth="276.0" />
                                     <Label layoutX="14.0" layoutY="120.0" text="Current:" />
-                                    <ChoiceBox fx:id="chargerBoxSearch" layoutX="90.0" layoutY="116.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #E0E6B2;" />
+                                    <ChoiceBox fx:id="chargerBoxSearch" layoutX="80.0" layoutY="116.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #E0E6B2;" />
                                     <Label layoutX="14.0" layoutY="155.0" text="Time Limit:" />
-                                    <Label layoutX="90.0" layoutY="155.0" text="At least" />
-                                    <TextField layoutX="145.0" layoutY="151.0" prefHeight="25.0" prefWidth="46.0" />
-                                    <Label layoutX="195.0" layoutY="155.0" text="minutes" />
+                                    <Label layoutX="80.0" layoutY="155.0" text="At least" />
+                                    <TextField layoutX="123.0" layoutY="151.0" prefHeight="25.0" prefWidth="46.0" />
+                                    <Label layoutX="172.0" layoutY="155.0" text="minutes" />
                                     <Label layoutX="14.0" layoutY="190.0" text="Attractions: " />
-                                    <CheckBox layoutX="90.0" layoutY="190.0" mnemonicParsing="false" />
+                                    <CheckBox layoutX="80.0" layoutY="190.0" mnemonicParsing="false" />
                                     <HBox fx:id="searchRow" layoutY="221.0" prefHeight="25.0" prefWidth="367.0">
                                        <children>
                                           <Pane HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label layoutY="4.0" text="Closest to:" />
-                                                <TextField layoutX="76.0" prefHeight="25.0" prefWidth="70.0" promptText="lat" />
-                                                <Label layoutX="150.0" layoutY="4.0" text=", " />
-                                                <TextField layoutX="160.0" prefHeight="25.0" prefWidth="70.0" promptText="long" />
+                                                <TextField layoutX="66.0" prefHeight="25.0" prefWidth="70.0" promptText="lat" />
+                                                <Label layoutX="140.0" layoutY="4.0" text=", " />
+                                                <TextField layoutX="150.0" prefHeight="25.0" prefWidth="70.0" promptText="long" />
                                              </children>
                                           </Pane>
                                           <Button mnemonicParsing="false" onAction="#submitNotes" style="-fx-background-color: #E0E6B2;" text="Search" HBox.hgrow="NEVER" />
@@ -215,10 +239,13 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="27.0" layoutY="41.0" mnemonicParsing="false" onAction="#startJourneyButton" prefHeight="24.0" prefWidth="75.0" style="-fx-background-color: #E0E6B2;" text="Start" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="60.0" />
-                              <Button layoutX="93.0" layoutY="50.0" mnemonicParsing="false" onAction="#endJourneyButton" prefHeight="24.0" prefWidth="75.0" style="-fx-background-color: #E0E6B2;" text="End" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="60.0" />
-                              <Label layoutX="31.0" layoutY="90.0" text="Charging Details:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="90.0" />
-                              <TextArea fx:id="chargingStationTextArea" layoutX="49.0" layoutY="133.0" prefHeight="139.0" prefWidth="147.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="120.0" />
+                              <Label layoutX="10.0" layoutY="133.0" prefHeight="26.0" prefWidth="75.0" text="Charging Details:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="133.0" />
+                              <TextField fx:id="startTextBox" alignment="CENTER" layoutX="10.0" layoutY="60.0" prefHeight="26.0" prefWidth="75.0" promptText="Start" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="60.0" />
+                              <TextField fx:id="endTextBox" alignment="CENTER" layoutX="97.0" layoutY="60.0" prefHeight="26.0" prefWidth="75.0" promptText="End" AnchorPane.leftAnchor="97.0" AnchorPane.topAnchor="60.0" />
+                              <ComboBox fx:id="stationDropDown" layoutX="10.0" layoutY="93.0" prefHeight="25.0" prefWidth="75.0" promptText="Select Station" style="-fx-background-color: #E0E6B2;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="87.33333333333333" AnchorPane.topAnchor="93.0" />
+                              <ListView fx:id="visitedStationsList" layoutX="97.0" layoutY="123.0" prefHeight="35.0" prefWidth="73.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="123.0" />
+                              <Button alignment="CENTER" contentDisplay="CENTER" layoutX="59.0" layoutY="159.0" mnemonicParsing="false" onAction="#addJourney" style="-fx-background-color: #E0E6B2;" text="Submit" textAlignment="CENTER" AnchorPane.bottomAnchor="1.6666666666666572" AnchorPane.leftAnchor="59.0" AnchorPane.rightAnchor="59.66666666666666" />
+                              <Button layoutX="114.0" layoutY="93.0" mnemonicParsing="false" onAction="#selectStation" style="-fx-background-color: #E0E6B2;" text="Add" AnchorPane.rightAnchor="20.666666666666657" />
                            </children>
                         </AnchorPane>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
