@@ -275,7 +275,8 @@ public class MainController {
             ProfileController controller = loader.getController();
 
             Stage profileStage = new Stage(StageStyle.UNDECORATED);
-            //controller.getData(profileStage);
+            controller.setName(profileStage);
+            controller.setVehicles(profileStage);
 
             profileStage.setTitle("Profile");
             Scene scene = new Scene(root);

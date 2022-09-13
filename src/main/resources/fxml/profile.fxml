@@ -33,12 +33,12 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <ListView layoutX="20.0" layoutY="70.0" prefHeight="107.0" prefWidth="201.0" style="-fx-background-color: #E0E6B2;" />
-                  <Label layoutX="80.0" layoutY="21.0" prefHeight="23.0" prefWidth="144.0" style="-fx-background-color: #E0E6B2;" text="Label">
+                  <Label fx:id="name" layoutX="80.0" layoutY="21.0" prefHeight="23.0" prefWidth="144.0" style="-fx-background-color: #E0E6B2;" text="">
                      <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </padding>
                   </Label>
+                  <Label fx:id="vehicles" layoutX="20.0" layoutY="76.0" />
                </children>
             </Pane>
          </children>
