@@ -62,20 +62,20 @@ public final class Database {
 
     /**
      * Updates the current user to one specified.
-     * @param userId ID of the user to update to.
+     * @param name name of the user to update to.
      */
-    public static void updateUser(int userId) {
-        User user = new User(userId);
+    public static void updateUser(String name) {
+        User user = new User(name);
         String userQuery = """
-                SELECT * FROM Users WHERE ID = ?
+                SELECT * FROM Users WHERE name = ?
                 """;
 
         try {
             connect();
             PreparedStatement statement = conn.prepareStatement(userQuery);
-            statement.setInt(1, userId);
+            statement.setString(1, name);
             ResultSet res = statement.executeQuery();
-            user.setName(res.getString(2));
+            user.setId(res.getInt(1));
             disconnect();
         } catch (SQLException e) {
             throw new RuntimeException(e);
