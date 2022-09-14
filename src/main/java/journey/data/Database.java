@@ -126,10 +126,11 @@ public final class Database {
                     name TEXT
                 );
                 """;
-        String journeysSql = """
-                CREATE TABLE IF NOT EXISTS Journeys (
-                    ID INTEGER PRIMARY KEY,
-                    distance INTEGER
+        String journeyChargersSql = """
+                CREATE TABLE IF NOT EXISTS JourneyChargers (
+                    Journey_ID INTEGER NOT NULL REFERENCES Journeys(ID),
+                    Station_ID INTEGER NOT NULL REFERENCES Stations(ID),
+                    Station_Order INTEGER IDENTITY(1,1)
                 );
                 """;
         String notesSql = """
@@ -154,10 +155,11 @@ public final class Database {
                 """;
         String userJourneysSql = """
                 CREATE TABLE IF NOT EXISTS UserJourneys (
+                    journey_ID INTEGER IDENTITY(1,1) PRIMARY KEY,
                     user_ID INTEGER NOT NULL REFERENCES Users(ID),
-                    journey_ID INTEGER NOT NULL REFERENCES Journeys(ID),
-                    station_ID INTEGER NOT NULL REFERENCES Stations(ID),
-                    journeyOrder INTEGER NOT NULL
+                    vehicle_ID INTEGER NOT NULL REFERENCES Vehicles(ID), 
+                    start TEXT,
+                    end TEXT
                 )
                 """;
 
@@ -166,7 +168,7 @@ public final class Database {
             statement.execute(stationsSql);
             statement.execute(vehiclesSql);
             statement.execute(usersSql);
-            statement.execute(journeysSql);
+            statement.execute(journeyChargersSql);
             statement.execute(notesSql);
             //statement.execute(userVehiclesSql);
             statement.execute(favouriteStationsSql);
