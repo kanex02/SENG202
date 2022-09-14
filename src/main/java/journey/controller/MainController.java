@@ -282,8 +282,8 @@ public class MainController {
             Scene scene = new Scene(root);
             profileStage.setScene(scene);
             profileStage.show();
-            profileStage.setMinHeight(300);
-            profileStage.setMinWidth(300);
+            profileStage.setMinHeight(400);
+            profileStage.setMinWidth(500);
         } catch (IOException e) {
             e.printStackTrace();
         }
