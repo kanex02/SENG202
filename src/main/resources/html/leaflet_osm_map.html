@@ -68,7 +68,7 @@
         m.bindPopup(title).openPopup()
         // Add marker to map, and specify our own on click function which passes the id of the sale back to java,
         // so we can reference it
-        m.addTo(map)
+        m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(id))
         markers.push(m)
     }
 
@@ -83,7 +83,7 @@
             route = L.Routing.control({
                 waypoints: [
                     new L.latLng(-43.522442, 172.580683),
-                    new L.latLng(-43.530542, 172.626466)
+                    new L.latLng(-43.530542, 172.726466)
                 ],
                 // Specify UCs server for routing instead of the demonstration server used by default
                 serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
