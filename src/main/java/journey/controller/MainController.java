@@ -40,7 +40,7 @@ public class MainController {
 
     private static final ObservableList<String> chargerTypeOptions =
         FXCollections.observableArrayList (
-            "Trickle",
+            "",
             "AC",
             "DC"
         );
@@ -97,20 +97,28 @@ public class MainController {
         event.consume();
     }
 
-    // Run when the user clicks the register vehicle button
-    // Placeholder, just prints a string representation of the values entered
+    /**
+     * Run when the user presses the register vehicle button
+     * Initialises a new vehicle and assigns it to the current user based on the input
+     * fields for make, model, year, registration and charger type
+     * @param event
+     */
     @FXML private void registerVehicle(Event event) {
+        //get information about the vehicles and reset to null values
         String registration = getRegistrationTextBox();
-        int id = 1;
         int year = getYearTextBox();
         String make = getMakeTextBox();
         String model = getModelTextBox();
         chargerTypeChoice(event);
+        registrationTextBox.setText("");
+        yearTextBox.setText("");
+        makeTextBox.setText("");
+        modelTextBox.setText("");
+        chargerBox.setValue("");
         Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
 
         // Send vehicle to database
         Database.setVehicle(newVehicle);
-
         event.consume();
     }
 
@@ -266,6 +274,10 @@ public class MainController {
 
     }
 
+    /**
+     * Brings up the profile popup window when the 'my profile' button is pressed
+     * @param event
+     */
     @FXML private void myProfileButton(Event event) {
         Parent root;
         try {
@@ -282,8 +294,8 @@ public class MainController {
             Scene scene = new Scene(root);
             profileStage.setScene(scene);
             profileStage.show();
-            profileStage.setMinHeight(300);
-            profileStage.setMinWidth(300);
+            profileStage.setMinHeight(400);
+            profileStage.setMinWidth(500);
         } catch (IOException e) {
             e.printStackTrace();
         }

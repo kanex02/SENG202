@@ -208,9 +208,9 @@ public final class Database {
                 insertStatement.execute();
 
             }
+            disconnect();
             updateUser(username);
             System.out.println("User updated");
-            disconnect();
 
         } catch(SQLException e) {
             e.printStackTrace();
@@ -449,6 +449,28 @@ public final class Database {
             disconnect();
             e.printStackTrace();
         }
+    }
+
+    public static QueryResult getVehicles() {
+        connect();
+        ArrayList<Vehicle> res = new ArrayList<Vehicle>();
+        try {
+            String sqlQuery = "SELECT * FROM Vehicles WHERE User_ID = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, currentUser.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                res.add(new Vehicle(rs.getInt("Year"), rs.getString("Make"),
+                        rs.getString("Model"), rs.getString("ChargerType"),
+                        rs.getString("Registration")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        disconnect();
+        QueryResult result = new QueryResult();
+        result.setVehicles(res.toArray(Vehicle[]::new));
+        return result;
     }
 
     public static void main(String[] args) {

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class User {
     private int id;
     private String name;
-    private ArrayList<Vehicle> vehicles;
+    private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
     private ArrayList<Station> stations;
     private ArrayList<Journey> journeys;
     private ArrayList<Note> notes;

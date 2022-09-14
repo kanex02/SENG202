@@ -24,6 +24,11 @@ import journey.controller.LoginController;
 public class MainWindow extends Application {
 
 
+    private static Stage stage;
+
+    public static Stage getStage() {
+        return stage;
+    }
 
     /**
      * Opens the gui with the fxml content specified in resources/fxml/main
@@ -38,7 +43,7 @@ public class MainWindow extends Application {
 
         LoginController baseController = baseLoader.getController();
         baseController.init(primaryStage);
-
+        stage = primaryStage;
 //        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
 //        Parent root = baseLoader.load();
 //
@@ -53,7 +58,6 @@ public class MainWindow extends Application {
         // set the min height and width so the window opens at the correct size
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(900);
-
 
 
     }
