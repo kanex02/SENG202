@@ -21,7 +21,6 @@ public final class Database {
 
     /**
      * Connects to the database.
-
      * @return 0 if successful or 1 if an error occurred.
      */
     public static int connect() {
@@ -39,7 +38,6 @@ public final class Database {
 
     /**
      * Disconnects from the database.
-
      * @return 0 if successful or 1 if an error occurred.
      */
     public static int disconnect() {
@@ -63,21 +61,20 @@ public final class Database {
 
     /**
      * Updates the current user to one specified.
-     * @param userId ID of the user to update to.
+     * @param name name of the user to update to.
      */
-    public static void updateUser(int userId) {
-        User user = new User(userId);
+    public static void updateUser(String name) {
+        User user = new User(name);
         String userQuery = """
-                SELECT * FROM Users WHERE ID = ?
+                SELECT * FROM Users WHERE name = ?
                 """;
 
         try {
             connect();
             PreparedStatement statement = conn.prepareStatement(userQuery);
-            statement.setInt(1, userId);
+            statement.setString(1, name);
             ResultSet res = statement.executeQuery();
-            String name = res.getString("name");
-            user.setName(name);
+            user.setId(res.getInt(1));
             disconnect();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -115,16 +112,17 @@ public final class Database {
                 """;
         String vehiclesSql = """
                 CREATE TABLE IF NOT EXISTS Vehicles (
-                    ID INTEGER PRIMARY KEY,
-                    year INTEGER,
-                    make TEXT,
-                    model TEXT,
-                    fuelType TEXT
+                    Registration TEXT PRIMARY KEY,
+                    User_ID INTEGER NOT NULL REFERENCES Users(ID),
+                    Year INTEGER,
+                    Make TEXT,
+                    Model TEXT,
+                    ChargerType TEXT
                 );
                 """;
         String usersSql = """
                 CREATE TABLE IF NOT EXISTS Users (
-                    ID INTEGER PRIMARY KEY,
+                    ID INTEGER IDENTITY(1, 1) PRIMARY KEY,
                     name TEXT
                 );
                 """;
@@ -142,12 +140,12 @@ public final class Database {
                     note TEXT
                 );
                 """;
-        String userVehiclesSql = """
-                CREATE TABLE IF NOT EXISTS UserVehicles (
-                    user_ID INTEGER NOT NULL REFERENCES Users(ID),
-                    vehicle_ID INTEGER NOT NULL REFERENCES Vehicles(ID)
-                );
-                """;
+//        String userVehiclesSql = """
+//                CREATE TABLE IF NOT EXISTS UserVehicles (
+//                    user_ID INTEGER NOT NULL REFERENCES Users(ID),
+//                    vehicle_ID INTEGER NOT NULL REFERENCES Vehicles(ID)
+//                );
+//                """;
         String favouriteStationsSql = """
                 CREATE TABLE IF NOT EXISTS FavouriteStations (
                     user_ID INTEGER NOT NULL REFERENCES Users(ID),
@@ -170,7 +168,7 @@ public final class Database {
             statement.execute(usersSql);
             statement.execute(journeysSql);
             statement.execute(notesSql);
-            statement.execute(userVehiclesSql);
+            //statement.execute(userVehiclesSql);
             statement.execute(favouriteStationsSql);
             statement.execute(userJourneysSql);
         } catch (SQLException e) {
@@ -182,8 +180,38 @@ public final class Database {
         return currentUser;
     }
 
-    public static void setCurrentUser(User currentUser) {
-        Database.currentUser = currentUser;
+
+
+    // TODO: Handle non-unique users.
+    public static void setCurrentUser(String username) {
+        // Update the currentUser variable and User database if neccessary
+        try {
+            connect();
+            String userQuery = "SELECT * FROM Users WHERE name = ?";
+
+            PreparedStatement findNoteStatement = conn.prepareStatement(userQuery);
+            findNoteStatement.setString(1, username);
+            ResultSet findNoteSet = findNoteStatement.executeQuery();
+
+            /*
+             * If result set is empty there isn't a user so
+             * we insert a new user into the database.
+             */
+            if (!findNoteSet.isBeforeFirst()) {
+                String insertQuery = "INSERT INTO Users VALUES (?,?)";
+                PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
+                insertStatement.setString(2, username); // UserID set to 1 as no users exist yet.
+                insertStatement.execute();
+
+            }
+            disconnect();
+            updateUser(username);
+            System.out.println("User updated");
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+            disconnect();
+        }
     }
 
     public static String convertArrayToString(String[] arr, String delimiter) {
@@ -428,7 +456,67 @@ public final class Database {
         }
     }
 
+    public static void setVehicle(Vehicle v) {
+        try {
+            connect();
+
+            String sqlQuery = "SELECT * FROM Vehicles WHERE user_ID = ? AND Registration = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, currentUser.getId());
+            ps.setString(2, v.getRegistration());
+            ResultSet resultSet = ps.executeQuery();
+
+            // If there is no item in result set we disconnect first and return an empty note
+            if(!resultSet.isBeforeFirst()) {
+
+                String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?)";
+                PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
+                insertStatement.setString(1, v.getRegistration());
+                insertStatement.setInt(2, currentUser.getId());
+                insertStatement.setInt(3, v.getYear());
+                insertStatement.setString(4, v.getMake());
+                insertStatement.setString(5, v.getModel());
+                insertStatement.setString(6, v.getChargerType());
+
+                insertStatement.execute();
+
+                // Insert into list of vehicles for current user
+                currentUser.newVehicle(v);
+
+            } else { // TODO: Handle error if vehicle already exists
+                System.out.println("bad error");
+            }
+            disconnect();
+        } catch(SQLException e) {
+            disconnect();
+            e.printStackTrace();
+        }
+    }
+
+    public static QueryResult getVehicles() {
+        connect();
+        ArrayList<Vehicle> res = new ArrayList<Vehicle>();
+        try {
+            String sqlQuery = "SELECT * FROM Vehicles WHERE User_ID = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, currentUser.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                res.add(new Vehicle(rs.getInt("Year"), rs.getString("Make"),
+                        rs.getString("Model"), rs.getString("ChargerType"),
+                        rs.getString("Registration")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        disconnect();
+        QueryResult result = new QueryResult();
+        result.setVehicles(res.toArray(Vehicle[]::new));
+        return result;
+    }
+
     public static void main(String[] args) {
+        setup();
         QueryResult queryResult = catchEmAll();
         Station[] stuff = queryResult.getStations();
         for (Station station : stuff) {

@@ -8,14 +8,14 @@ import java.util.ArrayList;
 public class User {
     private int id;
     private String name;
-    private ArrayList<Vehicle> vehicles;
+    private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
     private ArrayList<Station> stations;
     private ArrayList<Journey> journeys;
     private ArrayList<Note> notes;
     private ArrayList<String> chargerTypes;
 
-    public User(int id) {
-        this.id = id;
+    public User(String name) {
+        this.name = name;
     }
 
     public int getId() {
@@ -78,7 +78,7 @@ public class User {
 
     public void findChargerTypes() {
         for (Vehicle vehicle : vehicles) {
-            String charger = vehicle.getFuelType();
+            String charger = vehicle.getChargerType();
             this.chargerTypes.add(charger);
         }
     }

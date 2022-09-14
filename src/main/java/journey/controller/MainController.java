@@ -40,7 +40,7 @@ public class MainController {
 
     private static final ObservableList<String> chargerTypeOptions =
         FXCollections.observableArrayList (
-            "Trickle",
+            "",
             "AC",
             "DC"
         );
@@ -56,6 +56,9 @@ public class MainController {
     private String chargerTypeChoice;
     @FXML private ChoiceBox<String> chargerBox;
     @FXML private TextField registrationTextBox;
+    @FXML private TextField makeTextBox;
+    @FXML private TextField modelTextBox;
+    @FXML private TextField yearTextBox;
     @FXML private ComboBox<String> filterList;
     @FXML private ComboBox<String> sortList;
 
@@ -115,17 +118,28 @@ public class MainController {
         event.consume();
     }
 
-    private User user;
-    // Run when the user clicks the register vehicle button
-    // Placeholder, just prints a string representation of the values entered
+    /**
+     * Run when the user presses the register vehicle button
+     * Initialises a new vehicle and assigns it to the current user based on the input
+     * fields for make, model, year, registration and charger type
+     * @param event
+     */
     @FXML private void registerVehicle(Event event) {
+        //get information about the vehicles and reset to null values
         String registration = getRegistrationTextBox();
-        int id = 1;
-        int year = 2014;
-        String make = "Ford";
-        String model = "Focus";
+        int year = getYearTextBox();
+        String make = getMakeTextBox();
+        String model = getModelTextBox();
+        chargerTypeChoice(event);
+        registrationTextBox.setText("");
+        yearTextBox.setText("");
+        makeTextBox.setText("");
+        modelTextBox.setText("");
+        chargerBox.setValue("");
         Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
-        user.newVehicle(newVehicle);
+
+        // Send vehicle to database
+        Database.setVehicle(newVehicle);
         event.consume();
     }
     /**
@@ -169,6 +183,17 @@ public class MainController {
 
     private String getRegistrationTextBox() {
         return registrationTextBox.getText();
+    }
+    private String getMakeTextBox() {
+        return makeTextBox.getText();
+    }
+    private String getModelTextBox() {
+        return modelTextBox.getText();
+    }
+    private int getYearTextBox() {
+        String year = yearTextBox.getText();
+        int intYear = Integer.parseInt(year);
+        return intYear;
     }
 
     private String getChargerNoteText() {
@@ -269,5 +294,31 @@ public class MainController {
         viewTable();
     }
 
+    /**
+     * Brings up the profile popup window when the 'my profile' button is pressed
+     * @param event
+     */
+    @FXML private void myProfileButton(Event event) {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+            root = loader.load();
 
+            ProfileController controller = loader.getController();
+
+            Stage profileStage = new Stage(StageStyle.UNDECORATED);
+            controller.setName(profileStage);
+            controller.setVehicles(profileStage);
+
+            profileStage.setTitle("Profile");
+            Scene scene = new Scene(root);
+            profileStage.setScene(scene);
+            profileStage.show();
+            profileStage.setMinHeight(400);
+            profileStage.setMinWidth(500);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        event.consume();
+    }
 }
