@@ -40,7 +40,7 @@ public class MainController {
 
     private static final ObservableList<String> chargerTypeOptions =
         FXCollections.observableArrayList (
-            "Trickle",
+            "",
             "AC",
             "DC"
         );
@@ -109,11 +109,12 @@ public class MainController {
         int year = getYearTextBox();
         String make = getMakeTextBox();
         String model = getModelTextBox();
+        chargerTypeChoice(event);
         registrationTextBox.setText("");
         yearTextBox.setText("");
         makeTextBox.setText("");
         modelTextBox.setText("");
-        chargerTypeChoice(event);
+        chargerBox.setValue("");
         Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
 
         // Send vehicle to database
