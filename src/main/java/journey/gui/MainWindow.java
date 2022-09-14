@@ -60,17 +60,6 @@ public class MainWindow extends Application {
         // set the min height and width so the window opens at the correct size
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(900);
-        primaryStage.setMaximized(true);
-        Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
-
-        primaryStage.setX(bounds.getMinX());
-        primaryStage.setY(bounds.getMinY());
-        primaryStage.setWidth(bounds.getWidth());
-        primaryStage.setHeight(bounds.getHeight());
-
-
-
     }
 
     /**
