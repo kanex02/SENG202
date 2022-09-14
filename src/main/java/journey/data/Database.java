@@ -20,7 +20,6 @@ public final class Database {
 
     /**
      * Connects to the database.
-
      * @return 0 if successful or 1 if an error occurred.
      */
     public static int connect() {
@@ -38,7 +37,6 @@ public final class Database {
 
     /**
      * Disconnects from the database.
-
      * @return 0 if successful or 1 if an error occurred.
      */
     public static int disconnect() {
@@ -163,7 +161,6 @@ public final class Database {
                 """;
 
         try {
-            connect();
             Statement statement = conn.createStatement();
             statement.execute(stationsSql);
             statement.execute(vehiclesSql);
@@ -173,9 +170,7 @@ public final class Database {
             //statement.execute(userVehiclesSql);
             statement.execute(favouriteStationsSql);
             statement.execute(userJourneysSql);
-            disconnect();
         } catch (SQLException e) {
-            disconnect();
             throw new RuntimeException(e);
         }
     }
