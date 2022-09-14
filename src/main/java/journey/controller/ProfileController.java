@@ -14,10 +14,14 @@ import journey.data.QueryResult;
 import journey.data.Station;
 import journey.data.Vehicle;
 
+/**
+ * Controller for the profile popup
+ */
 public class ProfileController {
 
     @FXML private Button closeButton;
     @FXML private Label name;
+    private static Station selectedVehicle = null;
     @FXML private TableColumn<Vehicle, String> registrationCol;
 
     @FXML private TableColumn<Vehicle, String> makeCol;
@@ -29,15 +33,27 @@ public class ProfileController {
     @FXML private TableColumn<Vehicle, String> chargerTypeCol;
 
     @FXML private TableView<Vehicle> vehicleTable;
+
+    /**
+     * closes the scene when the close button is pushed
+     */
     public void closeScene() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Sets the text field to the name of the current user in the profile box
+     * @param stage
+     */
    public void setName(Stage stage) {
         name.setText(Database.getCurrentUser().getName());
     }
 
+    /**
+     *Retrieves the vehicles from the database and puts their information into the table
+     * @param stage
+     */
     public void setVehicles(Stage stage) {
         registrationCol.setCellValueFactory(new PropertyValueFactory<>("Registration"));
         makeCol.setCellValueFactory(new PropertyValueFactory<>("Make"));
@@ -48,6 +64,5 @@ public class ProfileController {
         ObservableList<Vehicle> vehicles = FXCollections.observableArrayList(data.getVehicles());
         vehicleTable.setItems(vehicles);
     }
-
 
 }
