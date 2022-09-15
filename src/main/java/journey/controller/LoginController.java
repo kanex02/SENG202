@@ -2,8 +2,10 @@ package journey.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.stage.Screen;
 import journey.data.User;
 import journey.data.Database;
 import javafx.stage.Stage;
@@ -40,8 +42,16 @@ public class LoginController {
             // set the min height and width so the window opens at the correct size
             stage.setMinHeight(600);
             stage.setMinWidth(900);
-            MainWindow.getStage().close();
+            stage.setMaximized(true);
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
             stage.show();
+            MainWindow.getStage().close();
 
         } catch(IOException e) {
             System.out.println("Exception in loading");
