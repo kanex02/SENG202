@@ -14,10 +14,10 @@ import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 
 import java.io.IOException;
-import journey.controller.MainController;
 import journey.data.Database;
 import journey.data.QueryResult;
 import journey.data.Station;
+import journey.controller.LoginController;
 
 /**
  * Class starts the javaFX application window
@@ -26,6 +26,11 @@ import journey.data.Station;
 public class MainWindow extends Application {
 
 
+    private static Stage stage;
+
+    public static Stage getStage() {
+        return stage;
+    }
 
     /**
      * Opens the gui with the fxml content specified in resources/fxml/main
@@ -34,11 +39,18 @@ public class MainWindow extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
         Parent root = baseLoader.load();
 
-        MainController baseController = baseLoader.getController();
+        LoginController baseController = baseLoader.getController();
         baseController.init(primaryStage);
+        stage = primaryStage;
+//        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+//        Parent root = baseLoader.load();
+//
+//        MainController baseController = baseLoader.getController();
+//        baseController.init(primaryStage);
 
         primaryStage.setTitle("Journey");
         Scene scene = new Scene(root, 600, 400);

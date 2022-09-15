@@ -14,5 +14,4 @@ public class StationManager {
         QueryResult data = MainController.getStations();
         return data.getStations();
     }
-
 }
