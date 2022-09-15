@@ -1,11 +1,9 @@
 package journey.controller;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.exceptions.CsvValidationException;
 import journey.data.Database;
 import journey.data.Station;
 
-import javax.xml.crypto.Data;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
@@ -48,7 +46,7 @@ public class ReadCSV {
 
             Database.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
                     s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(),
-                    s.isHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(),
+                    s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(),
                     s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
         }
 

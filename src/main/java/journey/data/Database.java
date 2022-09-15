@@ -229,7 +229,7 @@ public final class Database {
      * @param carParkCount how many car parks station has
      * @param hasCarparkCost whether station carpark costs to park at
      * @param maxTimeLimit maximum time allowed at station
-     * @param hasTouristAttraction whether there are touris attractions nearby
+     * @param hasTouristAttraction whether there are tourist attractions nearby
      * @param latitude stations latitude
      * @param longitude stations longitude
      * @param currentType stations current type
@@ -240,7 +240,7 @@ public final class Database {
      */
     public static void createStation(int id, String name, String operator, String owner, String address,
                                      Boolean is24Hours, int carParkCount, Boolean hasCarparkCost, int maxTimeLimit,
-                                     Boolean hasTouristAttraction, float latitude, float longitude, String currentType,
+                                     Boolean hasTouristAttraction, double latitude, double longitude, String currentType,
                                      String dateFirstOperational, int numberOfConnectors, String[] connectorsList,
                                      Boolean hasChargingCost) {
         //TODO: add helper function to format string array to string
@@ -259,12 +259,12 @@ public final class Database {
             ps.setBoolean(8, hasCarparkCost);
             ps.setInt(9, maxTimeLimit);
             ps.setBoolean(10, hasTouristAttraction);
-            ps.setFloat(11, latitude);
-            ps.setFloat(12, longitude);
+            ps.setDouble(11, latitude);
+            ps.setDouble(12, longitude);
             ps.setString(13, currentType);
             ps.setString(14, dateFirstOperational);
             ps.setInt(15, numberOfConnectors);
-            ps.setString(16,convertArrayToString(connectorsList, "//"));
+            ps.setString(16, convertArrayToString(connectorsList, "//"));
             ps.setBoolean(17, hasChargingCost);
             ps.execute();
         } catch (SQLException e) {
@@ -304,7 +304,7 @@ public final class Database {
         return result;
     }
 
-    public static QueryResult query(Station searchStation) {
+    public static QueryResult query(QueryStation searchStation) {
         connect();
 
         //query with WHERE that is always true so that further statements can be chained on
@@ -332,6 +332,21 @@ public final class Database {
                     .append(" OR maxTimeLimit = 0) ");
         }
 
+        String currentType = searchStation.getCurrentType();
+        if (!Objects.equals(currentType, "")) {
+            queryString.append("AND (currentType = '").append(currentType)
+                    .append("' OR currentType = 'Mixed') ");
+        }
+
+        Boolean attractions = searchStation.getHasTouristAttraction();
+        if (attractions != null) {
+            if (attractions) {
+                queryString.append("AND hasTouristAttraction ");
+            } else {
+                queryString.append("AND NOT hasTouristAttraction ");
+            }
+        }
+
         ArrayList<Station> res = new ArrayList<>();
         try {
             Statement statement = conn.createStatement();
@@ -340,6 +355,8 @@ public final class Database {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        res.removeIf(station -> searchStation.distanceTo(station) > searchStation.getRange());
         disconnect();
         QueryResult result = new QueryResult();
         result.setStations(res.toArray(Station[]::new));

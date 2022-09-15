@@ -60,13 +60,14 @@ public class TableController {
 
      * @param stage The stage to init.
      */
-    public void init(Stage stage) {
+    public void init(Stage stage, MainController mainController) {
         getData(stage);
         stationTable.maxWidthProperty().bind(tableParent.widthProperty());
         stationTable.maxHeightProperty().bind(tableParent.heightProperty());
 
         stationTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldStation, newStation) -> {
             MainController.setSelectedStation(newStation.getOBJECTID());
+            mainController.setNoteText();
         }));
     }
 }

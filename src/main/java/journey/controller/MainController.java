@@ -45,6 +45,21 @@ public class MainController {
             "DC"
         );
 
+    private static final ObservableList<String> chargerTypeSearchOptions =
+            FXCollections.observableArrayList (
+                    "",
+                    "Mixed",
+                    "AC",
+                    "DC"
+            );
+
+    private static final ObservableList<String> yesNoMaybeSo =
+            FXCollections.observableArrayList (
+                    "",
+                    "Yes",
+                    "No"
+            );
+
     private static final ObservableList<String> sortListOptions =
         FXCollections.observableArrayList (
             "Increasing",
@@ -75,6 +90,11 @@ public class MainController {
     @FXML private TextField nameSearch;
     @FXML private TextField operatorSearch;
     @FXML private TextField timeSearch;
+    @FXML private ChoiceBox<String> chargerBoxSearch;
+    @FXML private ChoiceBox<String> attractionSearch;
+    @FXML private TextField distanceSearch;
+    @FXML private TextField latSearch;
+    @FXML private TextField longSearch;
 
 
     /**
@@ -152,7 +172,7 @@ public class MainController {
             Parent tableViewParent = tableViewLoader.load();
 
             TableController tableViewController = tableViewLoader.getController();
-            tableViewController.init(stage);
+            tableViewController.init(stage, this);
             tablePane.getChildren().add(tableViewParent);
             AnchorPane.setTopAnchor(tableViewParent, 0d);
             AnchorPane.setBottomAnchor(tableViewParent, 0d);
@@ -179,7 +199,7 @@ public class MainController {
         stationDetailTextArea.setText(s);
     }
 
-    private void setNoteText() {
+    public void setNoteText() {
         Station currStation = Database.queryStation(selectedStation);
         if (currStation != null) {
             Note note = Database.getNoteFromStation(currStation); // Retrieve note from database
@@ -221,12 +241,25 @@ public class MainController {
     }
 
     @FXML private void search(Event event) {
-        Station searchStation = new Station();
+        QueryStation searchStation = new QueryStation();
         searchStation.setAddress(addressSearch.getText());
         searchStation.setName(nameSearch.getText());
         searchStation.setOperator(operatorSearch.getText());
+        searchStation.setCurrentType(chargerBoxSearch.getValue());
+        String attractionSearchRes = attractionSearch.getValue();
+        if (attractionSearchRes != null) {
+            boolean hasAttraction = (attractionSearchRes.equals("Yes"));
+            searchStation.setHasTouristAttraction(hasAttraction);
+        }
         if (timeSearch.getText().matches("\\d+")) {
             searchStation.setMaxTime(Integer.parseInt(timeSearch.getText()));
+        }
+        if (latSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
+                & longSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
+                & distanceSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")) {
+            searchStation.setLatitude(Double.parseDouble(latSearch.getText()));
+            searchStation.setLongitude(Double.parseDouble(longSearch.getText()));
+            searchStation.setRange(Double.parseDouble(distanceSearch.getText()));
         }
         currentStations = Database.query(searchStation);
         viewMap();
@@ -255,6 +288,11 @@ public class MainController {
         // Fill the combo boxes
         this.stage = stage;
         chargerBox.setItems(chargerTypeOptions);
+
+        chargerBoxSearch.setItems(chargerTypeSearchOptions);
+        chargerBoxSearch.setValue("");
+
+        attractionSearch.setItems(yesNoMaybeSo);
 
         QueryResult stations = Database.catchEmAll();
         ObservableList<String> stationList = FXCollections.observableArrayList();
