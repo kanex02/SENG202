@@ -2,24 +2,24 @@ package journey.data;
 
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 class DatabaseTest {
 
     //TODO: Write automated SQL tests.
     @Test
-    void connection() {
+    void connecting() {
         assertEquals(Database.connect(), 0);
-        Database.setup();
         assertEquals(Database.disconnect(), 0);
         assertEquals(Database.disconnect(), 1);
-
     }
 
-//    @Test
-//    void updateUser() {
-//        Database.updateUser(1);
-//        assertEquals(Database.getCurrentUser().getName(), "Krane");
-//    }
+    @Test
+    void updateUser() {
+        Database.updateUser("Krane");
+        assertEquals(Database.getCurrentUser().getName(), "Krane");
+    }
 
     @Test
     void convertArrToStr() {

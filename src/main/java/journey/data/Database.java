@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Static utility class to make queries to the database.
@@ -17,20 +19,22 @@ public final class Database {
     private static final String databasePath = "src/main/resources/journey.db";
     private static Connection conn = null;
     private static User currentUser = null;
+    private static final Logger log = LogManager.getLogger();
 
 
     /**
      * Connects to the database.
+
      * @return 0 if successful or 1 if an error occurred.
      */
     public static int connect() {
         try {
             String url = "jdbc:sqlite:".concat(databasePath);
             conn = DriverManager.getConnection(url);
-
+            log.info("Connected to database. ");
             return 0;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            log.error(e);
 
             return 1;
         }
@@ -38,6 +42,7 @@ public final class Database {
 
     /**
      * Disconnects from the database.
+
      * @return 0 if successful or 1 if an error occurred.
      */
     public static int disconnect() {
@@ -45,15 +50,15 @@ public final class Database {
             if (conn != null) {
                 conn.close();
                 conn = null;
-
+                log.info("Disconnected from database. ");
                 return 0;
             } else {
-                System.out.println("No connection");
+                log.error("disconnect() called without connection");
 
                 return 1;
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            log.warn(e);
 
             return 1;
         }
@@ -74,10 +79,13 @@ public final class Database {
             PreparedStatement statement = conn.prepareStatement(userQuery);
             statement.setString(1, name);
             ResultSet res = statement.executeQuery();
-            user.setId(res.getInt(1));
+            if (res.next()) {
+                user.setId(res.getInt(1));
+            }
+            log.info("Updated user. ");
             disconnect();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.error(e);
         }
         currentUser = user;
     }
@@ -140,12 +148,6 @@ public final class Database {
                     note TEXT
                 );
                 """;
-//        String userVehiclesSql = """
-//                CREATE TABLE IF NOT EXISTS UserVehicles (
-//                    user_ID INTEGER NOT NULL REFERENCES Users(ID),
-//                    vehicle_ID INTEGER NOT NULL REFERENCES Vehicles(ID)
-//                );
-//                """;
         String favouriteStationsSql = """
                 CREATE TABLE IF NOT EXISTS FavouriteStations (
                     user_ID INTEGER NOT NULL REFERENCES Users(ID),
@@ -168,11 +170,11 @@ public final class Database {
             statement.execute(usersSql);
             statement.execute(journeysSql);
             statement.execute(notesSql);
-            //statement.execute(userVehiclesSql);
             statement.execute(favouriteStationsSql);
             statement.execute(userJourneysSql);
+            log.info("Database setup.");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.error(e);
         }
     }
 
