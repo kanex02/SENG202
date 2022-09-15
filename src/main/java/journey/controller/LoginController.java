@@ -47,10 +47,6 @@ public class LoginController {
             System.out.println("Exception in loading");
             e.printStackTrace();
         }
-
-
-
-
         actionEvent.consume();
     }
     @FXML private String getNameTextBox() {
