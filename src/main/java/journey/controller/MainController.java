@@ -224,6 +224,7 @@ public class MainController {
             // Set the note on the database
             Database.setNote(newNote);
         }
+        setNoteText();
         event.consume();
     }
 
