@@ -157,7 +157,7 @@ public final class Database {
                 CREATE TABLE IF NOT EXISTS UserJourneys (
                     journey_ID INTEGER IDENTITY(1,1) PRIMARY KEY,
                     user_ID INTEGER NOT NULL REFERENCES Users(ID),
-                    vehicle_ID INTEGER NOT NULL REFERENCES Vehicles(ID), 
+                    vehicle_ID TEXT NOT NULL REFERENCES Vehicles(ID), 
                     start TEXT,
                     end TEXT
                 )
@@ -432,7 +432,7 @@ public final class Database {
             String insertQuery = "INSERT INTO userJourneys VALUES (?,?,?,?,?)";
             PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
             insertStatement.setInt(2, currentUser.getId()); // UserID set to 1 as no users exist yet.
-            insertStatement.setInt(3, journey.getVehicleID());
+            insertStatement.setString(3, journey.getVehicleID());
             insertStatement.setString(5, journey.getStart());
             insertStatement.setString(5, journey.getEnd());
             insertStatement.execute();
@@ -544,7 +544,7 @@ public final class Database {
             ps.setInt(1, currentUser.getId());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                res.add(new Journey(rs.getString("start"), rs.getString("end"), rs.getInt("vehicle_ID"),
+                res.add(new Journey(rs.getString("start"), rs.getString("end"), rs.getString("vehicle_ID"),
                         rs.getInt("journey_ID")));
             }
         } catch (SQLException e) {

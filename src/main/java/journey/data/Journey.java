@@ -24,11 +24,11 @@ public class Journey {
         this.start = start;
     }
 
-    public int getVehicleID() {
+    public String getVehicleID() {
         return vehicleID;
     }
 
-    public void setVehicleID(int vehicleID) {
+    public void setVehicleID(String vehicleID) {
         this.vehicleID = vehicleID;
     }
 
@@ -41,10 +41,10 @@ public class Journey {
     }
 
     private String end;
-    private int vehicleID;
+    private String vehicleID;
     private int journeyID;
 
-    public Journey(String start, String end, int vehicleID, int journeyID) {
+    public Journey(String start, String end, String vehicleID, int journeyID) {
         this.start = start;
         this.end = end;
         this.vehicleID = vehicleID;

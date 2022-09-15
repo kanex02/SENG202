@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import journey.data.Database;
@@ -68,6 +69,8 @@ public class MainController {
     @FXML private TextArea chargingStationTextArea;
     @FXML private TextArea stationDetailTextArea;
     @FXML private ComboBox<String> stationDropDown;
+    @FXML private ComboBox<String> selectVehicleComboBox;
+    private String vehicleChoice;
     @FXML private ListView<String> visitedStationsList;
     @FXML private TextField startTextBox;
     @FXML private TextField endTextBox;
@@ -184,16 +187,16 @@ public class MainController {
 
     private void viewPrevJourneysTable() {
         try {
-            FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/previousJourneys.fxml"));
-            Parent tableViewParent = tableViewLoader.load();
+            FXMLLoader prevJourneysViewLoader = new FXMLLoader(getClass().getResource("/fxml/previousJourneys.fxml"));
+            Parent prevJourneysViewParent = prevJourneysViewLoader.load();
 
-            TableController tableViewController = tableViewLoader.getController();
-            tableViewController.init(stage);
-            prevJourneysPane.getChildren().add(tableViewParent);
-            AnchorPane.setTopAnchor(tableViewParent, 0d);
-            AnchorPane.setBottomAnchor(tableViewParent, 0d);
-            AnchorPane.setLeftAnchor(tableViewParent, 0d);
-            AnchorPane.setRightAnchor(tableViewParent, 0d);
+            PreviousJourneyController prevJourneyViewController = prevJourneysViewLoader.getController();
+            prevJourneyViewController.init(stage);
+            prevJourneysPane.getChildren().add(prevJourneysViewParent);
+            AnchorPane.setTopAnchor(prevJourneysViewParent, 0d);
+            AnchorPane.setBottomAnchor(prevJourneysViewParent, 0d);
+            AnchorPane.setLeftAnchor(prevJourneysViewParent, 0d);
+            AnchorPane.setRightAnchor(prevJourneysViewParent, 0d);
             prevJourneysPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
         } catch (IOException e) {
@@ -259,12 +262,26 @@ public class MainController {
         event.consume();
     }
 
+    @FXML private void selectVehicleComboBox(Event event) {
+        vehicleChoice = selectVehicleComboBox.getValue();
+        event.consume();
+    }
+
     @FXML private void addJourney(Event event) {
         if(startTextBox.getText() != "" && endTextBox.getText() != "") {
-            System.out.println("Start: " + startTextBox.getText() + ", End: " + endTextBox.getText());
+            String end = endTextBox.getText();
+            String start = startTextBox.getText();
+            int userID = Database.getCurrentUser().getId();
+            selectVehicleComboBox(event);
+            String[] vehicle = vehicleChoice.split(": ");
+
+            Journey journey = new Journey(start, end , vehicle[0], userID);
             for(String station : visitedStationsList.getItems()) {
                 System.out.println(station);
             }
+
+            Database.addJourney(journey);
+            event.consume();
         }
     }
 
@@ -312,9 +329,19 @@ public class MainController {
             stationList.add(newString);
         }
 
+
+        QueryResult data = Database.getVehicles();
+        ObservableList<String> vehicles = FXCollections.observableArrayList();
+        for (Vehicle vehicle : data.getVehicles()) {
+            String newString = vehicle.getStringRepresentation();
+            vehicles.add(newString);
+        }
+
         stationDropDown.setItems(stationList);
+        selectVehicleComboBox.setItems(vehicles);
         viewMap();
         viewTable();
+        viewPrevJourneysTable();
     }
 
     /**
