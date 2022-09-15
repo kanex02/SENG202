@@ -426,6 +426,22 @@ public final class Database {
         disconnect();
     }
 
+    public static void addJourney(Journey journey) {
+        connect();
+        try {
+            String insertQuery = "INSERT INTO userJourneys VALUES (?,?,?,?,?)";
+            PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
+            insertStatement.setInt(2, currentUser.getId()); // UserID set to 1 as no users exist yet.
+            insertStatement.setInt(3, journey.getVehicleID());
+            insertStatement.setString(5, journey.getStart());
+            insertStatement.setString(5, journey.getEnd());
+            insertStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        disconnect();
+    }
+
     public static Note getNoteFromStation(Station station) {
         connect();
 
@@ -497,7 +513,7 @@ public final class Database {
 
     public static QueryResult getVehicles() {
         connect();
-        ArrayList<Vehicle> res = new ArrayList<Vehicle>();
+        ArrayList<Vehicle> res = new ArrayList<>();
         try {
             String sqlQuery = "SELECT * FROM Vehicles WHERE User_ID = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
@@ -516,6 +532,67 @@ public final class Database {
         result.setVehicles(res.toArray(Vehicle[]::new));
         return result;
     }
+
+
+
+    public static QueryResult getJourneys() {
+        connect();
+        ArrayList<Journey> res = new ArrayList<>();
+        try {
+            String sqlQuery = "SELECT * FROM UserJourneys WHERE User_ID = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, currentUser.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                res.add(new Journey(rs.getString("start"), rs.getString("end"), rs.getInt("vehicle_ID"),
+                        rs.getInt("journey_ID")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        disconnect();
+        QueryResult result = new QueryResult();
+        result.setJourney(res.toArray(Journey[]::new));
+        return result;
+    }
+
+
+
+
+
+//    public static QueryResult getJourneyStations(int journeyID) {
+//        connect();
+//        ArrayList<Station> res = new ArrayList<>();
+//        try {
+//            String sqlQuery = "SELECT stations.*, journeyChargers.Journey_ID, journeyChargers.Station_ID " +
+//                    "FROM journeyChargers INNER JOIN stations ON (stations.ID = journeyChargers.Station_ID " +
+//                    "AND journeyChargers.Journey_ID = ?)";
+//            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+//            ps.setInt(1, journeyID);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                res.add(new Station(rs.getInt("ID"),
+//                        rs.getString("name"), rs.getString("operator"),
+//                        rs.getString("owner"), rs.getString("address"),
+//                        rs.getBoolean("is24Hours"), rs.getInt("carParkCount"),
+//                        rs.getBoolean("hasCarParkCost"), rs.getInt("maxTimeLimit"),
+//                        rs.getBoolean("hasTouristAttraction"), rs.getFloat("latitude"),
+//                        rs.getFloat("longitude"), rs.getString("currentType"), rs.getString("dateFirstOperational"),
+//                        rs.getInt("numberOfConnectors"), (rs.getString("connectorsList")).split(":"),
+//                        rs.getBoolean("hasChargingCost")));
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        disconnect();
+//        QueryResult result = new QueryResult();
+//        result.setJourney(res.toArray(Journey[]::new));
+//        return result;
+//    }
+
+
+    // queryStation
+
 
     public static void main(String[] args) {
         setup();

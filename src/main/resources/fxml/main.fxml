@@ -127,7 +127,7 @@
                      </Tab>
                      <Tab closable="false" text="Previous Journeys">
                         <content>
-                           <Pane />
+                           <AnchorPane fx:id="prevJourneysPane" prefHeight="635.0" />
                         </content>
                      </Tab>
                   </tabs>

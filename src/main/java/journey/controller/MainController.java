@@ -76,6 +76,7 @@ public class MainController {
     @FXML private BorderPane mapPane;
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
+    @FXML private AnchorPane prevJourneysPane;
     @FXML private TextField addressSearch;
     @FXML private TextField nameSearch;
     @FXML private TextField operatorSearch;
@@ -175,6 +176,25 @@ public class MainController {
             AnchorPane.setLeftAnchor(tableViewParent, 0d);
             AnchorPane.setRightAnchor(tableViewParent, 0d);
             tablePane.prefWidthProperty().bind(mainTabs.widthProperty());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void viewPrevJourneysTable() {
+        try {
+            FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/previousJourneys.fxml"));
+            Parent tableViewParent = tableViewLoader.load();
+
+            TableController tableViewController = tableViewLoader.getController();
+            tableViewController.init(stage);
+            prevJourneysPane.getChildren().add(tableViewParent);
+            AnchorPane.setTopAnchor(tableViewParent, 0d);
+            AnchorPane.setBottomAnchor(tableViewParent, 0d);
+            AnchorPane.setLeftAnchor(tableViewParent, 0d);
+            AnchorPane.setRightAnchor(tableViewParent, 0d);
+            prevJourneysPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
         } catch (IOException e) {
             e.printStackTrace();
