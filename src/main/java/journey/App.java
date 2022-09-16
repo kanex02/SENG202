@@ -1,12 +1,9 @@
 package journey;
 
-import journey.controller.ReadCSV;
-import journey.data.Database;
+import java.io.FileNotFoundException;
 import journey.gui.MainWindow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.FileNotFoundException;
 
 /**
  * Default entry point class.
