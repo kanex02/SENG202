@@ -1,22 +1,15 @@
 package journey.gui;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListCell;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.scene.control.ListView;
 
 import java.io.IOException;
-import journey.data.Database;
-import journey.data.QueryResult;
-import journey.data.Station;
+
 import journey.controller.LoginController;
 
 /**

@@ -1,7 +1,7 @@
 package journey.controller;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import journey.data.Database;
+import journey.data.DatabaseManager;
 import journey.data.Station;
 
 import java.io.FileNotFoundException;
@@ -44,7 +44,9 @@ public class ReadCSV {
             s.setMaxTime(time);
             s.setConnectors(connectorsList);
 
-            Database.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
+            DatabaseManager databaseManager = DatabaseManager.getInstance();
+
+            databaseManager.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
                     s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(),
                     s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(),
                     s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
@@ -53,9 +55,8 @@ public class ReadCSV {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        Database.connect();
-        Database.setup();
-        Database.disconnect();
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        databaseManager.setup();
         readStations();
     }
 }

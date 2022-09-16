@@ -1,7 +1,6 @@
 package journey.business;
 
 import journey.controller.MainController;
-import journey.data.Database;
 import journey.data.QueryResult;
 import journey.data.Station;
 

@@ -29,7 +29,7 @@ public class MapController {
      * @param stage map stage
      */
     void init(Stage stage) {
-        // Database db = new Database();
+        // DatabaseManager db = new DatabaseManager();
         stationManager = new StationManager();
         initMap();
     }

@@ -6,12 +6,10 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
-import journey.data.User;
-import journey.data.Database;
+import journey.data.DatabaseManager;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import journey.gui.MainWindow;
 
 import java.io.IOException;
@@ -22,7 +20,8 @@ public class LoginController {
 
     @FXML private void registerUser(ActionEvent actionEvent) {
         String name = getNameTextBox();
-        Database.setCurrentUser(name);
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        databaseManager.setCurrentUser(name);
         //something to switch stages
 
         System.out.println("Updated User");

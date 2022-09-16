@@ -9,7 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import journey.data.Database;
+import journey.data.DatabaseManager;
 import journey.data.QueryResult;
 import journey.data.Station;
 import journey.data.Vehicle;
@@ -47,7 +47,8 @@ public class ProfileController {
      * @param stage
      */
    public void setName(Stage stage) {
-        name.setText(Database.getCurrentUser().getName());
+       DatabaseManager databaseManager = DatabaseManager.getInstance();
+       name.setText(databaseManager.getCurrentUser().getName());
     }
 
     /**
@@ -60,7 +61,8 @@ public class ProfileController {
         modelCol.setCellValueFactory(new PropertyValueFactory<>("Model"));
         yearCol.setCellValueFactory(new PropertyValueFactory<>("Year"));
         chargerTypeCol.setCellValueFactory(new PropertyValueFactory<>("ChargerType"));
-        QueryResult data = Database.getVehicles();
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        QueryResult data = databaseManager.getVehicles();
         ObservableList<Vehicle> vehicles = FXCollections.observableArrayList(data.getVehicles());
         vehicleTable.setItems(vehicles);
     }

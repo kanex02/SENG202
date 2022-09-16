@@ -1,25 +1,40 @@
 package journey.data;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Objects;
+
+import static journey.data.Utils.convertArrayToString;
 
 /**
  * Static utility class to make queries to the database.
  * TODO: Exception handler for fatal exceptions
  */
-public final class Database {
-    private static final String databasePath = "src/main/resources/journey.db";
-    private static Connection conn = null;
-    private static User currentUser = null;
+public final class DatabaseManager {
+    private final String databasePath;
+    private User currentUser = null;
     private static final Logger log = LogManager.getLogger();
+    private static DatabaseManager instance = null;
+
+    /**
+     * Constructs a new database manager.
+     */
+    private DatabaseManager() {
+        this.databasePath = "src/main/resources/journey.db";
+    }
+
+    /**
+     * Constructs a new database manager from a specified url.
+     * @param url the desired path to database.
+     */
+    private DatabaseManager(String url) {
+        this.databasePath = url;
+    }
 
 
     /**
@@ -27,55 +42,42 @@ public final class Database {
 
      * @return 0 if successful or 1 if an error occurred.
      */
-    public static int connect() {
+    public Connection connect() {
+        Connection conn = null;
         try {
             String url = "jdbc:sqlite:".concat(databasePath);
             conn = DriverManager.getConnection(url);
-            log.info("Connected to database. ");
-            return 0;
+            log.info("Connected to database.");
         } catch (SQLException e) {
-            log.error(e);
-
-            return 1;
+            log.fatal(e);
         }
+        return conn;
     }
 
     /**
-     * Disconnects from the database.
-
-     * @return 0 if successful or 1 if an error occurred.
+     * Singleton method to get current Instance if exists otherwise create it
+     * @return the single instance DatabaseSingleton
      */
-    public static int disconnect() {
-        try {
-            if (conn != null) {
-                conn.close();
-                conn = null;
-                log.info("Disconnected from database. ");
-                return 0;
-            } else {
-                log.error("disconnect() called without connection");
-
-                return 1;
-            }
-        } catch (SQLException e) {
-            log.warn(e);
-
-            return 1;
+    public static DatabaseManager getInstance() {
+        if(instance == null) {
+            instance = new DatabaseManager();
         }
+
+        return instance;
     }
 
     /**
      * Updates the current user to one specified.
      * @param name name of the user to update to.
      */
-    public static void updateUser(String name) {
+    public void updateUser(String name) {
         User user = new User(name);
         String userQuery = """
                 SELECT * FROM Users WHERE name = ?
                 """;
-
+        Connection conn = null;
         try {
-            connect();
+            conn = connect();
             PreparedStatement statement = conn.prepareStatement(userQuery);
             statement.setString(1, name);
             ResultSet res = statement.executeQuery();
@@ -83,9 +85,10 @@ public final class Database {
                 user.setId(res.getInt(1));
             }
             log.info("Updated user. ");
-            disconnect();
         } catch (SQLException e) {
             log.error(e);
+        } finally {
+            Utils.closeConn(conn);
         }
         currentUser = user;
     }
@@ -93,102 +96,36 @@ public final class Database {
     /**
      * Sets up the database if not yet set up.
      */
-    public static void setup() {
+    public void setup() {
 
         // Create a new table. TODO: Change hasTouristAttraction into list of attractions
         // Note: Order of stations in a journey is done by a 'order' column.
-        String stationsSql = """
-                CREATE TABLE IF NOT EXISTS Stations (
-                    ID INTEGER PRIMARY KEY,
-                    name TEXT NOT NULL,
-                    operator TEXT,
-                    owner TEXT,
-                    address TEXT,
-                    is24Hours BOOLEAN,
-                    carParkCount INTEGER,
-                    hasCarparkCost BOOLEAN,
-                    maxTimeLimit INTEGER,
-                    hasTouristAttraction BOOLEAN,
-                    latitude FLOAT NOT NULL,
-                    longitude FLOAT NOT NULL,
-                    currentType TEXT NOT NULL,
-                    dateFirstOperational TEXT,
-                    numberOfConnectors INTEGER,
-                    connectorsList TEXT NOT NULL,
-                    hasChargingCost BOOLEAN
-                );
-                """;
-        String vehiclesSql = """
-                CREATE TABLE IF NOT EXISTS Vehicles (
-                    registration TEXT PRIMARY KEY,
-                    user_ID INTEGER NOT NULL REFERENCES Users(ID),
-                    year INTEGER,
-                    make TEXT,
-                    model TEXT,
-                    chargerType TEXT
-                );
-                """;
-        String usersSql = """
-                CREATE TABLE IF NOT EXISTS Users (
-                    ID INTEGER IDENTITY(1, 1) PRIMARY KEY,
-                    name TEXT
-                );
-                """;
-        String journeysSql = """
-                CREATE TABLE IF NOT EXISTS Journeys (
-                    ID INTEGER PRIMARY KEY,
-                    distance INTEGER
-                );
-                """;
-        String notesSql = """
-                CREATE TABLE IF NOT EXISTS Notes (
-                    ID INTEGER IDENTITY(1,1) PRIMARY KEY,
-                    user_ID INTEGER NOT NULL REFERENCES Users(ID),
-                    station_ID INTEGER NOT NULL REFERENCES Stations(ID),
-                    note TEXT
-                );
-                """;
-        String favouriteStationsSql = """
-                CREATE TABLE IF NOT EXISTS FavouriteStations (
-                    user_ID INTEGER NOT NULL REFERENCES Users(ID),
-                    station_ID INTEGER NOT NULL REFERENCES Stations(ID)
-                );
-                """;
-        String userJourneysSql = """
-                CREATE TABLE IF NOT EXISTS UserJourneys (
-                    user_ID INTEGER NOT NULL REFERENCES Users(ID),
-                    journey_ID INTEGER NOT NULL REFERENCES Journeys(ID),
-                    station_ID INTEGER NOT NULL REFERENCES Stations(ID),
-                    journeyOrder INTEGER NOT NULL
-                )
-                """;
-
+        Connection conn = null;
         try {
-            Statement statement = conn.createStatement();
-            statement.execute(stationsSql);
-            statement.execute(vehiclesSql);
-            statement.execute(usersSql);
-            statement.execute(journeysSql);
-            statement.execute(notesSql);
-            statement.execute(favouriteStationsSql);
-            statement.execute(userJourneysSql);
-            log.info("Database setup.");
-        } catch (SQLException e) {
+            String setupSQL = Files.readString(Path.of("/sql/init_db"));
+            conn = connect();
+            PreparedStatement statement = conn.prepareStatement(setupSQL);
+            statement.execute();
+            log.info("DatabaseManager setup.");
+        } catch (Exception e) {
             log.error(e);
+        } finally {
+            Utils.closeConn(conn);
         }
     }
 
-    public static User getCurrentUser() {
+    public User getCurrentUser() {
         return currentUser;
     }
 
 
 
     // TODO: Handle non-unique users.
-    public static void setCurrentUser(String username) {
-        // Update the currentUser variable and User database if neccessary
+    public void setCurrentUser(String username) {
+        // Update the currentUser variable and User database if necessary
+        Connection conn = null;
         try {
-            connect();
+            conn = connect();
             String userQuery = "SELECT * FROM Users WHERE name = ?";
 
             PreparedStatement findNoteStatement = conn.prepareStatement(userQuery);
@@ -206,28 +143,21 @@ public final class Database {
                 insertStatement.execute();
 
             }
-            disconnect();
             updateUser(username);
             System.out.println("User updated");
 
         } catch(SQLException e) {
             e.printStackTrace();
-            disconnect();
+        } finally {
+            Utils.closeConn(conn);
         }
     }
 
-    public static String convertArrayToString(String[] arr, String delimiter) {
-        StringBuilder newString = new StringBuilder();
-        for (Object ob : arr) {
-            newString.append(ob.toString()).append(delimiter);
-        }
-        return newString.toString();
-    }
-
-    public static Station queryStation(int id) {
-        connect();
+    public Station queryStation(int id) {
+        Connection conn = null;
         try {
             String sqlQuery = "SELECT * FROM Stations WHERE ID = ?";
+            conn = connect();
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
@@ -241,11 +171,12 @@ public final class Database {
                 resultSet.getFloat("longitude"), resultSet.getString("currentType"), resultSet.getString("dateFirstOperational"),
                 resultSet.getInt("numberOfConnectors"), (resultSet.getString("connectorsList")).split(":"),
                 resultSet.getBoolean("hasChargingCost"));
-            disconnect();
             return station;
-        } catch (SQLException ex) {
-            disconnect();
-            throw new RuntimeException(ex);
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
+            return null;
         }
     }
     /**
@@ -268,17 +199,18 @@ public final class Database {
      * @param connectorsList list of connectors
      * @param hasChargingCost cost of charging
      */
-    public static void createStation(int id, String name, String operator, String owner, String address,
+    public void createStation(int id, String name, String operator, String owner, String address,
                                      Boolean is24Hours, int carParkCount, Boolean hasCarparkCost, int maxTimeLimit,
                                      Boolean hasTouristAttraction, double latitude, double longitude, String currentType,
                                      String dateFirstOperational, int numberOfConnectors, String[] connectorsList,
                                      Boolean hasChargingCost) {
         //TODO: add helper function to format string array to string
         //Creates new station in database. TODO: handle connectorsList properly
-        connect();
+        Connection conn = null;
         try {
+            conn = connect();
             String sqlQuery = "INSERT INTO Stations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement ps  = conn.prepareStatement(sqlQuery);
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, id);
             ps.setString(2, name);
             ps.setString(3, operator);
@@ -298,44 +230,31 @@ public final class Database {
             ps.setBoolean(17, hasChargingCost);
             ps.execute();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        disconnect();
-    }
-    public static void deleteStation(int id) {}
-
-    private static void insertRsIntoArray(ResultSet rs, ArrayList<Station> res) throws SQLException {
-        while (rs.next()) {
-            res.add(new Station(rs.getInt("ID"),
-                    rs.getString("name"), rs.getString("operator"),
-                    rs.getString("owner"), rs.getString("address"),
-                    rs.getBoolean("is24Hours"), rs.getInt("carParkCount"),
-                    rs.getBoolean("hasCarParkCost"), rs.getInt("maxTimeLimit"),
-                    rs.getBoolean("hasTouristAttraction"), rs.getFloat("latitude"),
-                    rs.getFloat("longitude"), rs.getString("currentType"), rs.getString("dateFirstOperational"),
-                    rs.getInt("numberOfConnectors"), (rs.getString("connectorsList")).split(":"),
-                    rs.getBoolean("hasChargingCost")));
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
         }
     }
 
-    public static QueryResult catchEmAll() {
-        connect();
+    public QueryResult catchEmAll() {
+        Connection conn = null;
         ArrayList<Station> res = new ArrayList<>();
         try {
+            conn = connect();
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM Stations");
-            insertRsIntoArray(rs, res);
+            Utils.insertRsIntoArray(rs, res);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.error(e);
         }
-        disconnect();
+        Utils.closeConn(conn);
         QueryResult result = new QueryResult();
         result.setStations(res.toArray(Station[]::new));
         return result;
     }
 
-    public static QueryResult query(QueryStation searchStation) {
-        connect();
+    public QueryResult query(QueryStation searchStation) {
+
 
         //query with WHERE that is always true so that further statements can be chained on
         StringBuilder queryString = new StringBuilder("SELECT * FROM Stations WHERE id LIKE'%' ");
@@ -378,16 +297,18 @@ public final class Database {
         }
 
         ArrayList<Station> res = new ArrayList<>();
+        Connection conn = null;
         try {
+            conn = connect();
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(queryString.toString());
-            insertRsIntoArray(rs, res);
+            Utils.insertRsIntoArray(rs, res);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         res.removeIf(station -> searchStation.distanceTo(station) > searchStation.getRange());
-        disconnect();
+        Utils.closeConn(conn);
         QueryResult result = new QueryResult();
         result.setStations(res.toArray(Station[]::new));
         return result;
@@ -401,8 +322,8 @@ public final class Database {
      * @param note The note to send to the database
      */
 
-    public static void setNote(Note note) {
-        connect();
+    public void setNote(Note note) {
+        Connection conn = null;
         // Currently user is just set to ID of 1
         String noteString = note.getNote();
         Station currStation = note.getStation();
@@ -410,6 +331,7 @@ public final class Database {
         final int userID = 1; // TODO: Get the current user from database instead of hardcoding.
 
         try {
+            conn = connect();
             // Query database to see if a note exists
             String findNoteQuery = "SELECT * FROM Notes WHERE station_id = ? AND user_id = ?";
             PreparedStatement findNoteStatement = conn.prepareStatement(findNoteQuery);
@@ -438,47 +360,44 @@ public final class Database {
                 updateStatement.execute();
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
         }
-        disconnect();
     }
 
-    public static Note getNoteFromStation(Station station) {
-        connect();
+    public Note getNoteFromStation(Station station) {
+        Connection conn = null;
 
         int stationID = station.getOBJECTID();
         final int userID = 1; // TODO: change to the user ID from the database, should be passed as a param
-
         try {
+            conn = connect();
             String sqlQuery = "SELECT * FROM Notes WHERE station_ID = ? AND user_ID = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, stationID);
             ps.setInt(2, userID); // Hardcoded user ID
-
             ResultSet resultSet = ps.executeQuery();
-
             // If there is no item in result set we disconnect first and return an empty note
             if(!resultSet.isBeforeFirst()) {
-                disconnect();
                 return new Note(null, null);
             }
-
             String stationNote = resultSet.getString(4); // Get the note from the result set
             Note newNote = new Note(station, stationNote);
-
-            disconnect();
             return newNote;
 
-        }  catch (SQLException ex) {
-            disconnect();
-            throw new RuntimeException(ex);
+        }  catch (SQLException e) {
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
+            return null;
         }
     }
 
-    public static void setVehicle(Vehicle v) {
+    public void setVehicle(Vehicle v) {
+        Connection conn = null;
         try {
-            connect();
-
+            conn = connect();
             String sqlQuery = "SELECT * FROM Vehicles WHERE user_ID = ? AND Registration = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, currentUser.getId());
@@ -505,15 +424,17 @@ public final class Database {
             } else { // TODO: Handle error if vehicle already exists
                 System.out.println("bad error");
             }
-            disconnect();
+            
         } catch(SQLException e) {
-            disconnect();
+            
             e.printStackTrace();
+        } finally {
+            Utils.closeConn(conn);
         }
     }
 
-    public static QueryResult getVehicles() {
-        connect();
+    public QueryResult getVehicles() {
+        Connection conn = null;
         ArrayList<Vehicle> res = new ArrayList<Vehicle>();
         try {
             String sqlQuery = "SELECT * FROM Vehicles WHERE User_ID = ?";
@@ -527,14 +448,17 @@ public final class Database {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            Utils.closeConn(conn);
+            QueryResult result = new QueryResult();
+            result.setVehicles(res.toArray(Vehicle[]::new));
+            return result;
         }
-        disconnect();
-        QueryResult result = new QueryResult();
-        result.setVehicles(res.toArray(Vehicle[]::new));
-        return result;
+
+
     }
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
         setup();
         QueryResult queryResult = catchEmAll();
         Station[] stuff = queryResult.getStations();
