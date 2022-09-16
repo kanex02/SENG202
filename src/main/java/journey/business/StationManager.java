@@ -13,4 +13,13 @@ public class StationManager {
         QueryResult data = MainController.getStations();
         return data.getStations();
     }
+
+    /**
+     *  Gets a single station in the database
+     * @param id identifier of a station in the database
+     * @return a singular station
+     */
+    public Station getStationById(int id) {
+        return Database.queryStation(id);
+    }
 }

@@ -172,7 +172,7 @@ public class MainController {
             Parent mapViewParent = mapViewLoader.load();
 
             MapController mapViewController = mapViewLoader.getController();
-            mapViewController.init(stage);
+            mapViewController.init(stage, this);
             mapPane.setCenter(mapViewParent);
             mapPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
@@ -300,6 +300,7 @@ public class MainController {
 
     public static void setSelectedStation(int selectedStation) {
         MainController.selectedStation = selectedStation;
+
     }
 
     public static QueryResult getStations() {

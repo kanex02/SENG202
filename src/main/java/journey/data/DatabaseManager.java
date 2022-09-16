@@ -307,7 +307,7 @@ public final class DatabaseManager {
             throw new RuntimeException(e);
         }
 
-        res.removeIf(station -> searchStation.distanceTo(station) > searchStation.getRange());
+        res.removeIf(station -> searchStation.getRange() != 0 && searchStation.distanceTo(station) > searchStation.getRange());
         Utils.closeConn(conn);
         QueryResult result = new QueryResult();
         result.setStations(res.toArray(Station[]::new));

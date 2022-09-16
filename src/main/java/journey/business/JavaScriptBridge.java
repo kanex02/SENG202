@@ -1,5 +1,6 @@
 package journey.business;
 
+import journey.controller.MapController;
 import journey.data.Station;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,11 +22,9 @@ public class JavaScriptBridge {
 
     /**
      * Creates a javascript bridge object with a 'callback' lambda function for displaying the station on the map after creation
-     * @param addStationLambda add station lambda function to add station to js map
      * @param getStationLambda indicate a station to get from database by id, return true if its found and used
      */
-    public JavaScriptBridge(AddStationInterface addStationLambda, GetStationInterface getStationLambda) {
-//        addStationInterface = addStationLambda;
+    public JavaScriptBridge(GetStationInterface getStationLambda) {
         getStationInterface = getStationLambda;
     }
 
@@ -38,8 +37,10 @@ public class JavaScriptBridge {
         getStationInterface = (int i) -> false;
     }
 
+
     /**
-     * Takes the id of a station and passes this to the getStationInterface implementation
+     * Takes the id of a sale and passes this to the getSaleInterface implementation
+     * Currently this takes the ID and adds it to a list within the {@link MapController}
      * @param id id of station
      * @return true if the underlying operation succeeded
      */
