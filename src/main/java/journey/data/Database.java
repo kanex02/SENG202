@@ -386,7 +386,7 @@ public final class Database {
             throw new RuntimeException(e);
         }
 
-        res.removeIf(station -> searchStation.distanceTo(station) > searchStation.getRange());
+        res.removeIf(station -> searchStation.getRange() != 0 && searchStation.distanceTo(station) > searchStation.getRange());
         disconnect();
         QueryResult result = new QueryResult();
         result.setStations(res.toArray(Station[]::new));

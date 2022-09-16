@@ -59,7 +59,7 @@
      * @param lat latitude to place marker at
      * @param lng longitude to place marker at
      */
-    function addMarker(title, lat, lng) {
+    function addMarker(id, title, lat, lng) {
         let m = new L.Marker([lat, lng])
         m.bindPopup(title).openPopup()
         // Add marker to map, and specify our own on click function which passes the id of the sale back to java,
