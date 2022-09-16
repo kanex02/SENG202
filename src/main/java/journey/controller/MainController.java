@@ -304,6 +304,7 @@ public class MainController {
 
     public static void setSelectedStation(int selectedStation) {
         MainController.selectedStation = selectedStation;
+
     }
 
     public static QueryResult getStations() {
