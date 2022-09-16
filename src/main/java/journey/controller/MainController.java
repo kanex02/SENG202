@@ -28,6 +28,10 @@ public class MainController {
 
     private static final Logger log = LogManager.getLogger();
 
+    private StationDAO stationDAO;
+    private NoteDAO noteDAO;
+    private VehicleDAO vehicleDAO;
+
     private Stage stage;
 
     private static int selectedStation = -1;
@@ -160,7 +164,7 @@ public class MainController {
 
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         // Send vehicle to database
-        databaseManager.setVehicle(newVehicle);
+        vehicleDAO.setVehicle(newVehicle);
         event.consume();
     }
     /**
@@ -172,7 +176,7 @@ public class MainController {
             Parent mapViewParent = mapViewLoader.load();
 
             MapController mapViewController = mapViewLoader.getController();
-            mapViewController.init(stage);
+            mapViewController.init(stage, this);
             mapPane.setCenter(mapViewParent);
             mapPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
@@ -226,22 +230,23 @@ public class MainController {
     }
 
     public void setNoteText() {
-            DatabaseManager databaseManager = DatabaseManager.getInstance();
-            Station currStation = databaseManager.queryStation(selectedStation);
-            Note note = databaseManager.getNoteFromStation(currStation); // Retrieve note from database
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        Station currStation = stationDAO.queryStation(selectedStation);
+        if (currStation != null) {
+            Note note = noteDAO.getNoteFromStation(currStation); // Retrieve note from database
             setChargerNoteText(note.getNote());
         }
+    }
 
 
     @FXML private void submitNotes(Event event) {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        Station currStation = databaseManager.queryStation(selectedStation);
+        Station currStation = stationDAO.queryStation(selectedStation);
         String stationNote = getChargerNoteText();
 
         if (currStation != null) {
             Note newNote = new Note(currStation, stationNote);
             // Set the note on the database
-            databaseManager.setNote(newNote);
+            noteDAO.setNote(newNote);
         }
         setNoteText();
         event.consume();
@@ -288,8 +293,7 @@ public class MainController {
             searchStation.setLongitude(Double.parseDouble(longSearch.getText()));
             searchStation.setRange(Double.parseDouble(distanceSearch.getText()));
         }
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        currentStations = databaseManager.query(searchStation);
+        currentStations = stationDAO.query(searchStation);
         viewMap();
         viewTable();
     }
@@ -312,8 +316,10 @@ public class MainController {
      * @param stage Top level container for this window
      */
     public void init(Stage stage) {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        currentStations = databaseManager.catchEmAll();
+        stationDAO = new StationDAO();
+        noteDAO = new NoteDAO();
+        vehicleDAO = new VehicleDAO();
+        currentStations = stationDAO.getAll();
         // Fill the combo boxes
         this.stage = stage;
         chargerBox.setItems(chargerTypeOptions);
@@ -323,7 +329,7 @@ public class MainController {
 
         attractionSearch.setItems(yesNoMaybeSo);
 
-        QueryResult stations = databaseManager.catchEmAll();
+        QueryResult stations = stationDAO.getAll();
         ObservableList<String> stationList = FXCollections.observableArrayList();
         for (Station station : stations.getStations()) {
             String newString = Arrays.toString(Arrays.copyOfRange(station.getAddress().split(","), 0, 2));
@@ -349,8 +355,7 @@ public class MainController {
             ProfileController controller = loader.getController();
 
             Stage profileStage = new Stage(StageStyle.UNDECORATED);
-            controller.setName(profileStage);
-            controller.setVehicles(profileStage);
+            controller.init(profileStage);
 
             profileStage.setTitle("Profile");
             Scene scene = new Scene(root);

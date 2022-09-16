@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 import journey.data.QueryResult;
 import journey.data.Station;
 
+import java.sql.SQLException;
+
 
 /**
  * A service to load data into the table viewer. TODO: Figure out how to get expanding rows.

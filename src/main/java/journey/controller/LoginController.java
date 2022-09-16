@@ -10,18 +10,19 @@ import journey.data.DatabaseManager;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import journey.data.UserDAO;
 import journey.gui.MainWindow;
 
 import java.io.IOException;
 
 
 public class LoginController {
+    private UserDAO userDAO;
     @FXML private TextField nameTextBox;
 
     @FXML private void registerUser(ActionEvent actionEvent) {
         String name = getNameTextBox();
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        databaseManager.setCurrentUser(name);
+        userDAO.setCurrentUser(name);
         //something to switch stages
 
         System.out.println("Updated User");
@@ -62,5 +63,7 @@ public class LoginController {
         return nameTextBox.getText();
     }
 
-    public void init(Stage stage) { ; }
+    public void init(Stage stage) {
+        userDAO = new UserDAO();
+    }
 }

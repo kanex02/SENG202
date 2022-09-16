@@ -3,7 +3,11 @@ package journey.data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 class DatabaseManagerTest {
     DatabaseManager databaseManager;
 
@@ -13,13 +17,10 @@ class DatabaseManagerTest {
     }
 
     @Test
-    void connecting() {
-        databaseManager.connect();
-    }
-
-    @Test
-    void updateUser() {
-        databaseManager.updateUser("Krane");
-        assertEquals(databaseManager.getCurrentUser().getName(), "Krane");
+    void connecting() throws SQLException {
+        Connection conn = databaseManager.connect();
+        assertNotNull(conn);
+        assertNotNull(conn.getMetaData());
+        Utils.closeConn(conn);
     }
 }

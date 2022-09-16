@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS Stations;
-
+--Break
 CREATE TABLE IF NOT EXISTS Stations (
     ID INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
@@ -19,16 +19,16 @@ CREATE TABLE IF NOT EXISTS Stations (
     connectorsList TEXT NOT NULL,
     hasChargingCost BOOLEAN
 );
-
+--Break
 DROP TABLE IF EXISTS Users;
-
+--Break
 CREATE TABLE IF NOT EXISTS Users (
-    ID INTEGER IDENTITY(1, 1) PRIMARY KEY,
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT
 );
-
+--Break
 DROP TABLE IF EXISTS Vehicles;
-
+--Break
 CREATE TABLE IF NOT EXISTS Vehicles (
     registration TEXT PRIMARY KEY,
     user_ID INTEGER NOT NULL REFERENCES Users(ID),
@@ -37,25 +37,25 @@ CREATE TABLE IF NOT EXISTS Vehicles (
     model TEXT,
     chargerType TEXT
 );
-
+--Break
 DROP TABLE IF EXISTS Journeys;
-
+--Break
 CREATE TABLE IF NOT EXISTS Journeys (
     ID INTEGER PRIMARY KEY,
     distance INTEGER
 );
-
+--Break
 DROP TABLE IF EXISTS Notes;
-
+--Break
 CREATE TABLE IF NOT EXISTS Notes (
     ID INTEGER IDENTITY(1,1) PRIMARY KEY,
     user_ID INTEGER NOT NULL REFERENCES Users(ID),
     station_ID INTEGER NOT NULL REFERENCES Stations(ID),
     note TEXT
 );
-
+--Break
 DROP TABLE IF EXISTS UserJourneys;
-
+--Break
 CREATE TABLE IF NOT EXISTS UserJourneys (
     user_ID INTEGER NOT NULL REFERENCES Users(ID),
     journey_ID INTEGER NOT NULL REFERENCES Journeys(ID),

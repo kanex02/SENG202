@@ -3,9 +3,12 @@ package journey.controller;
 import com.opencsv.bean.CsvToBeanBuilder;
 import journey.data.DatabaseManager;
 import journey.data.Station;
+import journey.data.StationDAO;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ReadCSV {
@@ -44,9 +47,9 @@ public class ReadCSV {
             s.setMaxTime(time);
             s.setConnectors(connectorsList);
 
-            DatabaseManager databaseManager = DatabaseManager.getInstance();
+            StationDAO stationDAO = new StationDAO();
 
-            databaseManager.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
+            stationDAO.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
                     s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(),
                     s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(),
                     s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
@@ -54,7 +57,7 @@ public class ReadCSV {
 
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException, SQLException {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         databaseManager.setup();
         readStations();

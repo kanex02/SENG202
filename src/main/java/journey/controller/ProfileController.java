@@ -9,16 +9,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import journey.data.DatabaseManager;
-import journey.data.QueryResult;
-import journey.data.Station;
-import journey.data.Vehicle;
+import journey.data.*;
 
 /**
  * Controller for the profile popup
  */
 public class ProfileController {
-
+    private UserDAO userDAO;
+    private VehicleDAO vehicleDAO;
     @FXML private Button closeButton;
     @FXML private Label name;
     private static Station selectedVehicle = null;
@@ -46,9 +44,9 @@ public class ProfileController {
      * Sets the text field to the name of the current user in the profile box
      * @param stage
      */
-   public void setName(Stage stage) {
-       DatabaseManager databaseManager = DatabaseManager.getInstance();
-       name.setText(databaseManager.getCurrentUser().getName());
+    public void setName(Stage stage) {
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        name.setText(userDAO.getCurrentUser().getName());
     }
 
     /**
@@ -61,10 +59,16 @@ public class ProfileController {
         modelCol.setCellValueFactory(new PropertyValueFactory<>("Model"));
         yearCol.setCellValueFactory(new PropertyValueFactory<>("Year"));
         chargerTypeCol.setCellValueFactory(new PropertyValueFactory<>("ChargerType"));
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        QueryResult data = databaseManager.getVehicles();
+        QueryResult data = vehicleDAO.getVehicles();
         ObservableList<Vehicle> vehicles = FXCollections.observableArrayList(data.getVehicles());
         vehicleTable.setItems(vehicles);
+    }
+
+    public void init(Stage stage) {
+        userDAO = new UserDAO();
+        vehicleDAO = new VehicleDAO();
+        setName(stage);
+        setVehicles(stage);
     }
 
 }
