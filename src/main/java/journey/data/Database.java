@@ -120,12 +120,12 @@ public final class Database {
                 """;
         String vehiclesSql = """
                 CREATE TABLE IF NOT EXISTS Vehicles (
-                    Registration TEXT PRIMARY KEY,
-                    User_ID INTEGER NOT NULL REFERENCES Users(ID),
-                    Year INTEGER,
-                    Make TEXT,
-                    Model TEXT,
-                    ChargerType TEXT
+                    registration TEXT PRIMARY KEY,
+                    user_ID INTEGER NOT NULL REFERENCES Users(ID),
+                    year INTEGER,
+                    make TEXT,
+                    model TEXT,
+                    chargerType TEXT
                 );
                 """;
         String usersSql = """
