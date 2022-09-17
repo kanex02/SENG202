@@ -1,11 +1,9 @@
 package journey.data;
 
 
-import static java.lang.Math.acos;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
-
 import com.opencsv.bean.CsvBindByName;
+
+import static java.lang.Math.*;
 
 /**
  * A class that models a station, for use in results and queries.
@@ -27,19 +25,19 @@ public class Station {
     @CsvBindByName
     private String address;
     @CsvBindByName
-    private boolean is24Hours;
+    private Boolean is24Hours;
     @CsvBindByName
     private int carParkCount;
     @CsvBindByName
-    private boolean hasCarParkCost;
+    private Boolean hasCarParkCost;
     @CsvBindByName
     private String maxTimeLimit;
     @CsvBindByName
-    private boolean hasTouristAttraction;
+    private Boolean hasTouristAttraction;
     @CsvBindByName
-    private float latitude;
+    private double latitude;
     @CsvBindByName
-    private float longitude;
+    private double longitude;
     @CsvBindByName
     private String currentType;
     @CsvBindByName
@@ -49,7 +47,7 @@ public class Station {
     @CsvBindByName
     private String connectorsList;
     @CsvBindByName
-    private boolean hasChargingCost;
+    private Boolean hasChargingCost;
 
 
     public Station() {
@@ -129,8 +127,18 @@ public class Station {
      * @return Distance between the stations, in km.
      */
     public double distanceTo(Station other) {
-        return 6378.8 * acos((sin(this.latitude) * sin(other.latitude))
-                + cos(this.latitude) * cos(other.latitude) * cos(other.longitude - this.longitude));
+        double lon1 = toRadians(this.longitude);
+        double lon2 = toRadians(other.longitude);
+        double lat1 = toRadians(this.latitude);
+        double lat2 = toRadians(other.latitude);
+        double deltaLong = lon2 - lon1;
+        double deltaLat = lat2 - lat1;
+        double a = pow(sin(deltaLat / 2), 2)
+                + cos(lat1) * cos(lat2)
+                * pow(sin(deltaLong / 2), 2);
+        double c = 2 * asin(Math.sqrt(a));
+        double radius = 6357;
+        return radius * c;
     }
 
     public float getX() {
@@ -197,27 +205,27 @@ public class Station {
         this.maxTimeLimit = maxTimeLimit;
     }
 
-    public boolean isHasTouristAttraction() {
+    public Boolean getHasTouristAttraction() {
         return hasTouristAttraction;
     }
 
-    public void setHasTouristAttraction(boolean hasTouristAttraction) {
+    public void setHasTouristAttraction(Boolean hasTouristAttraction) {
         this.hasTouristAttraction = hasTouristAttraction;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

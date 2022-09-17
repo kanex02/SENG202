@@ -136,40 +136,42 @@
                   <panes>
                      <TitledPane animated="false" prefWidth="367.0" text="SEARCH AND FILTER">
                         <content>
-                           <AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefWidth="365.0">
-                              <children>
-                                 <Label layoutX="14.0" layoutY="15.0" text="Address:" />
-                                 <TextField fx:id="addressSearch" layoutX="90.0" layoutY="11.0" prefHeight="25.0" prefWidth="276.0" />
-                                 <TextField fx:id="nameSearch" layoutX="90.0" layoutY="46.0" prefHeight="25.0" prefWidth="276.0" />
-                                 <Label layoutX="14.0" layoutY="50.0" text="Name:" />
-                                 <Label layoutX="14.0" layoutY="85.0" text="Operator:" />
-                                 <TextField fx:id="operatorSearch" layoutX="90.0" layoutY="81.0" prefHeight="25.0" prefWidth="276.0" />
-                                 <Label layoutX="14.0" layoutY="120.0" text="Current:" />
-                                 <ChoiceBox fx:id="chargerBoxSearch" layoutX="90.0" layoutY="116.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #E0E6B2;" />
-                                 <Label layoutX="14.0" layoutY="155.0" text="Time Limit:" />
-                                 <Label layoutX="90.0" layoutY="155.0" text="At least" />
-                                 <TextField fx:id="timeSearch" layoutX="145.0" layoutY="151.0" prefHeight="25.0" prefWidth="46.0" />
-                                 <Label layoutX="195.0" layoutY="155.0" text="minutes" />
-                                 <Label layoutX="14.0" layoutY="190.0" text="Attractions: " />
-                                 <CheckBox layoutX="90.0" layoutY="190.0" mnemonicParsing="false" />
-                                 <HBox fx:id="searchRow" layoutY="221.0" prefHeight="25.0" prefWidth="367.0">
-                                    <children>
-                                       <Pane HBox.hgrow="ALWAYS">
-                                          <children>
-                                             <Label layoutY="4.0" text="Closest to:" />
-                                             <TextField layoutX="76.0" prefHeight="25.0" prefWidth="70.0" promptText="lat" />
-                                             <Label layoutX="150.0" layoutY="4.0" text=", " />
-                                             <TextField layoutX="160.0" prefHeight="25.0" prefWidth="70.0" promptText="long" />
-                                          </children>
-                                       </Pane>
-                                       <Button mnemonicParsing="false" onAction="#search" style="-fx-background-color: #E0E6B2;" text="Search" HBox.hgrow="NEVER" />
-                                    </children>
-                                    <padding>
-                                       <Insets left="14.0" right="14.0" />
-                                    </padding>
-                                 </HBox>
-                              </children>
-                           </AnchorPane>
+                          <AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="267.0" prefWidth="390.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="15.0" text="Address:" />
+                                    <TextField fx:id="addressSearch" layoutX="90.0" layoutY="11.0" prefHeight="25.0" prefWidth="276.0" />
+                                    <TextField fx:id="nameSearch" layoutX="90.0" layoutY="46.0" prefHeight="25.0" prefWidth="276.0" />
+                                    <Label layoutX="14.0" layoutY="50.0" text="Name:" />
+                                    <Label layoutX="14.0" layoutY="85.0" text="Operator:" />
+                                    <TextField fx:id="operatorSearch" layoutX="90.0" layoutY="81.0" prefHeight="25.0" prefWidth="276.0" />
+                                    <Label layoutX="14.0" layoutY="120.0" text="Current:" />
+                                    <ChoiceBox fx:id="chargerBoxSearch" layoutX="90.0" layoutY="116.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #E0E6B2;" />
+                                    <Label layoutX="14.0" layoutY="155.0" text="Time Limit:" />
+                                    <Label layoutX="90.0" layoutY="155.0" text="At least" />
+                                    <TextField fx:id="timeSearch" layoutX="145.0" layoutY="151.0" prefHeight="25.0" prefWidth="46.0" />
+                                    <Label layoutX="195.0" layoutY="155.0" text="minutes" />
+                                    <Label layoutX="14.0" layoutY="190.0" text="Attractions: " />
+                                    <ChoiceBox fx:id="attractionSearch" layoutX="90.0" layoutY="186.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #E0E6B2;" />
+                                    <HBox fx:id="searchRow" layoutY="221.0" prefHeight="25.0" prefWidth="367.0">
+                                       <children>
+                                          <AnchorPane prefHeight="25.0" prefWidth="349.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <TextField fx:id="distanceSearch" layoutX="76.0" prefHeight="25.0" prefWidth="35.0" />
+                                                <Label layoutY="4.0" text="Range:" />
+                                                <TextField fx:id="latSearch" layoutX="155.0" prefHeight="25.0" prefWidth="60.0" promptText="lat" />
+                                                <Label layoutX="215.0" layoutY="4.0" text=",  " />
+                                                <TextField fx:id="longSearch" layoutX="223.0" prefHeight="25.0" prefWidth="60.0" promptText="long" />
+                                                <Label layoutX="115.0" layoutY="4.0" text="km of" />
+                                                <Button layoutX="190.0" mnemonicParsing="false" onAction="#search" style="-fx-background-color: #E0E6B2;" text="Search" AnchorPane.rightAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                       <padding>
+                                          <Insets left="14.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
                         </content>
                      </TitledPane>
                   </panes>

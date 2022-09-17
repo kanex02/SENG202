@@ -1,14 +1,14 @@
 package journey.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.event.Event;
 import javafx.scene.layout.AnchorPane;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -21,8 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import journey.data.Database;
-
 /**
  * Controller for the main window
  * @author journey dev team
@@ -30,6 +28,10 @@ import journey.data.Database;
 public class MainController {
 
     private static final Logger log = LogManager.getLogger();
+
+    private StationDAO stationDAO;
+    private NoteDAO noteDAO;
+    private VehicleDAO vehicleDAO;
 
     private Stage stage;
 
@@ -47,6 +49,21 @@ public class MainController {
             "AC",
             "DC"
         );
+
+    private static final ObservableList<String> chargerTypeSearchOptions =
+            FXCollections.observableArrayList (
+                    "",
+                    "Mixed",
+                    "AC",
+                    "DC"
+            );
+
+    private static final ObservableList<String> yesNoMaybeSo =
+            FXCollections.observableArrayList (
+                    "",
+                    "Yes",
+                    "No"
+            );
 
     private static final ObservableList<String> sortListOptions =
         FXCollections.observableArrayList (
@@ -84,6 +101,11 @@ public class MainController {
     @FXML private TextField nameSearch;
     @FXML private TextField operatorSearch;
     @FXML private TextField timeSearch;
+    @FXML private ChoiceBox<String> chargerBoxSearch;
+    @FXML private ChoiceBox<String> attractionSearch;
+    @FXML private TextField distanceSearch;
+    @FXML private TextField latSearch;
+    @FXML private TextField longSearch;
 
 
     /**
@@ -144,8 +166,9 @@ public class MainController {
         chargerBox.setValue("");
         Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
 
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
         // Send vehicle to database
-        Database.setVehicle(newVehicle);
+        vehicleDAO.setVehicle(newVehicle);
         event.consume();
     }
     /**
@@ -157,7 +180,7 @@ public class MainController {
             Parent mapViewParent = mapViewLoader.load();
 
             MapController mapViewController = mapViewLoader.getController();
-            mapViewController.init(stage);
+            mapViewController.init(stage, this);
             mapPane.setCenter(mapViewParent);
             mapPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
@@ -172,7 +195,7 @@ public class MainController {
             Parent tableViewParent = tableViewLoader.load();
 
             TableController tableViewController = tableViewLoader.getController();
-            tableViewController.init(stage);
+            tableViewController.init(stage, this);
             tablePane.getChildren().add(tableViewParent);
             AnchorPane.setTopAnchor(tableViewParent, 0d);
             AnchorPane.setBottomAnchor(tableViewParent, 0d);
@@ -229,23 +252,24 @@ public class MainController {
         stationDetailTextArea.setText(s);
     }
 
-    private void setNoteText() {
-        Station currStation = Database.queryStation(selectedStation);
+    public void setNoteText() {
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        Station currStation = stationDAO.queryStation(selectedStation);
         if (currStation != null) {
-            Note note = Database.getNoteFromStation(currStation); // Retrieve note from database
+            Note note = noteDAO.getNoteFromStation(currStation); // Retrieve note from database
             setChargerNoteText(note.getNote());
         }
     }
 
-    @FXML private void submitNotes(Event event) {
 
-        Station currStation = Database.queryStation(selectedStation);
+    @FXML private void submitNotes(Event event) {
+        Station currStation = stationDAO.queryStation(selectedStation);
         String stationNote = getChargerNoteText();
 
         if (currStation != null) {
             Note newNote = new Note(currStation, stationNote);
             // Set the note on the database
-            Database.setNote(newNote);
+            noteDAO.setNote(newNote);
         }
         setNoteText();
         event.consume();
@@ -286,14 +310,27 @@ public class MainController {
     }
 
     @FXML private void search(Event event) {
-        Station searchStation = new Station();
+        QueryStation searchStation = new QueryStation();
         searchStation.setAddress(addressSearch.getText());
         searchStation.setName(nameSearch.getText());
         searchStation.setOperator(operatorSearch.getText());
+        searchStation.setCurrentType(chargerBoxSearch.getValue());
+        String attractionSearchRes = attractionSearch.getValue();
+        if (attractionSearchRes != null) {
+            boolean hasAttraction = (attractionSearchRes.equals("Yes"));
+            searchStation.setHasTouristAttraction(hasAttraction);
+        }
         if (timeSearch.getText().matches("\\d+")) {
             searchStation.setMaxTime(Integer.parseInt(timeSearch.getText()));
         }
-        currentStations = Database.query(searchStation);
+        if (latSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
+                & longSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
+                & distanceSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")) {
+            searchStation.setLatitude(Double.parseDouble(latSearch.getText()));
+            searchStation.setLongitude(Double.parseDouble(longSearch.getText()));
+            searchStation.setRange(Double.parseDouble(distanceSearch.getText()));
+        }
+        currentStations = stationDAO.query(searchStation);
         viewMap();
         viewTable();
     }
@@ -304,6 +341,7 @@ public class MainController {
 
     public static void setSelectedStation(int selectedStation) {
         MainController.selectedStation = selectedStation;
+
     }
 
     public static QueryResult getStations() {
@@ -316,12 +354,20 @@ public class MainController {
      * @param stage Top level container for this window
      */
     public void init(Stage stage) {
-        currentStations = Database.catchEmAll();
+        stationDAO = new StationDAO();
+        noteDAO = new NoteDAO();
+        vehicleDAO = new VehicleDAO();
+        currentStations = stationDAO.getAll();
         // Fill the combo boxes
         this.stage = stage;
         chargerBox.setItems(chargerTypeOptions);
 
-        QueryResult stations = Database.catchEmAll();
+        chargerBoxSearch.setItems(chargerTypeSearchOptions);
+        chargerBoxSearch.setValue("");
+
+        attractionSearch.setItems(yesNoMaybeSo);
+
+        QueryResult stations = stationDAO.getAll();
         ObservableList<String> stationList = FXCollections.observableArrayList();
         for (Station station : stations.getStations()) {
             String newString = Arrays.toString(Arrays.copyOfRange(station.getAddress().split(","), 0, 2));
@@ -357,8 +403,7 @@ public class MainController {
             ProfileController controller = loader.getController();
 
             Stage profileStage = new Stage(StageStyle.UNDECORATED);
-            controller.setName(profileStage);
-            controller.setVehicles(profileStage);
+            controller.init(profileStage);
 
             profileStage.setTitle("Profile");
             Scene scene = new Scene(root);

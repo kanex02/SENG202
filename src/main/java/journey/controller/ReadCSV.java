@@ -1,13 +1,14 @@
 package journey.controller;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.exceptions.CsvValidationException;
-import journey.data.Database;
+import journey.data.DatabaseManager;
 import journey.data.Station;
+import journey.data.StationDAO;
 
-import javax.xml.crypto.Data;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ReadCSV {
@@ -46,18 +47,19 @@ public class ReadCSV {
             s.setMaxTime(time);
             s.setConnectors(connectorsList);
 
-            Database.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
+            StationDAO stationDAO = new StationDAO();
+
+            stationDAO.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
                     s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(),
-                    s.isHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(),
+                    s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(),
                     s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
         }
 
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        Database.connect();
-        Database.setup();
-        Database.disconnect();
+    public static void main(String[] args) throws IOException, SQLException {
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        databaseManager.setup();
         readStations();
     }
 }

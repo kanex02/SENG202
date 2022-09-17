@@ -7,6 +7,8 @@ public class Note {
     private Station station;
     private String note;
 
+    public Note() {}
+
     public Note(Station station, String note) {
         this.station = station;
         this.note = note;
