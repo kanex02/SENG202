@@ -32,6 +32,8 @@ public class MainController {
     private StationDAO stationDAO;
     private NoteDAO noteDAO;
     private VehicleDAO vehicleDAO;
+    private UserDAO userDAO;
+    private JourneyDAO journeyDAO;
 
     private Stage stage;
 
@@ -295,7 +297,7 @@ public class MainController {
         if(startTextBox.getText() != "" && endTextBox.getText() != "") {
             String end = endTextBox.getText();
             String start = startTextBox.getText();
-            int userID = Database.getCurrentUser().getId();
+            int userID = userDAO.getCurrentUser().getId();
             selectVehicleComboBox(event);
             String[] vehicle = vehicleChoice.split(": ");
 
@@ -304,7 +306,7 @@ public class MainController {
                 System.out.println(station);
             }
 
-            Database.addJourney(journey);
+            journeyDAO.addJourney(journey);
             event.consume();
         }
     }
@@ -357,6 +359,10 @@ public class MainController {
         stationDAO = new StationDAO();
         noteDAO = new NoteDAO();
         vehicleDAO = new VehicleDAO();
+        userDAO = new UserDAO();
+        journeyDAO = new JourneyDAO();
+
+
         currentStations = stationDAO.getAll();
         // Fill the combo boxes
         this.stage = stage;
@@ -376,7 +382,7 @@ public class MainController {
         }
 
 
-        QueryResult data = Database.getVehicles();
+        QueryResult data = vehicleDAO.getVehicles();
         ObservableList<String> vehicles = FXCollections.observableArrayList();
         for (Vehicle vehicle : data.getVehicles()) {
             String newString = vehicle.getStringRepresentation();
