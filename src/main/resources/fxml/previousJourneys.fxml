@@ -4,11 +4,12 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane fx:id="tableParent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="316.0" prefWidth="405.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.PreviousJourneyController">
-    <TableView fx:id="journeyTable" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <TableView fx:id="journeyTable" minWidth="0.0" prefHeight="316.0" prefWidth="538.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-133.0" AnchorPane.topAnchor="0.0">
         <columns>
+            <TableColumn fx:id="dateCol" prefWidth="142.0" text="Date" />
+            <TableColumn fx:id="vehicleCol" minWidth="3.0" prefWidth="149.0" text="Vehicle" />
             <TableColumn fx:id="startCol" prefWidth="135.0" text="Start" />
-            <TableColumn fx:id="endCol" prefWidth="122.0" text="End" />
-            <TableColumn fx:id="vehicleCol" prefWidth="142.0" text="Vehicle" />
+            <TableColumn fx:id="endCol" prefWidth="115.0" text="End" />
         </columns>
     </TableView>
 </AnchorPane>

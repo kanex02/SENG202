@@ -117,6 +117,10 @@ public class MainController {
         // viewMap();
     }
 
+    @FXML void openPrevJourneysTable() {
+        viewPrevJourneysTable();
+    }
+
     // Function run when user dropdown button pressed
     @FXML private void userDropdown(Event event) {
         System.out.println("User dropdown button pressed!");
@@ -171,6 +175,7 @@ public class MainController {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         // Send vehicle to database
         vehicleDAO.setVehicle(newVehicle);
+        populateVehicleDropdown();
         event.consume();
     }
     /**
@@ -300,8 +305,11 @@ public class MainController {
             int userID = userDAO.getCurrentUser().getId();
             selectVehicleComboBox(event);
             String[] vehicle = vehicleChoice.split(": ");
-
-            Journey journey = new Journey(start, end , vehicle[0], userID);
+            String date = Utils.getDate();
+            endTextBox.setText("");
+            startTextBox.setText("");
+            selectVehicleComboBox.setValue("");
+            Journey journey = new Journey(start, end , vehicle[0], userID, date);
             for(String station : visitedStationsList.getItems()) {
                 System.out.println(station);
             }
@@ -350,6 +358,16 @@ public class MainController {
         return currentStations;
     }
 
+    public void populateVehicleDropdown() {
+        QueryResult data = vehicleDAO.getVehicles();
+        ObservableList<String> vehicles = FXCollections.observableArrayList();
+        for (Vehicle vehicle : data.getVehicles()) {
+            String newString = vehicle.getStringRepresentation();
+            vehicles.add(newString);
+        }
+        selectVehicleComboBox.setItems(vehicles);
+    }
+
     /**
      * Initialize the window
      *
@@ -381,16 +399,8 @@ public class MainController {
             stationList.add(newString);
         }
 
-
-        QueryResult data = vehicleDAO.getVehicles();
-        ObservableList<String> vehicles = FXCollections.observableArrayList();
-        for (Vehicle vehicle : data.getVehicles()) {
-            String newString = vehicle.getStringRepresentation();
-            vehicles.add(newString);
-        }
-
         stationDropDown.setItems(stationList);
-        selectVehicleComboBox.setItems(vehicles);
+        populateVehicleDropdown();
         viewMap();
         viewTable();
         viewPrevJourneysTable();

@@ -18,6 +18,7 @@ public class PreviousJourneyController {
     @FXML private TableColumn<Journey, String> startCol;
     @FXML private TableColumn<Journey, String> endCol;
     @FXML private TableColumn<Journey, String> vehicleCol;
+    @FXML private TableColumn<Journey, String> dateCol;
     @FXML private TableView<Journey> journeyTable;
     @FXML private AnchorPane tableParent;
 
@@ -29,9 +30,10 @@ public class PreviousJourneyController {
      * @param stage The stage to import into.
      */
     public void setJourneys(Stage stage) {
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicle_ID"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
-        vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicle_ID"));
         QueryResult data = journeyDAO.getJourneys();
         ObservableList<Journey> journeys = FXCollections.observableArrayList(data.getJourney());
         journeyTable.setItems(journeys);

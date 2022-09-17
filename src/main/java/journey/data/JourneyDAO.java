@@ -27,14 +27,16 @@ public class JourneyDAO {
         Connection conn = null;
         ArrayList<Journey> res = new ArrayList<>();
         try {
+
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM UserJourneys WHERE User_ID = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, currentUser.getId());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                res.add(new Journey(rs.getString("start"), rs.getString("end"), rs.getString("vehicle_ID"),
-                        rs.getInt("journey_ID")));
+                res.add(new Journey(rs.getString("start"), rs.getString("end"),
+                        rs.getString("vehicle_ID"), rs.getInt("journey_ID"),
+                        rs.getString("date")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -50,12 +52,13 @@ public class JourneyDAO {
         Connection conn = null;
         try {
             conn = databaseManager.connect();
-            String insertQuery = "INSERT INTO userJourneys VALUES (?,?,?,?,?)";
+            String insertQuery = "INSERT INTO userJourneys VALUES (?,?,?,?,?,?)";
             PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
-            insertStatement.setInt(2, currentUser.getId()); // UserID set to 1 as no users exist yet.
-            insertStatement.setString(3, journey.getVehicleID());
-            insertStatement.setString(5, journey.getStart());
+            insertStatement.setInt(2, currentUser.getId());
+            insertStatement.setString(3, journey.getVehicle_ID());
+            insertStatement.setString(4, journey.getStart());
             insertStatement.setString(5, journey.getEnd());
+            insertStatement.setString(6, journey.getDate());
             insertStatement.execute();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

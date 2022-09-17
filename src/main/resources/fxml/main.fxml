@@ -125,7 +125,7 @@
                            <AnchorPane fx:id="tablePane" prefHeight="635.0" />
                         </content>
                      </Tab>
-                     <Tab closable="false" text="Previous Journeys">
+                     <Tab closable="false" onSelectionChanged="#openPrevJourneysTable" text="Previous Journeys">
                         <content>
                            <AnchorPane fx:id="prevJourneysPane" prefHeight="635.0" />
                         </content>

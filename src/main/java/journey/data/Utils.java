@@ -6,7 +6,10 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Provides useful functions for the database.
@@ -60,5 +63,11 @@ public class Utils {
         } catch (SQLException e) {
             log.error(e);
         }
+    }
+
+    public static String getDate() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String date = df.format(new Date());
+        return date;
     }
 }

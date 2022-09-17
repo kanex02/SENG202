@@ -7,7 +7,26 @@ public class Journey {
     private Station[] stations;
     private double distanceTravelled;
     private String start;
+    private String end;
+    private String vehicle_ID;
+    private int journeyID;
+    private int userID;
+    private String date;
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+    public Journey(String start, String end, String vehicleID, int userID, String date) {
+        this.start = start;
+        this.end = end;
+        this.vehicle_ID = vehicleID;
+        this.userID = userID;
+        this.date = date;
+    }
     public String getEnd() {
         return end;
     }
@@ -24,12 +43,12 @@ public class Journey {
         this.start = start;
     }
 
-    public String getVehicleID() {
-        return vehicleID;
+    public String getVehicle_ID() {
+        return vehicle_ID;
     }
 
     public void setVehicleID(String vehicleID) {
-        this.vehicleID = vehicleID;
+        this.vehicle_ID = vehicleID;
     }
 
     public int getJourneyID() {
@@ -37,17 +56,6 @@ public class Journey {
     }
 
     public void setJourneyID(int journeyID) {
-        this.journeyID = journeyID;
-    }
-
-    private String end;
-    private String vehicleID;
-    private int journeyID;
-
-    public Journey(String start, String end, String vehicleID, int journeyID) {
-        this.start = start;
-        this.end = end;
-        this.vehicleID = vehicleID;
         this.journeyID = journeyID;
     }
 
