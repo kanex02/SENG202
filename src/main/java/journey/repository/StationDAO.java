@@ -10,14 +10,22 @@ import java.util.Objects;
 
 import static journey.data.Utils.convertArrayToString;
 
+/**
+ * Concrete implementation of Database Access Object that handles all station related actions to the database
+ */
 public class StationDAO {
-    private final DatabaseManager databaseManager;
+    private DatabaseManager databaseManager;
     private static final Logger log = LogManager.getLogger();
 
     public StationDAO() {
         databaseManager = DatabaseManager.getInstance();
     }
 
+    /**
+     * Query SQL database for a station of given id
+     * @param id stations id to find in database
+     * @return station object assembled from database
+     */
     public Station queryStation(int id) {
         Connection conn = null;
         try {
@@ -27,7 +35,7 @@ public class StationDAO {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
             // Create a new station object.
-            Station station = new Station(resultSet.getInt("ID"),
+            return new Station(resultSet.getInt("ID"),
                     resultSet.getString("name"), resultSet.getString("operator"),
                     resultSet.getString("owner"), resultSet.getString("address"),
                     resultSet.getBoolean("is24Hours"), resultSet.getInt("carParkCount"),
@@ -36,7 +44,6 @@ public class StationDAO {
                     resultSet.getFloat("longitude"), resultSet.getString("currentType"), resultSet.getString("dateFirstOperational"),
                     resultSet.getInt("numberOfConnectors"), (resultSet.getString("connectorsList")).split(":"),
                     resultSet.getBoolean("hasChargingCost"));
-            return station;
         } catch (SQLException e) {
             log.error(e);
         } finally {
@@ -47,6 +54,7 @@ public class StationDAO {
 
     /**
      * Inserts all features of the station into the database
+     * Is seperated into params instead of a station object for easy transfer from ReadCSV -> StationDAO
      * @param id station id
      * @param name station name
      * @param operator station operator
@@ -101,6 +109,10 @@ public class StationDAO {
         }
     }
 
+    /**
+     * Get all stations from database
+     * @return result ArrayList of all stations in the database
+     */
     public QueryResult getAll() {
         Connection conn = null;
         ArrayList<Station> res = new ArrayList<>();
@@ -118,40 +130,37 @@ public class StationDAO {
         return result;
     }
 
+    /**
+     * Function to find all matching stations with results matching QueryStation (QueryStation assembled based on search inputs)
+     * @param searchStation QueryStation object which holds all necessary search values (the rest are null/null-like)
+     * @return result ArrayList of all stations in the database that match given values in QueryStation
+     */
     public QueryResult query(QueryStation searchStation) {
-
-
         //query with WHERE that is always true so that further statements can be chained on
         StringBuilder queryString = new StringBuilder("SELECT * FROM Stations WHERE id LIKE'%' ");
-
         //monster that builds up the query
         String address = searchStation.getAddress();
         if (address != null && address.trim().length() > 0) {
             queryString.append("AND address LIKE '%").append(address).append("%' ");
         }
-
         String name = searchStation.getName();
         if (name != null && name.trim().length() > 0) {
             queryString.append("AND name LIKE '%").append(name).append("%' ");
         }
-
         String operator = searchStation.getOperator();
         if (operator != null && operator.trim().length() > 0) {
             queryString.append("AND operator LIKE '%").append(operator).append("%' ");
         }
-
         int maxTime = searchStation.getMaxTime();
         if (maxTime > 0) {
             queryString.append("AND (maxTimeLimit >= ").append(maxTime)
                     .append(" OR maxTimeLimit = 0) ");
         }
-
         String currentType = searchStation.getCurrentType();
         if (!Objects.equals(currentType, "")) {
             queryString.append("AND (currentType = '").append(currentType)
                     .append("' OR currentType = 'Mixed') ");
         }
-
         Boolean attractions = searchStation.getHasTouristAttraction();
         if (attractions != null) {
             if (attractions) {
@@ -160,7 +169,6 @@ public class StationDAO {
                 queryString.append("AND NOT hasTouristAttraction ");
             }
         }
-
         ArrayList<Station> res = new ArrayList<>();
         Connection conn = null;
         try {
@@ -171,7 +179,6 @@ public class StationDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         res.removeIf(station -> searchStation.getRange() > 0 && searchStation.distanceTo(station) > searchStation.getRange());
         Utils.closeConn(conn);
         QueryResult result = new QueryResult();

@@ -48,13 +48,11 @@ public class Station {
     private String connectorsList;
     @CsvBindByName
     private Boolean hasChargingCost;
-
+    private int maxTime;
+    private String[] connectors;
 
     public Station() {
     }
-
-    private int maxTime;
-    private String[] connectors;
 
     public int getMaxTime() {
         return maxTime;
@@ -77,7 +75,6 @@ public class Station {
 
     /**
      * Initialises a new station.
-
      * @param id id according to the database
      * @param name name
      * @param operator operator
@@ -122,7 +119,6 @@ public class Station {
 
     /**
      * Calculates the distance between this station and another one.
-
      * @param other The other station.
      * @return Distance between the stations, in km.
      */
@@ -297,6 +293,10 @@ public class Station {
         return String.format("%s, %s", name, address);
     }
 
+    /**
+     * Assembles a string of details about itself
+     * @return longDes a long description of itself
+     */
     public String getLongDescription() {
         String longDes = String.format("Name: %s\nOperator: %s\nOwner: %s\nAddress: %s\nNumber Of Car Parks: %s\n",
                 name, operator, owner, address, carParkCount);

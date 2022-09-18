@@ -36,7 +36,6 @@ public final class DatabaseManager {
 
     /**
      * Connects to the database.
-
      * @return a connection.
      */
     public Connection connect() {
@@ -91,7 +90,17 @@ public final class DatabaseManager {
         }
     }
 
-    public static void main(String[] args) throws SQLException, IOException {
-        DatabaseManager.getInstance().setup();
+    /**
+     * Setup itself
+     * @param args Command line arguments
+     */
+    public static void main(String[] args) {
+        try {
+            DatabaseManager.getInstance().setup();
+        } catch (SQLException e) {
+            log.error(e);
+        } catch (IOException ex) {
+            log.error(ex);
+        }
     }
 }

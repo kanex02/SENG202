@@ -9,7 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * Concrete implementation of Database Access Object that handles all user related actions to the database
+ */
 public class UserDAO {
     private final DatabaseManager databaseManager;
     private static User currentUser;
@@ -20,6 +22,10 @@ public class UserDAO {
     }
 
     // TODO: Handle non-unique users.
+    /**
+     * Sets the current user given a username
+     * @param username username entered in login page
+     */
     public void setCurrentUser(String username) {
         // Update the currentUser variable and User database if necessary
         Connection conn = null;
@@ -40,13 +46,11 @@ public class UserDAO {
                 PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
                 insertStatement.setString(2, username); // UserID set to 1 as no users exist yet.
                 insertStatement.execute();
-
             }
             updateUser(username);
             System.out.println("User updated");
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e);
         } finally {
             Utils.closeConn(conn);
         }
@@ -78,7 +82,6 @@ public class UserDAO {
         }
         currentUser = user;
     }
-
     public User getCurrentUser() {
         return currentUser;
     }

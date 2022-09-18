@@ -1,5 +1,8 @@
 package journey.data;
 
+/**
+ *
+ */
 public class QueryResult {
     private Station[] stations;
     private Vehicle[] vehicles;

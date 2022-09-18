@@ -45,7 +45,7 @@ public class ProfileController {
 
     /**
      * Sets the text field to the name of the current user in the profile box
-     * @param stage
+     * @param stage current stage
      */
     public void setName(Stage stage) {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
@@ -54,7 +54,7 @@ public class ProfileController {
 
     /**
      *Retrieves the vehicles from the database and puts their information into the table
-     * @param stage
+     * @param stage current stage
      */
     public void setVehicles(Stage stage) {
         registrationCol.setCellValueFactory(new PropertyValueFactory<>("Registration"));
@@ -67,6 +67,10 @@ public class ProfileController {
         vehicleTable.setItems(vehicles);
     }
 
+    /**
+     * Initialises the profile popup with User's registered vehicles in a table view.
+     * @param stage current stage
+     */
     public void init(Stage stage) {
         userDAO = new UserDAO();
         vehicleDAO = new VehicleDAO();

@@ -35,7 +35,6 @@ public class TableController {
 
     /**
      * Imports the data.
-
      * @param stage The stage to import into.
      */
     public void getData(Stage stage) {
@@ -58,7 +57,6 @@ public class TableController {
 
     /**
      * Initialises the table.
-
      * @param stage The stage to init.
      */
     public void init(Stage stage, MainController mainController) {

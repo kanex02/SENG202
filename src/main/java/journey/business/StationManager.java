@@ -4,9 +4,12 @@ import journey.controller.MainController;
 import journey.data.QueryResult;
 import journey.data.Station;
 import journey.repository.StationDAO;
-
+/**
+ * Class to handle all actions for stations. This acts as a MVC controller taking requests from the view and completing
+ * these using relevant repository layer actions
+ */
 public class StationManager {
-    private StationDAO stationDAO;
+    private final StationDAO stationDAO;
 
     public StationManager() {
         stationDAO = new StationDAO();

@@ -11,21 +11,41 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import journey.repository.UserDAO;
 import journey.gui.MainWindow;
-
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
+/**
+ * FXML controller class for the login window
+ * This is a basic window that allows a user to register/login to existing account
+ */
 public class LoginController {
+    private static final Logger log = LogManager.getLogger();
     private UserDAO userDAO;
     @FXML private TextField nameTextBox;
 
+    /**
+     * Register a user and add them to the user database
+     * when register button is pressed.
+     * @param actionEvent event the register button is pressed
+     */
     @FXML private void registerUser(ActionEvent actionEvent) {
         String name = getNameTextBox();
         userDAO.setCurrentUser(name);
         //something to switch stages
+        switchToMain();
+        actionEvent.consume();
+    }
 
-        System.out.println("Updated User");
+    @FXML private String getNameTextBox() {
+        return nameTextBox.getText();
+    }
 
+    /**
+     * Switches the current screen to the main screen
+     */
+    private void switchToMain() {
         try {
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
             Parent root = baseLoader.load();
@@ -41,7 +61,7 @@ public class LoginController {
             // set the min height and width so the window opens at the correct size
             stage.setMinHeight(600);
             stage.setMinWidth(900);
-            stage.setMaximized(true);
+            stage.setMaximized(false);
             Screen screen = Screen.getPrimary();
             Rectangle2D bounds = screen.getVisualBounds();
 
@@ -51,17 +71,15 @@ public class LoginController {
             stage.setHeight(bounds.getHeight());
             stage.show();
             MainWindow.getStage().close();
-
-        } catch(IOException e) {
-            System.out.println("Exception in loading");
-            e.printStackTrace();
+        } catch (IOException e) {
+            log.error(e);
         }
-        actionEvent.consume();
-    }
-    @FXML private String getNameTextBox() {
-        return nameTextBox.getText();
-    }
 
+    }
+    /**
+     * intialises the login window
+     * @param stage stage to load
+     */
     public void init(Stage stage) {
         userDAO = new UserDAO();
     }

@@ -11,6 +11,9 @@ import journey.data.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Concrete implementation of Database Access Object that handles all notes related actions to the database
+ */
 public class NoteDAO {
     private final DatabaseManager databaseManager;
     private static final Logger log = LogManager.getLogger();
@@ -23,10 +26,8 @@ public class NoteDAO {
      * Sets a given note into the Notes database.
      * If no note for the given station and user exists
      * it creates a new entry. Otherwise, updates the current note.
-
      * @param note The note to send to the database
      */
-
     public void setNote(Note note) {
         Connection conn = null;
         // Currently user is just set to ID of 1
@@ -71,6 +72,11 @@ public class NoteDAO {
         }
     }
 
+    /**
+     * Gets not from give station
+     * @param station station to get notes from
+     * @return note from station
+     */
     public Note getNoteFromStation(Station station) {
         Connection conn = null;
 
@@ -88,8 +94,7 @@ public class NoteDAO {
                 return new Note(null, null);
             }
             String stationNote = resultSet.getString(4); // Get the note from the result set
-            Note newNote = new Note(station, stationNote);
-            return newNote;
+            return new Note(station, stationNote);
         }  catch (SQLException e) {
             log.error(e);
         } finally {

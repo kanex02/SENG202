@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+/**
+ * Concrete implementation of Database Access Object that handles all vehicle related actions to the database
+ */
 public class VehicleDAO {
     private final DatabaseManager databaseManager;
     UserDAO userDAO;
@@ -21,8 +23,12 @@ public class VehicleDAO {
         databaseManager = DatabaseManager.getInstance();
         userDAO = new UserDAO();
     }
-
-    public void setVehicle(Vehicle v) {
+    /**
+     * Adds vehicle to Vehicle
+     * @param v username entered in login page
+     * @throws Exception Duplicate vehicle entry
+     */
+    public void setVehicle(Vehicle v) throws Exception {
         Connection conn = null;
         try {
             conn = databaseManager.connect();
@@ -34,36 +40,35 @@ public class VehicleDAO {
 
             // If there is no item in result set we disconnect first and return an empty note
             if(!resultSet.isBeforeFirst()) {
-
                 String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?)";
-                PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
+                PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
                 insertStatement.setString(1, v.getRegistration());
                 insertStatement.setInt(2, userDAO.getCurrentUser().getId());
                 insertStatement.setInt(3, v.getYear());
                 insertStatement.setString(4, v.getMake());
                 insertStatement.setString(5, v.getModel());
                 insertStatement.setString(6, v.getChargerType());
-
                 insertStatement.execute();
-
                 // Insert into list of vehicles for current user
                 userDAO.getCurrentUser().newVehicle(v);
-
-            } else { // TODO: Handle error if vehicle already exists
-                System.out.println("bad error");
             }
-
         } catch(SQLException e) {
-
-            e.printStackTrace();
+            if (e.getErrorCode() == 19) {
+                throw new Exception("Duplicate Vehicle");
+            }
+            log.error(e);
         } finally {
             Utils.closeConn(conn);
         }
     }
 
+    /**
+     * get all vehicles of the current user
+     * @return result ArrayList of all vehicles of the current user
+     */
     public QueryResult getVehicles() {
         Connection conn = null;
-        ArrayList<Vehicle> res = new ArrayList<Vehicle>();
+        ArrayList<Vehicle> res = new ArrayList<>();
         QueryResult result = new QueryResult();
         try {
             conn = databaseManager.connect();
@@ -77,7 +82,7 @@ public class VehicleDAO {
                         rs.getString("Registration")));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.error(e);
         } finally {
             Utils.closeConn(conn);
             result.setVehicles(res.toArray(Vehicle[]::new));

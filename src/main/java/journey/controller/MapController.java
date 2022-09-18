@@ -1,12 +1,8 @@
 package journey.controller;
 
-import javafx.beans.value.ObservableObjectValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
+
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -14,10 +10,12 @@ import journey.business.JavaScriptBridge;
 import journey.business.StationManager;
 import journey.data.Station;
 import netscape.javascript.JSObject;
-
 import java.util.Objects;
 
-
+/**
+ * Controller for displaying Open Street Maps through JavaFX webview
+ * @author Morgan English with slight changes/additions form Daniel Neal
+ */
 public class MapController {
     @FXML private WebView webView;
     private WebEngine webEngine;
@@ -112,8 +110,6 @@ public class MapController {
         }
     }
 
-
-
     /**
      * Add station to map
      * @param station station object to be added
@@ -121,7 +117,6 @@ public class MapController {
     private void addStationMark(Station station) {
         javaScriptConnector.call("addMarker", station.getOBJECTID(), station.getShortDescription(), station.getLatitude(), station.getLongitude());
     }
-
 
     /**
      * gets station from clicking on a map pointer

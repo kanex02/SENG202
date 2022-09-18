@@ -27,7 +27,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * Controller for the main window
+ * FXML controller class for the main window
+ * This window is the basis for the application and has components of other controllers within itself
  * @author journey dev team
  */
 public class MainController {
@@ -118,18 +119,6 @@ public class MainController {
         // viewMap();
     }
 
-    // Function run when user dropdown button pressed
-    @FXML private void userDropdown(Event event) {
-        System.out.println("User dropdown button pressed!");
-        event.consume();
-    }
-
-    // Function run when view previous journeys pressed
-    @FXML private void viewPrevJourneys(Event event) {
-        System.out.println("view prev journeys button pressed!");
-        event.consume();
-    }
-
     // Function called when start journey button pressed
     @FXML private void startJourneyButton(Event event) {
         System.out.println("Start journey button pressed!");
@@ -142,8 +131,11 @@ public class MainController {
         event.consume();
     }
 
-    // Function run when charger combo box choice is changed
-    // Used to set the value that is stored
+    /**
+     * Function run when charger combo box choice is changed
+     * Used to set the value that is stored
+     * @param event change of Type Choice event
+     */
     @FXML private void chargerTypeChoice(Event event) {
         chargerTypeChoice = chargerBox.getValue();
         event.consume();
@@ -153,7 +145,7 @@ public class MainController {
      * Run when the user presses the register vehicle button
      * Initialises a new vehicle and assigns it to the current user based on the input
      * fields for make, model, year, registration and charger type
-     * @param event
+     * @param event register vehicle button pressed
      */
     @FXML private void registerVehicle(Event event) {
         //get information about the vehicles and reset to null values
@@ -171,11 +163,15 @@ public class MainController {
 
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         // Send vehicle to database
-        vehicleDAO.setVehicle(newVehicle);
+        try {
+            vehicleDAO.setVehicle(newVehicle);
+        } catch (Exception e) {
+            log.error(e);
+        }
         event.consume();
     }
     /**
-     * Loads the OpenLayers map view into the main part of the main window
+     * Loads the OpenLayers map view into the tab pane component of main view
      */
     private void viewMap() {
         try {
@@ -192,6 +188,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Loads the table view into the tab pane component of main view
+     */
     private void viewTable() {
         try {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table.fxml"));
@@ -211,8 +210,6 @@ public class MainController {
         }
     }
 
-
-
     private String getRegistrationTextBox() {
         return registrationTextBox.getText();
     }
@@ -224,14 +221,11 @@ public class MainController {
     }
     private int getYearTextBox() {
         String year = yearTextBox.getText();
-        int intYear = Integer.parseInt(year);
-        return intYear;
+        return Integer.parseInt(year);
     }
-
     private String getChargerNoteText() {
         return stationDetailTextArea.getText();
     }
-
     private void setChargerNoteText(String s) {
         stationDetailTextArea.setText(s);
     }
@@ -239,6 +233,9 @@ public class MainController {
         stationDescription.setText(s);
     }
 
+    /**
+     * Sets Note text for a given charger based on the current station selected
+     */
     public void setNoteText() {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         Station currStation = stationDAO.queryStation(selectedStation);
@@ -247,6 +244,9 @@ public class MainController {
             setChargerNoteText(note.getNote());
         }
     }
+    /**
+     * Sets Long Display text for a given charger based on the current station selected
+     */
     public void setStationText() {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         Station currStation = stationDAO.queryStation(selectedStation);
@@ -255,8 +255,10 @@ public class MainController {
         }
     }
 
-
-
+    /**
+     * Submits notes and adds them the database for the current user
+     * @param event submit notes button clicked
+     */
     @FXML private void submitNotes(Event event) {
         Station currStation = stationDAO.queryStation(selectedStation);
         String stationNote = getChargerNoteText();
@@ -270,8 +272,6 @@ public class MainController {
         event.consume();
     }
 
-
-
     @FXML private void selectStation(Event event) {
         if(stationDropDown.getValue() != null) {
             ObservableList<String> visitedStations = visitedStationsList.getItems();
@@ -282,7 +282,7 @@ public class MainController {
     }
 
     @FXML private void addJourney(Event event) {
-        if(startTextBox.getText() != "" && endTextBox.getText() != "") {
+        if(!startTextBox.getText().equals("") && !endTextBox.getText().equals("")){
             System.out.println("Start: " + startTextBox.getText() + ", End: " + endTextBox.getText());
             for(String station : visitedStationsList.getItems()) {
                 System.out.println(station);
@@ -290,6 +290,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Searches for relevant stations based on users search inputs
+     * @param event search button pressed
+     */
     @FXML private void search(Event event) {
         QueryStation searchStation = new QueryStation();
         searchStation.setAddress(addressSearch.getText());
@@ -331,7 +335,6 @@ public class MainController {
 
     /**
      * Initialize the window
-     *
      * @param stage Top level container for this window
      */
     public void init(Stage stage) {
