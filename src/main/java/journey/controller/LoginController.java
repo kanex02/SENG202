@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -14,6 +15,8 @@ import journey.gui.MainWindow;
 import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -24,17 +27,31 @@ public class LoginController {
     private static final Logger log = LogManager.getLogger();
     private UserDAO userDAO;
     @FXML private TextField nameTextBox;
+    @FXML private Label warningLabel;
+
+    Pattern digit = Pattern.compile("[0-9]");
+    Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 
     /**
      * Register a user and add them to the user database
      * when register button is pressed.
      * @param actionEvent event the register button is pressed
      */
+
     @FXML private void registerUser(ActionEvent actionEvent) {
         String name = getNameTextBox();
-        userDAO.setCurrentUser(name);
-        //something to switch stages
-        switchToMain();
+        Matcher hasDigit = digit.matcher(name);
+        Matcher hasSpecial = special.matcher(name);
+        warningLabel.setText("");
+
+
+        if (hasDigit.find() || hasSpecial.find()) {
+            warningLabel.setText("Your name cannot contain any digits or special characters!");
+        } else {
+            userDAO.setCurrentUser(name);
+            //something to switch stages
+            switchToMain();
+        }
         actionEvent.consume();
     }
 
@@ -80,5 +97,6 @@ public class LoginController {
      */
     public void init(Stage stage) {
         userDAO = new UserDAO();
+        warningLabel.setText("");
     }
 }

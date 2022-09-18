@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import journey.repository.DatabaseManager;
 import journey.data.Station;
 import journey.repository.StationDAO;
+import journey.data.Utils;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,56 +18,36 @@ import org.apache.logging.log4j.Logger;
 public class ReadCSV {
     private static final Logger log = LogManager.getLogger();
 
-    /**
-     * Checks if input can be converted to integer
-     * @param str input to be checked
-     * @return boolean is/isn't integer
-     */
-    public static boolean isInt(String str) {
-        try {
-            int x = Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            log.error(e);
-            return false;
+
+    public static void readStations() throws FileNotFoundException {
+        FileReader file = new FileReader("src/main/resources/EV_Roam_charging_stations.csv");
+
+        List<Station> beans = new CsvToBeanBuilder<Station>(file)
+                .withType(Station.class)
+                .build()
+                .parse();
+
+        for (Station s : beans) {
+            String connectors = s.getConnectorsList();
+            connectors = connectors.substring(1, connectors.length() - 1);
+            String[] connectorsList = connectors.split("},\\{");
         }
-    }
 
-    /**
-     *
-     *
-     */
-    public static void readStations() {
-        try {
-            FileReader file = new FileReader("src/main/resources/EV_Roam_charging_stations.csv");
-            List<Station> beans = new CsvToBeanBuilder<Station>(file)
-                    .withType(Station.class)
-                    .build()
-                    .parse();
+        String maxTimeLimit = s.getMaxTimeLimit();
+        int time = 0;
+        if (Utils.isInt(maxTimeLimit)) {
+            time = Integer.parseInt(maxTimeLimit);
+        }
 
-            for (Station s : beans) {
-                String connectors = s.getConnectorsList();
-                connectors = connectors.substring(1, connectors.length() - 1);
-                String[] connectorsList = connectors.split("},\\{");
+        s.setMaxTime(time);
+        s.setConnectors(connectorsList);
 
-                String maxTimeLimit = s.getMaxTimeLimit();
-                int time = 0;
-                if (isInt(maxTimeLimit)) {
-                    time = Integer.parseInt(maxTimeLimit);
-                }
+        StationDAO stationDAO = new StationDAO();
 
-                s.setMaxTime(time);
-                s.setConnectors(connectorsList);
-
-                StationDAO stationDAO = new StationDAO();
-
-                stationDAO.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
-                        s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(),
-                        s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(),
-                        s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
-            }
-        } catch (FileNotFoundException e) {
-            log.error(e);
+        stationDAO.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
+            s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(),
+            s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(),
+            s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
         }
     }
 

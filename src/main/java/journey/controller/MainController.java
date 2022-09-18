@@ -24,7 +24,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * FXML controller class for the main window
@@ -38,6 +41,8 @@ public class MainController {
     private StationDAO stationDAO;
     private NoteDAO noteDAO;
     private VehicleDAO vehicleDAO;
+    private UserDAO userDAO;
+    private JourneyDAO journeyDAO;
 
     private Stage stage;
 
@@ -87,11 +92,15 @@ public class MainController {
     @FXML private TextField yearTextBox;
     @FXML private ComboBox<String> filterList;
     @FXML private ComboBox<String> sortList;
+    @FXML private Label warningLabel;
+    @FXML private Label journeyWarningLabel;
 
     @FXML private AnchorPane scrollPane_inner;
     @FXML private TextArea chargingStationTextArea;
     @FXML private TextArea stationDetailTextArea;
     @FXML private ComboBox<String> stationDropDown;
+    @FXML private ComboBox<String> selectVehicleComboBox;
+    private String vehicleChoice;
     @FXML private ListView<String> visitedStationsList;
     @FXML private TextField startTextBox;
     @FXML private TextField endTextBox;
@@ -100,6 +109,7 @@ public class MainController {
     @FXML private BorderPane mapPane;
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
+    @FXML private AnchorPane prevJourneysPane;
     @FXML private TextField addressSearch;
     @FXML private TextField nameSearch;
     @FXML private TextField operatorSearch;
@@ -111,12 +121,31 @@ public class MainController {
     @FXML private TextField longSearch;
     @FXML private Text stationDescription;
 
+    Pattern digit = Pattern.compile("[0-9]");
+    Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
+
 
     /**
      * Loads the open layers map view into the tab pane;
      */
     @FXML void selectMapViewTab() {
         // viewMap();
+    }
+
+    @FXML void openPrevJourneysTable() {
+        viewPrevJourneysTable();
+    }
+
+    // Function run when user dropdown button pressed
+    @FXML private void userDropdown(Event event) {
+        System.out.println("User dropdown button pressed!");
+        event.consume();
+    }
+
+    // Function run when view previous journeys pressed
+    @FXML private void viewPrevJourneys(Event event) {
+        System.out.println("view prev journeys button pressed!");
+        event.consume();
     }
 
     // Function called when start journey button pressed
@@ -149,22 +178,55 @@ public class MainController {
      */
     @FXML private void registerVehicle(Event event) {
         //get information about the vehicles and reset to null values
+        boolean valid = true;
         String registration = getRegistrationTextBox();
-        int year = getYearTextBox();
+        String year = getYearTextBox();
         String make = getMakeTextBox();
         String model = getModelTextBox();
         chargerTypeChoice(event);
-        registrationTextBox.setText("");
-        yearTextBox.setText("");
-        makeTextBox.setText("");
-        modelTextBox.setText("");
-        chargerBox.setValue("");
-        Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
+
+        if (year == "" || registration == "" || make == "" || model == "" || chargerTypeChoice == "") {
+            warningLabel.setText("Fill all fields");
+            valid = false;
+        }
+
+        int intYear = 0;
+        if (Utils.isInt(year)) {
+            intYear = Integer.parseInt(year);
+        } else {
+            warningLabel.setText("Year is invalid");
+            valid = false;
+        }
+
+        Matcher makeHasDigit = digit.matcher(make);
+        Matcher makeHasSpecial = special.matcher(make);
+        Matcher modelHasDigit = digit.matcher(model);
+        Matcher modelHasSpecial = special.matcher(model);
+
+        if (makeHasSpecial.find() || makeHasDigit.find()) {
+            warningLabel.setText("Make entry is invalid");
+            valid = false;
+        }
+
+        if (modelHasSpecial.find() || modelHasDigit.find()) {
+            warningLabel.setText("Model entry is invalid");
+            valid = false;
+        }
+
+        if (valid == true) {
+            registrationTextBox.setText("");
+            yearTextBox.setText("");
+            makeTextBox.setText("");
+            modelTextBox.setText("");
+            warningLabel.setText("");
+            chargerBox.setValue("");
+            Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration);
 
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         // Send vehicle to database
         try {
             vehicleDAO.setVehicle(newVehicle);
+            populateVehicleDropdown();
         } catch (Exception e) {
             log.error(e);
         }
@@ -210,6 +272,27 @@ public class MainController {
         }
     }
 
+    private void viewPrevJourneysTable() {
+        try {
+            FXMLLoader prevJourneysViewLoader = new FXMLLoader(getClass().getResource("/fxml/previousJourneys.fxml"));
+            Parent prevJourneysViewParent = prevJourneysViewLoader.load();
+
+            PreviousJourneyController prevJourneyViewController = prevJourneysViewLoader.getController();
+            prevJourneyViewController.init(stage);
+            prevJourneysPane.getChildren().add(prevJourneysViewParent);
+            AnchorPane.setTopAnchor(prevJourneysViewParent, 0d);
+            AnchorPane.setBottomAnchor(prevJourneysViewParent, 0d);
+            AnchorPane.setLeftAnchor(prevJourneysViewParent, 0d);
+            AnchorPane.setRightAnchor(prevJourneysViewParent, 0d);
+            prevJourneysPane.prefWidthProperty().bind(mainTabs.widthProperty());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
     private String getRegistrationTextBox() {
         return registrationTextBox.getText();
     }
@@ -219,9 +302,8 @@ public class MainController {
     private String getModelTextBox() {
         return modelTextBox.getText();
     }
-    private int getYearTextBox() {
-        String year = yearTextBox.getText();
-        return Integer.parseInt(year);
+    private String getYearTextBox() {
+        return yearTextBox.getText();
     }
     private String getChargerNoteText() {
         return stationDetailTextArea.getText();
@@ -281,12 +363,49 @@ public class MainController {
         event.consume();
     }
 
+    @FXML private void selectVehicleComboBox(Event event) {
+        vehicleChoice = selectVehicleComboBox.getValue();
+        event.consume();
+    }
+
     @FXML private void addJourney(Event event) {
-        if(!startTextBox.getText().equals("") && !endTextBox.getText().equals("")){
-            System.out.println("Start: " + startTextBox.getText() + ", End: " + endTextBox.getText());
+        boolean valid = true;
+        String end = endTextBox.getText();
+        String start = startTextBox.getText();
+        int userID = userDAO.getCurrentUser().getId();
+        selectVehicleComboBox(event);
+        if (vehicleChoice == "" || start == "" || end == "") {
+            journeyWarningLabel.setText("Fill all fields");
+            valid = false;
+        }
+
+        Matcher startHasSpecial = special.matcher(start);
+        Matcher endHasSpecial = special.matcher(end);
+
+        if (startHasSpecial.find()) {
+            journeyWarningLabel.setText("Start location invalid");
+            valid = false;
+        }
+
+        if (endHasSpecial.find()) {
+            journeyWarningLabel.setText("End location invalid");
+            valid = false;
+        }
+
+        if (valid == true) {
+            journeyWarningLabel.setText("");
+            String[] vehicle = vehicleChoice.split(": ");
+            String date = Utils.getDate();
+            endTextBox.setText("");
+            startTextBox.setText("");
+            selectVehicleComboBox.setValue("");
+            Journey journey = new Journey(start, end , vehicle[0], userID, date);
             for(String station : visitedStationsList.getItems()) {
                 System.out.println(station);
             }
+
+            journeyDAO.addJourney(journey);
+            event.consume();
         }
     }
 
@@ -333,6 +452,16 @@ public class MainController {
         return currentStations;
     }
 
+    public void populateVehicleDropdown() {
+        QueryResult data = vehicleDAO.getVehicles();
+        ObservableList<String> vehicles = FXCollections.observableArrayList();
+        for (Vehicle vehicle : data.getVehicles()) {
+            String newString = vehicle.getStringRepresentation();
+            vehicles.add(newString);
+        }
+        selectVehicleComboBox.setItems(vehicles);
+    }
+
     /**
      * Initialize the window
      * @param stage Top level container for this window
@@ -341,6 +470,10 @@ public class MainController {
         stationDAO = new StationDAO();
         noteDAO = new NoteDAO();
         vehicleDAO = new VehicleDAO();
+        userDAO = new UserDAO();
+        journeyDAO = new JourneyDAO();
+
+
         currentStations = stationDAO.getAll();
         // Fill the combo boxes
         this.stage = stage;
@@ -360,8 +493,10 @@ public class MainController {
         }
 
         stationDropDown.setItems(stationList);
+        populateVehicleDropdown();
         viewMap();
         viewTable();
+        viewPrevJourneysTable();
     }
 
     /**

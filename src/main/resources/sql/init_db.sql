@@ -57,8 +57,10 @@ CREATE TABLE IF NOT EXISTS Notes (
 DROP TABLE IF EXISTS UserJourneys;
 --Break
 CREATE TABLE IF NOT EXISTS UserJourneys (
+    journey_ID INTEGER PRIMARY KEY AUTOINCREMENT,
     user_ID INTEGER NOT NULL REFERENCES Users(ID),
-    journey_ID INTEGER NOT NULL REFERENCES Journeys(ID),
-    station_ID INTEGER NOT NULL REFERENCES Stations(ID),
-    journeyOrder INTEGER NOT NULL
-)
+    vehicle_ID TEXT NOT NULL REFERENCES Vehicles(ID),
+    start TEXT,
+    end TEXT,
+    date TEXT
+);
