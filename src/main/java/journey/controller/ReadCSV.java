@@ -1,9 +1,9 @@
 package journey.controller;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import journey.data.DatabaseManager;
+import journey.repository.DatabaseManager;
 import journey.data.Station;
-import journey.data.StationDAO;
+import journey.repository.StationDAO;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

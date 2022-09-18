@@ -293,8 +293,34 @@ public class Station {
         return OBJECTID;
     }
 
-    public String getDescription() {
+    public String getShortDescription() {
         return String.format("%s, %s", name, address);
+    }
+
+    public String getLongDescription() {
+        String longDes = String.format("Name: %s\nOperator: %s\nOwner: %s\nAddress: %s\nNumber Of Car Parks: %s\n",
+                name, operator, owner, address, carParkCount);
+        if (hasCarParkCost) {
+            longDes += "Has free parking\n";
+        } else {
+            longDes += "Doesn't have free parking\n";
+        }
+        if (is24Hours) {
+            longDes += "24 Hour parking available\n";
+        }
+        if (maxTime == 0) {
+            longDes += "Unlimited time limit\n";
+        } else {
+            longDes += "Time limit: " + maxTime + "\n";
+        }
+        if (hasTouristAttraction) {
+            longDes += "Has tourist attractions nearby\n";
+        }
+        longDes += String.format("Current Type: %s\nNumber of Connectors: %s\n",currentType, numberOfConnectors);
+        if (hasChargingCost) {
+            longDes += "Not free charging\n";
+        }
+        return longDes;
     }
 
 

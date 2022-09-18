@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <children>
       <GridPane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -45,8 +45,8 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="83.0" minHeight="40.0" prefHeight="55.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="251.0" minHeight="36.8" prefHeight="251.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="327.86712646484375" minHeight="10.0" prefHeight="78.19998474121093" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="251.0" minHeight="251.0" prefHeight="251.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="327.86712646484375" minHeight="250.0" prefHeight="78.19998474121093" vgrow="SOMETIMES" />
                </rowConstraints>
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -86,18 +86,25 @@
                         </Pane>
                      </children>
                   </HBox>
-                  <Label text="MY STUFF" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                  <Label prefHeight="19.0" prefWidth="149.0" text="Selected Station:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                      <GridPane.margin>
-                        <Insets top="20.0" />
+                        <Insets />
                      </GridPane.margin>
                      <font>
                         <Font size="14.0" />
                      </font>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
                   </Label>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#viewPrevJourneys" style="-fx-background-color: #E0E6B2;" text="View Previous Journeys" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                     <GridPane.margin>
-                        <Insets top="45.0" />
-                     </GridPane.margin></Button>
+                  <TextFlow maxHeight="250.0" minHeight="250.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                     <children>
+                        <Text fx:id="stationDescription" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="160.0" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </TextFlow>
                </children>
             </GridPane>
             <VBox GridPane.columnIndex="1">

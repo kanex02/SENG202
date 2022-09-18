@@ -6,11 +6,10 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
-import journey.data.DatabaseManager;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import journey.data.UserDAO;
+import journey.repository.UserDAO;
 import journey.gui.MainWindow;
 
 import java.io.IOException;

@@ -69,6 +69,7 @@ public class TableController {
         stationTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldStation, newStation) -> {
             MainController.setSelectedStation(newStation.getOBJECTID());
             mainController.setNoteText();
+            mainController.setStationText();
         }));
     }
 }

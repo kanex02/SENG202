@@ -1,5 +1,6 @@
 package journey.data;
 
+import journey.repository.StationDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

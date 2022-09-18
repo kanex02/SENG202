@@ -1,5 +1,6 @@
-package journey.data;
+package journey.repository;
 
+import journey.data.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +26,7 @@ public class StationDAO {
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
-            // Create a new station object. TODO: Clean up code (do in a more readable way, Process connectorsList properly
+            // Create a new station object.
             Station station = new Station(resultSet.getInt("ID"),
                     resultSet.getString("name"), resultSet.getString("operator"),
                     resultSet.getString("owner"), resultSet.getString("address"),
@@ -69,8 +70,7 @@ public class StationDAO {
                               Boolean hasTouristAttraction, double latitude, double longitude, String currentType,
                               String dateFirstOperational, int numberOfConnectors, String[] connectorsList,
                               Boolean hasChargingCost) {
-        //TODO: add helper function to format string array to string
-        //Creates new station in database. TODO: handle connectorsList properly
+        //Creates new station in database.
         Connection conn = null;
         try {
             conn = databaseManager.connect();

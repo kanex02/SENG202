@@ -3,7 +3,7 @@ package journey.business;
 import journey.controller.MainController;
 import journey.data.QueryResult;
 import journey.data.Station;
-import journey.data.StationDAO;
+import journey.repository.StationDAO;
 
 public class StationManager {
     private StationDAO stationDAO;

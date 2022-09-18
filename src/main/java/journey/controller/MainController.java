@@ -11,9 +11,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import journey.data.*;
+import journey.repository.DatabaseManager;
+import journey.repository.NoteDAO;
+import journey.repository.StationDAO;
+import journey.repository.VehicleDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -102,6 +108,7 @@ public class MainController {
     @FXML private TextField distanceSearch;
     @FXML private TextField latSearch;
     @FXML private TextField longSearch;
+    @FXML private Text stationDescription;
 
 
     /**
@@ -228,6 +235,9 @@ public class MainController {
     private void setChargerNoteText(String s) {
         stationDetailTextArea.setText(s);
     }
+    private void setStationDescription(String s) {
+        stationDescription.setText(s);
+    }
 
     public void setNoteText() {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
@@ -237,6 +247,14 @@ public class MainController {
             setChargerNoteText(note.getNote());
         }
     }
+    public void setStationText() {
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        Station currStation = stationDAO.queryStation(selectedStation);
+        if (currStation != null) {
+            setStationDescription(currStation.getLongDescription());
+        }
+    }
+
 
 
     @FXML private void submitNotes(Event event) {
@@ -345,7 +363,7 @@ public class MainController {
 
     /**
      * Brings up the profile popup window when the 'my profile' button is pressed
-     * @param event
+     * @param event Profile button clicked event
      */
     @FXML private void myProfileButton(Event event) {
         Parent root;
@@ -369,4 +387,5 @@ public class MainController {
         }
         event.consume();
     }
+
 }

@@ -119,7 +119,7 @@ public class MapController {
      * @param station station object to be added
      */
     private void addStationMark(Station station) {
-        javaScriptConnector.call("addMarker", station.getOBJECTID(), station.getDescription(), station.getLatitude(), station.getLongitude());
+        javaScriptConnector.call("addMarker", station.getOBJECTID(), station.getShortDescription(), station.getLatitude(), station.getLongitude());
     }
 
 
@@ -131,6 +131,7 @@ public class MapController {
     public boolean getStationFromClick(int id) {
         MainController.setSelectedStation(id);
         mainController.setNoteText();
+        mainController.setStationText();
         return true;
     }
 }

@@ -1,5 +1,8 @@
-package journey.data;
+package journey.repository;
 
+import journey.data.QueryResult;
+import journey.data.Utils;
+import journey.data.Vehicle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

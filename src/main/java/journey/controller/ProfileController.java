@@ -10,6 +10,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import journey.data.*;
+import journey.repository.DatabaseManager;
+import journey.repository.UserDAO;
+import journey.repository.VehicleDAO;
 
 /**
  * Controller for the profile popup
