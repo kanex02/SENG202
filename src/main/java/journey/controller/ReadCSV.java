@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import journey.data.DatabaseManager;
 import journey.data.Station;
 import journey.data.StationDAO;
+import journey.data.Utils;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,17 +14,6 @@ import java.util.List;
 
 public class ReadCSV {
 
-
-    public static boolean isInt(String str) {
-
-        try {
-            @SuppressWarnings("unused")
-            int x = Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 
     public static void readStations() throws FileNotFoundException {
         FileReader file = new FileReader("src/main/resources/EV_Roam_charging_stations.csv");
@@ -40,7 +30,7 @@ public class ReadCSV {
 
             String maxTimeLimit = s.getMaxTimeLimit();
             int time = 0;
-            if (isInt(maxTimeLimit)) {
+            if (Utils.isInt(maxTimeLimit)) {
                 time = Integer.parseInt(maxTimeLimit);
             }
 

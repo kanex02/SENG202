@@ -20,6 +20,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Controller for the main window
@@ -83,6 +85,8 @@ public class MainController {
     @FXML private TextField yearTextBox;
     @FXML private ComboBox<String> filterList;
     @FXML private ComboBox<String> sortList;
+    @FXML private Label warningLabel;
+    @FXML private Label journeyWarningLabel;
 
     @FXML private AnchorPane scrollPane_inner;
     @FXML private TextArea chargingStationTextArea;
@@ -108,6 +112,9 @@ public class MainController {
     @FXML private TextField distanceSearch;
     @FXML private TextField latSearch;
     @FXML private TextField longSearch;
+
+    Pattern digit = Pattern.compile("[0-9]");
+    Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 
 
     /**
@@ -160,22 +167,55 @@ public class MainController {
      */
     @FXML private void registerVehicle(Event event) {
         //get information about the vehicles and reset to null values
+        boolean valid = true;
         String registration = getRegistrationTextBox();
-        int year = getYearTextBox();
+        String year = getYearTextBox();
         String make = getMakeTextBox();
         String model = getModelTextBox();
         chargerTypeChoice(event);
-        registrationTextBox.setText("");
-        yearTextBox.setText("");
-        makeTextBox.setText("");
-        modelTextBox.setText("");
-        chargerBox.setValue("");
-        Vehicle newVehicle = new Vehicle(year, make, model, chargerTypeChoice, registration);
 
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        // Send vehicle to database
-        vehicleDAO.setVehicle(newVehicle);
-        populateVehicleDropdown();
+        if (year == "" || registration == "" || make == "" || model == "" || chargerTypeChoice == "") {
+            warningLabel.setText("Fill all fields");
+            valid = false;
+        }
+
+        int intYear = 0;
+        if (Utils.isInt(year)) {
+            intYear = Integer.parseInt(year);
+        } else {
+            warningLabel.setText("Year is invalid");
+            valid = false;
+        }
+
+        Matcher makeHasDigit = digit.matcher(make);
+        Matcher makeHasSpecial = special.matcher(make);
+        Matcher modelHasDigit = digit.matcher(model);
+        Matcher modelHasSpecial = special.matcher(model);
+
+        if (makeHasSpecial.find() || makeHasDigit.find()) {
+            warningLabel.setText("Make entry is invalid");
+            valid = false;
+        }
+
+        if (modelHasSpecial.find() || modelHasDigit.find()) {
+            warningLabel.setText("Model entry is invalid");
+            valid = false;
+        }
+
+        if (valid == true) {
+            registrationTextBox.setText("");
+            yearTextBox.setText("");
+            makeTextBox.setText("");
+            modelTextBox.setText("");
+            warningLabel.setText("");
+            chargerBox.setValue("");
+            Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration);
+
+            DatabaseManager databaseManager = DatabaseManager.getInstance();
+            // Send vehicle to database
+            vehicleDAO.setVehicle(newVehicle);
+            populateVehicleDropdown();
+        }
         event.consume();
     }
     /**
@@ -245,10 +285,8 @@ public class MainController {
     private String getModelTextBox() {
         return modelTextBox.getText();
     }
-    private int getYearTextBox() {
-        String year = yearTextBox.getText();
-        int intYear = Integer.parseInt(year);
-        return intYear;
+    private String getYearTextBox() {
+        return yearTextBox.getText();
     }
 
     private String getChargerNoteText() {
@@ -299,11 +337,31 @@ public class MainController {
     }
 
     @FXML private void addJourney(Event event) {
-        if(startTextBox.getText() != "" && endTextBox.getText() != "") {
-            String end = endTextBox.getText();
-            String start = startTextBox.getText();
-            int userID = userDAO.getCurrentUser().getId();
-            selectVehicleComboBox(event);
+        boolean valid = true;
+        String end = endTextBox.getText();
+        String start = startTextBox.getText();
+        int userID = userDAO.getCurrentUser().getId();
+        selectVehicleComboBox(event);
+        if (vehicleChoice == "" || start == "" || end == "") {
+            journeyWarningLabel.setText("Fill all fields");
+            valid = false;
+        }
+
+        Matcher startHasSpecial = special.matcher(start);
+        Matcher endHasSpecial = special.matcher(end);
+
+        if (startHasSpecial.find()) {
+            journeyWarningLabel.setText("Start location invalid");
+            valid = false;
+        }
+
+        if (endHasSpecial.find()) {
+            journeyWarningLabel.setText("End location invalid");
+            valid = false;
+        }
+
+        if (valid == true) {
+            journeyWarningLabel.setText("");
             String[] vehicle = vehicleChoice.split(": ");
             String date = Utils.getDate();
             endTextBox.setText("");

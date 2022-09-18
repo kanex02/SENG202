@@ -70,4 +70,16 @@ public class Utils {
         String date = df.format(new Date());
         return date;
     }
+
+
+    public static boolean isInt(String str) {
+
+        try {
+            @SuppressWarnings("unused")
+            int x = Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }
