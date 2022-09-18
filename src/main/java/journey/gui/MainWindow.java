@@ -39,21 +39,24 @@ public class MainWindow extends Application {
             baseController.init(primaryStage);
             stage = primaryStage;
             primaryStage.setTitle("Journey");
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 800, 500);
             // scene.getStylesheets().add("src/main/resources/gui/style.css");
+//            primaryStage.setResizable(false);
             primaryStage.setScene(scene);
+            primaryStage.setMaxHeight(500);
+            primaryStage.setMaxWidth(800);
+            primaryStage.setMaximized(false);
+
             primaryStage.show();
             // set the min height and width so the window opens at the correct size
-            primaryStage.setMinHeight(600);
-            primaryStage.setMinWidth(900);
-            primaryStage.setMaximized(true);
             Screen screen = Screen.getPrimary();
             Rectangle2D bounds = screen.getVisualBounds();
-
-            primaryStage.setX(bounds.getMinX());
-            primaryStage.setY(bounds.getMinY());
-            primaryStage.setWidth(bounds.getWidth());
+            primaryStage.setX((bounds.getWidth() - primaryStage.getWidth())/2);
+            primaryStage.setY((bounds.getHeight() - primaryStage.getHeight())/3);
             primaryStage.setHeight(bounds.getHeight());
+            primaryStage.setWidth(bounds.getWidth());
+
+
         } catch (IOException e) {
             log.error(e);
         }
