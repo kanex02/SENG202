@@ -59,7 +59,7 @@ public class LoginController {
             stage.setScene(scene);
 
             // set the min height and width so the window opens at the correct size
-            stage.setMinHeight(600);
+            stage.setMinHeight(650);
             stage.setMinWidth(900);
             stage.setMaximized(false);
             Screen screen = Screen.getPrimary();

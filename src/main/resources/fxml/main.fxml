@@ -46,7 +46,8 @@
                <rowConstraints>
                   <RowConstraints maxHeight="83.0" minHeight="40.0" prefHeight="55.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="251.0" minHeight="251.0" prefHeight="251.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="327.86712646484375" minHeight="250.0" prefHeight="78.19998474121093" vgrow="SOMETIMES" />
+                  <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints fillHeight="false" maxHeight="327.86712646484375" minHeight="180.0" prefHeight="78.19998474121093" vgrow="SOMETIMES" />
                </rowConstraints>
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -86,10 +87,7 @@
                         </Pane>
                      </children>
                   </HBox>
-                  <Label prefHeight="19.0" prefWidth="149.0" text="Selected Station:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
+                  <Label alignment="TOP_LEFT" prefHeight="19.0" prefWidth="149.0" text="Selected Station:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -97,13 +95,13 @@
                         <Insets top="5.0" />
                      </padding>
                   </Label>
-                  <TextFlow maxHeight="250.0" minHeight="250.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                  <TextFlow depthTest="ENABLE" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                      <children>
                         <Text fx:id="stationDescription" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="160.0" />
                      </children>
-                     <padding>
-                        <Insets bottom="10.0" />
-                     </padding>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
                   </TextFlow>
                </children>
             </GridPane>
