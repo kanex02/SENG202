@@ -45,8 +45,10 @@
             </columnConstraints>
             <rowConstraints>
                <RowConstraints maxHeight="83.0" minHeight="40.0" prefHeight="55.0" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="269.0" minHeight="36.8" prefHeight="269.0" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="327.86712646484375" minHeight="10.0" prefHeight="63.5" vgrow="SOMETIMES" />
+               <RowConstraints maxHeight="269.0" minHeight="36.8" prefHeight="180.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="269.0" minHeight="10.0" prefHeight="16.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="269.0" minHeight="0.0" prefHeight="41.0" vgrow="NEVER" />
+               <RowConstraints maxHeight="327.86712646484375" minHeight="10.0" prefHeight="100.5" vgrow="SOMETIMES" />
             </rowConstraints>
             <GridPane.margin>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -72,6 +74,7 @@
                            <Label layoutY="117.0" text="Year:" />
                            <Label layoutY="82.0" text="Model:" />
                            <Label layoutY="17.0" text="Registration:" />
+                              <Label fx:id="warningLabel" layoutY="182.0" prefHeight="55.0" prefWidth="84.0" textFill="#d30000" />
                         </children>
                      </Pane>
                      <Pane maxWidth="200.0" prefHeight="229.0" prefWidth="95.0" HBox.hgrow="NEVER">
@@ -81,13 +84,11 @@
                            <TextField fx:id="modelTextBox" layoutX="5.0" layoutY="82.0" prefHeight="26.0" prefWidth="85.0" />
                            <TextField fx:id="yearTextBox" layoutX="5.0" layoutY="116.0" prefHeight="26.0" prefWidth="85.0" />
                            <TextField fx:id="makeTextBox" layoutX="5.0" layoutY="48.0" prefHeight="26.0" prefWidth="85.0" />
-                           <Button layoutX="4.0" layoutY="223.0" mnemonicParsing="false" onAction="#registerVehicle" prefHeight="40.0" prefWidth="87.0" style="-fx-background-color: #E0E6B2;" text="Register Vehicle" textAlignment="CENTER" wrapText="true" />
-                              <Label fx:id="warningLabel" layoutX="6.0" layoutY="185.0" prefHeight="17.0" prefWidth="87.0" />
                         </children>
                      </Pane>
                   </children>
                </HBox>
-               <Label text="MY STUFF" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+               <Label text="MY STUFF" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
                   <GridPane.margin>
                      <Insets top="20.0" />
                   </GridPane.margin>
@@ -95,10 +96,12 @@
                      <Font size="14.0" />
                   </font>
                </Label>
-               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#viewPrevJourneys" style="-fx-background-color: #E0E6B2;" text="View Previous Journeys" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#viewPrevJourneys" style="-fx-background-color: #E0E6B2;" text="View Previous Journeys" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
                   <GridPane.margin>
                      <Insets top="45.0" />
                   </GridPane.margin></Button>
+               <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#registerVehicle" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: #E0E6B2;" text="Register Vehicle" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                  <Label fx:id="warningLabel" contentDisplay="CENTER" prefHeight="17.0" prefWidth="178.0" textAlignment="CENTER" textFill="#c60000" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
             </children>
          </GridPane>
          <VBox GridPane.columnIndex="1">
@@ -190,7 +193,7 @@
                <RowConstraints minHeight="10.0" prefHeight="177.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-               <SplitPane dividerPositions="0.5889175257731959" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+               <SplitPane dividerPositions="0.6198453608247423" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                   <items>
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="208.0">
                         <children>
@@ -199,15 +202,15 @@
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label layoutX="10.0" layoutY="133.0" prefHeight="26.0" prefWidth="75.0" text="Charging Details:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="133.0" />
+                           <Label layoutX="7.0" layoutY="123.0" lineSpacing="1.0" prefHeight="56.0" prefWidth="84.0" text="Charging Details:" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="123.0" />
                            <TextField fx:id="startTextBox" alignment="CENTER" layoutX="10.0" layoutY="31.0" prefHeight="26.0" prefWidth="75.0" promptText="Start" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="31.0" />
                            <TextField fx:id="endTextBox" alignment="CENTER" layoutX="97.0" layoutY="32.0" prefHeight="26.0" prefWidth="75.0" promptText="End" AnchorPane.leftAnchor="97.0" AnchorPane.topAnchor="32.0" />
                            <ComboBox fx:id="stationDropDown" layoutX="10.0" layoutY="93.0" prefHeight="26.0" prefWidth="111.0" promptText="Select Station" style="-fx-background-color: #E0E6B2;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="93.0" />
                            <ListView fx:id="visitedStationsList" layoutX="97.0" layoutY="123.0" prefHeight="56.0" prefWidth="74.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="123.0" />
-                           <Button alignment="CENTER" contentDisplay="CENTER" layoutX="53.0" layoutY="161.0" mnemonicParsing="false" onAction="#addJourney" prefHeight="24.0" prefWidth="69.0" style="-fx-background-color: #E0E6B2;" text="Submit" textAlignment="CENTER" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="52.0" />
+                           <Button alignment="CENTER" contentDisplay="CENTER" layoutX="53.0" layoutY="205.0" mnemonicParsing="false" onAction="#addJourney" prefHeight="24.0" prefWidth="69.0" style="-fx-background-color: #E0E6B2;" text="Submit" textAlignment="CENTER" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="52.0" />
                            <Button layoutX="130.0" layoutY="93.0" mnemonicParsing="false" onAction="#selectStation" style="-fx-background-color: #E0E6B2;" text="Add" AnchorPane.rightAnchor="4.0" />
                               <ComboBox fx:id="selectVehicleComboBox" layoutX="10.0" layoutY="61.0" prefHeight="26.0" prefWidth="163.0" promptText="Select vehicle" style="-fx-background-color: #E0E6B2;" />
-                              <Label fx:id="journeyWarningLabel" contentDisplay="CENTER" layoutX="14.0" layoutY="179.0" prefHeight="17.0" prefWidth="147.0" textAlignment="CENTER" textFill="RED" />
+                              <Label fx:id="journeyWarningLabel" contentDisplay="CENTER" layoutX="14.0" layoutY="190.0" prefHeight="17.0" prefWidth="147.0" textAlignment="CENTER" textFill="RED" />
                         </children>
                      </AnchorPane>
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
