@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <children>
       <GridPane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -44,10 +44,12 @@
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="83.0" minHeight="40.0" prefHeight="55.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="251.0" minHeight="251.0" prefHeight="251.0" vgrow="SOMETIMES" />
-                  <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" maxHeight="327.86712646484375" minHeight="180.0" prefHeight="78.19998474121093" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="83.0" minHeight="40.0" prefHeight="55.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="251.0" minHeight="181.19998474121093" prefHeight="182.19998474121093" vgrow="NEVER" />
+                  <RowConstraints maxHeight="100.40001525878904" minHeight="18.999984741210938" prefHeight="33.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="251.0" minHeight="30.0" prefHeight="34.60000000000002" vgrow="NEVER" />
+                  <RowConstraints fillHeight="false" maxHeight="93.39999999999998" minHeight="30.0" prefHeight="33.599999999999966" vgrow="NEVER" />
+                  <RowConstraints fillHeight="false" maxHeight="327.86712646484375" minHeight="180.0" prefHeight="300.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -82,12 +84,11 @@
                               <TextField fx:id="modelTextBox" layoutX="5.0" layoutY="82.0" prefHeight="26.0" prefWidth="85.0" />
                               <TextField fx:id="yearTextBox" layoutX="5.0" layoutY="116.0" prefHeight="26.0" prefWidth="85.0" />
                               <TextField fx:id="makeTextBox" layoutX="5.0" layoutY="48.0" prefHeight="26.0" prefWidth="85.0" />
-                              <Button layoutX="2.0" layoutY="190.0" mnemonicParsing="false" onAction="#registerVehicle" prefHeight="42.0" prefWidth="92.0" style="-fx-background-color: #E0E6B2;" text=" Register Vehicle" textAlignment="CENTER" wrapText="true" />
                            </children>
                         </Pane>
                      </children>
                   </HBox>
-                  <Label alignment="TOP_LEFT" prefHeight="19.0" prefWidth="149.0" text="Selected Station:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                  <Label alignment="TOP_LEFT" prefHeight="19.0" prefWidth="149.0" text="Selected Station:" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -95,7 +96,7 @@
                         <Insets top="5.0" />
                      </padding>
                   </Label>
-                  <TextFlow depthTest="ENABLE" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+                  <TextFlow depthTest="ENABLE" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
                      <children>
                         <Text fx:id="stationDescription" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="160.0" />
                      </children>
@@ -103,6 +104,8 @@
                         <Insets />
                      </GridPane.margin>
                   </TextFlow>
+                  <Button mnemonicParsing="false" onAction="#registerVehicle" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #E0E6B2;" text=" Register Vehicle" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <Label fx:id="warningLabel" textFill="#fa0202" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
             <VBox GridPane.columnIndex="1">
@@ -130,9 +133,9 @@
                               <AnchorPane fx:id="tablePane" prefHeight="635.0" />
                            </content>
                         </Tab>
-                        <Tab closable="false" text="Previous Journeys">
+                        <Tab closable="false" onSelectionChanged="#openPrevJourneysTable" text="Previous Journeys">
                            <content>
-                              <Pane />
+                              <AnchorPane fx:id="prevJourneysPane" />
                            </content>
                         </Tab>
                      </tabs>

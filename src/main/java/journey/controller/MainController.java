@@ -12,19 +12,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import journey.data.*;
-import journey.repository.DatabaseManager;
-import journey.repository.NoteDAO;
-import journey.repository.StationDAO;
-import journey.repository.VehicleDAO;
+import journey.repository.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -174,6 +169,7 @@ public class MainController {
      * Run when the user presses the register vehicle button
      * Initialises a new vehicle and assigns it to the current user based on the input
      * fields for make, model, year, registration and charger type
+     *
      * @param event register vehicle button pressed
      */
     @FXML private void registerVehicle(Event event) {
@@ -213,7 +209,7 @@ public class MainController {
             valid = false;
         }
 
-        if (valid == true) {
+        if (valid) {
             registrationTextBox.setText("");
             yearTextBox.setText("");
             makeTextBox.setText("");
@@ -222,15 +218,16 @@ public class MainController {
             chargerBox.setValue("");
             Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration);
 
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        // Send vehicle to database
-        try {
-            vehicleDAO.setVehicle(newVehicle);
-            populateVehicleDropdown();
-        } catch (Exception e) {
-            log.error(e);
+            DatabaseManager databaseManager = DatabaseManager.getInstance();
+            // Send vehicle to database
+            try {
+                vehicleDAO.setVehicle(newVehicle);
+                populateVehicleDropdown();
+            } catch (Exception e) {
+                log.error(e);
+            }
+            event.consume();
         }
-        event.consume();
     }
     /**
      * Loads the OpenLayers map view into the tab pane component of main view

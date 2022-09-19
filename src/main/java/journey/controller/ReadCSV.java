@@ -23,33 +23,33 @@ public class ReadCSV {
         FileReader file = new FileReader("src/main/resources/EV_Roam_charging_stations.csv");
 
         List<Station> beans = new CsvToBeanBuilder<Station>(file)
-                .withType(Station.class)
-                .build()
-                .parse();
+            .withType(Station.class)
+            .build()
+            .parse();
 
         for (Station s : beans) {
             String connectors = s.getConnectorsList();
             connectors = connectors.substring(1, connectors.length() - 1);
             String[] connectorsList = connectors.split("},\\{");
+
+
+            String maxTimeLimit = s.getMaxTimeLimit();
+            int time = 0;
+            if (Utils.isInt(maxTimeLimit)) {
+                time = Integer.parseInt(maxTimeLimit);
+            }
+
+            s.setMaxTime(time);
+            s.setConnectors(connectorsList);
+
+            StationDAO stationDAO = new StationDAO();
+
+            stationDAO.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
+                s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(),
+                s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(),
+                s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
+            }
         }
-
-        String maxTimeLimit = s.getMaxTimeLimit();
-        int time = 0;
-        if (Utils.isInt(maxTimeLimit)) {
-            time = Integer.parseInt(maxTimeLimit);
-        }
-
-        s.setMaxTime(time);
-        s.setConnectors(connectorsList);
-
-        StationDAO stationDAO = new StationDAO();
-
-        stationDAO.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
-            s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(),
-            s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(),
-            s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
-        }
-    }
 
     /**
      * Reads CSV and calls set up methods in database manager
@@ -62,6 +62,10 @@ public class ReadCSV {
         } catch (SQLException | IOException e) {
             log.error(e);
         }
-        readStations();
+        try {
+            readStations();
+        } catch (FileNotFoundException e) {
+            log.error(e);
+        }
     }
 }

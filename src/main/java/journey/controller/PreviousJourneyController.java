@@ -8,6 +8,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import journey.data.*;
+import journey.repository.JourneyDAO;
 
 
 /**

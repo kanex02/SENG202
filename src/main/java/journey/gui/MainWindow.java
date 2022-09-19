@@ -46,17 +46,14 @@ public class MainWindow extends Application {
             primaryStage.setMaxHeight(500);
             primaryStage.setMaxWidth(800);
             primaryStage.setMaximized(false);
-
             primaryStage.show();
             // set the min height and width so the window opens at the correct size
             Screen screen = Screen.getPrimary();
             Rectangle2D bounds = screen.getVisualBounds();
-            primaryStage.setX((bounds.getWidth() - primaryStage.getWidth())/2);
-            primaryStage.setY((bounds.getHeight() - primaryStage.getHeight())/3);
+            primaryStage.setX((bounds.getWidth() - primaryStage.getWidth())*1.0f/2);
+            primaryStage.setY((bounds.getHeight() - primaryStage.getHeight())*1.0f/3);
             primaryStage.setHeight(bounds.getHeight());
             primaryStage.setWidth(bounds.getWidth());
-
-
         } catch (IOException e) {
             log.error(e);
         }

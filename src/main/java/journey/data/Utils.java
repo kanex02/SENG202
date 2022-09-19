@@ -65,15 +65,22 @@ public class Utils {
         }
     }
 
+    /**
+     * gets current date from system
+     * @return current date
+     */
     public static String getDate() {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String date = df.format(new Date());
-        return date;
+        return df.format(new Date());
     }
 
 
+    /**
+     * Checks if input can be converted to integer
+     * @param str input to be checked
+     * @return boolean is/isn't integer
+     */
     public static boolean isInt(String str) {
-
         try {
             @SuppressWarnings("unused")
             int x = Integer.parseInt(str);
