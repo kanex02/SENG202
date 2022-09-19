@@ -35,8 +35,8 @@ public class PreviousJourneyController {
         vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicle_ID"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
-        QueryResult data = journeyDAO.getJourneys();
-        ObservableList<Journey> journeys = FXCollections.observableArrayList(data.getJourney());
+        Journey[] data = journeyDAO.getJourneys();
+        ObservableList<Journey> journeys = FXCollections.observableArrayList(data);
         journeyTable.setItems(journeys);
     }
 
@@ -45,7 +45,7 @@ public class PreviousJourneyController {
 
      * @param stage The stage to init.
      */
-    public void init(Stage stage) {
+    public void init(Stage stage, MainController mainController) {
 
         journeyDAO = new JourneyDAO();
 
@@ -53,5 +53,8 @@ public class PreviousJourneyController {
         journeyTable.maxWidthProperty().bind(tableParent.widthProperty());
         journeyTable.maxHeightProperty().bind(tableParent.heightProperty());
 
+        journeyTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldJourney, newJourney) -> {
+            mainController.mapJourney(newJourney);
+        }));
     }
 }

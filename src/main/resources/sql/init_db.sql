@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS Journeys;
 --Break
 CREATE TABLE IF NOT EXISTS Journeys (
     ID INTEGER PRIMARY KEY,
-    distance INTEGER
+    distance INTEGER,
     user_ID INTEGER NOT NULL REFERENCES Users(ID),
     vehicle_ID TEXT NOT NULL REFERENCES Vehicles(registration),
     start TEXT,

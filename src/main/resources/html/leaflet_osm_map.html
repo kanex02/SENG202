@@ -26,6 +26,26 @@
     let markers = [];
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let route;
+    let previousRoute = [];
+    let polyline;
+
+    const greenIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    const yellowIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 
     /**
      * This object can be returned to our java code, where we can call the functions we define inside of it
@@ -34,8 +54,52 @@
         addMarker: addMarker,
         addRoute: addRoute,
         removeRoute: removeRoute,
-        initMap: initMap
+        initMap: initMap,
+        mapJourney: mapJourney,
+        clearRoute: clearRoute
     };
+
+    function clearRoute() {
+        if (typeof polyline !== 'undefined') {
+            polyline.remove(map);
+            map.removeLayer(polyline);
+        }
+
+        for (let i = 0; i < previousRoute.length; i++) {
+            map.removeLayer(previousRoute[i]);
+        }
+
+        previousRoute = [];
+
+    }
+
+    function mapJourney(waypoints) {
+        let waypointArray = waypoints.split("//");
+
+        clearRoute();
+
+        let latlong;
+        let m;
+
+        let routeLine = [];
+        for (let i = 0; i < waypointArray.length; i++) {
+            latlong = waypointArray[i].split("#");
+            m = new L.Marker(L.latLng(latlong[0], latlong[1]), {icon: greenIcon, interactive: false});
+            routeLine.push([latlong[0], latlong[1]]);
+            previousRoute.push(m);
+        }
+
+        updateRoute();
+        polyline = L.polyline(routeLine, {color: 'green'});
+        polyline.addTo(map);
+    }
+
+    function updateRoute() {
+        for (let i = 0; i < previousRoute.length; i++) {
+            previousRoute[i].addTo(map);
+        }
+
+    }
 
     /**
      * creates and initialises the Google map, also defines on click event that calls java code

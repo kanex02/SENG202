@@ -23,7 +23,8 @@ public class Journey {
         this.date = date;
     }
 
-    public Journey(String start, String end, String vehicleID, int userID, String date) {
+    public Journey(int journeyID, String start, String end, String vehicleID, int userID, String date) {
+        this.journeyID = journeyID;
         this.start = start;
         this.end = end;
         this.vehicle_ID = vehicleID;
@@ -74,6 +75,10 @@ public class Journey {
 
     public ArrayList<Integer> getStations() {
         return stations;
+    }
+
+    public void setStations(ArrayList<Integer> stations) {
+        this.stations = stations;
     }
 
     public void addStation(Station station) {

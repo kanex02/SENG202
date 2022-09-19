@@ -85,6 +85,7 @@ public class LoginController {
             mainStage.setY(bounds.getMinY());
             mainStage.setWidth(bounds.getWidth());
             mainStage.setHeight(bounds.getHeight());
+            mainStage.setMaximized(true);
             mainStage.show();
             this.stage.close();
         } catch (IOException e) {

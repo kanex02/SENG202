@@ -120,6 +120,7 @@ public class MainController {
     @FXML private TextField endLat;
     @FXML private TextField endLong;
     @FXML private TextField selectedStationField;
+    @FXML private TabPane journeyTab;
 
 
     private MapController mapViewController;
@@ -236,6 +237,7 @@ public class MainController {
             event.consume();
         }
     }
+
     /**
      * Loads the OpenLayers map view into the tab pane component of main view
      */
@@ -282,7 +284,7 @@ public class MainController {
             Parent prevJourneysViewParent = prevJourneysViewLoader.load();
 
             PreviousJourneyController prevJourneyViewController = prevJourneysViewLoader.getController();
-            prevJourneyViewController.init(stage);
+            prevJourneyViewController.init(stage, this);
             prevJourneysPane.getChildren().add(prevJourneysViewParent);
             AnchorPane.setTopAnchor(prevJourneysViewParent, 0d);
             AnchorPane.setBottomAnchor(prevJourneysViewParent, 0d);
@@ -385,28 +387,15 @@ public class MainController {
             valid = false;
         }
 
-        Matcher startHasSpecial = special.matcher(start);
-        Matcher endHasSpecial = special.matcher(end);
-
-        if (startHasSpecial.find()) {
-            journeyWarningLabel.setText("Start location invalid");
-            valid = false;
-        }
-
-        if (endHasSpecial.find()) {
-            journeyWarningLabel.setText("End location invalid");
-            valid = false;
-        }
-
-        if (valid == true) {
+        if (valid) {
             journeyWarningLabel.setText("");
-            String[] vehicle = vehicleChoice.split(": ");
-            String date = Utils.getDate();
             startLat.setText("lat");
             startLong.setText("long");
             endLat.setText("lat");
             endLong.setText("long");
             selectVehicleComboBox.setValue("");
+            String[] vehicle = vehicleChoice.split(": ");
+            String date = Utils.getDate();
             Journey journey = new Journey(start, end , vehicle[0], userID, date, journeyStations);
             journeyDAO.addJourney(journey);
             event.consume();
@@ -464,6 +453,10 @@ public class MainController {
             vehicles.add(newString);
         }
         selectVehicleComboBox.setItems(vehicles);
+    }
+
+    public void mapJourney(Journey journey) {
+        mapViewController.mapJourney(journey);
     }
 
     /**
@@ -566,6 +559,10 @@ public class MainController {
         viewMap();
         viewTable();
         viewPrevJourneysTable();
+
+        journeyTab.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVal, newVal) -> {
+            mapViewController.clearRoute();
+        }));
     }
 
 

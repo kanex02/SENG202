@@ -9,8 +9,13 @@ import javafx.stage.Stage;
 import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
 import journey.business.StationManager;
+import journey.data.Journey;
 import journey.data.Station;
+import journey.data.Utils;
+import journey.repository.StationDAO;
 import netscape.javascript.JSObject;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -26,6 +31,7 @@ public class MapController {
     private boolean routeDisplayed = false;
     private MainController mainController;
     private GetLatLongInterface callback;
+    private StationDAO stationDAO;
 
 
     /**
@@ -35,6 +41,7 @@ public class MapController {
     void init(Stage stage, MainController mainController) {
         // Database db = new Database();
         stationManager = new StationManager();
+        stationDAO = new StationDAO();
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick, this::getLatLongFromClick);
         this.mainController = mainController;
         // set custom cell factory for list view
@@ -70,6 +77,18 @@ public class MapController {
                 });
 
 
+    }
+
+    public void mapJourney(Journey journey) {
+        ArrayList<String> waypoints = new ArrayList<>();
+        waypoints.add(journey.getStart());
+        for (int stationID : journey.getStations()) {
+            Station station = stationDAO.queryStation(stationID);
+            waypoints.add(station.getLatitude() + "#" + station.getLongitude());
+        }
+        waypoints.add(journey.getEnd());
+        String waypointString =  Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
+        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length()-2));
     }
 
     /**
@@ -147,5 +166,9 @@ public class MapController {
 
     public void setCallback(GetLatLongInterface callback) {
         this.callback = callback;
+    }
+
+    public void clearRoute() {
+        javaScriptConnector.call("clearRoute");
     }
 }
