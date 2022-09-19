@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -44,13 +45,7 @@ public class MainController {
     private Stage stage;
 
     private int selectedStation = -1;
-    private ArrayList<Integer> journeyStations = new ArrayList<>();
 
-    private static final ObservableList<String> filterListOptions =
-        FXCollections.observableArrayList (
-            "Distance",
-            "Cost"
-        );
 
     private static final ObservableList<String> chargerTypeOptions =
         FXCollections.observableArrayList (
@@ -59,29 +54,8 @@ public class MainController {
             "DC"
         );
 
-    private static final ObservableList<String> chargerTypeSearchOptions =
-            FXCollections.observableArrayList (
-                    "",
-                    "Mixed",
-                    "AC",
-                    "DC"
-            );
 
-    private static final ObservableList<String> yesNoMaybeSo =
-            FXCollections.observableArrayList (
-                    "",
-                    "Yes",
-                    "No"
-            );
-
-    private static final ObservableList<String> sortListOptions =
-        FXCollections.observableArrayList (
-            "Increasing",
-            "Decreasing"
-        );
-
-
-    private static QueryResult currentStations;
+    private QueryResult currentStations;
     private String chargerTypeChoice;
     @FXML private ChoiceBox<String> chargerBox;
     @FXML private TextField registrationTextBox;
@@ -91,38 +65,28 @@ public class MainController {
     @FXML private ComboBox<String> filterList;
     @FXML private ComboBox<String> sortList;
     @FXML private Label warningLabel;
-    @FXML private Label journeyWarningLabel;
+
 
     @FXML private AnchorPane scrollPane_inner;
     @FXML private TextArea chargingStationTextArea;
     @FXML private TextArea stationDetailTextArea;
-    @FXML private ComboBox<String> selectVehicleComboBox;
-    private String vehicleChoice;
-    @FXML private ListView<String> visitedStationsList;
-    @FXML private AnchorPane searchPane;
-    @FXML private HBox searchRow;
+
+
     @FXML private BorderPane mapPane;
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
     @FXML private AnchorPane prevJourneysPane;
-    @FXML private TextField addressSearch;
-    @FXML private TextField nameSearch;
-    @FXML private TextField operatorSearch;
-    @FXML private TextField timeSearch;
-    @FXML private ChoiceBox<String> chargerBoxSearch;
-    @FXML private ChoiceBox<String> attractionSearch;
-    @FXML private TextField distanceSearch;
-    @FXML private TextField searchLat;
-    @FXML private TextField searchLong;
     @FXML private Text stationDescription;
-    @FXML private TextField startLat;
-    @FXML private TextField startLong;
-    @FXML private TextField endLat;
-    @FXML private TextField endLong;
-    @FXML private TextField selectedStationField;
     @FXML private TabPane journeyTab;
+    @FXML private Accordion searchAccordian;
+    @FXML private GridPane leftPanel;
+    @FXML private GridPane rightPanel;
+    @FXML private TitledPane searchTitlePane;
+    @FXML private AnchorPane searchWrapper;
+    @FXML private AnchorPane recordJourneyWrapper;
 
 
+    private RecordJourneyController recordJourneyController;
     private MapController mapViewController;
     Pattern digit = Pattern.compile("[0-9]");
     Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
@@ -241,7 +205,7 @@ public class MainController {
     /**
      * Loads the OpenLayers map view into the tab pane component of main view
      */
-    private void viewMap() {
+    public void viewMap() {
         try {
             FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map.fxml"));
             Parent mapViewParent = mapViewLoader.load();
@@ -259,7 +223,7 @@ public class MainController {
     /**
      * Loads the table view into the tab pane component of main view
      */
-    private void viewTable() {
+    public void viewTable() {
         try {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table.fxml"));
             Parent tableViewParent = tableViewLoader.load();
@@ -336,7 +300,6 @@ public class MainController {
      * Sets Long Display text for a given charger based on the current station selected
      */
     public void setStationText() {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
         Station currStation = stationDAO.queryStation(selectedStation);
         if (currStation != null) {
             setStationDescription(currStation.getLongDescription());
@@ -360,88 +323,16 @@ public class MainController {
         event.consume();
     }
 
-    @FXML private void selectStation(Event event) {
-
-        if(selectedStation != -1 && (journeyStations.size() == 0 || journeyStations.get(journeyStations.size()-1) != selectedStation)) {
-            journeyStations.add(selectedStation);
-            ObservableList<String> visitedStations = visitedStationsList.getItems();
-            visitedStations.add(stationDAO.queryStation(selectedStation).getAddress());
-            visitedStationsList.setItems(visitedStations);
-        }
-        event.consume();
-    }
-
-    @FXML private void selectVehicleComboBox(Event event) {
-        vehicleChoice = selectVehicleComboBox.getValue();
-        event.consume();
-    }
-
-    @FXML private void addJourney(Event event) {
-        boolean valid = true;
-        String end = endLat.getText() + "#" + endLong.getText();
-        String start = startLat.getText() + "#" + startLong.getText();
-        int userID = userDAO.getCurrentUser().getId();
-        selectVehicleComboBox(event);
-        if (Objects.equals(vehicleChoice, "") || start.equals("lat#long") || end.equals("lat#long")) {
-            journeyWarningLabel.setText("Fill all fields");
-            valid = false;
-        }
-
-        if (valid) {
-            journeyWarningLabel.setText("");
-            startLat.setText("lat");
-            startLong.setText("long");
-            endLat.setText("lat");
-            endLong.setText("long");
-            selectVehicleComboBox.setValue("");
-            String[] vehicle = vehicleChoice.split(": ");
-            String date = Utils.getDate();
-            Journey journey = new Journey(start, end , vehicle[0], userID, date, journeyStations);
-            journeyDAO.addJourney(journey);
-            event.consume();
-        }
-    }
-
-    /**
-     * Searches for relevant stations based on users search inputs
-     * @param event search button pressed
-     */
-    @FXML private void search(Event event) {
-        QueryStation searchStation = new QueryStation();
-        searchStation.setAddress(addressSearch.getText());
-        searchStation.setName(nameSearch.getText());
-        searchStation.setOperator(operatorSearch.getText());
-        searchStation.setCurrentType(chargerBoxSearch.getValue());
-        String attractionSearchRes = attractionSearch.getValue();
-        if (attractionSearchRes != null) {
-            boolean hasAttraction = (attractionSearchRes.equals("Yes"));
-            searchStation.setHasTouristAttraction(hasAttraction);
-        }
-        if (timeSearch.getText().matches("\\d+")) {
-            searchStation.setMaxTime(Integer.parseInt(timeSearch.getText()));
-        }
-        if (searchLat.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
-                & searchLong.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
-                & distanceSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")) {
-            searchStation.setLatitude(Double.parseDouble(searchLat.getText()));
-            searchStation.setLongitude(Double.parseDouble(searchLong.getText()));
-            searchStation.setRange(Double.parseDouble(distanceSearch.getText()));
-        }
-        currentStations = stationDAO.query(searchStation);
-        viewMap();
-        viewTable();
-    }
-
     public int getSelectedStation() {
         return selectedStation;
     }
 
     public void setSelectedStation(int selectedStation) {
-        selectedStationField.setText(stationDAO.queryStation(selectedStation).getAddress());
+        recordJourneyController.updateSelectedStation(selectedStation);
         this.selectedStation = selectedStation;
     }
 
-    public static QueryResult getStations() {
+    public QueryResult getStations() {
         return currentStations;
     }
 
@@ -452,7 +343,6 @@ public class MainController {
             String newString = vehicle.getStringRepresentation();
             vehicles.add(newString);
         }
-        selectVehicleComboBox.setItems(vehicles);
     }
 
     public void mapJourney(Journey journey) {
@@ -486,43 +376,69 @@ public class MainController {
         event.consume();
     }
 
-    /**
-     * Gets the coordinates of the next click on the map. A callback function is passed in,
-     * so when the map is clicked the journey start lat and long is updated.
-     */
-    @FXML private void clickStart() {
-        mainTabs.getSelectionModel().select(0);
-        mapViewController.setCallback((lat, lng) -> {
-            startLat.setText(String.valueOf(lat));
-            startLong.setText(String.valueOf(lng));
-            return true;
-        });
+    public void onlyMap() {
+        searchAccordian.expandedPaneProperty().setValue(null);
+        leftPanel.setDisable(true);
+        rightPanel.setDisable(true);
+        searchAccordian.setDisable(true);
+    }
+    
+    public void reenable() {
+        leftPanel.setDisable(false);
+        rightPanel.setDisable(false);
+        searchAccordian.setDisable(false);
     }
 
-    /**
-     * Gets the coordinates of the next click on the map. A callback function is passed in,
-     * so when the map is clicked the journey end lat and long is updated.
-     */
-    @FXML private void clickEnd() {
-        mainTabs.getSelectionModel().select(0);
-        mapViewController.setCallback((lat, lng) -> {
-            endLat.setText(String.valueOf(lat));
-            endLong.setText(String.valueOf(lng));
-            return true;
-        });
+    private void viewSearch() {
+        try {
+            FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("/fxml/search.fxml"));
+            Parent searchParent = searchLoader.load();
+
+            SearchController searchController = searchLoader.getController();
+            searchController.init(stage, this);
+            searchWrapper.getChildren().add(searchParent);
+            AnchorPane.setTopAnchor(searchParent, 0d);
+            AnchorPane.setBottomAnchor(searchParent, 0d);
+            AnchorPane.setLeftAnchor(searchParent, 0d);
+            AnchorPane.setRightAnchor(searchParent, 0d);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Gets the coordinates of the next click on the map. A callback function is passed in,
-     * so when the map is clicked the searching lat and long is updated.
-     */
-    @FXML private void clickSearch() {
+    public void setCurrentStations(QueryResult currentStations) {
+        this.currentStations = currentStations;
+    }
+
+    public MapController getMapViewController() {
+        return mapViewController;
+    }
+
+    public void openMap() {
         mainTabs.getSelectionModel().select(0);
-        mapViewController.setCallback((lat, lng) -> {
-            searchLat.setText(String.valueOf(lat));
-            searchLong.setText(String.valueOf(lng));
-            return true;
-        });
+    }
+
+    public void openSearch() {
+        searchAccordian.expandedPaneProperty().setValue(searchTitlePane);
+    }
+
+    private void viewRecordJourney() {
+        try {
+            FXMLLoader recorderLoader = new FXMLLoader(getClass().getResource("/fxml/recordJourney.fxml"));
+            Parent recorderParent = recorderLoader.load();
+
+            recordJourneyController = recorderLoader.getController();
+            recordJourneyController.init(stage, this);
+            recordJourneyWrapper.getChildren().add(recorderParent);
+            AnchorPane.setTopAnchor(recorderParent, 0d);
+            AnchorPane.setBottomAnchor(recorderParent, 0d);
+            AnchorPane.setLeftAnchor(recorderParent, 0d);
+            AnchorPane.setRightAnchor(recorderParent, 0d);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -542,11 +458,6 @@ public class MainController {
         this.stage = stage;
         chargerBox.setItems(chargerTypeOptions);
 
-        chargerBoxSearch.setItems(chargerTypeSearchOptions);
-        chargerBoxSearch.setValue("");
-
-        attractionSearch.setItems(yesNoMaybeSo);
-
         QueryResult stations = stationDAO.getAll();
         ObservableList<String> stationList = FXCollections.observableArrayList();
         for (Station station : stations.getStations()) {
@@ -559,6 +470,8 @@ public class MainController {
         viewMap();
         viewTable();
         viewPrevJourneysTable();
+        viewRecordJourney();
+        viewSearch();
 
         journeyTab.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVal, newVal) -> {
             mapViewController.clearRoute();

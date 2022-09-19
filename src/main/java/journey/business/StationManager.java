@@ -9,10 +9,12 @@ import journey.repository.StationDAO;
  * these using relevant repository layer actions
  */
 public class StationManager {
+    private MainController mainController;
     private final StationDAO stationDAO;
 
-    public StationManager() {
+    public StationManager(MainController mainController) {
         stationDAO = new StationDAO();
+        this.mainController = mainController;
     }
 
     /**
@@ -20,7 +22,7 @@ public class StationManager {
      * @return Object list of all Stations
      */
     public Station[] getAllStations() {
-        QueryResult data = MainController.getStations();
+        QueryResult data = mainController.getStations();
         return data.getStations();
     }
 

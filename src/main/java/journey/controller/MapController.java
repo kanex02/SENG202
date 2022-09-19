@@ -40,7 +40,7 @@ public class MapController {
      */
     void init(Stage stage, MainController mainController) {
         // Database db = new Database();
-        stationManager = new StationManager();
+        stationManager = new StationManager(mainController);
         stationDAO = new StationDAO();
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick, this::getLatLongFromClick);
         this.mainController = mainController;

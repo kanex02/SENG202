@@ -33,6 +33,8 @@ public class TableController {
     @FXML private TableView<Station> stationTable;
     @FXML private AnchorPane tableParent;
 
+    private MainController mainController;
+
     /**
      * Imports the data.
      * @param stage The stage to import into.
@@ -50,7 +52,7 @@ public class TableController {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         operatorCol.setCellValueFactory(new PropertyValueFactory<>("operator"));
         timeLimitCol.setCellValueFactory(new PropertyValueFactory<>("maxTime"));
-        QueryResult data = MainController.getStations();
+        QueryResult data = mainController.getStations();
         ObservableList<Station> stations = FXCollections.observableArrayList(data.getStations());
         stationTable.setItems(stations);
     }
@@ -60,6 +62,7 @@ public class TableController {
      * @param stage The stage to init.
      */
     public void init(Stage stage, MainController mainController) {
+        this.mainController = mainController;
         getData(stage);
         stationTable.maxWidthProperty().bind(tableParent.widthProperty());
         stationTable.maxHeightProperty().bind(tableParent.heightProperty());
