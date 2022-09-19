@@ -9,6 +9,7 @@ import journey.repository.UserDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,6 +27,23 @@ public class JourneyDAO {
         userDAO = new UserDAO();
         databaseManager = DatabaseManager.getInstance();
         currentUser = userDAO.getCurrentUser();
+    }
+
+    public int getNumberOfJourneys() {
+        Connection conn = null;
+        int count = 0;
+        try {
+            conn = databaseManager.connect();
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM Journeys");
+            count = rs.getInt(1);
+        } catch (Exception e) {
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
+        }
+
+        return count;
     }
 
 
@@ -66,6 +84,12 @@ public class JourneyDAO {
             insertStatement.setString(5, journey.getEnd());
             insertStatement.setString(6, journey.getDate());
             insertStatement.execute();
+
+            Statement statement = conn.createStatement();
+            for (int i = 0; i < journey.getStations().size(); i++) {
+                StringBuilder sql = new StringBuilder("INSERT INTO ");
+                statement.addBatch("");
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

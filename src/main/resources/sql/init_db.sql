@@ -43,6 +43,11 @@ DROP TABLE IF EXISTS Journeys;
 CREATE TABLE IF NOT EXISTS Journeys (
     ID INTEGER PRIMARY KEY,
     distance INTEGER
+    user_ID INTEGER NOT NULL REFERENCES Users(ID),
+    vehicle_ID TEXT NOT NULL REFERENCES Vehicles(registration),
+    start TEXT,
+    end TEXT,
+    date TEXT
 );
 --Break
 DROP TABLE IF EXISTS Notes;
@@ -54,13 +59,11 @@ CREATE TABLE IF NOT EXISTS Notes (
     note TEXT
 );
 --Break
-DROP TABLE IF EXISTS UserJourneys;
+DROP TABLE IF EXISTS JourneyStations;
 --Break
-CREATE TABLE IF NOT EXISTS UserJourneys (
-    journey_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_ID INTEGER NOT NULL REFERENCES Users(ID),
-    vehicle_ID TEXT NOT NULL REFERENCES Vehicles(ID),
-    start TEXT,
-    end TEXT,
-    date TEXT
-);
+CREATE TABLE IF NOT EXISTS JourneyStations (
+    journey_ID INTEGER NOT NULL REFERENCES Journeys(ID),
+    station_ID INTEGER NOT NULL REFERENCES Stations(ID),
+    number INTEGER NOT NULL,
+    PRIMARY KEY ( journey_ID, station_ID, number)
+)

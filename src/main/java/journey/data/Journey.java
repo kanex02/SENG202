@@ -1,10 +1,12 @@
 package journey.data;
 
+import java.util.ArrayList;
+
 /**
  * A trip that the user took.
  */
 public class Journey {
-    private Station[] stations;
+    private ArrayList<Integer> stations;
     private double distanceTravelled;
     private String start;
     private String end;
@@ -20,6 +22,7 @@ public class Journey {
     public void setDate(String date) {
         this.date = date;
     }
+
     public Journey(String start, String end, String vehicleID, int userID, String date) {
         this.start = start;
         this.end = end;
@@ -27,20 +30,30 @@ public class Journey {
         this.userID = userID;
         this.date = date;
     }
+
+    public Journey(String start, String end, String vehicleID, int userID, String date, ArrayList<Integer> stations) {
+        this.start = start;
+        this.end = end;
+        this.vehicle_ID = vehicleID;
+        this.userID = userID;
+        this.date = date;
+        this.stations = stations;
+    }
+
     public String getEnd() {
         return end;
     }
 
-    public void setEnd(String end) {
-        this.end = end;
+    public void setEnd(double lat, double lng) {
+        this.end = lat + "#" + lng;
     }
 
     public String getStart() {
         return start;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setStart(double lat, double lng) {
+        this.start = lat + "#" + lng;
     }
 
     public String getVehicle_ID() {
@@ -59,12 +72,16 @@ public class Journey {
         this.journeyID = journeyID;
     }
 
-    public Station[] getStations() {
+    public ArrayList<Integer> getStations() {
         return stations;
     }
 
-    public void setStations(Station[] stations) {
-        this.stations = stations;
+    public void addStation(Station station) {
+        stations.add(station.getOBJECTID());
+    }
+
+    public void addStation(int station) {
+        stations.add(station);
     }
 
     public double getDistanceTravelled() {

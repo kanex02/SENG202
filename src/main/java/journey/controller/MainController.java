@@ -20,7 +20,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,7 +43,8 @@ public class MainController {
 
     private Stage stage;
 
-    private static int selectedStation = -1;
+    private int selectedStation = -1;
+    private ArrayList<Integer> journeyStations = new ArrayList<>();
 
     private static final ObservableList<String> filterListOptions =
         FXCollections.observableArrayList (
@@ -93,12 +96,9 @@ public class MainController {
     @FXML private AnchorPane scrollPane_inner;
     @FXML private TextArea chargingStationTextArea;
     @FXML private TextArea stationDetailTextArea;
-    @FXML private ComboBox<String> stationDropDown;
     @FXML private ComboBox<String> selectVehicleComboBox;
     private String vehicleChoice;
     @FXML private ListView<String> visitedStationsList;
-    @FXML private TextField startTextBox;
-    @FXML private TextField endTextBox;
     @FXML private AnchorPane searchPane;
     @FXML private HBox searchRow;
     @FXML private BorderPane mapPane;
@@ -119,6 +119,8 @@ public class MainController {
     @FXML private TextField startLong;
     @FXML private TextField endLat;
     @FXML private TextField endLong;
+    @FXML private TextField selectedStationField;
+
 
     private MapController mapViewController;
     Pattern digit = Pattern.compile("[0-9]");
@@ -357,9 +359,11 @@ public class MainController {
     }
 
     @FXML private void selectStation(Event event) {
-        if(stationDropDown.getValue() != null) {
+
+        if(selectedStation != -1 && (journeyStations.size() == 0 || journeyStations.get(journeyStations.size()-1) != selectedStation)) {
+            journeyStations.add(selectedStation);
             ObservableList<String> visitedStations = visitedStationsList.getItems();
-            visitedStations.add(stationDropDown.getValue());
+            visitedStations.add(stationDAO.queryStation(selectedStation).getAddress());
             visitedStationsList.setItems(visitedStations);
         }
         event.consume();
@@ -372,11 +376,11 @@ public class MainController {
 
     @FXML private void addJourney(Event event) {
         boolean valid = true;
-        String end = endTextBox.getText();
-        String start = startTextBox.getText();
+        String end = endLat.getText() + "#" + endLong.getText();
+        String start = startLat.getText() + "#" + startLong.getText();
         int userID = userDAO.getCurrentUser().getId();
         selectVehicleComboBox(event);
-        if (vehicleChoice == "" || start == "" || end == "") {
+        if (Objects.equals(vehicleChoice, "") || start.equals("lat#long") || end.equals("lat#long")) {
             journeyWarningLabel.setText("Fill all fields");
             valid = false;
         }
@@ -398,14 +402,12 @@ public class MainController {
             journeyWarningLabel.setText("");
             String[] vehicle = vehicleChoice.split(": ");
             String date = Utils.getDate();
-            endTextBox.setText("");
-            startTextBox.setText("");
+            startLat.setText("lat");
+            startLong.setText("long");
+            endLat.setText("lat");
+            endLong.setText("long");
             selectVehicleComboBox.setValue("");
-            Journey journey = new Journey(start, end , vehicle[0], userID, date);
-            for(String station : visitedStationsList.getItems()) {
-                System.out.println(station);
-            }
-
+            Journey journey = new Journey(start, end , vehicle[0], userID, date, journeyStations);
             journeyDAO.addJourney(journey);
             event.consume();
         }
@@ -441,13 +443,13 @@ public class MainController {
         viewTable();
     }
 
-    public static int getSelectedStation() {
+    public int getSelectedStation() {
         return selectedStation;
     }
 
-    public static void setSelectedStation(int selectedStation) {
-        MainController.selectedStation = selectedStation;
-
+    public void setSelectedStation(int selectedStation) {
+        selectedStationField.setText(stationDAO.queryStation(selectedStation).getAddress());
+        this.selectedStation = selectedStation;
     }
 
     public static QueryResult getStations() {
@@ -560,7 +562,6 @@ public class MainController {
             stationList.add(newString);
         }
 
-        stationDropDown.setItems(stationList);
         populateVehicleDropdown();
         viewMap();
         viewTable();

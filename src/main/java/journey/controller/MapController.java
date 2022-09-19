@@ -125,7 +125,7 @@ public class MapController {
      * @param id id of charger to add
      */
     public boolean getStationFromClick(int id) {
-        MainController.setSelectedStation(id);
+        mainController.setSelectedStation(id);
         mainController.setNoteText();
         mainController.setStationText();
         return true;
