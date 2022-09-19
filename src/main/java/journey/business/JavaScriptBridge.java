@@ -17,13 +17,15 @@ public class JavaScriptBridge {
 
     private static final Logger log = LogManager.getLogger();
     private GetStationInterface getStationInterface;
+    private GetLatLongInterface getLatLongInterface;
 
     /**
      * Creates a javascript bridge object with a 'callback' lambda function for displaying the station on the map after creation
      * @param getStationLambda indicate a station to get from database by id, return true if its found and used
      */
-    public JavaScriptBridge(GetStationInterface getStationLambda) {
+    public JavaScriptBridge(GetStationInterface getStationLambda, GetLatLongInterface getLatLongLambda) {
         getStationInterface = getStationLambda;
+        getLatLongInterface = getLatLongLambda;
     }
 
     /**
@@ -42,5 +44,9 @@ public class JavaScriptBridge {
      */
     public boolean getStationFromClick(int id) {
         return getStationInterface.operation(id);
+    }
+
+    public boolean getLatLongFromClick(double lat, double lng) {
+        return getLatLongInterface.operation(lat, lng);
     }
 }

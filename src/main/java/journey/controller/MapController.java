@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
 import journey.business.StationManager;
 import journey.data.Station;
@@ -24,7 +25,7 @@ public class MapController {
     private JSObject javaScriptConnector;
     private boolean routeDisplayed = false;
     private MainController mainController;
-
+    private GetLatLongInterface callback;
 
 
     /**
@@ -34,7 +35,7 @@ public class MapController {
     void init(Stage stage, MainController mainController) {
         // Database db = new Database();
         stationManager = new StationManager();
-        javaScriptBridge = new JavaScriptBridge(this::getStationFromClick);
+        javaScriptBridge = new JavaScriptBridge(this::getStationFromClick, this::getLatLongFromClick);
         this.mainController = mainController;
         // set custom cell factory for list view
         initMap();
@@ -128,5 +129,23 @@ public class MapController {
         mainController.setNoteText();
         mainController.setStationText();
         return true;
+    }
+
+    /**
+     * Gets the lat and long from clicking on the map
+     * To be called from {@link JavaScriptBridge} to get the relevant coordinates
+     * @param lat lat of click
+     * @param lng long of click
+     * @return whether the operation was successful
+     */
+    public boolean getLatLongFromClick(double lat, double lng) {
+        callback.operation(lat, lng);
+        //Resets the callback so the previous function is no longer called.
+        callback = null;
+        return true;
+    }
+
+    public void setCallback(GetLatLongInterface callback) {
+        this.callback = callback;
     }
 }

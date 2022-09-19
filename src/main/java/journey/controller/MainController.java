@@ -112,10 +112,15 @@ public class MainController {
     @FXML private ChoiceBox<String> chargerBoxSearch;
     @FXML private ChoiceBox<String> attractionSearch;
     @FXML private TextField distanceSearch;
-    @FXML private TextField latSearch;
-    @FXML private TextField longSearch;
+    @FXML private TextField searchLat;
+    @FXML private TextField searchLong;
     @FXML private Text stationDescription;
+    @FXML private TextField startLat;
+    @FXML private TextField startLong;
+    @FXML private TextField endLat;
+    @FXML private TextField endLong;
 
+    private MapController mapViewController;
     Pattern digit = Pattern.compile("[0-9]");
     Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 
@@ -237,7 +242,7 @@ public class MainController {
             FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map.fxml"));
             Parent mapViewParent = mapViewLoader.load();
 
-            MapController mapViewController = mapViewLoader.getController();
+            mapViewController = mapViewLoader.getController();
             mapViewController.init(stage, this);
             mapPane.setCenter(mapViewParent);
             mapPane.prefWidthProperty().bind(mainTabs.widthProperty());
@@ -424,11 +429,11 @@ public class MainController {
         if (timeSearch.getText().matches("\\d+")) {
             searchStation.setMaxTime(Integer.parseInt(timeSearch.getText()));
         }
-        if (latSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
-                & longSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
+        if (searchLat.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
+                & searchLong.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
                 & distanceSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")) {
-            searchStation.setLatitude(Double.parseDouble(latSearch.getText()));
-            searchStation.setLongitude(Double.parseDouble(longSearch.getText()));
+            searchStation.setLatitude(Double.parseDouble(searchLat.getText()));
+            searchStation.setLongitude(Double.parseDouble(searchLong.getText()));
             searchStation.setRange(Double.parseDouble(distanceSearch.getText()));
         }
         currentStations = stationDAO.query(searchStation);
@@ -457,6 +462,72 @@ public class MainController {
             vehicles.add(newString);
         }
         selectVehicleComboBox.setItems(vehicles);
+    }
+
+    /**
+     * Brings up the profile popup window when the 'my profile' button is pressed
+     * @param event Profile button clicked event
+     */
+    @FXML private void myProfileButton(Event event) {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+            root = loader.load();
+
+            ProfileController controller = loader.getController();
+
+            Stage profileStage = new Stage(StageStyle.UNDECORATED);
+            controller.init(profileStage);
+
+            profileStage.setTitle("Profile");
+            Scene scene = new Scene(root);
+            profileStage.setScene(scene);
+            profileStage.show();
+            profileStage.setMinHeight(400);
+            profileStage.setMinWidth(500);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        event.consume();
+    }
+
+    /**
+     * Gets the coordinates of the next click on the map. A callback function is passed in,
+     * so when the map is clicked the journey start lat and long is updated.
+     */
+    @FXML private void clickStart() {
+        mainTabs.getSelectionModel().select(0);
+        mapViewController.setCallback((lat, lng) -> {
+            startLat.setText(String.valueOf(lat));
+            startLong.setText(String.valueOf(lng));
+            return true;
+        });
+    }
+
+    /**
+     * Gets the coordinates of the next click on the map. A callback function is passed in,
+     * so when the map is clicked the journey end lat and long is updated.
+     */
+    @FXML private void clickEnd() {
+        mainTabs.getSelectionModel().select(0);
+        mapViewController.setCallback((lat, lng) -> {
+            endLat.setText(String.valueOf(lat));
+            endLong.setText(String.valueOf(lng));
+            return true;
+        });
+    }
+
+    /**
+     * Gets the coordinates of the next click on the map. A callback function is passed in,
+     * so when the map is clicked the searching lat and long is updated.
+     */
+    @FXML private void clickSearch() {
+        mainTabs.getSelectionModel().select(0);
+        mapViewController.setCallback((lat, lng) -> {
+            searchLat.setText(String.valueOf(lat));
+            searchLong.setText(String.valueOf(lng));
+            return true;
+        });
     }
 
     /**
@@ -496,31 +567,6 @@ public class MainController {
         viewPrevJourneysTable();
     }
 
-    /**
-     * Brings up the profile popup window when the 'my profile' button is pressed
-     * @param event Profile button clicked event
-     */
-    @FXML private void myProfileButton(Event event) {
-        Parent root;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
-            root = loader.load();
 
-            ProfileController controller = loader.getController();
-
-            Stage profileStage = new Stage(StageStyle.UNDECORATED);
-            controller.init(profileStage);
-
-            profileStage.setTitle("Profile");
-            Scene scene = new Scene(root);
-            profileStage.setScene(scene);
-            profileStage.show();
-            profileStage.setMinHeight(400);
-            profileStage.setMinWidth(500);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        event.consume();
-    }
 
 }

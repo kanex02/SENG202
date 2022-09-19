@@ -1,11 +1,13 @@
 package journey.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +28,7 @@ import java.util.regex.Pattern;
 public class LoginController {
     private static final Logger log = LogManager.getLogger();
     private UserDAO userDAO;
+    private Stage stage;
     @FXML private TextField nameTextBox;
     @FXML private Label warningLabel;
 
@@ -35,10 +38,9 @@ public class LoginController {
     /**
      * Register a user and add them to the user database
      * when register button is pressed.
-     * @param actionEvent event the register button is pressed
      */
 
-    @FXML private void registerUser(ActionEvent actionEvent) {
+    @FXML private void registerUser() {
         String name = getNameTextBox();
         Matcher hasDigit = digit.matcher(name);
         Matcher hasSpecial = special.matcher(name);
@@ -52,7 +54,6 @@ public class LoginController {
             //something to switch stages
             switchToMain();
         }
-        actionEvent.consume();
     }
 
     @FXML private String getNameTextBox() {
@@ -66,26 +67,26 @@ public class LoginController {
         try {
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
             Parent root = baseLoader.load();
-            Stage stage = new Stage();
+            Stage mainStage = new Stage();
 
             MainController baseController = baseLoader.getController();
-            baseController.init(stage);
+            baseController.init(mainStage);
 
-            stage.setTitle("Journey");
+            mainStage.setTitle("Journey");
             Scene scene = new Scene(root, 600, 400);
-            stage.setScene(scene);
+            mainStage.setScene(scene);
 
             // set the min height and width so the window opens at the correct size
-            stage.setMinHeight(650);
-            stage.setMinWidth(900);
+            mainStage.setMinHeight(650);
+            mainStage.setMinWidth(900);
             Screen screen = Screen.getPrimary();
             Rectangle2D bounds = screen.getVisualBounds();
-            stage.setX(bounds.getMinX());
-            stage.setY(bounds.getMinY());
-            stage.setWidth(bounds.getWidth());
-            stage.setHeight(bounds.getHeight());
-            stage.show();
-            MainWindow.getStage().close();
+            mainStage.setX(bounds.getMinX());
+            mainStage.setY(bounds.getMinY());
+            mainStage.setWidth(bounds.getWidth());
+            mainStage.setHeight(bounds.getHeight());
+            mainStage.show();
+            this.stage.close();
         } catch (IOException e) {
             log.error(e);
         }
@@ -96,7 +97,14 @@ public class LoginController {
      * @param stage stage to load
      */
     public void init(Stage stage) {
+        this.stage = stage;
         userDAO = new UserDAO();
+        //This must use Platform.runLater or else we get a core dump.
+        nameTextBox.setOnKeyPressed( event -> {
+            if( event.getCode() == KeyCode.ENTER ) {
+                Platform.runLater(this::registerUser);
+            }
+        });
         warningLabel.setText("");
     }
 }
