@@ -91,7 +91,6 @@ public class MainController {
     Pattern digit = Pattern.compile("[0-9]");
     Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 
-
     /**
      * Loads the open layers map view into the tab pane;
      */
@@ -216,7 +215,7 @@ public class MainController {
             mapPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 
@@ -238,7 +237,7 @@ public class MainController {
             tablePane.prefWidthProperty().bind(mainTabs.widthProperty());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 
@@ -257,7 +256,7 @@ public class MainController {
             prevJourneysPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 

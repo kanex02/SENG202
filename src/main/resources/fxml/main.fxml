@@ -1,31 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.text.TextFlow?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <children>
       <GridPane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -112,7 +92,7 @@
                   <Button mnemonicParsing="false" onAction="#registerVehicle" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #E0E6B2;" text=" Register Vehicle" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                   <AnchorPane prefHeight="339.0" prefWidth="290.0" GridPane.rowIndex="4" GridPane.rowSpan="2">
                      <children>
-                        <Label alignment="TOP_LEFT" layoutY="15.0" prefHeight="19.0" prefWidth="149.0" text="Selected Station:" AnchorPane.leftAnchor="5.0">
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutY="15.0" prefHeight="19.0" prefWidth="149.0" text="SELECTED STATION" textAlignment="CENTER" underline="true">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -180,26 +160,26 @@
             <children>
                <SplitPane dividerPositions="0.6198453608247423" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                   <items>
-                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
+                     <AnchorPane minHeight="200.0" minWidth="0.0" prefHeight="380.0" prefWidth="288.0">
                         <children>
-                           <TabPane fx:id="journeyTab" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                              <Tab closable="false" text="Record a Journey">
-                                 <AnchorPane fx:id="recordJourneyWrapper"/>
+                           <TabPane fx:id="journeyTab" minHeight="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <Tab closable="false" text="Plan a Journey">
+                                 <AnchorPane fx:id="recordJourneyWrapper" minHeight="200.0" />
                               </Tab>
-                              <Tab closable="false" onSelectionChanged="#openPrevJourneysTable" text="Previous Journeys">
+                              <Tab closable="false" onSelectionChanged="#openPrevJourneysTable" text="Planned Journeys">
                                  <AnchorPane fx:id="prevJourneysPane" />
                               </Tab>
                            </TabPane>
                         </children>
                      </AnchorPane>
-                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <AnchorPane minHeight="150.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                         <children>
                            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" prefHeight="56.0" prefWidth="167.0" text="RECORD STATION DETAILS" textAlignment="CENTER" textOverrun="CLIP" underline="true" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <TextArea fx:id="stationDetailTextArea" layoutX="10.0" layoutY="56.0" prefHeight="139.0" prefWidth="147.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="56.0" />
+                           <TextArea fx:id="stationDetailTextArea" layoutX="10.0" layoutY="56.0" minHeight="100.0" prefHeight="139.0" prefWidth="147.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="56.0" />
                            <Button layoutX="53.0" layoutY="169.0" mnemonicParsing="false" onAction="#submitNotes" prefHeight="24.0" prefWidth="69.0" style="-fx-background-color: #E0E6B2;" text="Submit" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="52.0" />
                         </children>
                      </AnchorPane>
