@@ -1,20 +1,27 @@
 package journey.repository;
 
-import journey.data.*;
+import static journey.data.Utils.convertArrayToString;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Objects;
+import journey.data.QueryResult;
+import journey.data.QueryStation;
+import journey.data.Station;
+import journey.data.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.Objects;
-
-import static journey.data.Utils.convertArrayToString;
 
 /**
- * Concrete implementation of Database Access Object that handles all station related actions to the database
+ * Concrete implementation of Database Access Object that handles all station related actions to the database.
  */
 public class StationDAO {
-    private DatabaseManager databaseManager;
+    private final DatabaseManager databaseManager;
     private static final Logger log = LogManager.getLogger();
 
     public StationDAO() {
@@ -22,7 +29,8 @@ public class StationDAO {
     }
 
     /**
-     * Query SQL database for a station of given id
+     * Query SQL database for a station of given id.
+
      * @param id stations id to find in database
      * @return station object assembled from database
      */
@@ -41,8 +49,10 @@ public class StationDAO {
                     resultSet.getBoolean("is24Hours"), resultSet.getInt("carParkCount"),
                     resultSet.getBoolean("hasCarParkCost"), resultSet.getInt("maxTimeLimit"),
                     resultSet.getBoolean("hasTouristAttraction"), resultSet.getFloat("latitude"),
-                    resultSet.getFloat("longitude"), resultSet.getString("currentType"), resultSet.getString("dateFirstOperational"),
-                    resultSet.getInt("numberOfConnectors"), (resultSet.getString("connectorsList")).split(":"),
+                    resultSet.getFloat("longitude"), resultSet.getString("currentType"),
+                    resultSet.getString("dateFirstOperational"),
+                    resultSet.getInt("numberOfConnectors"),
+                    (resultSet.getString("connectorsList")).split(":"),
                     resultSet.getBoolean("hasChargingCost"));
         } catch (SQLException e) {
             log.error(e);
@@ -53,8 +63,9 @@ public class StationDAO {
     }
 
     /**
-     * Inserts all features of the station into the database
+     * Inserts all features of the station into the database.
      * Is seperated into params instead of a station object for easy transfer from ReadCSV -> StationDAO
+
      * @param id station id
      * @param name station name
      * @param operator station operator
@@ -110,7 +121,8 @@ public class StationDAO {
     }
 
     /**
-     * Get all stations from database
+     * Get all stations from database.
+
      * @return result ArrayList of all stations in the database
      */
     public QueryResult getAll() {
@@ -131,7 +143,9 @@ public class StationDAO {
     }
 
     /**
-     * Function to find all matching stations with results matching QueryStation (QueryStation assembled based on search inputs)
+     * Function to find all matching stations with results matching QueryStation
+     * (QueryStation assembled based on search inputs).
+
      * @param searchStation QueryStation object which holds all necessary search values (the rest are null/null-like)
      * @return result ArrayList of all stations in the database that match given values in QueryStation
      */
@@ -157,7 +171,7 @@ public class StationDAO {
                     .append(" OR maxTimeLimit = 0) ");
         }
         String currentType = searchStation.getCurrentType();
-        if (!Objects.equals(currentType, "")) {
+        if (!Objects.equals(currentType, "") && currentType != null) {
             queryString.append("AND (currentType = '").append(currentType)
                     .append("' OR currentType = 'Mixed') ");
         }
@@ -170,7 +184,7 @@ public class StationDAO {
             }
         }
         ArrayList<Station> res = new ArrayList<>();
-        Connection conn = null;
+        Connection conn;
         try {
             conn = databaseManager.connect();
             Statement statement = conn.createStatement();
@@ -179,7 +193,8 @@ public class StationDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        res.removeIf(station -> searchStation.getRange() > 0 && searchStation.distanceTo(station) > searchStation.getRange());
+        res.removeIf(station -> searchStation.getRange() > 0
+                && searchStation.distanceTo(station) > searchStation.getRange());
         Utils.closeConn(conn);
         QueryResult result = new QueryResult();
         result.setStations(res.toArray(Station[]::new));
