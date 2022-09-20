@@ -30,12 +30,13 @@ CREATE TABLE IF NOT EXISTS Users (
 DROP TABLE IF EXISTS Vehicles;
 --Break
 CREATE TABLE IF NOT EXISTS Vehicles (
-    registration TEXT PRIMARY KEY,
+    registration TEXT,
     user_ID INTEGER NOT NULL REFERENCES Users(ID),
     year INTEGER,
     make TEXT,
     model TEXT,
-    chargerType TEXT
+    chargerType TEXT,
+    PRIMARY KEY ( registration, user_ID )
 );
 --Break
 DROP TABLE IF EXISTS Journeys;

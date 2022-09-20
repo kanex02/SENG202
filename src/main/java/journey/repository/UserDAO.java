@@ -14,21 +14,21 @@ import java.sql.SQLException;
  */
 public class UserDAO {
     private final DatabaseManager databaseManager;
-    private static User currentUser;
     private static final Logger log = LogManager.getLogger();
 
     public UserDAO() {
         databaseManager = DatabaseManager.getInstance();
     }
 
-    // TODO: Handle non-unique users.
     /**
-     * Sets the current user given a username
+     * Sets the current user given a username.
+
      * @param username username entered in login page
      */
-    public void setCurrentUser(String username) {
+    public User setCurrentUser(String username) {
         // Update the currentUser variable and User database if necessary
         Connection conn = null;
+        User user = null;
         try {
             conn = databaseManager.connect();
             String userQuery = "SELECT * FROM Users WHERE name = ?";
@@ -47,20 +47,21 @@ public class UserDAO {
                 insertStatement.setString(2, username); // UserID set to 1 as no users exist yet.
                 insertStatement.execute();
             }
-            updateUser(username);
-            System.out.println("User updated");
+            user = updateUser(username);
         } catch (SQLException e) {
             log.error(e);
         } finally {
             Utils.closeConn(conn);
         }
+        return user;
     }
 
     /**
      * Updates the current user to one specified.
+
      * @param name name of the user to update to.
      */
-    public void updateUser(String name) {
+    private User updateUser(String name) {
         User user = new User(name);
         String userQuery = """
                 SELECT * FROM Users WHERE name = ?
@@ -80,9 +81,6 @@ public class UserDAO {
         } finally {
             Utils.closeConn(conn);
         }
-        currentUser = user;
-    }
-    public User getCurrentUser() {
-        return currentUser;
+        return user;
     }
 }

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import journey.data.Note;
 import journey.data.Station;
+import journey.data.User;
 import journey.data.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,16 +27,16 @@ public class NoteDAO {
      * Sets a given note into the Notes database.
      * If no note for the given station and user exists
      * it creates a new entry. Otherwise, updates the current note.
+
      * @param note The note to send to the database
      */
-    public void setNote(Note note) {
+    public void setNote(Note note, User user) {
         Connection conn = null;
         // Currently user is just set to ID of 1
         String noteString = note.getNote();
         Station currStation = note.getStation();
         int stationID = currStation.getOBJECTID();
-        final int userID = 1; // TODO: Get the current user from database instead of hardcoding.
-
+        int userID = user.getId();
         try {
             conn = databaseManager.connect();
             // Query database to see if a note exists
@@ -77,11 +78,11 @@ public class NoteDAO {
      * @param station station to get notes from
      * @return note from station
      */
-    public Note getNoteFromStation(Station station) {
+    public Note getNoteFromStation(Station station, User user) {
         Connection conn = null;
 
         int stationID = station.getOBJECTID();
-        final int userID = 1; // TODO: change to the user ID from the database, should be passed as a param
+        int userID = user.getId();
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Notes WHERE station_ID = ? AND user_ID = ?";

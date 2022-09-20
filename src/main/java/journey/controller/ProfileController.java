@@ -18,7 +18,7 @@ import journey.repository.VehicleDAO;
  * Controller for the profile popup
  */
 public class ProfileController {
-    private UserDAO userDAO;
+    private MainController mainController;
     private VehicleDAO vehicleDAO;
     @FXML private Button closeButton;
     @FXML private Label name;
@@ -49,7 +49,7 @@ public class ProfileController {
      */
     public void setName(Stage stage) {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
-        name.setText(userDAO.getCurrentUser().getName());
+        name.setText(mainController.getCurrentUser().getName());
     }
 
     /**
@@ -62,7 +62,7 @@ public class ProfileController {
         modelCol.setCellValueFactory(new PropertyValueFactory<>("Model"));
         yearCol.setCellValueFactory(new PropertyValueFactory<>("Year"));
         chargerTypeCol.setCellValueFactory(new PropertyValueFactory<>("ChargerType"));
-        QueryResult data = vehicleDAO.getVehicles();
+        QueryResult data = vehicleDAO.getVehicles(mainController.getCurrentUser());
         ObservableList<Vehicle> vehicles = FXCollections.observableArrayList(data.getVehicles());
         vehicleTable.setItems(vehicles);
     }
@@ -71,8 +71,8 @@ public class ProfileController {
      * Initialises the profile popup with User's registered vehicles in a table view.
      * @param stage current stage
      */
-    public void init(Stage stage) {
-        userDAO = new UserDAO();
+    public void init(Stage stage, MainController mainController) {
+        this.mainController = mainController;
         vehicleDAO = new VehicleDAO();
         setName(stage);
         setVehicles(stage);

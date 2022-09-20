@@ -42,6 +42,7 @@ public class MainController {
 
     private int selectedStation = -1;
 
+    private User currentUser;
 
     private static final ObservableList<String> chargerTypeOptions =
         FXCollections.observableArrayList(
@@ -159,7 +160,7 @@ public class MainController {
 
             // Send vehicle to database
             try {
-                vehicleDAO.setVehicle(newVehicle);
+                vehicleDAO.setVehicle(newVehicle, currentUser);
                 recordJourneyController.populateVehicleDropdown();
             } catch (Exception e) {
                 log.error(e);
@@ -263,7 +264,7 @@ public class MainController {
     public void setNoteText() {
         Station currStation = stationDAO.queryStation(selectedStation);
         if (currStation != null) {
-            Note note = noteDAO.getNoteFromStation(currStation); // Retrieve note from database
+            Note note = noteDAO.getNoteFromStation(currStation, currentUser); // Retrieve note from database
             setChargerNoteText(note.getNote());
         }
     }
@@ -290,7 +291,7 @@ public class MainController {
         if (currStation != null) {
             Note newNote = new Note(currStation, stationNote);
             // Set the note on the database
-            noteDAO.setNote(newNote);
+            noteDAO.setNote(newNote, currentUser);
         }
         setNoteText();
         event.consume();
@@ -327,7 +328,7 @@ public class MainController {
             ProfileController controller = loader.getController();
 
             Stage profileStage = new Stage(StageStyle.UNDECORATED);
-            controller.init(profileStage);
+            controller.init(profileStage, this);
 
             profileStage.setTitle("Profile");
             Scene scene = new Scene(root);
@@ -412,16 +413,22 @@ public class MainController {
         }
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+
     /**
      * Initialize the window.
 
      * @param stage Top level container for this window
      */
-    public void init(Stage stage) {
+    public void init(Stage stage, User user) {
         stationDAO = new StationDAO();
         noteDAO = new NoteDAO();
         vehicleDAO = new VehicleDAO();
 
+        currentUser = user;
 
         currentStations = stationDAO.getAll();
         // Fill the combo boxes

@@ -47,7 +47,7 @@ public class RecordJourneyController {
     }
 
     public void populateVehicleDropdown() {
-        QueryResult data = vehicleDAO.getVehicles();
+        QueryResult data = vehicleDAO.getVehicles(mainController.getCurrentUser());
         ObservableList<String> vehicles = FXCollections.observableArrayList();
         for (Vehicle vehicle : data.getVehicles()) {
             String newString = vehicle.getStringRepresentation();
@@ -72,7 +72,7 @@ public class RecordJourneyController {
         boolean valid = true;
         String end = endLat.getText() + "#" + endLong.getText();
         String start = startLat.getText() + "#" + startLong.getText();
-        int userID = userDAO.getCurrentUser().getId();
+        int userID = mainController.getCurrentUser().getId();
         vehicleChoice = selectVehicleComboBox.getValue();
         if (Objects.equals(vehicleChoice, "") || start.equals("lat#long") || end.equals("lat#long")) {
             journeyWarningLabel.setText("Fill all fields");
@@ -89,7 +89,7 @@ public class RecordJourneyController {
             visitedStationsList.setItems(null);
             String[] vehicle = vehicleChoice.split(": ");
             String date = Utils.getDate();
-            Journey journey = new Journey(start, end , vehicle[0], userID, date, journeyStations);
+            Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);
             journeyDAO.addJourney(journey);
             event.consume();
         }

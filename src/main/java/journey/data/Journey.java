@@ -96,4 +96,8 @@ public class Journey {
     public void setDistanceTravelled(double distanceTravelled) {
         this.distanceTravelled = distanceTravelled;
     }
+
+    public int getUserID() {
+        return userID;
+    }
 }
