@@ -11,6 +11,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import journey.data.User;
 import journey.repository.UserDAO;
 import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
@@ -24,9 +25,11 @@ import java.util.regex.Pattern;
  * This is a basic window that allows a user to register/login to existing account
  */
 public class LoginController {
+    private MainController mainController;
     private static final Logger log = LogManager.getLogger();
     private UserDAO userDAO;
     private Stage stage;
+    private User user;
     @FXML private TextField nameTextBox;
     @FXML private Label warningLabel;
 
@@ -48,7 +51,7 @@ public class LoginController {
         if (hasDigit.find() || hasSpecial.find()) {
             warningLabel.setText("Your name cannot contain any digits or special characters!");
         } else {
-            userDAO.setCurrentUser(name);
+            user = userDAO.setCurrentUser(name);
             //something to switch stages
             switchToMain();
         }
@@ -68,7 +71,7 @@ public class LoginController {
             Stage mainStage = new Stage();
 
             MainController baseController = baseLoader.getController();
-            baseController.init(mainStage);
+            baseController.init(mainStage, user);
 
             mainStage.setTitle("Journey");
             Scene scene = new Scene(root, 600, 400);

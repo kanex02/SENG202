@@ -136,7 +136,7 @@
                         </Tab>
                      </tabs>
                   </TabPane>
-                  <Accordion fx:id="searchAccordian" minHeight="-Infinity" VBox.vgrow="NEVER">
+                  <Accordion fx:id="searchAccordion" minHeight="-Infinity" VBox.vgrow="NEVER">
                     <panes>
                       <TitledPane fx:id="searchTitlePane" animated="false" prefWidth="540.0" text="SEARCH AND FILTER">
                         <content>

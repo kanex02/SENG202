@@ -17,7 +17,7 @@ import journey.repository.VehicleDAO;
  * Controller for the profile popup
  */
 public class ProfileController {
-    private UserDAO userDAO;
+    private MainController mainController;
     private VehicleDAO vehicleDAO;
     @FXML private Button closeButton;
     @FXML private Label name;
@@ -43,33 +43,37 @@ public class ProfileController {
 
     /**
      * Sets the text field to the name of the current user in the profile box
+     * @param stage current stage
      */
-    public void setName() {
-        name.setText(userDAO.getCurrentUser().getName());
+    public void setName(Stage stage) {
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        name.setText(mainController.getCurrentUser().getName());
     }
 
     /**
      *Retrieves the vehicles from the database and puts their information into the table
+     * @param stage current stage
      */
-    public void setVehicles() {
+    public void setVehicles(Stage stage) {
         registrationCol.setCellValueFactory(new PropertyValueFactory<>("Registration"));
         makeCol.setCellValueFactory(new PropertyValueFactory<>("Make"));
         modelCol.setCellValueFactory(new PropertyValueFactory<>("Model"));
         yearCol.setCellValueFactory(new PropertyValueFactory<>("Year"));
         chargerTypeCol.setCellValueFactory(new PropertyValueFactory<>("ChargerType"));
-        QueryResult data = vehicleDAO.getVehicles();
+        QueryResult data = vehicleDAO.getVehicles(mainController.getCurrentUser());
         ObservableList<Vehicle> vehicles = FXCollections.observableArrayList(data.getVehicles());
         vehicleTable.setItems(vehicles);
     }
 
     /**
      * Initialises the profile popup with User's registered vehicles in a table view.
+     * @param stage current stage
      */
-    public void init() {
-        userDAO = new UserDAO();
+    public void init(Stage stage, MainController mainController) {
+        this.mainController = mainController;
         vehicleDAO = new VehicleDAO();
-        setName();
-        setVehicles();
+        setName(stage);
+        setVehicles(stage);
     }
 
 }

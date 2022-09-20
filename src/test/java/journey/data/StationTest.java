@@ -1,6 +1,5 @@
 package journey.data;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,5 +29,75 @@ class StationTest {
         second.setLongitude(-8454.3 );
         double distance = first.distanceTo(second);
         assertEquals(distance, 0);
+    }
+
+    @Test
+    void getLongDescription() {
+        Station station = new Station(0,
+                "name",
+                "operator",
+                "owner",
+                "address",
+                true,
+                4,
+                true,
+                120,
+                true,
+                0f,
+                0f,
+                "connector type",
+                "date",
+                2,
+                new String[]{""},
+                true
+        );
+
+        String modelAnswer = """
+                Name: name
+                Operator: operator
+                Owner: owner
+                Address: address
+                Number Of Car Parks: 4
+                Has free parking
+                24 Hour parking available
+                Time limit: 120
+                Has tourist attractions nearby
+                Current Type: connector type
+                Number of Connectors: 2
+                Not free charging
+                """;
+        assertEquals(modelAnswer, station.getLongDescription());
+
+        Station station2 = new Station(0,
+                "name",
+                "operator",
+                "owner",
+                "address",
+                false,
+                4,
+                false,
+                0,
+                false,
+                0f,
+                0f,
+                "connector type",
+                "date",
+                2,
+                new String[]{""},
+                false
+        );
+
+        String modelAnswer2 = """
+                Name: name
+                Operator: operator
+                Owner: owner
+                Address: address
+                Number Of Car Parks: 4
+                Doesn't have free parking
+                Unlimited time limit
+                Current Type: connector type
+                Number of Connectors: 2
+                """;
+        assertEquals(modelAnswer2, station2.getLongDescription());
     }
 }

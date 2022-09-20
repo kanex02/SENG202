@@ -45,7 +45,7 @@ public class CreateJourneyController {
     }
 
     public void populateVehicleDropdown() {
-        QueryResult data = vehicleDAO.getVehicles();
+        QueryResult data = vehicleDAO.getVehicles(mainController.getCurrentUser());
         ObservableList<String> vehicles = FXCollections.observableArrayList();
         for (Vehicle vehicle : data.getVehicles()) {
             String newString = vehicle.getStringRepresentation();
@@ -70,8 +70,8 @@ public class CreateJourneyController {
         boolean valid = true;
         String end = endLat.getText() + "#" + endLong.getText();
         String start = startLat.getText() + "#" + startLong.getText();
-        int userID = userDAO.getCurrentUser().getId();
-        String vehicleChoice = selectVehicleComboBox.getValue();
+        int userID = mainController.getCurrentUser().getId();
+        vehicleChoice = selectVehicleComboBox.getValue();
         if (Objects.equals(vehicleChoice, "") || start.equals("lat#long") || end.equals("lat#long")) {
             journeyWarningLabel.setText("Fill all fields");
             valid = false;
@@ -87,7 +87,7 @@ public class CreateJourneyController {
             visitedStationsList.setItems(null);
             String[] vehicle = vehicleChoice.split(": ");
             String date = Utils.getDate();
-            Journey journey = new Journey(start, end , vehicle[0], date, journeyStations);
+            Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);
             journeyDAO.addJourney(journey);
             event.consume();
         }
@@ -123,7 +123,7 @@ public class CreateJourneyController {
         });
     }
 
-    public void init(MainController mainController) {
+    public void init(Stage stage, MainController mainController) {
         this.mainController = mainController;
         this.mapViewController = mainController.getMapViewController();
 

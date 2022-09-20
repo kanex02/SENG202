@@ -26,13 +26,15 @@ public class Journey {
         this.start = start;
         this.end = end;
         this.vehicle_ID = vehicleID;
+        this.userID = userID;
         this.date = date;
     }
 
-    public Journey(String start, String end, String vehicleID, String date, ArrayList<Integer> stations) {
+    public Journey(String start, String end, String vehicleID, int userID, String date, ArrayList<Integer> stations) {
         this.start = start;
         this.end = end;
         this.vehicle_ID = vehicleID;
+        this.userID = userID;
         this.date = date;
         this.stations = stations;
     }
@@ -61,4 +63,23 @@ public class Journey {
         this.stations = stations;
     }
 
+    public void addStation(Station station) {
+        stations.add(station.getOBJECTID());
+    }
+
+    public void addStation(int station) {
+        stations.add(station);
+    }
+
+    public double getDistanceTravelled() {
+        return distanceTravelled;
+    }
+
+    public void setDistanceTravelled(double distanceTravelled) {
+        this.distanceTravelled = distanceTravelled;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
 }
