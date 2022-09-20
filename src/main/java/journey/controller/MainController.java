@@ -1,5 +1,10 @@
 package journey.controller;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -11,7 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -20,16 +24,10 @@ import journey.repository.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
- * FXML controller class for the main window
- * This window is the basis for the application and has components of other controllers within itself
+ * FXML controller class for the main window.
+ * This window is the basis for the application and has components of other controllers within itself.
+
  * @author journey dev team
  */
 public class MainController {
@@ -39,8 +37,6 @@ public class MainController {
     private StationDAO stationDAO;
     private NoteDAO noteDAO;
     private VehicleDAO vehicleDAO;
-    private UserDAO userDAO;
-    private JourneyDAO journeyDAO;
 
     private Stage stage;
 
@@ -48,7 +44,7 @@ public class MainController {
 
 
     private static final ObservableList<String> chargerTypeOptions =
-        FXCollections.observableArrayList (
+        FXCollections.observableArrayList(
             "",
             "AC",
             "DC"
@@ -62,23 +58,15 @@ public class MainController {
     @FXML private TextField makeTextBox;
     @FXML private TextField modelTextBox;
     @FXML private TextField yearTextBox;
-    @FXML private ComboBox<String> filterList;
-    @FXML private ComboBox<String> sortList;
     @FXML private Label warningLabel;
-
-
-    @FXML private AnchorPane scrollPane_inner;
-    @FXML private TextArea chargingStationTextArea;
     @FXML private TextArea stationDetailTextArea;
-
-
     @FXML private BorderPane mapPane;
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
     @FXML private AnchorPane prevJourneysPane;
     @FXML private Text stationDescription;
     @FXML private TabPane journeyTab;
-    @FXML private Accordion searchAccordian;
+    @FXML private Accordion searchAccordion;
     @FXML private GridPane leftPanel;
     @FXML private GridPane rightPanel;
     @FXML private TitledPane searchTitlePane;
@@ -89,10 +77,10 @@ public class MainController {
     private RecordJourneyController recordJourneyController;
     private MapController mapViewController;
     Pattern digit = Pattern.compile("[0-9]");
-    Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
+    Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 
     /**
-     * Loads the open layers map view into the tab pane;
+     * Loads the open layers map view into the tab pane.
      */
     @FXML void selectMapViewTab() {
         // viewMap();
@@ -102,33 +90,11 @@ public class MainController {
         viewPrevJourneysTable();
     }
 
-    // Function run when user dropdown button pressed
-    @FXML private void userDropdown(Event event) {
-        System.out.println("User dropdown button pressed!");
-        event.consume();
-    }
-
-    // Function run when view previous journeys pressed
-    @FXML private void viewPrevJourneys(Event event) {
-        System.out.println("view prev journeys button pressed!");
-        event.consume();
-    }
-
-    // Function called when start journey button pressed
-    @FXML private void startJourneyButton(Event event) {
-        System.out.println("Start journey button pressed!");
-        event.consume();
-    }
-
-    // Function called when end journey button pressed
-    @FXML private void endJourneyButton(Event event) {
-        System.out.println("End journey button pressed!");
-        event.consume();
-    }
 
     /**
-     * Function run when charger combo box choice is changed
-     * Used to set the value that is stored
+     * Function run when charger combo box choice is changed.
+     * Used to set the value that is stored.
+
      * @param event change of Type Choice event
      */
     @FXML private void chargerTypeChoice(Event event) {
@@ -137,10 +103,10 @@ public class MainController {
     }
 
     /**
-     * Run when the user presses the register vehicle button
+     * Run when the user presses the register vehicle button.
      * Initialises a new vehicle and assigns it to the current user based on the input
-     * fields for make, model, year, registration and charger type
-     *
+     * fields for make, model, year, registration and charger type.
+
      * @param event register vehicle button pressed
      */
     @FXML private void registerVehicle(Event event) {
@@ -152,7 +118,9 @@ public class MainController {
         String model = getModelTextBox();
         chargerTypeChoice(event);
 
-        if (year == "" || registration == "" || make == "" || model == "" || chargerTypeChoice == "") {
+        if (Objects.equals(year, "") || Objects.equals(registration, "")
+                || Objects.equals(make, "") || Objects.equals(model, "")
+                || Objects.equals(chargerTypeChoice, "")) {
             warningLabel.setText("Fill all fields");
             valid = false;
         }
@@ -189,11 +157,10 @@ public class MainController {
             chargerBox.setValue("");
             Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration);
 
-            DatabaseManager databaseManager = DatabaseManager.getInstance();
             // Send vehicle to database
             try {
                 vehicleDAO.setVehicle(newVehicle);
-                populateVehicleDropdown();
+                recordJourneyController.populateVehicleDropdown();
             } catch (Exception e) {
                 log.error(e);
             }
@@ -202,7 +169,7 @@ public class MainController {
     }
 
     /**
-     * Loads the OpenLayers map view into the tab pane component of main view
+     * Loads the OpenLayers map view into the tab pane component of main view.
      */
     public void viewMap() {
         try {
@@ -220,7 +187,7 @@ public class MainController {
     }
 
     /**
-     * Loads the table view into the tab pane component of main view
+     * Loads the table view into the tab pane component of main view.
      */
     public void viewTable() {
         try {
@@ -265,38 +232,44 @@ public class MainController {
     private String getRegistrationTextBox() {
         return registrationTextBox.getText();
     }
+
     private String getMakeTextBox() {
         return makeTextBox.getText();
     }
+
     private String getModelTextBox() {
         return modelTextBox.getText();
     }
+
     private String getYearTextBox() {
         return yearTextBox.getText();
     }
+
     private String getChargerNoteText() {
         return stationDetailTextArea.getText();
     }
+
     private void setChargerNoteText(String s) {
         stationDetailTextArea.setText(s);
     }
+
     private void setStationDescription(String s) {
         stationDescription.setText(s);
     }
 
     /**
-     * Sets Note text for a given charger based on the current station selected
+     * Sets Note text for a given charger based on the current station selected.
      */
     public void setNoteText() {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
         Station currStation = stationDAO.queryStation(selectedStation);
         if (currStation != null) {
             Note note = noteDAO.getNoteFromStation(currStation); // Retrieve note from database
             setChargerNoteText(note.getNote());
         }
     }
+
     /**
-     * Sets Long Display text for a given charger based on the current station selected
+     * Sets Long Display text for a given charger based on the current station selected.
      */
     public void setStationText() {
         Station currStation = stationDAO.queryStation(selectedStation);
@@ -306,7 +279,8 @@ public class MainController {
     }
 
     /**
-     * Submits notes and adds them the database for the current user
+     * Submits notes and adds them the database for the current user.
+
      * @param event submit notes button clicked
      */
     @FXML private void submitNotes(Event event) {
@@ -335,21 +309,13 @@ public class MainController {
         return currentStations;
     }
 
-    public void populateVehicleDropdown() {
-        QueryResult data = vehicleDAO.getVehicles();
-        ObservableList<String> vehicles = FXCollections.observableArrayList();
-        for (Vehicle vehicle : data.getVehicles()) {
-            String newString = vehicle.getStringRepresentation();
-            vehicles.add(newString);
-        }
-    }
-
     public void mapJourney(Journey journey) {
         mapViewController.mapJourney(journey);
     }
 
     /**
-     * Brings up the profile popup window when the 'my profile' button is pressed
+     * Brings up the profile popup window when the 'my profile' button is pressed.
+
      * @param event Profile button clicked event
      */
     @FXML private void myProfileButton(Event event) {
@@ -375,17 +341,23 @@ public class MainController {
         event.consume();
     }
 
+    /**
+     * Opens the map, and disables almost everything else.
+     */
     public void onlyMap() {
-        searchAccordian.expandedPaneProperty().setValue(null);
+        searchAccordion.expandedPaneProperty().setValue(null);
         leftPanel.setDisable(true);
         rightPanel.setDisable(true);
-        searchAccordian.setDisable(true);
+        searchAccordion.setDisable(true);
     }
-    
+
+    /**
+     * Re-enables everything.
+     */
     public void reenable() {
         leftPanel.setDisable(false);
         rightPanel.setDisable(false);
-        searchAccordian.setDisable(false);
+        searchAccordion.setDisable(false);
     }
 
     private void viewSearch() {
@@ -419,7 +391,7 @@ public class MainController {
     }
 
     public void openSearch() {
-        searchAccordian.expandedPaneProperty().setValue(searchTitlePane);
+        searchAccordion.expandedPaneProperty().setValue(searchTitlePane);
     }
 
     private void viewRecordJourney() {
@@ -441,15 +413,14 @@ public class MainController {
     }
 
     /**
-     * Initialize the window
+     * Initialize the window.
+
      * @param stage Top level container for this window
      */
     public void init(Stage stage) {
         stationDAO = new StationDAO();
         noteDAO = new NoteDAO();
         vehicleDAO = new VehicleDAO();
-        userDAO = new UserDAO();
-        journeyDAO = new JourneyDAO();
 
 
         currentStations = stationDAO.getAll();
@@ -465,16 +436,14 @@ public class MainController {
             stationList.add(newString);
         }
 
-        populateVehicleDropdown();
         viewMap();
         viewTable();
         viewPrevJourneysTable();
         viewRecordJourney();
         viewSearch();
 
-        journeyTab.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVal, newVal) -> {
-            mapViewController.clearRoute();
-        }));
+        journeyTab.getSelectionModel().selectedItemProperty()
+                .addListener(((observableValue, oldVal, newVal) -> mapViewController.clearRoute()));
     }
 
 
