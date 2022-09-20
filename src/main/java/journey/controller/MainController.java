@@ -11,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -19,11 +18,8 @@ import journey.data.*;
 import journey.repository.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,11 +35,7 @@ public class MainController {
     private StationDAO stationDAO;
     private NoteDAO noteDAO;
     private VehicleDAO vehicleDAO;
-    private UserDAO userDAO;
-    private JourneyDAO journeyDAO;
-
     private Stage stage;
-
     private int selectedStation = -1;
 
 
@@ -62,16 +54,8 @@ public class MainController {
     @FXML private TextField makeTextBox;
     @FXML private TextField modelTextBox;
     @FXML private TextField yearTextBox;
-    @FXML private ComboBox<String> filterList;
-    @FXML private ComboBox<String> sortList;
     @FXML private Label warningLabel;
-
-
-    @FXML private AnchorPane scrollPane_inner;
-    @FXML private TextArea chargingStationTextArea;
     @FXML private TextArea stationDetailTextArea;
-
-
     @FXML private BorderPane mapPane;
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
@@ -102,30 +86,6 @@ public class MainController {
         viewPrevJourneysTable();
     }
 
-    // Function run when user dropdown button pressed
-    @FXML private void userDropdown(Event event) {
-        System.out.println("User dropdown button pressed!");
-        event.consume();
-    }
-
-    // Function run when view previous journeys pressed
-    @FXML private void viewPrevJourneys(Event event) {
-        System.out.println("view prev journeys button pressed!");
-        event.consume();
-    }
-
-    // Function called when start journey button pressed
-    @FXML private void startJourneyButton(Event event) {
-        System.out.println("Start journey button pressed!");
-        event.consume();
-    }
-
-    // Function called when end journey button pressed
-    @FXML private void endJourneyButton(Event event) {
-        System.out.println("End journey button pressed!");
-        event.consume();
-    }
-
     /**
      * Function run when charger combo box choice is changed
      * Used to set the value that is stored
@@ -152,7 +112,7 @@ public class MainController {
         String model = getModelTextBox();
         chargerTypeChoice(event);
 
-        if (year == "" || registration == "" || make == "" || model == "" || chargerTypeChoice == "") {
+        if (year.equals("") || registration.equals("") || make.equals("") || model.equals("") || chargerTypeChoice.equals("")) {
             warningLabel.setText("Fill all fields");
             valid = false;
         }
@@ -188,8 +148,6 @@ public class MainController {
             warningLabel.setText("");
             chargerBox.setValue("");
             Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration);
-
-            DatabaseManager databaseManager = DatabaseManager.getInstance();
             // Send vehicle to database
             try {
                 vehicleDAO.setVehicle(newVehicle);
@@ -210,7 +168,7 @@ public class MainController {
             Parent mapViewParent = mapViewLoader.load();
 
             mapViewController = mapViewLoader.getController();
-            mapViewController.init(stage, this);
+            mapViewController.init(this);
             mapPane.setCenter(mapViewParent);
             mapPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
@@ -228,7 +186,7 @@ public class MainController {
             Parent tableViewParent = tableViewLoader.load();
 
             TableController tableViewController = tableViewLoader.getController();
-            tableViewController.init(stage, this);
+            tableViewController.init(this);
             tablePane.getChildren().add(tableViewParent);
             AnchorPane.setTopAnchor(tableViewParent, 0d);
             AnchorPane.setBottomAnchor(tableViewParent, 0d);
@@ -288,7 +246,7 @@ public class MainController {
      * Sets Note text for a given charger based on the current station selected
      */
     public void setNoteText() {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
+
         Station currStation = stationDAO.queryStation(selectedStation);
         if (currStation != null) {
             Note note = noteDAO.getNoteFromStation(currStation); // Retrieve note from database
@@ -361,7 +319,7 @@ public class MainController {
             ProfileController controller = loader.getController();
 
             Stage profileStage = new Stage(StageStyle.UNDECORATED);
-            controller.init(profileStage);
+            controller.init();
 
             profileStage.setTitle("Profile");
             Scene scene = new Scene(root);
@@ -394,7 +352,7 @@ public class MainController {
             Parent searchParent = searchLoader.load();
 
             SearchController searchController = searchLoader.getController();
-            searchController.init(stage, this);
+            searchController.init(this);
             searchWrapper.getChildren().add(searchParent);
             AnchorPane.setTopAnchor(searchParent, 0d);
             AnchorPane.setBottomAnchor(searchParent, 0d);
@@ -428,7 +386,7 @@ public class MainController {
             Parent recorderParent = recorderLoader.load();
 
             recordJourneyController = recorderLoader.getController();
-            recordJourneyController.init(stage, this);
+            recordJourneyController.init(this);
             recordJourneyWrapper.getChildren().add(recorderParent);
             AnchorPane.setTopAnchor(recorderParent, 0d);
             AnchorPane.setBottomAnchor(recorderParent, 0d);
@@ -448,8 +406,6 @@ public class MainController {
         stationDAO = new StationDAO();
         noteDAO = new NoteDAO();
         vehicleDAO = new VehicleDAO();
-        userDAO = new UserDAO();
-        journeyDAO = new JourneyDAO();
 
 
         currentStations = stationDAO.getAll();
@@ -472,9 +428,7 @@ public class MainController {
         viewRecordJourney();
         viewSearch();
 
-        journeyTab.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVal, newVal) -> {
-            mapViewController.clearRoute();
-        }));
+        journeyTab.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVal, newVal) -> mapViewController.clearRoute()));
     }
 
 

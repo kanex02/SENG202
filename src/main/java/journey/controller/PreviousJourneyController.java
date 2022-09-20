@@ -27,7 +27,6 @@ public class PreviousJourneyController {
 
     /**
      * Imports the data.
-
      * @param stage The stage to import into.
      */
     public void setJourneys(Stage stage) {
@@ -53,8 +52,6 @@ public class PreviousJourneyController {
         journeyTable.maxWidthProperty().bind(tableParent.widthProperty());
         journeyTable.maxHeightProperty().bind(tableParent.heightProperty());
 
-        journeyTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldJourney, newJourney) -> {
-            mainController.mapJourney(newJourney);
-        }));
+        journeyTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldJourney, newJourney) -> mainController.mapJourney(newJourney));
     }
 }

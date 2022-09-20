@@ -11,10 +11,6 @@ import static java.lang.Math.*;
  */
 public class Station {
     @CsvBindByName
-    private float X;
-    @CsvBindByName
-    private float Y;
-    @CsvBindByName
     private int OBJECTID;
     @CsvBindByName
     private String name;
@@ -137,30 +133,9 @@ public class Station {
         return radius * c;
     }
 
-    public float getX() {
-        return X;
-    }
-
-    public void setX(float x) {
-        this.X = x;
-    }
-
-    public float getY() {
-        return Y;
-    }
-
-    public void setY(float y) {
-        this.Y = y;
-    }
-
     public String getOwner() {
         return owner;
     }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -172,34 +147,19 @@ public class Station {
     public boolean isIs24Hours() {
         return is24Hours;
     }
-
-    public void setIs24Hours(boolean is24Hours) {
-        this.is24Hours = is24Hours;
-    }
-
+    
     public int getCarParkCount() {
         return carParkCount;
     }
-
-    public void setCarParkCount(int carParkCount) {
-        this.carParkCount = carParkCount;
-    }
-
+    
     public boolean isHasCarParkCost() {
         return hasCarParkCost;
-    }
-
-    public void setHasCarParkCost(boolean hasCarParkCost) {
-        this.hasCarParkCost = hasCarParkCost;
     }
 
     public String getMaxTimeLimit() {
         return maxTimeLimit;
     }
-
-    public void setMaxTimeLimit(String maxTimeLimit) {
-        this.maxTimeLimit = maxTimeLimit;
-    }
+    
 
     public Boolean getHasTouristAttraction() {
         return hasTouristAttraction;
@@ -236,33 +196,17 @@ public class Station {
     public String getDateFirstOperational() {
         return dateFirstOperational;
     }
-
-    public void setDateFirstOperational(String dateFirstOperational) {
-        this.dateFirstOperational = dateFirstOperational;
-    }
-
+    
     public int getNumberOfConnectors() {
         return numberOfConnectors;
     }
-
-    public void setNumberOfConnectors(int numberOfConnectors) {
-        this.numberOfConnectors = numberOfConnectors;
-    }
-
+    
     public String getConnectorsList() {
         return connectorsList;
     }
-
-    public void setConnectorsList(String connectorsList) {
-        this.connectorsList = connectorsList;
-    }
-
+    
     public boolean isHasChargingCost() {
         return hasChargingCost;
-    }
-
-    public void setHasChargingCost(boolean hasChargingCost) {
-        this.hasChargingCost = hasChargingCost;
     }
 
     public void setName(String name) {
@@ -279,10 +223,6 @@ public class Station {
 
     public String getOperator() {
         return operator;
-    }
-
-    public void setOBJECTID(int OBJECTID) {
-        this.OBJECTID = OBJECTID;
     }
 
     public int getOBJECTID() {

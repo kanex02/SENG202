@@ -7,7 +7,6 @@ public class QueryResult {
     private Station[] stations;
     private Vehicle[] vehicles;
     private Journey[] journeys;
-    private int pageSize = 20;
 
     public Station[] getStations() {
         return stations;
@@ -28,11 +27,5 @@ public class QueryResult {
     public Vehicle[] getVehicles() {
         return vehicles;
     }
-    public int getPageSize() {
-        return pageSize;
-    }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
 }

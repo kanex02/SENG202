@@ -8,7 +8,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import journey.data.Journey;
 import journey.data.QueryResult;
 import journey.data.Utils;
@@ -38,8 +37,7 @@ public class RecordJourneyController {
     private UserDAO userDAO;
     private StationDAO stationDAO;
     private VehicleDAO vehicleDAO;
-    private String vehicleChoice;
-    private ArrayList<Integer> journeyStations = new ArrayList<>();
+    private final ArrayList<Integer> journeyStations = new ArrayList<>();
 
 
     public void updateSelectedStation(int selectedStation) {
@@ -73,7 +71,7 @@ public class RecordJourneyController {
         String end = endLat.getText() + "#" + endLong.getText();
         String start = startLat.getText() + "#" + startLong.getText();
         int userID = userDAO.getCurrentUser().getId();
-        vehicleChoice = selectVehicleComboBox.getValue();
+        String vehicleChoice = selectVehicleComboBox.getValue();
         if (Objects.equals(vehicleChoice, "") || start.equals("lat#long") || end.equals("lat#long")) {
             journeyWarningLabel.setText("Fill all fields");
             valid = false;
@@ -89,7 +87,7 @@ public class RecordJourneyController {
             visitedStationsList.setItems(null);
             String[] vehicle = vehicleChoice.split(": ");
             String date = Utils.getDate();
-            Journey journey = new Journey(start, end , vehicle[0], userID, date, journeyStations);
+            Journey journey = new Journey(start, end , vehicle[0], date, journeyStations);
             journeyDAO.addJourney(journey);
             event.consume();
         }
@@ -125,7 +123,7 @@ public class RecordJourneyController {
         });
     }
 
-    public void init(Stage stage, MainController mainController) {
+    public void init(MainController mainController) {
         this.mainController = mainController;
         this.mapViewController = mainController.getMapViewController();
 

@@ -2,19 +2,13 @@ package journey.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import journey.data.QueryStation;
 import journey.repository.StationDAO;
 
 public class SearchController {
-    @FXML private AnchorPane searchPane;
-    @FXML private HBox searchRow;
     @FXML private TextField addressSearch;
     @FXML private TextField nameSearch;
     @FXML private TextField operatorSearch;
@@ -36,10 +30,8 @@ public class SearchController {
 
     /**
      * Searches for relevant stations based on users search inputs
-
-     * @param event search button pressed
      */
-    @FXML private void search(Event event) {
+    @FXML private void search() {
         QueryStation searchStation = new QueryStation();
         searchStation.setAddress(addressSearch.getText());
         searchStation.setName(nameSearch.getText());
@@ -84,10 +76,9 @@ public class SearchController {
     /**
      * Initialises the search pane.
 
-     * @param stage stage to initiate into.
      * @param mainController the main controller.
      */
-    public void init(Stage stage, MainController mainController) {
+    public void init(MainController mainController) {
         this.mainController = mainController;
         stationDAO = new StationDAO();
 

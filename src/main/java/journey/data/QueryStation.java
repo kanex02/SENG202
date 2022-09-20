@@ -1,10 +1,6 @@
 package journey.data;
 
 
-import com.opencsv.bean.CsvBindByName;
-
-import static java.lang.Math.*;
-
 /**
  * A class that models a station, for use in results and queries.
  * X and Y have been excluded, as latitude and longitude are more widely used.

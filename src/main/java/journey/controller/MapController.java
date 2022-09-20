@@ -36,9 +36,8 @@ public class MapController {
 
     /**
      * Initialise map
-     * @param stage map stage
      */
-    void init(Stage stage, MainController mainController) {
+    void init(MainController mainController) {
         // Database db = new Database();
         stationManager = new StationManager(mainController);
         stationDAO = new StationDAO();

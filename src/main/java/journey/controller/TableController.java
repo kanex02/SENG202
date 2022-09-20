@@ -3,14 +3,12 @@ package journey.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import journey.data.QueryResult;
 import journey.data.Station;
-
-import java.sql.SQLException;
 
 
 /**
@@ -37,9 +35,8 @@ public class TableController {
 
     /**
      * Imports the data.
-     * @param stage The stage to import into.
      */
-    public void getData(Stage stage) {
+    public void getData() {
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
         attractionCol.setCellValueFactory(new PropertyValueFactory<>("hasTouristAttraction"));
         carparksCol.setCellValueFactory(new PropertyValueFactory<>("carParkCount"));
@@ -59,11 +56,10 @@ public class TableController {
 
     /**
      * Initialises the table.
-     * @param stage The stage to init.
      */
-    public void init(Stage stage, MainController mainController) {
+    public void init(MainController mainController) {
         this.mainController = mainController;
-        getData(stage);
+        getData();
         stationTable.maxWidthProperty().bind(tableParent.widthProperty());
         stationTable.maxHeightProperty().bind(tableParent.heightProperty());
 

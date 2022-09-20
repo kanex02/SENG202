@@ -1,16 +1,12 @@
 package journey.repository;
 
-import journey.data.*;
-import journey.repository.DatabaseManager;
-import journey.repository.UserDAO;
+import journey.data.Journey;
+import journey.data.User;
+import journey.data.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class JourneyDAO {
@@ -18,7 +14,7 @@ public class JourneyDAO {
     private final DatabaseManager databaseManager;
     private static User currentUser;
     private static final Logger log = LogManager.getLogger();
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
 
     public JourneyDAO() {
         userDAO = new UserDAO();
@@ -56,8 +52,7 @@ public class JourneyDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 res.add(new Journey(rs.getInt("ID"), rs.getString("start"), rs.getString("end"),
-                        rs.getString("vehicle_ID"), rs.getInt("user_ID"),
-                        rs.getString("date")));
+                        rs.getString("vehicle_ID"), rs.getString("date")));
             }
             for (Journey journey : res) {
                 ArrayList<Integer> stations = new ArrayList<>();
@@ -71,7 +66,7 @@ public class JourneyDAO {
                 journey.setStations(stations);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.error(e);
         }
         Utils.closeConn(conn);
         return res.toArray(Journey[]::new);
@@ -93,11 +88,10 @@ public class JourneyDAO {
 
             Statement statement = conn.createStatement();
             for (int i = 0; i < journey.getStations().size(); i++) {
-                StringBuilder sql = new StringBuilder("INSERT INTO JourneyStations VALUES (");
-                sql.append(getNumberOfJourneys()).append(",")
-                                .append(journey.getStations().get(i)).append(",")
-                                .append(i).append(")");
-                statement.addBatch(sql.toString());
+                String sql = "INSERT INTO JourneyStations VALUES (" + getNumberOfJourneys() + "," +
+                        journey.getStations().get(i) + "," +
+                        i + ")";
+                statement.addBatch(sql);
             }
             statement.executeBatch();
         } catch (SQLException e) {

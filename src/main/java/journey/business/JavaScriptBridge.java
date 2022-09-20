@@ -1,9 +1,6 @@
 package journey.business;
 
 import journey.controller.MapController;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 
 /**
  * Simple example class showing the ability to 'bridge' from javascript to java
@@ -15,7 +12,6 @@ import org.apache.logging.log4j.Logger;
  */
 public class JavaScriptBridge {
 
-    private static final Logger log = LogManager.getLogger();
     private GetStationInterface getStationInterface;
     private GetLatLongInterface getLatLongInterface;
 
@@ -29,14 +25,6 @@ public class JavaScriptBridge {
     }
 
     /**
-     * Creates a javascript bridge with a void 'callback' lambda function
-     */
-    public JavaScriptBridge() {
-        getStationInterface = (int i) -> false;
-    }
-
-
-    /**
      * Takes the id of a sale and passes this to the getSaleInterface implementation
      * Currently this takes the ID and adds it to a list within the {@link MapController}
      * @param id id of station
@@ -46,6 +34,12 @@ public class JavaScriptBridge {
         return getStationInterface.operation(id);
     }
 
+    /**
+     * Currently this takes the lat and lng within the {@link MapController}
+     * @param lat latitude of click
+     * @param lng longitude of click
+     * @return true if the underlying operation succeeded
+     */
     public boolean getLatLongFromClick(double lat, double lng) {
         return getLatLongInterface.operation(lat, lng);
     }

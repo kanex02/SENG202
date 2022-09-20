@@ -1,7 +1,6 @@
 package journey.controller;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -13,7 +12,6 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import journey.repository.UserDAO;
-import journey.gui.MainWindow;
 import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -94,7 +92,7 @@ public class LoginController {
 
     }
     /**
-     * intialises the login window
+     * initialises the login window
      * @param stage stage to load
      */
     public void init(Stage stage) {

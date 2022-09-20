@@ -44,10 +44,7 @@ public class ReadCSV {
 
             StationDAO stationDAO = new StationDAO();
 
-            stationDAO.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(),
-                s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(),
-                s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(),
-                s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
+            stationDAO.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(), s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(), s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(), s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
             }
         }
 

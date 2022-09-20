@@ -20,10 +20,6 @@ import java.io.IOException;
  */
 public class MainWindow extends Application {
     private static final Logger log = LogManager.getLogger();
-    private static Stage stage;
-    public static Stage getStage() {
-        return stage;
-    }
 
     /**
      * Opens the gui with the fxml content specified in resources/fxml/main
@@ -37,11 +33,8 @@ public class MainWindow extends Application {
 
             LoginController baseController = baseLoader.getController();
             baseController.init(primaryStage);
-            stage = primaryStage;
             primaryStage.setTitle("Journey");
             Scene scene = new Scene(root, 800, 500);
-            // scene.getStylesheets().add("src/main/resources/gui/style.css");
-//            primaryStage.setResizable(false);
             primaryStage.setScene(scene);
             primaryStage.setMaxHeight(500);
             primaryStage.setMaxWidth(800);

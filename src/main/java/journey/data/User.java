@@ -8,11 +8,8 @@ import java.util.ArrayList;
 public class User {
     private int id;
     private String name;
-    private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+    private final ArrayList<Vehicle> vehicles = new ArrayList<>();
     private ArrayList<Station> stations;
-    private ArrayList<Journey> journeys;
-    private ArrayList<Note> notes;
-    private ArrayList<String> chargerTypes;
 
     public User(String name) {
         this.name = name;
@@ -34,14 +31,6 @@ public class User {
         this.name = name;
     }
 
-    public ArrayList<Vehicle> getVehicles() {
-        return vehicles;
-    }
-
-    public void setVehicles(ArrayList<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-    }
-
     public ArrayList<Station> getStations() {
         return stations;
     }
@@ -50,36 +39,8 @@ public class User {
         this.stations = stations;
     }
 
-    public ArrayList<Journey> getJourneys() {
-        return journeys;
-    }
-
-    public void setJourneys(ArrayList<Journey> journeys) {
-        this.journeys = journeys;
-    }
-
-    public ArrayList<Note> getNotes() {
-        return notes;
-    }
-
-    public void setNotes(ArrayList<Note> notes) {
-        this.notes = notes;
-    }
-
-    public ArrayList<String> getChargerTypes() {
-        return chargerTypes;
-    }
     public void newVehicle(Vehicle vehicle) {
         this.vehicles.add(vehicle);
     }
-    public void newCharger(String charger) {
-        this.chargerTypes.add(charger);
-    }
 
-    public void findChargerTypes() {
-        for (Vehicle vehicle : vehicles) {
-            String charger = vehicle.getChargerType();
-            this.chargerTypes.add(charger);
-        }
-    }
 }

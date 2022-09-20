@@ -10,7 +10,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import journey.data.*;
-import journey.repository.DatabaseManager;
 import journey.repository.UserDAO;
 import journey.repository.VehicleDAO;
 
@@ -22,7 +21,6 @@ public class ProfileController {
     private VehicleDAO vehicleDAO;
     @FXML private Button closeButton;
     @FXML private Label name;
-    private static Station selectedVehicle = null;
     @FXML private TableColumn<Vehicle, String> registrationCol;
 
     @FXML private TableColumn<Vehicle, String> makeCol;
@@ -45,18 +43,15 @@ public class ProfileController {
 
     /**
      * Sets the text field to the name of the current user in the profile box
-     * @param stage current stage
      */
-    public void setName(Stage stage) {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
+    public void setName() {
         name.setText(userDAO.getCurrentUser().getName());
     }
 
     /**
      *Retrieves the vehicles from the database and puts their information into the table
-     * @param stage current stage
      */
-    public void setVehicles(Stage stage) {
+    public void setVehicles() {
         registrationCol.setCellValueFactory(new PropertyValueFactory<>("Registration"));
         makeCol.setCellValueFactory(new PropertyValueFactory<>("Make"));
         modelCol.setCellValueFactory(new PropertyValueFactory<>("Model"));
@@ -69,13 +64,12 @@ public class ProfileController {
 
     /**
      * Initialises the profile popup with User's registered vehicles in a table view.
-     * @param stage current stage
      */
-    public void init(Stage stage) {
+    public void init() {
         userDAO = new UserDAO();
         vehicleDAO = new VehicleDAO();
-        setName(stage);
-        setVehicles(stage);
+        setName();
+        setVehicles();
     }
 
 }
