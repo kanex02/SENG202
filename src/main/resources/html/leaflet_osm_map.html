@@ -27,6 +27,7 @@
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let route;
     let previousRoute = [];
+    let previousRoutes = [];
     let polyline;
 
     const greenIcon = new L.Icon({
@@ -68,38 +69,25 @@
         for (let i = 0; i < previousRoute.length; i++) {
             map.removeLayer(previousRoute[i]);
         }
-
         previousRoute = [];
-
     }
 
     function mapJourney(waypoints) {
         let waypointArray = waypoints.split("//");
-
-        clearRoute();
-
+        previousRoute = [];
+        removeRoute();
         let latlong;
         let m;
-
         let routeLine = [];
         for (let i = 0; i < waypointArray.length; i++) {
             latlong = waypointArray[i].split("#");
-            m = new L.Marker(L.latLng(latlong[0], latlong[1]), {icon: greenIcon, interactive: false});
-            routeLine.push([latlong[0], latlong[1]]);
+            m = new L.latLng(latlong[0], latlong[1], {icon: greenIcon, interactive: false});
+            // routeLine.push([latlong[0], latlong[1]]);
             previousRoute.push(m);
         }
-
-        updateRoute();
-        polyline = L.polyline(routeLine, {color: 'green'});
-        polyline.addTo(map);
+        addRoute();
     }
 
-    function updateRoute() {
-        for (let i = 0; i < previousRoute.length; i++) {
-            previousRoute[i].addTo(map);
-        }
-
-    }
 
     /**
      * creates and initialises the Google map, also defines on click event that calls java code
@@ -140,20 +128,15 @@
      * Displays the basic example route between two points using UCs OSRM server
      */
     function addRoute() {
-        if(route){
-            route.addTo(map)
-        } else {
-            console.log("Adding route")
+        if (previousRoute != []) {
             route = L.Routing.control({
-                waypoints: [
-                    new L.latLng(-43.522442, 172.580683),
-                    new L.latLng(-43.530542, 172.726466)
-                ],
+                waypoints: previousRoute,
                 // Specify UCs server for routing instead of the demonstration server used by default
                 serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
                 routeWhileDragging: true
             }).addTo(map);
         }
+
     }
 
     /**
@@ -161,7 +144,7 @@
      */
     function removeRoute() {
         if (route) {
-            route.remove()
+            route.remove();
         }
     }
 

@@ -89,6 +89,7 @@ public class MapController {
         waypoints.add(journey.getEnd());
         String waypointString =  Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
         javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length()-2));
+        routeDisplayed = true;
     }
 
     /**
