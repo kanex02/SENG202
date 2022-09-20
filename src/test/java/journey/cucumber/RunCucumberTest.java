@@ -18,7 +18,7 @@ import static io.cucumber.junit.platform.engine.Constants.*;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "seng202.team4.cucumber")
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "journey.cucumber")
 @ConfigurationParameter(key = SNIPPET_TYPE_PROPERTY_NAME, value = "camelcase")
 public class RunCucumberTest {
 }
