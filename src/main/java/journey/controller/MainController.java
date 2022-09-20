@@ -70,7 +70,7 @@ public class MainController {
     @FXML private AnchorPane recordJourneyWrapper;
 
 
-    private RecordJourneyController recordJourneyController;
+    private CreateJourneyController recordJourneyController;
     private MapController mapViewController;
     Pattern digit = Pattern.compile("[0-9]");
     Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
@@ -204,7 +204,7 @@ public class MainController {
             FXMLLoader prevJourneysViewLoader = new FXMLLoader(getClass().getResource("/fxml/previousJourneys.fxml"));
             Parent prevJourneysViewParent = prevJourneysViewLoader.load();
 
-            PreviousJourneyController prevJourneyViewController = prevJourneysViewLoader.getController();
+            PlannedJourneyController prevJourneyViewController = prevJourneysViewLoader.getController();
             prevJourneyViewController.init(stage, this);
             prevJourneysPane.getChildren().add(prevJourneysViewParent);
             AnchorPane.setTopAnchor(prevJourneysViewParent, 0d);
@@ -247,11 +247,14 @@ public class MainController {
      */
     public void setNoteText() {
 
-        Station currStation = stationDAO.queryStation(selectedStation);
-        if (currStation != null) {
-            Note note = noteDAO.getNoteFromStation(currStation); // Retrieve note from database
-            setChargerNoteText(note.getNote());
+        if (selectedStation != -1) {
+            Station currStation = stationDAO.queryStation(selectedStation);
+            if (currStation != null) {
+                Note note = noteDAO.getNoteFromStation(currStation); // Retrieve note from database
+                setChargerNoteText(note.getNote());
+            }
         }
+
     }
     /**
      * Sets Long Display text for a given charger based on the current station selected
@@ -366,6 +369,7 @@ public class MainController {
 
     public void setCurrentStations(QueryResult currentStations) {
         this.currentStations = currentStations;
+
     }
 
     public MapController getMapViewController() {

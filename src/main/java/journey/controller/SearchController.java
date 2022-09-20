@@ -52,6 +52,7 @@ public class SearchController {
             searchStation.setLongitude(Double.parseDouble(searchLong.getText()));
             searchStation.setRange(Double.parseDouble(distanceSearch.getText()));
         }
+
         mainController.setCurrentStations(stationDAO.query(searchStation));
         mainController.viewMap();
         mainController.viewTable();

@@ -11,6 +11,10 @@ import static java.lang.Math.*;
  */
 public class Station {
     @CsvBindByName
+    private float X;
+    @CsvBindByName
+    private float Y;
+    @CsvBindByName
     private int OBJECTID;
     @CsvBindByName
     private String name;

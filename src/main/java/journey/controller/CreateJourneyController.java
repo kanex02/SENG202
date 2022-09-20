@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class RecordJourneyController {
+public class CreateJourneyController {
     @FXML private TextField startLat;
     @FXML private TextField startLong;
     @FXML private TextField endLat;

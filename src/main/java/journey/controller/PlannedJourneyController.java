@@ -14,7 +14,7 @@ import journey.repository.JourneyDAO;
 /**
  * A service to load data into the table viewer. TODO: Figure out how to get expanding rows.
  */
-public class PreviousJourneyController {
+public class PlannedJourneyController {
 
     @FXML private TableColumn<Journey, String> startCol;
     @FXML private TableColumn<Journey, String> endCol;
