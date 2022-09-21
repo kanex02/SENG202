@@ -30,7 +30,7 @@
                         <Label layoutX="225.0" layoutY="4.0" text=",  " />
                         <TextField fx:id="searchLong" layoutX="233.0" prefHeight="25.0" prefWidth="60.0" promptText="long" />
                         <Label layoutX="125.0" layoutY="4.0" text="km of" />
-                        <Button layoutX="314.0" mnemonicParsing="false" onAction="#clickSearch" style="-fx-background-color: #E0E6B2;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button layoutX="314.0" mnemonicParsing="false" onAction="#clickSearch" prefWidth="100.0" style="-fx-background-color: #E0E6B2;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
                     </children>
                 </AnchorPane>
             </children>
