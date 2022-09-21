@@ -71,7 +71,7 @@ public class CreateJourneyController {
         String start = startLat.getText() + "#" + startLong.getText();
         int userID = mainController.getCurrentUser().getId();
         String vehicleChoice = selectVehicleComboBox.getValue();
-        if (Objects.equals(vehicleChoice, "") || start.equals("lat#long") || end.equals("lat#long")) {
+        if (Objects.equals(vehicleChoice, null) || start.equals("lat#long") || end.equals("lat#long")) {
             journeyWarningLabel.setText("Fill all fields");
             valid = false;
         }
@@ -83,7 +83,7 @@ public class CreateJourneyController {
             endLat.setText("lat");
             endLong.setText("long");
             selectVehicleComboBox.setValue("");
-            visitedStationsList.setItems(null);
+            visitedStationsList.setItems(FXCollections.observableArrayList());
             String[] vehicle = vehicleChoice.split(": ");
             String date = Utils.getDate();
             Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);

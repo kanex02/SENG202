@@ -52,7 +52,7 @@ public class LoginController {
             warningLabel.setText("Your name cannot contain any digits or special characters!");
         } else {
             user = userDAO.setCurrentUser(name);
-            //something to switch stages
+            // Switch stages to main window
             switchToMain();
         }
     }
