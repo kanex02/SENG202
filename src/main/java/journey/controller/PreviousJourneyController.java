@@ -23,6 +23,7 @@ public class PreviousJourneyController {
     @FXML private TableView<Journey> journeyTable;
     @FXML private AnchorPane tableParent;
 
+    private MainController mainController;
     private JourneyDAO journeyDAO;
 
     /**
@@ -35,7 +36,7 @@ public class PreviousJourneyController {
         vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicle_ID"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
-        Journey[] data = journeyDAO.getJourneys();
+        Journey[] data = journeyDAO.getJourneys(mainController.getCurrentUser());
         ObservableList<Journey> journeys = FXCollections.observableArrayList(data);
         journeyTable.setItems(journeys);
     }
@@ -46,7 +47,7 @@ public class PreviousJourneyController {
      * @param stage The stage to init.
      */
     public void init(Stage stage, MainController mainController) {
-
+        this.mainController = mainController;
         journeyDAO = new JourneyDAO();
 
         setJourneys(stage);

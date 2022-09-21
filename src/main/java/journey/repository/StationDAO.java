@@ -121,6 +121,31 @@ public class StationDAO {
     }
 
     /**
+     * Inserts a station into the database.
+
+     * @param station station to insert
+     */
+    public void insertStation(Station station) {
+        createStation(station.getOBJECTID(),
+                station.getName(),
+                station.getOperator(),
+                station.getOwner(),
+                station.getAddress(),
+                station.isIs24Hours(),
+                station.getCarParkCount(),
+                station.isHasCarParkCost(),
+                station.getMaxTime(),
+                station.getHasTouristAttraction(),
+                station.getLatitude(),
+                station.getLongitude(),
+                station.getCurrentType(),
+                station.getDateFirstOperational(),
+                station.getNumberOfConnectors(),
+                station.getConnectors(),
+                station.isHasChargingCost());
+    }
+
+    /**
      * Get all stations from database.
 
      * @return result ArrayList of all stations in the database
