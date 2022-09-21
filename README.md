@@ -61,3 +61,6 @@ Upon opening the user is prompted to enter their name to register themselves to 
 ### Recording notes
 - Notes about stations can be recorded by selecting a station on the map and typing a note into the *Record Station Details* box in the bottom right.
 - Once pressing submit, the note will be recorded for the current user about the selected station. This note is saved even when a user selects a new station and comes back.
+
+### Current Bugs
+- In extended dataviewer all time limits that are infinite = 0.
