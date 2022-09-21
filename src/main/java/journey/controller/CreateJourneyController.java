@@ -8,13 +8,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import journey.data.Journey;
 import journey.data.QueryResult;
 import journey.data.Utils;
 import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
-import journey.repository.UserDAO;
 import journey.repository.VehicleDAO;
 
 import java.util.ArrayList;
@@ -34,7 +34,6 @@ public class CreateJourneyController {
     private MainController mainController;
     private MapController mapViewController;
     private JourneyDAO journeyDAO;
-    private UserDAO userDAO;
     private StationDAO stationDAO;
     private VehicleDAO vehicleDAO;
     private final ArrayList<Integer> journeyStations = new ArrayList<>();
@@ -45,7 +44,7 @@ public class CreateJourneyController {
     }
 
     public void populateVehicleDropdown() {
-        QueryResult data = vehicleDAO.getVehicles();
+        QueryResult data = vehicleDAO.getVehicles(mainController.getCurrentUser());
         ObservableList<String> vehicles = FXCollections.observableArrayList();
         for (Vehicle vehicle : data.getVehicles()) {
             String newString = vehicle.getStringRepresentation();
@@ -70,7 +69,7 @@ public class CreateJourneyController {
         boolean valid = true;
         String end = endLat.getText() + "#" + endLong.getText();
         String start = startLat.getText() + "#" + startLong.getText();
-        int userID = userDAO.getCurrentUser().getId();
+        int userID = mainController.getCurrentUser().getId();
         String vehicleChoice = selectVehicleComboBox.getValue();
         if (Objects.equals(vehicleChoice, "") || start.equals("lat#long") || end.equals("lat#long")) {
             journeyWarningLabel.setText("Fill all fields");
@@ -87,7 +86,7 @@ public class CreateJourneyController {
             visitedStationsList.setItems(null);
             String[] vehicle = vehicleChoice.split(": ");
             String date = Utils.getDate();
-            Journey journey = new Journey(start, end , vehicle[0], date, journeyStations);
+            Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);
             journeyDAO.addJourney(journey);
             event.consume();
         }
@@ -123,11 +122,9 @@ public class CreateJourneyController {
         });
     }
 
-    public void init(MainController mainController) {
+    public void init(Stage stage, MainController mainController) {
         this.mainController = mainController;
         this.mapViewController = mainController.getMapViewController();
-
-        this.userDAO = new UserDAO();
         this.journeyDAO = new JourneyDAO();
         this.stationDAO = new StationDAO();
         this.vehicleDAO = new VehicleDAO();

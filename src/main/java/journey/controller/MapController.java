@@ -5,6 +5,7 @@ import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
 import journey.data.Journey;
@@ -34,7 +35,7 @@ public class MapController {
     /**
      * Initialise map
      */
-    void init(MainController mainController) {
+    void init(Stage stage, MainController mainController) {
         // Database db = new Database();
         stationDAO = new StationDAO();
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick, this::getLatLongFromClick);

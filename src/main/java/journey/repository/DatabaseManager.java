@@ -1,13 +1,15 @@
 package journey.repository;
 
-import journey.data.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import journey.data.Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Static utility class to make queries to the database.
@@ -27,15 +29,17 @@ public final class DatabaseManager {
 
     /**
      * Constructs a new database manager from a specified url.
+
      * @param url the desired path to database.
      */
-    private DatabaseManager(String url) {
+    public DatabaseManager(String url) {
         this.databasePath = url;
     }
 
 
     /**
      * Connects to the database.
+
      * @return a connection.
      */
     public Connection connect() {
@@ -51,11 +55,12 @@ public final class DatabaseManager {
     }
 
     /**
-     * Singleton method to get current Instance if exists otherwise create it
+     * Singleton method to get current Instance if exists otherwise create it.
+
      * @return the single instance DatabaseSingleton
      */
     public static DatabaseManager getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new DatabaseManager();
         }
 
@@ -69,13 +74,14 @@ public final class DatabaseManager {
      */
     public void setup() throws SQLException, IOException {
 
-        // Create a new table. TODO: Change hasTouristAttraction into list of attractions
+        // Create a new table.
         // Note: Order of stations in a journey is done by a 'order' column.
         Connection conn = null;
         try {
             String setupSQL = Files.readString(Path.of("src/main/resources/sql/init_db.sql"));
             String[] statements = setupSQL.split("--Break");
             conn = connect();
+            assert (conn != null);
             Statement statement = conn.createStatement();
             for (String line : statements) {
                 statement.addBatch(line);
@@ -87,20 +93,6 @@ public final class DatabaseManager {
             throw e;
         } finally {
             Utils.closeConn(conn);
-        }
-    }
-
-    /**
-     * Setup itself
-     * @param args Command line arguments
-     */
-    public static void main(String[] args) {
-        try {
-            DatabaseManager.getInstance().setup();
-        } catch (SQLException e) {
-            log.error(e);
-        } catch (IOException ex) {
-            log.error(ex);
         }
     }
 }

@@ -12,14 +12,10 @@ import java.util.ArrayList;
 public class JourneyDAO {
 
     private final DatabaseManager databaseManager;
-    private static User currentUser;
     private static final Logger log = LogManager.getLogger();
-    private final UserDAO userDAO;
 
     public JourneyDAO() {
-        userDAO = new UserDAO();
         databaseManager = DatabaseManager.getInstance();
-        currentUser = userDAO.getCurrentUser();
     }
 
     public int getNumberOfJourneys() {
@@ -40,7 +36,7 @@ public class JourneyDAO {
     }
 
 
-    public Journey[] getJourneys() {
+    public Journey[] getJourneys(User user) {
         Connection conn = null;
         ArrayList<Journey> res = new ArrayList<>();
         try {
@@ -48,11 +44,12 @@ public class JourneyDAO {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Journeys WHERE User_ID = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, currentUser.getId());
+            ps.setInt(1, user.getId());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 res.add(new Journey(rs.getInt("ID"), rs.getString("start"), rs.getString("end"),
-                        rs.getString("vehicle_ID"), rs.getString("date")));
+                        rs.getString("vehicle_ID"), rs.getInt("user_ID"),
+                        rs.getString("date")));
             }
             for (Journey journey : res) {
                 ArrayList<Integer> stations = new ArrayList<>();
@@ -79,7 +76,7 @@ public class JourneyDAO {
             conn = databaseManager.connect();
             String insertQuery = "INSERT INTO Journeys VALUES (?,?,?,?,?,?,?)";
             PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
-            insertStatement.setInt(3, currentUser.getId());
+            insertStatement.setInt(3, journey.getUserID());
             insertStatement.setString(4, journey.getVehicle_ID());
             insertStatement.setString(5, journey.getStart());
             insertStatement.setString(6, journey.getEnd());
@@ -95,7 +92,7 @@ public class JourneyDAO {
             }
             statement.executeBatch();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            log.error(e);
         } finally {
             Utils.closeConn(conn);
         }

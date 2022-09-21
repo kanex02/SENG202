@@ -1,9 +1,15 @@
 package journey.data;
 
+import static java.lang.Math.asin;
+import static java.lang.Math.cos;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
+import static java.lang.Math.toRadians;
 
 import com.opencsv.bean.CsvBindByName;
 
-import static java.lang.Math.*;
+
+
 
 /**
  * A class that models a station, for use in results and queries.
@@ -51,30 +57,11 @@ public class Station {
     private int maxTime;
     private String[] connectors;
 
-    public Station() {
-    }
-
-    public int getMaxTime() {
-        return maxTime;
-    }
-
-    public void setMaxTime(int maxTime) {
-        this.maxTime = maxTime;
-    }
-
-    public String[] getConnectors() {
-        return connectors;
-    }
-
-    public void setConnectors(String[] connectors) {
-        this.connectors = connectors;
-    }
-
-
-
+    public Station() {}
 
     /**
      * Initialises a new station.
+
      * @param id id according to the database
      * @param name name
      * @param operator operator
@@ -119,6 +106,7 @@ public class Station {
 
     /**
      * Calculates the distance between this station and another one.
+
      * @param other The other station.
      * @return Distance between the stations, in km.
      */
@@ -137,6 +125,39 @@ public class Station {
         return radius * c;
     }
 
+
+    public int getMaxTime() {
+        return maxTime;
+    }
+
+    public void setMaxTime(int maxTime) {
+        this.maxTime = maxTime;
+    }
+
+    public String[] getConnectors() {
+        return connectors;
+    }
+
+    public void setConnectors(String[] connectors) {
+        this.connectors = connectors;
+    }
+
+    public float getX() {
+        return X;
+    }
+
+    public void setX(float x) {
+        this.X = x;
+    }
+
+    public float getY() {
+        return Y;
+    }
+
+    public void setY(float y) {
+        this.Y = y;
+    }
+
     public String getOwner() {
         return owner;
     }
@@ -151,11 +172,11 @@ public class Station {
     public boolean isIs24Hours() {
         return is24Hours;
     }
-    
+
     public int getCarParkCount() {
         return carParkCount;
     }
-    
+
     public boolean isHasCarParkCost() {
         return hasCarParkCost;
     }
@@ -163,7 +184,7 @@ public class Station {
     public String getMaxTimeLimit() {
         return maxTimeLimit;
     }
-    
+
 
     public Boolean getHasTouristAttraction() {
         return hasTouristAttraction;
@@ -200,15 +221,15 @@ public class Station {
     public String getDateFirstOperational() {
         return dateFirstOperational;
     }
-    
+
     public int getNumberOfConnectors() {
         return numberOfConnectors;
     }
-    
+
     public String getConnectorsList() {
         return connectorsList;
     }
-    
+
     public boolean isHasChargingCost() {
         return hasChargingCost;
     }
@@ -238,7 +259,8 @@ public class Station {
     }
 
     /**
-     * Assembles a string of details about itself
+     * Assembles a string of details about itself.
+
      * @return longDes a long description of itself
      */
     public String getLongDescription() {
@@ -260,7 +282,7 @@ public class Station {
         if (hasTouristAttraction) {
             longDes += "Has tourist attractions nearby\n";
         }
-        longDes += String.format("Current Type: %s\nNumber of Connectors: %s\n",currentType, numberOfConnectors);
+        longDes += String.format("Current Type: %s\nNumber of Connectors: %s\n", currentType, numberOfConnectors);
         if (hasChargingCost) {
             longDes += "Not free charging\n";
         }

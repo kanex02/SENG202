@@ -7,6 +7,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import jdk.jshell.execution.Util;
+import javafx.stage.Stage;
 import journey.data.QueryStation;
 import journey.data.Utils;
 import journey.repository.StationDAO;
@@ -137,10 +138,10 @@ public class SearchController {
 
     /**
      * Initialises the search pane.
-
+     * @param stage
      * @param mainController the main controller.
      */
-    public void init(MainController mainController) {
+    public void init(Stage stage, MainController mainController) {
         this.mainController = mainController;
         stationDAO = new StationDAO();
 
