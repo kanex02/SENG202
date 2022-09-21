@@ -134,8 +134,10 @@ public class LoginStepDefs extends TestFXBase {
     @Then("The vehicle isn't saved and the year error message is displayed")
     public void yearError() {
         verifyThat("#warningLabel", Node::hasProperties);
+        UserDAO userDAO = new UserDAO();
+        User currentUser = userDAO.getCurrentUser();
         VehicleDAO vehicleDAO = new VehicleDAO();
-        QueryResult vehicles = vehicleDAO.getVehicles();
+        QueryResult vehicles = vehicleDAO.getVehicles(currentUser);
         assertNotEquals(String.valueOf(vehicles.getVehicles()[vehicles.getVehicles().length-1].getYear()), "not a year");
     }
 }
