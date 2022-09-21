@@ -38,6 +38,8 @@ To download and import your project:
 ## How to use
 Upon opening the user is prompted to enter their name to login to the application. If they had not previously registered, a new profile will be created for them. Once registering, the user will be directed to the main application window containing the map. Stations on the map can be selected showing more information.
 
+**No Stations**: *If there are no stations present in the map, running the ReadCSV.main() method will populate the databse from the csv file containing the stations.*
+
 ### Registering a vehicle
 - Users can register a vehicle using the menu in the top left of the window. Once users have inputted the Registration, Make, Model, Year, and charging type of their vehicle, selecting *Register Vehicle* will register the vehicle with said parameters to the current user.
 - Multiple vehicles can be registered to one user, and the same vehicle can be registered to multiple users.
