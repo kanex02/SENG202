@@ -30,6 +30,7 @@ public class VehicleDAO {
 
      * @param v username entered in login page
      * @throws Exception Duplicate vehicle entry
+
      */
     public void setVehicle(Vehicle v, User user) throws Exception {
         Connection conn = null;
@@ -56,9 +57,6 @@ public class VehicleDAO {
                 user.newVehicle(v);
             }
         } catch(SQLException e) {
-            if (e.getErrorCode() == 19) {
-                throw new Exception("Duplicate Vehicle");
-            }
             log.error(e);
         } finally {
             Utils.closeConn(conn);
