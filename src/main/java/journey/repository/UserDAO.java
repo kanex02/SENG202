@@ -14,6 +14,7 @@ import java.sql.SQLException;
  */
 public class UserDAO {
     private final DatabaseManager databaseManager;
+    private static User currentUser;
     private static final Logger log = LogManager.getLogger();
 
     public UserDAO() {
@@ -21,8 +22,7 @@ public class UserDAO {
     }
 
     /**
-     * Sets the current user given a username.
-
+     * Sets the current user given a username
      * @param username username entered in login page
      */
     public User setCurrentUser(String username) {
@@ -58,10 +58,9 @@ public class UserDAO {
 
     /**
      * Updates the current user to one specified.
-
      * @param name name of the user to update to.
      */
-    private User updateUser(String name) {
+    public User updateUser(String name) {
         User user = new User(name);
         String userQuery = """
                 SELECT * FROM Users WHERE name = ?
@@ -81,6 +80,10 @@ public class UserDAO {
         } finally {
             Utils.closeConn(conn);
         }
+        currentUser = user;
         return user;
+    }
+    public User getCurrentUser() {
+        return currentUser;
     }
 }
