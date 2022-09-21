@@ -67,8 +67,6 @@ public class SearchController {
             }
 
             mainController.setCurrentStations(stationDAO.query(searchStation));
-            mainController.viewMap();
-            mainController.viewTable();
         }
 
     }
@@ -86,7 +84,7 @@ public class SearchController {
             mainController.reenable();
             mainController.openSearch();
             return true;
-        });
+        }, "search");
     }
 
     public boolean errorCheck() {

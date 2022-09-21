@@ -75,6 +75,7 @@ public class MainController {
     @FXML private AnchorPane recordJourneyWrapper;
 
 
+    private TableController tableController;
     private CreateJourneyController recordJourneyController;
     private MapController mapViewController;
     Pattern digit = Pattern.compile("[0-9]");
@@ -199,8 +200,8 @@ public class MainController {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table.fxml"));
             Parent tableViewParent = tableViewLoader.load();
 
-            TableController tableViewController = tableViewLoader.getController();
-            tableViewController.init(stage, this);
+            tableController = tableViewLoader.getController();
+            tableController.init(stage, this);
             tablePane.getChildren().add(tableViewParent);
             AnchorPane.setTopAnchor(tableViewParent, 0d);
             AnchorPane.setBottomAnchor(tableViewParent, 0d);
@@ -388,6 +389,8 @@ public class MainController {
 
     public void setCurrentStations(QueryResult currentStations) {
         this.currentStations = currentStations;
+        mapViewController.addStationsOnMap();
+        tableController.getData();
     }
 
     public MapController getMapViewController() {

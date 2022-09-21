@@ -88,6 +88,7 @@ public class CreateJourneyController {
             String date = Utils.getDate();
             Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);
             journeyDAO.addJourney(journey);
+            mapViewController.clearJourneyMarkers();
             event.consume();
         }
     }
@@ -104,7 +105,7 @@ public class CreateJourneyController {
             startLong.setText(String.valueOf(lng));
             mainController.reenable();
             return true;
-        });
+        }, "start");
     }
 
     /**
@@ -119,8 +120,9 @@ public class CreateJourneyController {
             endLong.setText(String.valueOf(lng));
             mainController.reenable();
             return true;
-        });
+        }, "end");
     }
+
 
     public void init(Stage stage, MainController mainController) {
         this.mainController = mainController;
