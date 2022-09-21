@@ -36,7 +36,7 @@ To download and import your project:
 4. The map requires a constant internet connection in order to work.
 
 ## How to use
-Upon opening the user is prompted to enter their name to register themselves to the application. Once registering, the user will be directed to the main application window containing the map. Stations on the map can be selected showing more information.
+Upon opening the user is prompted to enter their name to login to the application. If they had not previously registered, a new profile will be created for them. Once registering, the user will be directed to the main application window containing the map. Stations on the map can be selected showing more information.
 
 ### Registering a vehicle
 - Users can register a vehicle using the menu in the top left of the window. Once users have inputted the Registration, Make, Model, Year, and charging type of their vehicle, selecting *Register Vehicle* will register the vehicle with said parameters to the current user.
@@ -61,3 +61,6 @@ Upon opening the user is prompted to enter their name to register themselves to 
 ### Recording notes
 - Notes about stations can be recorded by selecting a station on the map and typing a note into the *Record Station Details* box in the bottom right.
 - Once pressing submit, the note will be recorded for the current user about the selected station. This note is saved even when a user selects a new station and comes back.
+
+### Current Bugs
+- In extended dataviewer all time limits that are infinite = 0.

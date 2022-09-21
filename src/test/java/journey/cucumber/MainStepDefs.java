@@ -14,6 +14,7 @@ import journey.controller.LoginController;
 import journey.data.QueryResult;
 import journey.data.User;
 import journey.gui.MainWindow;
+import journey.repository.NoteDAO;
 import journey.repository.UserDAO;
 import journey.repository.VehicleDAO;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -24,7 +25,7 @@ import static org.testfx.api.FxAssert.verifyThat;
 
 
 
-public class LoginStepDefs extends TestFXBase {
+public class MainStepDefs extends TestFXBase {
 
     @Before
     @Override
@@ -131,5 +132,57 @@ public class LoginStepDefs extends TestFXBase {
         VehicleDAO vehicleDAO = new VehicleDAO();
         QueryResult vehicles = vehicleDAO.getVehicles(currentUser);
         assertNotEquals(String.valueOf(vehicles.getVehicles()[vehicles.getVehicles().length-1].getYear()), "not a year");
+    }
+
+    @When("I enter an invalid make")
+    public void invalidMake() {
+        clickOn("#registrationTextBox");
+        write("abc123");
+        clickOn("#makeTextBox");
+        write("1");
+        clickOn("#modelTextBox");
+        write("test");
+        clickOn("#yearTextBox");
+        write("2000");
+        clickOn("#chargerBox");
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+        clickOn("#registerVehicleButton");
+    }
+
+    @Then("The vehicle isn't saved and the make error message is displayed")
+    public void makeError() {
+        verifyThat("#warningLabel", Node::hasProperties);
+        UserDAO userDAO = new UserDAO();
+        User currentUser = userDAO.getCurrentUser();
+        VehicleDAO vehicleDAO = new VehicleDAO();
+        QueryResult vehicles = vehicleDAO.getVehicles(currentUser);
+        assertNotEquals(String.valueOf(vehicles.getVehicles()[vehicles.getVehicles().length-1].getMake()), "1");
+    }
+
+    @When("I enter an invalid model")
+    public void invalidModel() {
+        clickOn("#registrationTextBox");
+        write("abc123");
+        clickOn("#makeTextBox");
+        write("test");
+        clickOn("#modelTextBox");
+        write("1");
+        clickOn("#yearTextBox");
+        write("2000");
+        clickOn("#chargerBox");
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+        clickOn("#registerVehicleButton");
+    }
+
+    @Then("The vehicle isn't saved and the model error message is displayed")
+    public void modelError() {
+        verifyThat("#warningLabel", Node::hasProperties);
+        UserDAO userDAO = new UserDAO();
+        User currentUser = userDAO.getCurrentUser();
+        VehicleDAO vehicleDAO = new VehicleDAO();
+        QueryResult vehicles = vehicleDAO.getVehicles(currentUser);
+        assertNotEquals(String.valueOf(vehicles.getVehicles()[vehicles.getVehicles().length-1].getModel()), "1");
     }
 }
