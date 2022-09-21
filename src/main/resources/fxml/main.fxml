@@ -89,7 +89,7 @@
                      </children>
                   </HBox>
                   <Label fx:id="warningLabel" prefHeight="28.0" prefWidth="290.0" textFill="#fa0202" textOverrun="CLIP" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <Button mnemonicParsing="false" onAction="#registerVehicle" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #E0E6B2;" text=" Register Vehicle" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <Button mnemonicParsing="false" fx:id="registerVehicleButton" onAction="#registerVehicle" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #E0E6B2;" text="Register Vehicle" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                   <AnchorPane prefHeight="339.0" prefWidth="290.0" GridPane.rowIndex="4" GridPane.rowSpan="2">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutY="15.0" prefHeight="19.0" prefWidth="149.0" text="SELECTED STATION" textAlignment="CENTER" underline="true">

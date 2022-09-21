@@ -8,26 +8,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import journey.controller.ProfileController;
+import journey.controller.LoginController;
 import journey.data.QueryResult;
 import journey.data.User;
-import journey.data.Vehicle;
+import journey.gui.MainWindow;
 import journey.repository.UserDAO;
 import journey.repository.VehicleDAO;
 import org.testfx.framework.junit5.ApplicationTest;
-import journey.gui.MainWindow;
-import journey.controller.MainController;
-import journey.controller.LoginController;
-import journey.controller.ProfileController;
-import org.testfx.matcher.control.TextInputControlMatchers;
 
-import java.awt.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.testfx.api.FxAssert.verifyThat;
 
 
