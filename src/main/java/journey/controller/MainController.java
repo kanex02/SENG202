@@ -130,7 +130,7 @@ public class MainController {
             intYear = Integer.parseInt(year);
             String date = Utils.getDate();
             int currentYear = Integer.parseInt(date.split("/")[2]);
-            if (intYear > currentYear || intYear < 1960) {
+            if (intYear > currentYear || intYear < 1996) {
                 warningLabel.setText("Year is out of range");
                 valid = false;
             }
