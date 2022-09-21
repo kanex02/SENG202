@@ -33,6 +33,7 @@ To download and import your project:
 1. Open a command line interface inside the project directory and run `mvn clean package` to build a .jar file. The file is located at target/journey-1.0-SNAPSHOT.jar
 2. Navigate to the target directory by running the command `cd target` while still in the project directory.
 3. This can then be run through the command line interface with the `java -jar journey-1.0-SNAPSHOT.jar` command.
+4. The map requires a constant internet connection in order to work.
 
 ## How to use
 Upon opening the user is prompted to enter their name to register themselves to the application. Once registering, the user will be directed to the main application window containing the map. Stations on the map can be selected showing more information.
@@ -50,7 +51,7 @@ Upon opening the user is prompted to enter their name to register themselves to 
 - Once the start and end have been selected, the user will need to select a vehicle to record the journey to (See *Registering a vehicle*).
 - Charging stations can be added to the journey using the dropdown menu and these will show up in the *Charging details* box.
 - Once the user has entered all information about the journey, clicking submit will record the journey to the user.
-- To access these Journeys click the *Planned Journeys* tab in the top right and select the journey you just planned (or others if you wish) to view the route. 
+- To access these Journeys see *View previous journey*
 - This route can be toggled on and off at any time with the *toggle route* button in the middle of the map.
 
 ### View previous journeys
