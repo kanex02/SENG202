@@ -1,10 +1,20 @@
-Feature: Basic demo feature
-  Scenario: Basic multiplication scenario
-    Given I have two numbers 5 and 10
-    When I multiply the two numbers
-    Then The result is 50
+Feature: User Profile
+  Scenario: Logging in
+    Given I am on the login page
+    When I enter a name
+    Then I login and my account is created
 
-  Scenario: Basic addition scenario
-    Given I have two numbers 5 and 10
-    When I add the two numbers
-    Then The result is 15
+  Scenario: Opening profile
+    Given I am logged in on the main page
+    When I click on the profile button
+    Then My user profile is displayed
+
+  Scenario: Profile with registered vehicle
+    Given I am logged in on the main page with a vehicle registered
+    When I click on the profile button
+    Then My user profile is displayed with the vehicle
+
+  Scenario: Invalid vehicle
+    Given I am logged in on the main page
+    When I enter an invalid year
+    Then The vehicle isn't saved and the year error message is displayed
