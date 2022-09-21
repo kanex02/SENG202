@@ -120,8 +120,14 @@ public class MainController {
         int intYear = 0;
         if (Utils.isInt(year)) {
             intYear = Integer.parseInt(year);
+            String date = Utils.getDate();
+            int currentYear = Integer.parseInt(date.split("/")[2]);
+            if (intYear > currentYear || intYear < 1960) {
+                warningLabel.setText("Year is out of range");
+                valid = false;
+            }
         } else {
-            warningLabel.setText("Year is invalid");
+            warningLabel.setText("Year must be an integer");
             valid = false;
         }
 
@@ -131,12 +137,12 @@ public class MainController {
         Matcher modelHasSpecial = special.matcher(model);
 
         if (makeHasSpecial.find() || makeHasDigit.find()) {
-            warningLabel.setText("Make entry is invalid");
+            warningLabel.setText("Make entry is invalid. It must only contain characters A-Z.");
             valid = false;
         }
 
         if (modelHasSpecial.find() || modelHasDigit.find()) {
-            warningLabel.setText("Model entry is invalid");
+            warningLabel.setText("Model entry is invalid. It must only contain characters A-Z.");
             valid = false;
         }
 

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.geometry.Insets?>
-<AnchorPane fx:id="searchPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="journey.controller.SearchController" minHeight="0.0" minWidth="0.0" prefWidth="538.0">
+<AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="296.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
     <children>
         <Label layoutX="14.0" layoutY="15.0" text="Address:" />
         <TextField fx:id="addressSearch" layoutX="100.0" layoutY="11.0" prefHeight="25.0" prefWidth="310.0" />
@@ -50,5 +47,6 @@
                 </Button>
             </center>
         </BorderPane>
+      <Label fx:id="warningLabel" layoutX="254.0" layoutY="265.0" prefHeight="16.0" prefWidth="346.0" textAlignment="CENTER" textFill="#eb0303" />
     </children>
 </AnchorPane>
