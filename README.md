@@ -50,6 +50,8 @@ Upon opening the user is prompted to enter their name to register themselves to 
 - Once the start and end have been selected, the user will need to select a vehicle to record the journey to (See *Registering a vehicle*).
 - Charging stations can be added to the journey using the dropdown menu and these will show up in the *Charging details* box.
 - Once the user has entered all information about the journey, clicking submit will record the journey to the user.
+- To access these Journeys click the *Planned Journeys* tab in the top right and select the journey you just planned (or others if you wish) to view the route. 
+- This route can be toggled on and off at any time with the *toggle route* button in the middle of the map.
 
 ### View previous journeys
 - The user can view previous journeys by opening the *Planned Journeys* tab next to the *Plan a journey tab* (See *Routing*).
