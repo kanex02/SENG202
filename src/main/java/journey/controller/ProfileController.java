@@ -9,8 +9,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import journey.data.*;
-import journey.repository.UserDAO;
+import journey.data.QueryResult;
+import journey.data.Vehicle;
 import journey.repository.VehicleDAO;
 
 /**
@@ -46,7 +46,6 @@ public class ProfileController {
      * @param stage current stage
      */
     public void setName(Stage stage) {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
         name.setText(mainController.getCurrentUser().getName());
     }
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * A trip that the user took.
  */
 public class Journey {
+    private int userID;
     private ArrayList<Integer> stations;
     private final String start;
     private final String end;
@@ -21,7 +22,7 @@ public class Journey {
         this.date = date;
     }
 
-    public Journey(int journeyID, String start, String end, String vehicleID, String date) {
+    public Journey(int journeyID, String start, String end, String vehicleID, int userID, String date) {
         this.journeyID = journeyID;
         this.start = start;
         this.end = end;
@@ -61,22 +62,6 @@ public class Journey {
 
     public void setStations(ArrayList<Integer> stations) {
         this.stations = stations;
-    }
-
-    public void addStation(Station station) {
-        stations.add(station.getOBJECTID());
-    }
-
-    public void addStation(int station) {
-        stations.add(station);
-    }
-
-    public double getDistanceTravelled() {
-        return distanceTravelled;
-    }
-
-    public void setDistanceTravelled(double distanceTravelled) {
-        this.distanceTravelled = distanceTravelled;
     }
 
     public int getUserID() {

@@ -13,7 +13,6 @@ public class JourneyDAO {
 
     private final DatabaseManager databaseManager;
     private static final Logger log = LogManager.getLogger();
-    private final UserDAO userDAO;
 
     public JourneyDAO() {
         databaseManager = DatabaseManager.getInstance();
@@ -93,7 +92,7 @@ public class JourneyDAO {
             }
             statement.executeBatch();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            log.error(e);
         } finally {
             Utils.closeConn(conn);
         }
