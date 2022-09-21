@@ -28,8 +28,3 @@ Feature: Login
     Given I am logged in on the main page
     When I enter an invalid model
     Then The vehicle isn't saved and the model error message is displayed
-
-  Scenario: Write note
-    Given I am logged in on the main page
-    When I write a note for a station
-    Then The note is saved to the database
