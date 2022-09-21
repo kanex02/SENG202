@@ -1,6 +1,7 @@
 package journey.repository;
 
 import journey.data.QueryResult;
+import journey.data.User;
 import journey.data.Utils;
 import journey.data.Vehicle;
 import org.apache.logging.log4j.LogManager;
@@ -23,18 +24,20 @@ public class VehicleDAO {
         databaseManager = DatabaseManager.getInstance();
         userDAO = new UserDAO();
     }
+
     /**
      * Adds vehicle to Vehicle
+
      * @param v username entered in login page
      * @throws Exception Duplicate vehicle entry
      */
-    public void setVehicle(Vehicle v) throws Exception {
+    public void setVehicle(Vehicle v, User user) throws Exception {
         Connection conn = null;
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Vehicles WHERE user_ID = ? AND Registration = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, userDAO.getCurrentUser().getId());
+            ps.setInt(1, user.getId());
             ps.setString(2, v.getRegistration());
             ResultSet resultSet = ps.executeQuery();
 
@@ -43,14 +46,14 @@ public class VehicleDAO {
                 String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?)";
                 PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
                 insertStatement.setString(1, v.getRegistration());
-                insertStatement.setInt(2, userDAO.getCurrentUser().getId());
+                insertStatement.setInt(2, user.getId());
                 insertStatement.setInt(3, v.getYear());
                 insertStatement.setString(4, v.getMake());
                 insertStatement.setString(5, v.getModel());
                 insertStatement.setString(6, v.getChargerType());
                 insertStatement.execute();
                 // Insert into list of vehicles for current user
-                userDAO.getCurrentUser().newVehicle(v);
+                user.newVehicle(v);
             }
         } catch(SQLException e) {
             if (e.getErrorCode() == 19) {
@@ -66,7 +69,7 @@ public class VehicleDAO {
      * get all vehicles of the current user
      * @return result ArrayList of all vehicles of the current user
      */
-    public QueryResult getVehicles() {
+    public QueryResult getVehicles(User user) {
         Connection conn = null;
         ArrayList<Vehicle> res = new ArrayList<>();
         QueryResult result = new QueryResult();
@@ -74,7 +77,7 @@ public class VehicleDAO {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Vehicles WHERE User_ID = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, userDAO.getCurrentUser().getId());
+            ps.setInt(1, user.getId());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 res.add(new Vehicle(rs.getInt("Year"), rs.getString("Make"),

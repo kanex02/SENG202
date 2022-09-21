@@ -8,7 +8,6 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
-import journey.business.StationManager;
 import journey.data.Journey;
 import journey.data.Station;
 import journey.data.Utils;
@@ -25,7 +24,6 @@ import java.util.Objects;
 public class MapController {
     @FXML private WebView webView;
     private WebEngine webEngine;
-    private StationManager stationManager;
     private JavaScriptBridge javaScriptBridge;
     private JSObject javaScriptConnector;
     private boolean routeDisplayed = false;
@@ -37,9 +35,8 @@ public class MapController {
     /**
      * Initialise map
      */
-    void init(MainController mainController) {
+    void init(Stage stage, MainController mainController) {
         // Database db = new Database();
-        stationManager = new StationManager(mainController);
         stationDAO = new StationDAO();
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick, this::getLatLongFromClick);
         this.mainController = mainController;
@@ -95,7 +92,7 @@ public class MapController {
      * add station markers on map if date first operational are not null (not built yet)
      */
     private void addStationsOnMap() {
-        Station[] stations = stationManager.getAllStations();
+        Station[] stations = mainController.getStations().getStations();
         for (Station station: stations) {
             if (station != null && station.getDateFirstOperational() != null) {
                 addStationMark(station);
