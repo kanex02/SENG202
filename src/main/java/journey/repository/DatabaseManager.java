@@ -1,12 +1,18 @@
 package journey.repository;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import journey.controller.ReadCSV;
 import journey.data.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +22,7 @@ import org.apache.logging.log4j.Logger;
  * TODO: Exception handler for fatal exceptions
  */
 public final class DatabaseManager {
-    private final String databasePath;
+    private static String databasePath;
     private static final Logger log = LogManager.getLogger();
     private static DatabaseManager instance = null;
 
@@ -24,7 +30,10 @@ public final class DatabaseManager {
      * Constructs a new database manager.
      */
     private DatabaseManager() {
-        this.databasePath = "src/main/resources/journey.db";
+        String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        path = URLDecoder.decode(path, StandardCharsets.UTF_8);
+        File jarDir = new File(path);
+        databasePath = jarDir.getParentFile()+"/database.db";
     }
 
     /**
@@ -62,6 +71,10 @@ public final class DatabaseManager {
     public static DatabaseManager getInstance() {
         if (instance == null) {
             instance = new DatabaseManager();
+            try {
+                instance.setup();
+                ReadCSV.readStations(databasePath);
+            } catch (Exception ignored) {}
         }
 
         return instance;

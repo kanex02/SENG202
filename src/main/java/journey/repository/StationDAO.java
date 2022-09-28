@@ -2,6 +2,7 @@ package journey.repository;
 
 import static journey.data.Utils.convertArrayToString;
 
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -18,6 +18,34 @@ import org.apache.logging.log4j.Logger;
 public class ReadCSV {
     private static final Logger log = LogManager.getLogger();
 
+    public static void readStations(String path) throws FileNotFoundException {
+        FileReader file = new FileReader(path);
+
+        List<Station> beans = new CsvToBeanBuilder<Station>(file)
+                .withType(Station.class)
+                .build()
+                .parse();
+
+        for (Station s : beans) {
+            String connectors = s.getConnectorsList();
+            connectors = connectors.substring(1, connectors.length() - 1);
+            String[] connectorsList = connectors.split("},\\{");
+
+
+            String maxTimeLimit = s.getMaxTimeLimit();
+            int time = 0;
+            if (Utils.isInt(maxTimeLimit)) {
+                time = Integer.parseInt(maxTimeLimit);
+            }
+
+            s.setMaxTime(time);
+            s.setConnectors(connectorsList);
+
+            StationDAO stationDAO = new StationDAO();
+
+            stationDAO.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(), s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(), s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(), s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
+        }
+    }
 
     public static void readStations() throws FileNotFoundException {
         FileReader file = new FileReader("src/main/resources/EV_Roam_charging_stations.csv");
