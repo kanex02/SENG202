@@ -14,12 +14,12 @@ import static io.cucumber.junit.platform.engine.Constants.*;
  * publish is set to quiet in test/resources/junit-platform.properties
  * @author seng202 teaching team
  */
-@Suite
-@IncludeEngines("cucumber")
-@SelectClasspathResource("features")
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "journey.cucumber")
-@ConfigurationParameter(key = SNIPPET_TYPE_PROPERTY_NAME, value = "camelcase")
-public class RunCucumberTest {
-}
+//@Suite
+//@IncludeEngines("cucumber")
+//@SelectClasspathResource("features")
+//@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
+//@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "journey.cucumber")
+//@ConfigurationParameter(key = SNIPPET_TYPE_PROPERTY_NAME, value = "camelcase")
+//public class RunCucumberTest {
+//}
 

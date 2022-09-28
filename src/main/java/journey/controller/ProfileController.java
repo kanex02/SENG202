@@ -30,6 +30,7 @@ public class ProfileController {
     @FXML private TableColumn<Vehicle, Integer> yearCol;
 
     @FXML private TableColumn<Vehicle, String> chargerTypeCol;
+    @FXML private TableColumn<Vehicle, String> connectorTypeCol;
 
     @FXML private TableView<Vehicle> vehicleTable;
 
@@ -59,6 +60,7 @@ public class ProfileController {
         modelCol.setCellValueFactory(new PropertyValueFactory<>("Model"));
         yearCol.setCellValueFactory(new PropertyValueFactory<>("Year"));
         chargerTypeCol.setCellValueFactory(new PropertyValueFactory<>("ChargerType"));
+        connectorTypeCol.setCellValueFactory(new PropertyValueFactory<>("ConnectorType"));
         QueryResult data = vehicleDAO.getVehicles(mainController.getCurrentUser());
         ObservableList<Vehicle> vehicles = FXCollections.observableArrayList(data.getVehicles());
         vehicleTable.setItems(vehicles);

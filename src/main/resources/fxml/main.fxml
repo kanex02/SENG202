@@ -45,11 +45,11 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="83.0" minHeight="40.0" prefHeight="55.0" vgrow="NEVER" />
-                  <RowConstraints maxHeight="251.0" minHeight="181.19998474121093" prefHeight="182.19998474121093" vgrow="NEVER" />
-                  <RowConstraints maxHeight="100.40001525878904" minHeight="18.999984741210938" prefHeight="33.0" vgrow="NEVER" />
-                  <RowConstraints maxHeight="251.0" minHeight="30.0" prefHeight="34.60000000000002" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" maxHeight="93.39999999999998" minHeight="30.0" prefHeight="33.599999999999966" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" maxHeight="327.86712646484375" minHeight="180.0" prefHeight="300.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="251.0" minHeight="181.19998474121093" prefHeight="237.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="100.40001525878904" minHeight="18.999984741210938" prefHeight="34.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="251.0" minHeight="30.0" prefHeight="35.0" vgrow="NEVER" />
+                  <RowConstraints fillHeight="false" maxHeight="105.0" minHeight="30.0" prefHeight="50.0" vgrow="NEVER" />
+                  <RowConstraints fillHeight="false" maxHeight="327.86712646484375" minHeight="180.0" prefHeight="229.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -68,22 +68,24 @@
                         <Insets left="5.0" />
                      </GridPane.margin>
                      <children>
-                        <Pane HBox.hgrow="ALWAYS">
+                        <Pane prefHeight="237.0" prefWidth="143.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label layoutY="151.0" text="Charger Type:" />
+                              <Label layoutY="156.0" text="Charger Type:" />
                               <Label layoutY="48.0" text="Make:" />
                               <Label layoutY="117.0" text="Year:" />
                               <Label layoutY="82.0" text="Model:" />
                               <Label layoutY="17.0" text="Registration:" />
+                              <Label layoutY="190.0" text="Connector Type:" />
                            </children>
                         </Pane>
-                        <Pane maxWidth="200.0" prefHeight="229.0" prefWidth="95.0" HBox.hgrow="NEVER">
+                        <Pane maxWidth="200.0" prefHeight="237.0" prefWidth="122.0" HBox.hgrow="NEVER">
                            <children>
-                              <ChoiceBox fx:id="chargerBox" layoutX="5.0" layoutY="150.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #E0E6B2;" />
-                              <TextField fx:id="registrationTextBox" layoutX="5.0" layoutY="14.0" prefHeight="26.0" prefWidth="85.0" />
-                              <TextField fx:id="modelTextBox" layoutX="5.0" layoutY="82.0" prefHeight="26.0" prefWidth="85.0" />
-                              <TextField fx:id="yearTextBox" layoutX="5.0" layoutY="116.0" prefHeight="26.0" prefWidth="85.0" />
-                              <TextField fx:id="makeTextBox" layoutX="5.0" layoutY="48.0" prefHeight="26.0" prefWidth="85.0" />
+                              <ChoiceBox fx:id="chargerBox" layoutX="5.0" layoutY="150.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="111.0" style="-fx-background-color: #E0E6B2;" />
+                              <TextField fx:id="registrationTextBox" layoutX="5.0" layoutY="14.0" prefHeight="26.0" prefWidth="111.0" />
+                              <TextField fx:id="modelTextBox" layoutX="5.0" layoutY="82.0" prefHeight="26.0" prefWidth="111.0" />
+                              <TextField fx:id="yearTextBox" layoutX="5.0" layoutY="116.0" prefHeight="26.0" prefWidth="111.0" />
+                              <TextField fx:id="makeTextBox" layoutX="5.0" layoutY="48.0" prefHeight="26.0" prefWidth="111.0" />
+                              <ChoiceBox fx:id="connectorBox" layoutX="5.0" layoutY="185.0" onMouseClicked="#connectorTypeChoice" prefHeight="25.0" prefWidth="111.0" style="-fx-background-color: #E0E6B2;" />
                            </children>
                         </Pane>
                      </children>

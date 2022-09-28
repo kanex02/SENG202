@@ -44,7 +44,7 @@ public class VehicleDAO {
 
             // If there is no item in result set we disconnect first and return an empty note
             if(!resultSet.isBeforeFirst()) {
-                String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?)";
+                String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?,?)";
                 PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
                 insertStatement.setString(1, v.getRegistration());
                 insertStatement.setInt(2, user.getId());
@@ -52,6 +52,7 @@ public class VehicleDAO {
                 insertStatement.setString(4, v.getMake());
                 insertStatement.setString(5, v.getModel());
                 insertStatement.setString(6, v.getChargerType());
+                insertStatement.setString(7, v.getConnectorType());
                 insertStatement.execute();
                 // Insert into list of vehicles for current user
                 user.newVehicle(v);
@@ -80,7 +81,7 @@ public class VehicleDAO {
             while (rs.next()) {
                 res.add(new Vehicle(rs.getInt("Year"), rs.getString("Make"),
                         rs.getString("Model"), rs.getString("ChargerType"),
-                        rs.getString("Registration")));
+                        rs.getString("Registration"), rs.getString("ConnectorType")));
             }
         } catch (SQLException e) {
             log.error(e);

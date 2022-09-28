@@ -52,9 +52,21 @@ public class MainController {
         );
 
 
+    private static final ObservableList<String> connectorTypeOptions =
+            FXCollections.observableArrayList(
+                    "Type 2 Socketed",
+                    "CHAdeMO",
+                    "Type 2 Tethered",
+                    "Type 2 CSS",
+                    "Type 1 Tethered"
+            );
+
+
     private QueryResult currentStations;
     private String chargerTypeChoice;
+    private String connectorTypeChoice;
     @FXML private ChoiceBox<String> chargerBox;
+    @FXML private ChoiceBox<String> connectorBox;
     @FXML private TextField registrationTextBox;
     @FXML private TextField makeTextBox;
     @FXML private TextField modelTextBox;
@@ -103,6 +115,11 @@ public class MainController {
         event.consume();
     }
 
+    @FXML private void connectorTypeChoice(Event event) {
+        connectorTypeChoice = connectorBox.getValue();
+        event.consume();
+    }
+
     /**
      * Run when the user presses the register vehicle button.
      * Initialises a new vehicle and assigns it to the current user based on the input
@@ -118,6 +135,7 @@ public class MainController {
         String make = getMakeTextBox();
         String model = getModelTextBox();
         chargerTypeChoice(event);
+        connectorTypeChoice(event);
 
         if (Objects.equals(year, "") || Objects.equals(registration, "")
                 || Objects.equals(make, "") || Objects.equals(model, "")
@@ -162,7 +180,8 @@ public class MainController {
             modelTextBox.setText("");
             warningLabel.setText("");
             chargerBox.setValue("");
-            Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration);
+            connectorBox.setValue("");
+            Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration, connectorTypeChoice);
             // Send vehicle to database
             try {
                 vehicleDAO.setVehicle(newVehicle, currentUser);
@@ -441,6 +460,7 @@ public class MainController {
         // Fill the combo boxes
         this.stage = stage;
         chargerBox.setItems(chargerTypeOptions);
+        connectorBox.setItems(connectorTypeOptions);
 
         QueryResult stations = stationDAO.getAll();
         ObservableList<String> stationList = FXCollections.observableArrayList();
