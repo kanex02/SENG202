@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <children>
       <GridPane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -89,7 +89,7 @@
                      </children>
                   </HBox>
                   <Label fx:id="warningLabel" prefHeight="28.0" prefWidth="290.0" textFill="#fa0202" textOverrun="CLIP" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <Button mnemonicParsing="false" fx:id="registerVehicleButton" onAction="#registerVehicle" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #E0E6B2;" text="Register Vehicle" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <Button fx:id="registerVehicleButton" mnemonicParsing="false" onAction="#registerVehicle" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #E0E6B2;" text="Register Vehicle" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                   <AnchorPane prefHeight="339.0" prefWidth="290.0" GridPane.rowIndex="4" GridPane.rowSpan="2">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutY="15.0" prefHeight="19.0" prefWidth="149.0" text="SELECTED STATION" textAlignment="CENTER" underline="true">
@@ -116,7 +116,7 @@
                <children>
                   <TabPane fx:id="mainTabs" prefWidth="0.0" VBox.vgrow="ALWAYS">
                      <tabs>
-                        <Tab closable="false" onSelectionChanged="#selectMapViewTab" text="Map">
+                        <Tab fx:id="mapTab" closable="false" onSelectionChanged="#selectMapViewTab" text="Map">
                            <content>
                               <AnchorPane fx:id="mapPaneWrapper" prefHeight="635.0">
                                  <children>
@@ -129,7 +129,7 @@
                               </AnchorPane>
                            </content>
                         </Tab>
-                        <Tab closable="false" text="Table">
+                        <Tab fx:id="tableTab" closable="false" text="Table">
                            <content>
                               <AnchorPane fx:id="tablePane" prefHeight="635.0" />
                            </content>

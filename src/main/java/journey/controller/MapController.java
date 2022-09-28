@@ -30,7 +30,7 @@ public class MapController {
     private MainController mainController;
     private GetLatLongInterface callback;
     private StationDAO stationDAO;
-
+    private String label;
 
     /**
      * Initialise map
@@ -91,7 +91,8 @@ public class MapController {
     /**
      * add station markers on map if date first operational are not null (not built yet)
      */
-    private void addStationsOnMap() {
+    public void addStationsOnMap() {
+        javaScriptConnector.call("clearMap");
         Station[] stations = mainController.getStations().getStations();
         for (Station station: stations) {
             if (station != null && station.getDateFirstOperational() != null) {
@@ -155,14 +156,24 @@ public class MapController {
      * @return whether the operation was successful
      */
     public boolean getLatLongFromClick(double lat, double lng) {
-        callback.operation(lat, lng);
+        if (callback != null) {
+            callback.operation(lat, lng);
+            javaScriptConnector.call("addMiscMarker", lat, lng, label);
+        }
         //Resets the callback so the previous function is no longer called.
         callback = null;
+        label = null;
         return true;
     }
 
-    public void setCallback(GetLatLongInterface callback) {
+    public void setCallback(GetLatLongInterface callback, String label) {
         this.callback = callback;
+        this.label = label;
+    }
+
+    public void clearJourneyMarkers() {
+        javaScriptConnector.call("clearMiscMarker", "start");
+        javaScriptConnector.call("clearMiscMarker", "end");
     }
 
     public void clearRoute() {

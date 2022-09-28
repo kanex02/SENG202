@@ -27,8 +27,7 @@
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let route;
     let previousRoute = [];
-    let previousRoutes = [];
-    let polyline;
+    let miscMarkers = {};
 
     const greenIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -57,7 +56,16 @@
         removeRoute: removeRoute,
         initMap: initMap,
         mapJourney: mapJourney,
+        addMiscMarker: addMiscMarker,
+        clearMiscMarker: clearMiscMarker,
+        clearMap: clearMap
     };
+
+    function clearMap() {
+        for (i=0; i<markers.length; i++) {
+            markers[i].remove(map)
+        }
+    }
 
     function mapJourney(waypoints) {
         let waypointArray = waypoints.split("//");
@@ -67,7 +75,7 @@
         let m;
         for (let i = 0; i < waypointArray.length; i++) {
             latlong = waypointArray[i].split("#");
-            m = new L.latLng(latlong[0], latlong[1], {icon: greenIcon, interactive: false});
+            m = new L.latLng(latlong[0], latlong[1]);
             // routeLine.push([latlong[0], latlong[1]]);
             previousRoute.push(m);
         }
@@ -93,10 +101,25 @@
         })
     }
 
+    function addMiscMarker(lat, lng, label) {
+        if (miscMarkers[label] !== undefined) {
+            miscMarkers[label].remove(map);
+        }
+        let m = new L.Marker(L.latLng(lat, lng), {icon: greenIcon, interactive: false});
+        miscMarkers[label] = m;
+        m.addTo(map);
+    }
 
+    function clearMiscMarker(label) {
+        if (miscMarkers[label] !== undefined) {
+            miscMarkers[label].remove(map);
+        }
+        delete miscMarkers[label];
+    }
 
     /**
      * Adds a marker to the map and stores it in the markers array for later use (e.g. removal)
+     * @param id id of marker
      * @param title tooltip to display on hover
      * @param lat latitude to place marker at
      * @param lng longitude to place marker at
