@@ -123,6 +123,15 @@ public class CreateJourneyController {
         }, "end");
     }
 
+    public void changeJourneyStart(double lat, double lng) {
+        startLat.setText(String.valueOf(lat));
+        startLong.setText(String.valueOf(lng));
+    }
+
+    public void changeJourneyEnd(double lat, double lng) {
+        endLat.setText(String.valueOf(lat));
+        endLong.setText(String.valueOf(lng));
+    }
 
     public void init(Stage stage, MainController mainController) {
         this.mainController = mainController;

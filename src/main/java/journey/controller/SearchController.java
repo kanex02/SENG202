@@ -6,14 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import jdk.jshell.execution.Util;
 import javafx.stage.Stage;
 import journey.data.QueryStation;
 import journey.data.Utils;
 import journey.repository.StationDAO;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SearchController {
     @FXML private TextField addressSearch;
@@ -23,8 +19,8 @@ public class SearchController {
     @FXML private ChoiceBox<String> chargerBoxSearch;
     @FXML private ChoiceBox<String> attractionSearch;
     @FXML private TextField distanceSearch;
-    @FXML private TextField searchLat;
-    @FXML private TextField searchLong;
+    @FXML private TextField latSearch;
+    @FXML private TextField longSearch;
     @FXML private Label warningLabel;
 
     private static final ObservableList<String> chargerTypeSearchOptions =
@@ -35,15 +31,13 @@ public class SearchController {
 
     private MainController mainController;
     private StationDAO stationDAO;
-    Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
-    Pattern digit = Pattern.compile("[0-9]");
 
     /**
      * Searches for relevant stations based on users search inputs
      */
-    @FXML private void search() {
-        boolean valid = errorCheck();
-        if (valid) {
+    @FXML public void search() {
+        String errors = errorCheck();
+        if (errors == null || errors.matches("")) {
             warningLabel.setText("");
             QueryStation searchStation = new QueryStation();
             searchStation.setAddress(addressSearch.getText());
@@ -58,17 +52,32 @@ public class SearchController {
             if (timeSearch.getText().matches("\\d+")) {
                 searchStation.setMaxTime(Integer.parseInt(timeSearch.getText()));
             }
-            if (searchLat.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
-                    & searchLong.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
+            if (latSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
+                    & longSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
                     & distanceSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")) {
-                searchStation.setLatitude(Double.parseDouble(searchLat.getText()));
-                searchStation.setLongitude(Double.parseDouble(searchLong.getText()));
+                searchStation.setLatitude(Double.parseDouble(latSearch.getText()));
+                searchStation.setLongitude(Double.parseDouble(longSearch.getText()));
                 searchStation.setRange(Double.parseDouble(distanceSearch.getText()));
             }
 
             mainController.setCurrentStations(stationDAO.query(searchStation));
+        } else {
+            warningLabel.setText(errors);
         }
 
+    }
+
+    @FXML private void clearSearch() {
+        addressSearch.setText("");
+        nameSearch.setText("");
+        operatorSearch.setText("");
+        chargerBoxSearch.setValue("");
+        timeSearch.setText("");
+        attractionSearch.setValue("");
+        distanceSearch.setText("");
+        latSearch.setText("");
+        longSearch.setText("");
+        mainController.clearSearch();
     }
 
     /**
@@ -79,59 +88,54 @@ public class SearchController {
         mainController.onlyMap();
         mainController.openMap();
         mainController.getMapViewController().setCallback((lat, lng) -> {
-            searchLat.setText(String.valueOf(lat));
-            searchLong.setText(String.valueOf(lng));
+            latSearch.setText(String.valueOf(lat));
+            longSearch.setText(String.valueOf(lng));
             mainController.reenable();
             mainController.openSearch();
             return true;
         }, "search");
     }
 
-    public boolean errorCheck() {
-        boolean valid = true;
+    public String errorCheck() {
+        StringBuilder errors = new StringBuilder();
         String address = addressSearch.getText();
         String name = nameSearch.getText();
         String operator = operatorSearch.getText();
         String timeLimit = timeSearch.getText();
         String range = distanceSearch.getText();
 
-        Matcher addressHasSpecial = special.matcher(address);
-        Matcher nameHasSpecial = special.matcher(name);
-        Matcher nameHasDigit = digit.matcher(name);
-        Matcher operatorHasSpecial = special.matcher(operator);
-        Matcher operatorHasDigit = digit.matcher(operator);
 
         //address check
-        if (addressHasSpecial.find() && !address.equals("")) {
-            valid = false;
-            warningLabel.setText("Address must only have A-Z and 0-9");
+        if (!address.matches("[0-9|a-z|A-Z| ]*")) {
+            errors.append("Address must only have A-Z and 0-9\n");
         }
 
         //name check
-        if (nameHasDigit.find() || nameHasSpecial.find() && !name.equals("")) {
-            valid = false;
-            warningLabel.setText("Name cannot have special characters or integers");
+        if (!name.matches("[a-z|A-Z| ]*")) {
+            errors.append("Name cannot have special characters or integers\n");
         }
 
         //operator check
-        if (operatorHasDigit.find() || operatorHasSpecial.find() && !operator.equals("")) {
-            valid = false;
-            warningLabel.setText("Operator cannot have special characters or integers");
+        if (!operator.matches("[a-z|A-Z| ]*")) {
+            errors.append("Operator cannot have special characters or integers\n");
         }
 
         //time limit check
         if (!Utils.isInt(timeLimit) && !timeLimit.equals("")) {
-            valid = false;
-            warningLabel.setText("Time limit must be an integer!");
+            errors.append("Time limit must be an integer!\n");
         }
 
         //range check
         if (!Utils.isInt(range) && !range.equals("")) {
-            valid = false;
-            warningLabel.setText("Range needs to be an integer!");
+            errors.append("Range needs to be an integer!\n");
         }
 
-        return valid;
+        return errors.toString();
+    }
+
+    public void changeSearchLatLong(double lat, double lng) {
+        latSearch.setText(String.valueOf(lat));
+        longSearch.setText(String.valueOf(lng));
     }
 
     /**

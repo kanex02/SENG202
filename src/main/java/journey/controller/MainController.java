@@ -87,6 +87,7 @@ public class MainController {
     @FXML private AnchorPane recordJourneyWrapper;
 
 
+    private SearchController searchController;
     private TableController tableController;
     private CreateJourneyController recordJourneyController;
     private MapController mapViewController;
@@ -393,7 +394,7 @@ public class MainController {
             FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("/fxml/search.fxml"));
             Parent searchParent = searchLoader.load();
 
-            SearchController searchController = searchLoader.getController();
+            searchController = searchLoader.getController();
             searchController.init(stage, this);
             searchWrapper.getChildren().add(searchParent);
             AnchorPane.setTopAnchor(searchParent, 0d);
@@ -442,6 +443,27 @@ public class MainController {
         }
     }
 
+    public void clearSearch() {
+        setCurrentStations(stationDAO.getAll());
+        mapViewController.clearSearch();
+    }
+
+    public void changeSearchLatLong(double lat, double lng) {
+        searchController.changeSearchLatLong(lat, lng);
+    }
+
+    public void changeJourneyStart(double lat, double lng) {
+        recordJourneyController.changeJourneyStart(lat, lng);
+    }
+
+    public void changeJourneyEnd(double lat, double lng) {
+        recordJourneyController.changeJourneyEnd(lat, lng);
+    }
+
+    public void refreshSearch() {
+        searchController.search();
+    }
+
     public User getCurrentUser() {
         return currentUser;
     }
@@ -477,7 +499,4 @@ public class MainController {
 
         journeyTab.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVal, newVal) -> mapViewController.clearRoute()));
     }
-
-
-
 }
