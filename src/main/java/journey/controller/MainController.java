@@ -423,6 +423,11 @@ public class MainController {
         }
     }
 
+    public void clearSearch() {
+        setCurrentStations(stationDAO.getAll());
+        mapViewController.clearSearch();
+    }
+
     public User getCurrentUser() {
         return currentUser;
     }

@@ -34,6 +34,7 @@ public class MainWindow extends Application {
             LoginController baseController = baseLoader.getController();
             baseController.init(primaryStage);
             primaryStage.setTitle("Journey");
+            primaryStage.show();
             Scene scene = new Scene(root, 800, 500);
             primaryStage.setScene(scene);
             primaryStage.setMaxHeight(500);
@@ -45,8 +46,7 @@ public class MainWindow extends Application {
             Rectangle2D bounds = screen.getVisualBounds();
             primaryStage.setX((bounds.getWidth() - primaryStage.getWidth())*1.0f/2);
             primaryStage.setY((bounds.getHeight() - primaryStage.getHeight())*1.0f/3);
-            primaryStage.setHeight(bounds.getHeight());
-            primaryStage.setWidth(bounds.getWidth());
+
         } catch (IOException e) {
             log.error(e);
         }

@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="296.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
+<AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="296.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
     <children>
         <Label layoutX="14.0" layoutY="15.0" text="Address:" />
         <TextField fx:id="addressSearch" layoutX="100.0" layoutY="11.0" prefHeight="25.0" prefWidth="310.0" />
@@ -26,9 +26,9 @@
                     <children>
                         <TextField fx:id="distanceSearch" layoutX="86.0" prefHeight="25.0" prefWidth="35.0" />
                         <Label layoutY="4.0" text="Range:" />
-                        <TextField fx:id="searchLat" layoutX="165.0" prefHeight="25.0" prefWidth="60.0" promptText="lat" />
+                        <TextField fx:id="latSearch" layoutX="165.0" prefHeight="25.0" prefWidth="60.0" promptText="lat" />
                         <Label layoutX="225.0" layoutY="4.0" text=",  " />
-                        <TextField fx:id="searchLong" layoutX="233.0" prefHeight="25.0" prefWidth="60.0" promptText="long" />
+                        <TextField fx:id="longSearch" layoutX="233.0" prefHeight="25.0" prefWidth="60.0" promptText="long" />
                         <Label layoutX="125.0" layoutY="4.0" text="km of" />
                         <Button layoutX="314.0" mnemonicParsing="false" onAction="#clickSearch" prefWidth="100.0" style="-fx-background-color: #E0E6B2;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
                     </children>
@@ -40,11 +40,18 @@
         </HBox>
         <BorderPane layoutX="20.4" layoutY="260.6000061035156" prefHeight="24.0" prefWidth="390.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="260.0">
             <center>
-                <Button mnemonicParsing="false" onAction="#search" style="-fx-background-color: #E0E6B2;" text="Search">
-                    <padding>
-                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                    </padding>
-                </Button>
+                <AnchorPane>
+                    <Button mnemonicParsing="false" onAction="#search" style="-fx-background-color: #E0E6B2;" text="Search" AnchorPane.leftAnchor="80.0">
+                        <padding>
+                            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                        </padding>
+                    </Button>
+                    <Button mnemonicParsing="false" onAction="#clearSearch" style="-fx-background-color: #E0E6B2;" text="Clear" AnchorPane.leftAnchor="0.0">
+                        <padding>
+                            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                        </padding>
+                    </Button>
+                </AnchorPane>
             </center>
         </BorderPane>
       <Label fx:id="warningLabel" layoutX="254.0" layoutY="265.0" prefHeight="16.0" prefWidth="346.0" textAlignment="CENTER" textFill="#eb0303" />

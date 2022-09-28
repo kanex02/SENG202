@@ -128,6 +128,10 @@ public class MapController {
         }
     }
 
+    public void clearSearch() {
+        javaScriptConnector.call("clearSearch");
+    }
+
     /**
      * Add station to map
      * @param station station object to be added
