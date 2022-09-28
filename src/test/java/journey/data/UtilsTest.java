@@ -1,5 +1,6 @@
 package journey.data;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,12 +12,19 @@ public class UtilsTest {
     @Test
     void isIntTrue() {
         String str = "10";
-        assertEquals(Utils.isInt(str), true);
+        assertTrue(Utils.isInt(str));
     }
 
     @Test
     void isIntFalse() {
         String str = "Hello";
-        assertEquals(Utils.isInt(str), false);
+        assertFalse(Utils.isInt(str));
+    }
+
+    @Test
+    void arrToString() {
+        String[] arr = {"We", "are", "the", "Journey", "development", "team"};
+        String str = Utils.convertArrayToString(arr, " ");
+        Assertions.assertEquals(str, "We are the Journey development team ");
     }
 }
