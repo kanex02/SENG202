@@ -35,7 +35,7 @@ public class SearchController {
     /**
      * Searches for relevant stations based on users search inputs
      */
-    @FXML private void search() {
+    @FXML public void search() {
         String errors = errorCheck();
         if (errors == null || errors.matches("")) {
             warningLabel.setText("");
@@ -131,6 +131,11 @@ public class SearchController {
         }
 
         return errors.toString();
+    }
+
+    public void changeSearchLatLong(double lat, double lng) {
+        latSearch.setText(String.valueOf(lat));
+        longSearch.setText(String.valueOf(lng));
     }
 
     /**

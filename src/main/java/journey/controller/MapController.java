@@ -38,7 +38,9 @@ public class MapController {
     void init(Stage stage, MainController mainController) {
         // Database db = new Database();
         stationDAO = new StationDAO();
-        javaScriptBridge = new JavaScriptBridge(this::getStationFromClick, this::getLatLongFromClick);
+        javaScriptBridge = new JavaScriptBridge(this::getStationFromClick,
+                this::getLatLongFromClick,
+                this::changeLatLong);
         this.mainController = mainController;
         // set custom cell factory for list view
         initMap();
@@ -153,8 +155,9 @@ public class MapController {
     }
 
     /**
-     * Gets the lat and long from clicking on the map
+     * Gets the lat and long from clicking on the map.
      * To be called from {@link JavaScriptBridge} to get the relevant coordinates
+
      * @param lat lat of click
      * @param lng long of click
      * @return whether the operation was successful
@@ -178,6 +181,19 @@ public class MapController {
     public void clearJourneyMarkers() {
         javaScriptConnector.call("clearMiscMarker", "start");
         javaScriptConnector.call("clearMiscMarker", "end");
+    }
+
+    public boolean changeLatLong(double lat, double lng, String label) {
+        switch (label) {
+            case ("search") -> {
+                mainController.changeSearchLatLong(lat, lng);
+                mainController.refreshSearch();
+            }
+            case ("start") -> mainController.changeJourneyStart(lat, lng);
+            case ("end") -> mainController.changeJourneyEnd(lat, lng);
+            default -> { }
+        }
+        return true;
     }
 
     public void clearRoute() {

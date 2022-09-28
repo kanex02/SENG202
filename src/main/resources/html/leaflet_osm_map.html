@@ -110,12 +110,12 @@
         if (miscMarkers[label] !== undefined) {
             miscMarkers[label].remove(map);
         }
-        let m = new L.Marker(L.latLng(lat, lng), {icon: greenIcon, interactive: true, draggable: true});
+        let m = new L.Marker(L.latLng(lat, lng), {icon: greenIcon, draggable: true});
         miscMarkers[label] = m;
         m.on('dragend', function(event) {
             var latlng = event.target.getLatLng();
-        })
-        m.addTo(map);
+            javaScriptBridge.changeLatLongFromClick(latlng.lat, latlng.lng, label);
+        }).addTo(map);
     }
 
     function clearMiscMarker(label) {
