@@ -47,7 +47,11 @@ public class Utils {
             str = str + i + delimiter;
         }
         //return str.substring(0, delimiter.length()-1);
-        return str.substring(0, str.length()-2);
+        if (str.length() > 2) {
+            return str.substring(0, str.length()-2);
+        } else {
+            return "";
+        }
     }
 
     /**

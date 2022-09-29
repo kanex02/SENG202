@@ -23,15 +23,14 @@ public class SearchController {
     @FXML private TextField timeSearch;
     @FXML private ChoiceBox<String> chargerBoxSearch;
     @FXML private ChoiceBox<String> attractionSearch;
-    //@FXML private ChoiceBox<String> connectorBoxSearch;
     @FXML private TextField distanceSearch;
     @FXML private TextField latSearch;
     @FXML private TextField longSearch;
     @FXML private Label warningLabel;
     @FXML private CheckBox myCarCheckBox;
     @FXML private MenuButton connectorsMenu;
-    ArrayList<String> selectedConnectors = new ArrayList<>();
     final ArrayList<CheckMenuItem> connectors = new ArrayList<>();
+    ArrayList<String> connectorsList = new ArrayList<>();
 
 
     private static final ObservableList<String> chargerTypeSearchOptions =
@@ -40,37 +39,34 @@ public class SearchController {
     private static final ObservableList<String> yesNoMaybeSo =
             FXCollections.observableArrayList("", "Yes", "No");
 
-    //private static final ObservableList<String> connectorTypeSearchOptions =
-            //FXCollections.observableArrayList("", "Type 2 Socketed", "Type 2 Tethered", "CHAdeMO", "Type 2 CCS", "Type 1 Tethered");
-
     private MainController mainController;
     private StationDAO stationDAO;
 
     @FXML public void myCar() {
+        ArrayList<String> selectedConnectors = new ArrayList<>();
         if (myCarCheckBox.isSelected()) {
             String myCar = mainController.getSelectedVehicle();
             Vehicle v = vehicleDAO.queryVehicle(myCar);
             chargerBoxSearch.setValue(v.getChargerType());
+            distanceSearch.setText("300");
+
+            selectedConnectors.clear();
             for (CheckMenuItem connector : connectors) {
-                System.out.println(connector.getText());
-                System.out.println(v.getConnectorType());
                 if (!connector.getText().contains(v.getConnectorType()) ) {
                     connector.setSelected(false);
-                    selectedConnectors.remove(connector.getText());
                 } else {
                     connector.setSelected(true);
-                    if (!Utils.convertArrayListToString(selectedConnectors, ", ").contains(v.getConnectorType())){
-                        selectedConnectors.add(connector.getText());
-                    }
+                    selectedConnectors.add(connector.getText());
                 }
             }
             connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
-
         } else {
             chargerBoxSearch.setValue("");
             connectors.get(0).setSelected(false);
-
-
+            for (CheckMenuItem connector : connectors) {
+                connector.setSelected(false);
+            }
+            connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
             for (CheckMenuItem connector : connectors) {
                 connector.selectedProperty().addListener(((observableValue, oldValue, newValue) -> {
                     if (newValue) {
@@ -83,12 +79,13 @@ public class SearchController {
                 }));
             }
         }
+        connectorsList = selectedConnectors;
     }
 
     public String[] getConnectors() {
-        String[] connectorsToFind = new String[selectedConnectors.size()];
-        for (int i = 0; i < selectedConnectors.size(); i++) {
-            connectorsToFind[i] = selectedConnectors.get(i);
+        String[] connectorsToFind = new String[connectorsList.size()];
+        for (int i = 0; i < connectorsList.size(); i++) {
+            connectorsToFind[i] = connectorsList.get(i);
         }
         return connectorsToFind;
     }
@@ -202,49 +199,6 @@ public class SearchController {
         longSearch.setText(String.valueOf(lng));
     }
 
-//    @FXML public void connectorsMultiSelect() {
-//        List<String> connectorsAvailable = new ArrayList<>();
-//        connectorsAvailable.add("Type 2 Socketed");
-//        connectorsAvailable.add("CHAdeMO");
-//        connectorsAvailable.add("Type 2 Tethered");
-//        connectorsAvailable.add("Type 2 CCS");
-//        connectorsAvailable.add("Type 1 Tethered");
-//
-//        final ArrayList<CheckMenuItem> connectors = new ArrayList<>();
-//        for (String connector: connectorsAvailable) {
-//            connectors.add(new CheckMenuItem(connector));
-//        }
-//        connectorsMenu.getItems().addAll(connectors);
-//
-//        if (!myCarCheckBox.isSelected()) {
-//
-//            for (CheckMenuItem connector : connectors) {
-//                connector.selectedProperty().addListener(((observableValue, oldValue, newValue) -> {
-//                    if (newValue) {
-//                        selectedConnectors.add(connector.getText());
-//                        connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
-//                    } else {
-//                        selectedConnectors.remove(connector.getText());
-//                        connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
-//                    }
-//                }));
-//            }
-//        } else {
-//            String myCar = mainController.getSelectedVehicle();
-//            Vehicle v = vehicleDAO.queryVehicle(myCar);
-//            for (CheckMenuItem connector : connectors) {
-//                if (connector.getText() != v.getConnectorType()) {
-//                    connector.setSelected(false);
-//                    selectedConnectors.remove(connector.getText());
-//                } else {
-//                    connector.setSelected(true);
-//                    selectedConnectors.add(connector.getText());
-//                }
-//            }
-//
-//        }
-//    }
-
 
     /**
      * Initialises the search pane.
@@ -273,7 +227,5 @@ public class SearchController {
             connectors.add(new CheckMenuItem(connector));
         }
         connectorsMenu.getItems().addAll(connectors);
-
-       // connectorBoxSearch.setItems(connectorTypeSearchOptions);
     }
 }
