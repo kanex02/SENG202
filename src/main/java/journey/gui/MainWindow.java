@@ -30,7 +30,6 @@ public class MainWindow extends Application {
         try {
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
             Parent root = baseLoader.load();
-
             LoginController baseController = baseLoader.getController();
             baseController.init(primaryStage);
             primaryStage.setTitle("Journey");

@@ -7,6 +7,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import journey.business.NominatimGeolocationManager;
+import journey.data.GeoCodeResult;
+import journey.data.GeoLocationResult;
 import journey.data.QueryStation;
 import journey.data.Utils;
 import journey.repository.StationDAO;
@@ -19,8 +22,7 @@ public class SearchController {
     @FXML private ChoiceBox<String> chargerBoxSearch;
     @FXML private ChoiceBox<String> attractionSearch;
     @FXML private TextField distanceSearch;
-    @FXML private TextField latSearch;
-    @FXML private TextField longSearch;
+    @FXML private TextField addrSearch;
     @FXML private Label warningLabel;
 
     private static final ObservableList<String> chargerTypeSearchOptions =
@@ -52,14 +54,14 @@ public class SearchController {
             if (timeSearch.getText().matches("\\d+")) {
                 searchStation.setMaxTime(Integer.parseInt(timeSearch.getText()));
             }
-            if (latSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
-                    & longSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")
-                    & distanceSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")) {
-                searchStation.setLatitude(Double.parseDouble(latSearch.getText()));
-                searchStation.setLongitude(Double.parseDouble(longSearch.getText()));
+            if (distanceSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")) {
+                NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
+                GeoLocationResult geoLoc = nomMan.queryAddress(addrSearch.getText());
+                searchStation.setLatitude(geoLoc.getLat());
+                searchStation.setLongitude(geoLoc.getLng());
                 searchStation.setRange(Double.parseDouble(distanceSearch.getText()));
-            }
 
+            }
             mainController.setCurrentStations(stationDAO.query(searchStation));
         } else {
             warningLabel.setText(errors);
@@ -75,21 +77,22 @@ public class SearchController {
         timeSearch.setText("");
         attractionSearch.setValue("");
         distanceSearch.setText("");
-        latSearch.setText("");
-        longSearch.setText("");
+        addrSearch.setText("");
         mainController.clearSearch();
     }
 
     /**
-     * Gets the coordinates of the next click on the map. A callback function is passed in,
-     * so when the map is clicked the searching lat and long is updated.
+     * Gets the coordinates of the next click on the map. A callback
+     * function is passed in, so when the map is clicked the searching
+     * lat and long is updated.
      */
     @FXML private void clickSearch() {
         mainController.onlyMap();
         mainController.openMap();
         mainController.getMapViewController().setCallback((lat, lng) -> {
-            latSearch.setText(String.valueOf(lat));
-            longSearch.setText(String.valueOf(lng));
+            NominatimGeolocationManager nomManager = new NominatimGeolocationManager();
+            GeoCodeResult addr = nomManager.queryLatLng(lat, lng);
+            addrSearch.setText(addr.getAddress());
             mainController.reenable();
             mainController.openSearch();
             return true;
@@ -133,9 +136,9 @@ public class SearchController {
         return errors.toString();
     }
 
-    public void changeSearchLatLong(double lat, double lng) {
-        latSearch.setText(String.valueOf(lat));
-        longSearch.setText(String.valueOf(lng));
+    public void changeSearchLatLong(String addr) {
+        addrSearch.setText(String.valueOf(addr));
+
     }
 
     /**

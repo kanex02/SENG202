@@ -1,10 +1,5 @@
 package journey.controller;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -20,11 +15,15 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import journey.data.*;
-import journey.repository.*;
+import journey.repository.NoteDAO;
+import journey.repository.StationDAO;
+import journey.repository.VehicleDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -429,16 +428,16 @@ public class MainController {
         mapViewController.clearSearch();
     }
 
-    public void changeSearchLatLong(double lat, double lng) {
-        searchController.changeSearchLatLong(lat, lng);
+    public void changeSearchLatLong(String addr) {
+        searchController.changeSearchLatLong(addr);
     }
 
-    public void changeJourneyStart(double lat, double lng) {
-        recordJourneyController.changeJourneyStart(lat, lng);
+    public void changeJourneyStart(String addr) {
+        recordJourneyController.changeJourneyStart(addr);
     }
 
-    public void changeJourneyEnd(double lat, double lng) {
-        recordJourneyController.changeJourneyEnd(lat, lng);
+    public void changeJourneyEnd(String addr) {
+        recordJourneyController.changeJourneyEnd(addr);
     }
 
     public void refreshSearch() {

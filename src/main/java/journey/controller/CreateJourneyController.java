@@ -9,10 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import journey.data.Journey;
-import journey.data.QueryResult;
-import journey.data.Utils;
-import journey.data.Vehicle;
+import journey.business.NominatimGeolocationManager;
+import journey.data.*;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
@@ -22,10 +20,8 @@ import java.util.Objects;
 
 
 public class CreateJourneyController {
-    @FXML private TextField startLat;
-    @FXML private TextField startLong;
-    @FXML private TextField endLat;
-    @FXML private TextField endLong;
+    @FXML private TextField startAddr;
+    @FXML private TextField endAddr;
     @FXML private TextField selectedStationField;
     @FXML private ListView<String> visitedStationsList;
     @FXML private ComboBox<String> selectVehicleComboBox;
@@ -67,8 +63,8 @@ public class CreateJourneyController {
 
     @FXML private void addJourney(Event event) {
         boolean valid = true;
-        String end = endLat.getText() + "#" + endLong.getText();
-        String start = startLat.getText() + "#" + startLong.getText();
+        String end = endAddr.getText();
+        String start = startAddr.getText();
         int userID = mainController.getCurrentUser().getId();
         String vehicleChoice = selectVehicleComboBox.getValue();
         if (Objects.equals(vehicleChoice, null) || start.equals("lat#long") || end.equals("lat#long")) {
@@ -78,10 +74,6 @@ public class CreateJourneyController {
 
         if (valid) {
             journeyWarningLabel.setText("");
-            startLat.setText("lat");
-            startLong.setText("long");
-            endLat.setText("lat");
-            endLong.setText("long");
             selectVehicleComboBox.setValue("");
             visitedStationsList.setItems(FXCollections.observableArrayList());
             String[] vehicle = vehicleChoice.split(": ");
@@ -101,8 +93,12 @@ public class CreateJourneyController {
         mainController.onlyMap();
         mainController.openMap();
         mapViewController.setCallback((lat, lng) -> {
-            startLat.setText(String.valueOf(lat));
-            startLong.setText(String.valueOf(lng));
+            try {
+                NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
+                GeoCodeResult geoCode = nomMan.queryLatLng(lat, lng);
+                String addr = geoCode.getAddress();
+                startAddr.setText(addr);
+            } catch (Error e){}
             mainController.reenable();
             return true;
         }, "start");
@@ -116,21 +112,23 @@ public class CreateJourneyController {
         mainController.onlyMap();
         mainController.openMap();
         mapViewController.setCallback((lat, lng) -> {
-            endLat.setText(String.valueOf(lat));
-            endLong.setText(String.valueOf(lng));
+            try {
+                NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
+                GeoCodeResult geoCode = nomMan.queryLatLng(lat, lng);
+                String addr = geoCode.getAddress();
+                endAddr.setText(addr);
+            } catch (Error e){}
             mainController.reenable();
             return true;
         }, "end");
     }
 
-    public void changeJourneyStart(double lat, double lng) {
-        startLat.setText(String.valueOf(lat));
-        startLong.setText(String.valueOf(lng));
+    public void changeJourneyStart(String addr) {
+        startAddr.setText(addr);
     }
 
-    public void changeJourneyEnd(double lat, double lng) {
-        endLat.setText(String.valueOf(lat));
-        endLong.setText(String.valueOf(lng));
+    public void changeJourneyEnd(String addr) {
+        endAddr.setText(addr);
     }
 
     public void init(Stage stage, MainController mainController) {

@@ -7,18 +7,14 @@
     <AnchorPane layoutX="10.0" layoutY="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
         <children>
             <Label text="Start: " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <TextField fx:id="startLat" editable="false" layoutX="50.0" prefHeight="24.0" prefWidth="50.0" text="lat" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Label layoutX="105.0" layoutY="5.0" text="," textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <TextField fx:id="startLong" editable="false" layoutX="120.0" layoutY="1.0" prefHeight="24.0" prefWidth="50.0" text="long" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextField fx:id="startAddr" layoutX="42.0" prefHeight="24.0" prefWidth="128.0" promptText="Address" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <Button layoutX="223.0" layoutY="-4.0" mnemonicParsing="false" onAction="#clickStart" style="-fx-background-color: #E0E6B2;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         </children>
     </AnchorPane>
     <AnchorPane layoutX="11.0" layoutY="34.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="44.0">
         <children>
             <Label text="End: " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <TextField fx:id="endLat" editable="false" layoutX="50.0" prefHeight="24.0" prefWidth="50.0" text="lat" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Label layoutX="105.0" layoutY="5.0" text="," textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <TextField fx:id="endLong" editable="false" layoutX="120.0" layoutY="1.0" prefHeight="24.0" prefWidth="50.0" text="long" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextField fx:id="endAddr" editable="false" layoutX="42.0" prefHeight="24.0" prefWidth="128.0" promptText="Address" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <Button layoutX="223.0" layoutY="-4.0" mnemonicParsing="false" onAction="#clickEnd" style="-fx-background-color: #E0E6B2;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         </children>
     </AnchorPane>

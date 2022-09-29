@@ -1,17 +1,19 @@
 package journey.business;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import journey.data.GeoCodeResult;
+import journey.data.GeoLocationResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import journey.data.GeoLocationResult;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 /**
  * Class to handle requesting location from Nominatim Geolocation API
@@ -48,13 +50,15 @@ public class NominatimGeolocationManager {
         } catch (InterruptedException ie) {
             log.error("Error requesting geolocation", ie);
             Thread.currentThread().interrupt();
+        } catch (Exception iie) {
+            log.error("Error when loading", iie);
         }
         return new GeoLocationResult(0, 0);
     }
     /**
      * Runs a query with the lat, lng given and finds the most applicable address
      */
-    public String queryLatLng(float lat, float lng) {
+    public GeoCodeResult queryLatLng(double lat, double lng) {
         String logMessage = String.format("Requesting geolocation from Nominatim for lat, lng: %s, %s", lat, lng);
         log.info(logMessage);
         try{
@@ -68,15 +72,14 @@ public class NominatimGeolocationManager {
             // Parsing the json response to get the latitude and longitude co-ordinates
             JSONParser parser = new JSONParser();
             JSONObject results = (JSONObject)  parser.parse(response.body());
-
-            return (String) results.get("display_name");
+            return new GeoCodeResult(((String) results.get("display_name")).replaceAll(", New Zealand / Aotearoa", ""));
         } catch (IOException | ParseException e) {
             log.error("Error requesting geolocation", e);
         } catch (InterruptedException ie) {
             log.error("Error requesting geolocation", ie);
             Thread.currentThread().interrupt();
         }
-        return "";
+        return new GeoCodeResult("");
     }
 
 
