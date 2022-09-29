@@ -1,10 +1,12 @@
 junit:
   stage: test
   script:
+    - “echo GEOAPIFY_API_KEY=$GEOAPIFY_API_KEY >> ./src/main/resources/.env
     - mvn -B clean test
 generate_artifacts:
   stage: deploy
   script:
+    - “echo GEOAPIFY_API_KEY=$GEOAPIFY_API_KEY >> ./src/main/resources/.env
     - mvn -B clean package
   artifacts:
     paths:
