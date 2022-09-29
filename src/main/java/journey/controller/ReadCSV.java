@@ -18,35 +18,11 @@ import org.apache.logging.log4j.Logger;
 public class ReadCSV {
     private static final Logger log = LogManager.getLogger();
 
-    public static void readStations(String path) throws FileNotFoundException {
-        FileReader file = new FileReader(path);
+    /**
+     * Imports data into the database.
 
-        List<Station> beans = new CsvToBeanBuilder<Station>(file)
-                .withType(Station.class)
-                .build()
-                .parse();
-
-        for (Station s : beans) {
-            String connectors = s.getConnectorsList();
-            connectors = connectors.substring(1, connectors.length() - 1);
-            String[] connectorsList = connectors.split("},\\{");
-
-
-            String maxTimeLimit = s.getMaxTimeLimit();
-            int time = 0;
-            if (Utils.isInt(maxTimeLimit)) {
-                time = Integer.parseInt(maxTimeLimit);
-            }
-
-            s.setMaxTime(time);
-            s.setConnectors(connectorsList);
-
-            StationDAO stationDAO = new StationDAO();
-
-            stationDAO.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(), s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(), s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(), s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
-        }
-    }
-
+     * @throws FileNotFoundException the CSV is not found.
+     */
     public static void readStations() throws FileNotFoundException {
         FileReader file = new FileReader("src/main/resources/EV_Roam_charging_stations.csv");
 
@@ -72,25 +48,23 @@ public class ReadCSV {
 
             StationDAO stationDAO = new StationDAO();
 
-            stationDAO.createStation(s.getOBJECTID(), s.getName(), s.getOperator(), s.getOwner(), s.getAddress(), s.isIs24Hours(), s.getCarParkCount(), s.isHasCarParkCost(), s.getMaxTime(), s.getHasTouristAttraction(), s.getLatitude(), s.getLongitude(), s.getCurrentType(), s.getDateFirstOperational(), s.getNumberOfConnectors(), s.getConnectors(), s.isHasChargingCost());
-            }
-        }
-
-    /**
-     * Reads CSV and calls set up methods in database manager
-     * @param args Command line arguments
-     */
-    public static void main(String[] args) {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        try {
-            databaseManager.setup();
-        } catch (SQLException | IOException e) {
-            log.error(e);
-        }
-        try {
-            readStations();
-        } catch (FileNotFoundException e) {
-            log.error(e);
+            stationDAO.createStation(s.getOBJECTID(),
+                    s.getName(),
+                    s.getOperator(),
+                    s.getOwner(),
+                    s.getAddress(),
+                    s.isIs24Hours(),
+                    s.getCarParkCount(),
+                    s.isHasCarParkCost(),
+                    s.getMaxTime(),
+                    s.getHasTouristAttraction(),
+                    s.getLatitude(),
+                    s.getLongitude(),
+                    s.getCurrentType(),
+                    s.getDateFirstOperational(),
+                    s.getNumberOfConnectors(),
+                    s.getConnectors(),
+                    s.isHasChargingCost());
         }
     }
 }

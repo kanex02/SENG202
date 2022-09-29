@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
  * TODO: Exception handler for fatal exceptions
  */
 public final class DatabaseManager {
-    private static String databasePath;
+    private final String databasePath;
     private static final Logger log = LogManager.getLogger();
     private static DatabaseManager instance = null;
 
@@ -33,7 +33,7 @@ public final class DatabaseManager {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
-        databasePath = jarDir.getParentFile()+"/database.db";
+        databasePath = jarDir.getParentFile() + "/database.db";
     }
 
     /**
@@ -73,7 +73,7 @@ public final class DatabaseManager {
             instance = new DatabaseManager();
             try {
                 instance.setup();
-                ReadCSV.readStations(databasePath);
+                ReadCSV.readStations();
             } catch (Exception ignored) {}
         }
 
