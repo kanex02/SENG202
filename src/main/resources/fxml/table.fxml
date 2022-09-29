@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="tableParent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.TableController">
-   <TableView fx:id="stationTable" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane fx:id="tableParent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.TableController">
+   <TableView fx:id="stationTable" minWidth="0.0" stylesheets="@../gui/tableStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <columns>
          <TableColumn fx:id="addressCol" prefWidth="211.0" text="Address" />
          <TableColumn fx:id="nameCol" prefWidth="136.0" text="Name" />
