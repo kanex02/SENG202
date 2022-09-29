@@ -1,9 +1,6 @@
 package journey.repository;
 
-import journey.data.QueryResult;
-import journey.data.User;
-import journey.data.Utils;
-import journey.data.Vehicle;
+import journey.data.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -90,5 +87,30 @@ public class VehicleDAO {
             result.setVehicles(res.toArray(Vehicle[]::new));
         }
         return result;
+    }
+
+    /**
+     * query the 'vehicles' table to get the vehicle with matching registration
+     * @param registration
+     * @return
+     */
+    public Vehicle queryVehicle(String registration) {
+        Connection conn = null;
+        try {
+            String sqlQuery = "SELECT * FROM Vehicles WHERE registration = ?";
+            conn = databaseManager.connect();
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setString(1, registration);
+            ResultSet resultSet = ps.executeQuery();
+            // Create a new station object.
+            return new Vehicle(resultSet.getInt("year"), resultSet.getString("make"),
+                    resultSet.getString("model"), resultSet.getString("chargerType"),
+                    resultSet.getString("registration"), resultSet.getString("connectorType"));
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
+        }
+        return null;
     }
 }

@@ -44,6 +44,7 @@ public class MainController {
     private Stage stage;
     private int selectedStation = -1;
     private User currentUser;
+    private String selectedVehicle;
 
     private static final ObservableList<String> chargerTypeOptions =
         FXCollections.observableArrayList(
@@ -65,6 +66,7 @@ public class MainController {
     private QueryResult currentStations;
     private String chargerTypeChoice;
     private String connectorTypeChoice;
+    @FXML private Label currentVehicle;
     @FXML private ChoiceBox<String> chargerBox;
     @FXML private ChoiceBox<String> connectorBox;
     @FXML private TextField registrationTextBox;
@@ -119,6 +121,10 @@ public class MainController {
     @FXML private void connectorTypeChoice(Event event) {
         connectorTypeChoice = connectorBox.getValue();
         event.consume();
+    }
+
+    public void setVehicle(Stage stage) {
+        currentVehicle.setText("Current Vehicle: " + getSelectedVehicle());
     }
 
     /**
@@ -192,6 +198,15 @@ public class MainController {
             }
             event.consume();
         }
+    }
+
+    public String getSelectedVehicle() {
+        return selectedVehicle;
+    }
+
+    public void setSelectedVehicle(String selectedVehicle) {
+        this.selectedVehicle = selectedVehicle;
+        currentVehicle.setText("Current Vehicle: " + getSelectedVehicle());
     }
 
     /**

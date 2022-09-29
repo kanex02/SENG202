@@ -21,6 +21,7 @@ public class ProfileController {
     private VehicleDAO vehicleDAO;
     @FXML private Button closeButton;
     @FXML private Label name;
+    @FXML private Label vehicle;
     @FXML private TableColumn<Vehicle, String> registrationCol;
 
     @FXML private TableColumn<Vehicle, String> makeCol;
@@ -39,6 +40,7 @@ public class ProfileController {
      */
     public void closeScene() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
+        mainController.setVehicle(stage);
         stage.close();
     }
 
@@ -48,6 +50,14 @@ public class ProfileController {
      */
     public void setName(Stage stage) {
         name.setText(mainController.getCurrentUser().getName());
+    }
+
+    /**
+     * Sets the text field to the registration of the currently used vehicle
+     * @param stage
+     */
+    public void setVehicle(Stage stage) {
+        vehicle.setText(mainController.getSelectedVehicle());
     }
 
     /**
@@ -75,6 +85,12 @@ public class ProfileController {
         vehicleDAO = new VehicleDAO();
         setName(stage);
         setVehicles(stage);
+        setVehicle(stage);
+
+        vehicleTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVehicle, newVehicle) -> {
+            mainController.setSelectedVehicle(newVehicle.getRegistration());
+            setVehicle(stage);
+        }));
     }
 
 }

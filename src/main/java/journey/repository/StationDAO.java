@@ -200,6 +200,12 @@ public class StationDAO {
             queryString.append("AND (currentType = '").append(currentType)
                     .append("' OR currentType = 'Mixed') ");
         }
+        String[] connectors = searchStation.getConnectors();
+        if (connectors != null) {
+            for (String connector : connectors) {
+                queryString.append("AND connectorsList LIKE '%").append(connector).append("%' ");
+            }
+        }
         Boolean attractions = searchStation.getHasTouristAttraction();
         if (attractions != null) {
             if (attractions) {

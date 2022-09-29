@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="296.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
+<AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="296.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
     <children>
         <Label layoutX="14.0" layoutY="15.0" text="Address:" />
         <TextField fx:id="addressSearch" layoutX="100.0" layoutY="11.0" prefHeight="25.0" prefWidth="310.0" />
@@ -13,7 +13,7 @@
         <Label layoutX="14.0" layoutY="85.0" text="Operator:" />
         <TextField fx:id="operatorSearch" layoutX="100.0" layoutY="81.0" prefHeight="25.0" prefWidth="310.0" />
         <Label layoutX="14.0" layoutY="120.0" text="Current:" />
-        <ChoiceBox fx:id="chargerBoxSearch" layoutX="100.0" layoutY="116.0" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #E0E6B2;" />
+        <ChoiceBox fx:id="chargerBoxSearch" layoutX="100.0" layoutY="116.0" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #E0E6B2;" />
         <Label layoutX="14.0" layoutY="155.0" text="Time Limit:" />
         <Label layoutX="100.0" layoutY="155.0" text="At least" />
         <TextField fx:id="timeSearch" layoutX="155.0" layoutY="151.0" prefHeight="25.0" prefWidth="46.0" />
@@ -55,5 +55,9 @@
             </center>
         </BorderPane>
       <Label fx:id="warningLabel" layoutX="254.0" layoutY="265.0" prefHeight="16.0" prefWidth="346.0" textAlignment="CENTER" textFill="#eb0303" />
+      <CheckBox fx:id="myCarCheckBox" layoutX="428.0" layoutY="162.0" mnemonicParsing="false" onAction="#myCar" text="my car" />
+      <Label layoutX="196.0" layoutY="121.0" text="Connectors:" />
+      <MenuButton fx:id="connectorsMenu" layoutX="289.0" layoutY="117.0" minWidth="120.0" mnemonicParsing="false" style="-fx-background-color: #E0E6B2;" textOverrun="CLIP">
+      </MenuButton>
     </children>
 </AnchorPane>
