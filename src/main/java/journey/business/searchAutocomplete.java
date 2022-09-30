@@ -22,22 +22,31 @@ public class searchAutocomplete {
     public ArrayList<String> getMatchingAddresses(String text) {
 
         ArrayList<String> matchingAddresses = new ArrayList<String>();
-
+        text = text.replace(' ', '+');
 
         try {
             // Creating the http request
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(
-                    URI.create("https://photon.komoot.io/api/?q="+text+"&lat=43.53&lon=172.63&limit=10")
+                    URI.create("https://photon.komoot.io/api/?q="+text+"&lat=-43.53&lon=-172.63&limit=10")
             ).build();
             // Getting the response
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             // Parsing the json response to get list of addresses.
             JSONParser parser = new JSONParser();
-            JSONArray results = (JSONArray) parser.parse(response.body());
+            JSONObject jsonResult = (JSONObject) parser.parse(response.body());
+            JSONArray results = (JSONArray) jsonResult.get("features");
             for(int i=0; i<results.size(); i++) {
                 JSONObject data = (JSONObject) results.get(i);
-                String address = data.get("housenumber") + " " + data.get("street") + ", " + data.get("district");
+                JSONObject properties = (JSONObject) data.get("properties");
+                String district;
+                if(properties.get("district") == null) {
+                    district = "";
+
+                } else {
+                    district = ", " + properties.get("district");
+                }
+                String address = properties.get("housenumber") + " " + properties.get("street") + district;
                 matchingAddresses.add(address);
             }
             return matchingAddresses;

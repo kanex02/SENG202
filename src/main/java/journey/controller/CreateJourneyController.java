@@ -3,17 +3,22 @@ package journey.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import journey.business.NominatimGeolocationManager;
 import journey.data.*;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
+import journey.business.searchAutocomplete;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -26,6 +31,10 @@ public class CreateJourneyController {
     @FXML private ListView<String> visitedStationsList;
     @FXML private ComboBox<String> selectVehicleComboBox;
     @FXML private Label journeyWarningLabel;
+    @FXML private VBox matchAddrStart;
+    @FXML private VBox matchAddrEnd;
+    @FXML private ScrollPane startAddrScroll;
+    @FXML private ScrollPane endAddrScroll;
 
     private MainController mainController;
     private MapController mapViewController;
@@ -131,12 +140,112 @@ public class CreateJourneyController {
         endAddr.setText(addr);
     }
 
+    /**
+    * Function to control the autocomplete for the start search box
+    */
+    public void autocompleteStart() {
+
+        ArrayList<Button> buttonList = new ArrayList<>();
+
+        String address = startAddr.getText();
+        searchAutocomplete search = new searchAutocomplete();
+        ArrayList<String> results = search.getMatchingAddresses(address);
+
+        // Event handler for each button - should update the text in the field
+        EventHandler<ActionEvent> event = actionEvent -> {
+            String addr = ((Button)actionEvent.getSource()).getText();
+            changeJourneyStart(addr);
+            // clear vbox after clicking button
+            matchAddrStart.getChildren().clear();
+            // Close the scroll pane
+            startAddrScroll.setVisible(false);
+        };
+
+        // Fill buttons on VBox
+        for(String addr : results) {
+            Button newButton = new Button(addr);
+            newButton.setOnAction(event);
+            buttonList.add(newButton);
+        }
+
+        matchAddrStart.getChildren().clear(); //remove all Buttons that are currently in the container
+        matchAddrStart.getChildren().addAll(buttonList); //then add all Buttons just created
+
+        // Once buttons are populated, show list
+        startAddrScroll.setVisible(true);
+    }
+
+    public void autocompleteEnd() {
+
+        ArrayList<Button> buttonList = new ArrayList<>();
+
+        String address = endAddr.getText();
+        searchAutocomplete search = new searchAutocomplete();
+        ArrayList<String> results = search.getMatchingAddresses(address);
+
+        // Event handler for each button - should update the text in the field
+        EventHandler<ActionEvent> event = actionEvent -> {
+            String addr = ((Button)actionEvent.getSource()).getText();
+            changeJourneyEnd(addr);
+            // clear vbox after clicking button
+            matchAddrEnd.getChildren().clear();
+            // Close the scroll pane
+            endAddrScroll.setVisible(false);
+        };
+
+        // Fill buttons on VBox
+        for(String addr : results) {
+            Button newButton = new Button(addr);
+            newButton.setOnAction(event);
+            buttonList.add(newButton);
+        }
+
+        matchAddrEnd.getChildren().clear(); //remove all Buttons that are currently in the container
+        matchAddrEnd.getChildren().addAll(buttonList); //then add all Buttons just created
+
+        // Once buttons are populated, show list
+        endAddrScroll.setVisible(true);
+    }
+
     public void init(Stage stage, MainController mainController) {
         this.mainController = mainController;
         this.mapViewController = mainController.getMapViewController();
         this.journeyDAO = new JourneyDAO();
         this.stationDAO = new StationDAO();
         this.vehicleDAO = new VehicleDAO();
+
+        // disable scroll pane at start
+        startAddrScroll.setVisible(false);
+        endAddrScroll.setVisible(false);
+
+        // Set up event listeners for text areas
+        startAddr.setOnKeyPressed(new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent keyEvent)
+            {
+                if(keyEvent.getCode() == KeyCode.ENTER)
+                {
+                    autocompleteStart();
+                } else if(keyEvent.getCode() == KeyCode.BACK_SPACE){
+                    startAddrScroll.setVisible(false);
+                }
+            }
+        });
+
+        endAddr.setOnKeyPressed(new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent keyEvent)
+            {
+                if(keyEvent.getCode() == KeyCode.ENTER)
+                {
+                    autocompleteEnd();
+                } else if(keyEvent.getCode() == KeyCode.BACK_SPACE){
+                    endAddrScroll.setVisible(false);
+                }
+            }
+        });
 
         populateVehicleDropdown();
     }

@@ -25,4 +25,13 @@
     <ComboBox fx:id="selectVehicleComboBox" layoutX="10.0" layoutY="76.0" prefHeight="26.0" prefWidth="50.0" promptText="Select vehicle" style="-fx-background-color: #E0E6B2;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="76.0" />
     <TextField fx:id="selectedStationField" editable="false" layoutX="15.0" layoutY="113.0" prefHeight="24.0" promptText="Selected station" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="113.0" />
     <Label fx:id="journeyWarningLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="290.0" lineSpacing="1.0" prefHeight="26.0" prefWidth="266.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" AnchorPane.leftAnchor="10.0" />
+   <ScrollPane fx:id="startAddrScroll" layoutX="53.0" layoutY="34.0" prefHeight="79.0" prefWidth="128.0" visible="false">
+      <content>
+         <VBox fx:id="matchAddrStart" prefHeight="247.0" prefWidth="112.0" />
+      </content></ScrollPane>
+   <ScrollPane fx:id="endAddrScroll" layoutX="53.0" layoutY="63.0" prefHeight="79.0" prefWidth="128.0">
+      <content>
+         <VBox fx:id="matchAddrEnd" prefHeight="247.0" prefWidth="112.0" />
+      </content>
+   </ScrollPane>
 </AnchorPane>
