@@ -41,6 +41,9 @@ public class NominatimGeolocationManager {
             // Parsing the json response to get the latitude and longitude co-ordinates
             JSONParser parser = new JSONParser();
             JSONArray results = (JSONArray)  parser.parse(response.body());
+            if (results.size() == 0) {
+                return new GeoLocationResult(0, 0);
+            }
             JSONObject bestResult = (JSONObject) results.get(0);
             float lat = (float) Double.parseDouble((String) bestResult.get("lat"));
             float lng = (float) Double.parseDouble((String) bestResult.get("lon"));

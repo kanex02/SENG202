@@ -74,25 +74,16 @@ public class MapController {
                 });
     }
 
-    /**
-     * gets lat and lng from location given from database
-     * @param loc location given from database
-     * @return string in format accepted by map journey
-     */
-    public String locToLatLng(String loc) {
-        NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
-        GeoLocationResult geoLoc = nomMan.queryAddress(loc);
-        return geoLoc.getLat() + "#" + geoLoc.getLng();
-    }
+
 
     public void mapJourney(Journey journey) {
         ArrayList<String> waypoints = new ArrayList<>();
-        waypoints.add(locToLatLng(journey.getStart()));
+        waypoints.add(Utils.locToLatLng(journey.getStart()));
         for (int stationID : journey.getStations()) {
             Station station = stationDAO.queryStation(stationID);
             waypoints.add(station.getLatitude() + "#" + station.getLongitude());
         }
-        waypoints.add(locToLatLng(journey.getEnd()));
+        waypoints.add(Utils.locToLatLng(journey.getEnd()));
         String waypointString =  Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
         javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length()-2));
         routeDisplayed = true;

@@ -9,14 +9,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import journey.business.NominatimGeolocationManager;
-import journey.data.*;
+import journey.data.Journey;
+import journey.data.QueryResult;
+import journey.data.Utils;
+import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class CreateJourneyController {
@@ -67,11 +68,18 @@ public class CreateJourneyController {
         String start = startAddr.getText();
         int userID = mainController.getCurrentUser().getId();
         String vehicleChoice = selectVehicleComboBox.getValue();
-        if (Objects.equals(vehicleChoice, null) || start.equals("lat#long") || end.equals("lat#long")) {
+        if (vehicleChoice.equals("")|| start.equals("") || end.equals("")) {
             journeyWarningLabel.setText("Fill all fields");
             valid = false;
         }
-
+        if (Utils.locToLatLng(start).equals("0.0#0.0")) {
+            journeyWarningLabel.setText("Start Address Invalid");
+            valid = false;
+        }
+        if (Utils.locToLatLng(end).equals("0.0#0.0")) {
+            journeyWarningLabel.setText("End Address Invalid");
+            valid = false;
+        }
         if (valid) {
             journeyWarningLabel.setText("");
             selectVehicleComboBox.setValue("");
@@ -93,12 +101,8 @@ public class CreateJourneyController {
         mainController.onlyMap();
         mainController.openMap();
         mapViewController.setCallback((lat, lng) -> {
-            try {
-                NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
-                GeoCodeResult geoCode = nomMan.queryLatLng(lat, lng);
-                String addr = geoCode.getAddress();
-                startAddr.setText(addr);
-            } catch (Error e){}
+            String addr = Utils.latLngToAddr(lat, lng);
+            startAddr.setText(addr);
             mainController.reenable();
             return true;
         }, "start");
@@ -112,12 +116,8 @@ public class CreateJourneyController {
         mainController.onlyMap();
         mainController.openMap();
         mapViewController.setCallback((lat, lng) -> {
-            try {
-                NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
-                GeoCodeResult geoCode = nomMan.queryLatLng(lat, lng);
-                String addr = geoCode.getAddress();
-                endAddr.setText(addr);
-            } catch (Error e){}
+            String addr = Utils.latLngToAddr(lat, lng);
+            endAddr.setText(addr);
             mainController.reenable();
             return true;
         }, "end");
@@ -137,7 +137,6 @@ public class CreateJourneyController {
         this.journeyDAO = new JourneyDAO();
         this.stationDAO = new StationDAO();
         this.vehicleDAO = new VehicleDAO();
-
         populateVehicleDropdown();
     }
 }

@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import journey.business.NominatimGeolocationManager;
-import journey.data.GeoCodeResult;
 import journey.data.GeoLocationResult;
 import journey.data.QueryStation;
 import journey.data.Utils;
@@ -90,9 +89,8 @@ public class SearchController {
         mainController.onlyMap();
         mainController.openMap();
         mainController.getMapViewController().setCallback((lat, lng) -> {
-            NominatimGeolocationManager nomManager = new NominatimGeolocationManager();
-            GeoCodeResult addr = nomManager.queryLatLng(lat, lng);
-            addrSearch.setText(addr.getAddress());
+            String addr = Utils.latLngToAddr(lat, lng);
+            addrSearch.setText(addr);
             mainController.reenable();
             mainController.openSearch();
             return true;
@@ -106,6 +104,7 @@ public class SearchController {
         String operator = operatorSearch.getText();
         String timeLimit = timeSearch.getText();
         String range = distanceSearch.getText();
+        String rangeAddr = addrSearch.getText();
 
 
         //address check
@@ -132,18 +131,20 @@ public class SearchController {
         if (!Utils.isInt(range) && !range.equals("")) {
             errors.append("Range needs to be an integer!\n");
         }
-
+        // ranged address check
+        if (Utils.locToLatLng(rangeAddr).equals("0.0#0.0")) {
+            errors.append("Address does not exist!\n");
+        }
         return errors.toString();
     }
 
     public void changeSearchLatLong(String addr) {
-        addrSearch.setText(String.valueOf(addr));
-
+        addrSearch.setText(addr);
     }
 
     /**
      * Initialises the search pane.
-     * @param stage
+     * @param stage current stage
      * @param mainController the main controller.
      */
     public void init(Stage stage, MainController mainController) {
