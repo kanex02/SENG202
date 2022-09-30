@@ -1,5 +1,6 @@
 package journey.data;
 
+import journey.business.NominatimGeolocationManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -88,5 +89,21 @@ public class Utils {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+    /**
+     * gets lat and lng from location given from database
+     * @param loc location given from database
+     * @return string in format accepted by map journey
+     */
+    public static String locToLatLng(String loc) {
+        NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
+        GeoLocationResult geoLoc = nomMan.queryAddress(loc);
+        return geoLoc.getLat() + "#" + geoLoc.getLng();
+    }
+    
+    public static String latLngToAddr(double lat, double lng) {
+        NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
+        GeoCodeResult geoCode = nomMan.queryLatLng(lat, lng);
+        return geoCode.getAddress();
     }
 }
