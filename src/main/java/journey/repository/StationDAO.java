@@ -202,9 +202,12 @@ public class StationDAO {
         }
         String[] connectors = searchStation.getConnectors();
         if (connectors != null) {
+            queryString.append("AND (");
             for (String connector : connectors) {
-                queryString.append("AND connectorsList LIKE '%").append(connector).append("%' ");
+                queryString.append("connectorsList LIKE '%").append(connector).append("%' OR ");
             }
+            queryString = new StringBuilder(queryString.substring(0, queryString.length() - 4));
+            queryString.append(") ");
         }
         Boolean attractions = searchStation.getHasTouristAttraction();
         if (attractions != null) {

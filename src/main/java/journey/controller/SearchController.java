@@ -27,6 +27,7 @@ public class SearchController {
     @FXML private TextField latSearch;
     @FXML private TextField longSearch;
     @FXML private Label warningLabel;
+    @FXML private Label noCarWarning;
     @FXML private CheckBox myCarCheckBox;
     @FXML private MenuButton connectorsMenu;
     final ArrayList<CheckMenuItem> connectors = new ArrayList<>();
@@ -44,43 +45,67 @@ public class SearchController {
 
     @FXML public void myCar() {
         ArrayList<String> selectedConnectors = new ArrayList<>();
-        if (myCarCheckBox.isSelected()) {
-            String myCar = mainController.getSelectedVehicle();
-            Vehicle v = vehicleDAO.queryVehicle(myCar);
-            chargerBoxSearch.setValue(v.getChargerType());
-            distanceSearch.setText("300");
-
-            selectedConnectors.clear();
-            for (CheckMenuItem connector : connectors) {
-                if (!connector.getText().contains(v.getConnectorType()) ) {
+        String myCar = mainController.getSelectedVehicle();
+        Vehicle v = vehicleDAO.queryVehicle(myCar);
+        if (v == null) {
+            if (myCarCheckBox.isSelected()) {
+                myCarCheckBox.setSelected(false);
+                noCarWarning.setText("You need to select a vehicle first");
+            }
+        } else {
+            noCarWarning.setText("");
+            if (myCarCheckBox.isSelected()) {
+                chargerBoxSearch.setValue(v.getChargerType());
+                distanceSearch.setText("300");
+                for (CheckMenuItem connector : connectors) {
+                    if (!connector.getText().equals(v.getConnectorType()) ) {
+                        connector.setSelected(false);
+                    } else {
+                        connector.setSelected(true);
+                        selectedConnectors.add(connector.getText());
+                    }
+                }
+                connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
+            } else {
+                chargerBoxSearch.setValue("");
+                for (CheckMenuItem connector : connectors) {
                     connector.setSelected(false);
-                } else {
-                    connector.setSelected(true);
-                    selectedConnectors.add(connector.getText());
+                }
+                connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
+                for (CheckMenuItem connector : connectors) {
+                    connector.selectedProperty().addListener(((observableValue, oldValue, newValue) -> {
+                        if (newValue) {
+                            selectedConnectors.add(connector.getText());
+                            connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
+                        } else {
+                            selectedConnectors.remove(connector.getText());
+                            connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
+                        }
+                    }));
                 }
             }
-            connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
-        } else {
-            chargerBoxSearch.setValue("");
-            connectors.get(0).setSelected(false);
-            for (CheckMenuItem connector : connectors) {
-                connector.setSelected(false);
-            }
-            connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
-            for (CheckMenuItem connector : connectors) {
-                connector.selectedProperty().addListener(((observableValue, oldValue, newValue) -> {
-                    if (newValue) {
-                        selectedConnectors.add(connector.getText());
-                        connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
-                    } else {
-                        selectedConnectors.remove(connector.getText());
-                        connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
-                    }
-                }));
-            }
+            connectorsList = selectedConnectors;
+        }
+    }
+
+    @FXML public void connectorsMultiSelect() {
+        ArrayList<String> selectedConnectors = new ArrayList<>();
+
+        for (CheckMenuItem connector : connectors) {
+            connector.selectedProperty().addListener(((observableValue, oldValue, newValue) -> {
+                if (newValue) {
+                    selectedConnectors.add(connector.getText());
+                    connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
+                } else {
+                    selectedConnectors.remove(connector.getText());
+                    connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
+                }
+            }));
         }
         connectorsList = selectedConnectors;
+
     }
+
 
     public String[] getConnectors() {
         String[] connectorsToFind = new String[connectorsList.size()];
@@ -136,8 +161,9 @@ public class SearchController {
         distanceSearch.setText("");
         latSearch.setText("");
         longSearch.setText("");
-        //connectorBoxSearch.setValue("");
         myCarCheckBox.setSelected(false);
+        for (CheckMenuItem connector : connectors) { connector.setSelected(false); }
+        connectorsMenu.setText("");
         mainController.clearSearch();
     }
 
@@ -227,5 +253,6 @@ public class SearchController {
             connectors.add(new CheckMenuItem(connector));
         }
         connectorsMenu.getItems().addAll(connectors);
+        connectorsMultiSelect();
     }
 }

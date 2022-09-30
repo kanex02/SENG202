@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="296.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
+<AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="296.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
     <children>
         <Label layoutX="14.0" layoutY="15.0" text="Address:" />
         <TextField fx:id="addressSearch" layoutX="100.0" layoutY="11.0" prefHeight="25.0" prefWidth="310.0" />
@@ -55,9 +55,10 @@
             </center>
         </BorderPane>
       <Label fx:id="warningLabel" layoutX="254.0" layoutY="265.0" prefHeight="16.0" prefWidth="346.0" textAlignment="CENTER" textFill="#eb0303" />
-      <CheckBox fx:id="myCarCheckBox" layoutX="427.0" layoutY="15.0" mnemonicParsing="false" onAction="#myCar" prefHeight="17.0" prefWidth="132.0" stylesheets="@../gui/style.css" text="Filter for my car" />
+      <CheckBox fx:id="myCarCheckBox" layoutX="427.0" layoutY="15.0" mnemonicParsing="false" onAction="#myCar" prefHeight="24.0" prefWidth="155.0" stylesheets="@../gui/style.css" text="Filter for my car" />
       <Label layoutX="196.0" layoutY="121.0" text="Connectors:" />
       <MenuButton fx:id="connectorsMenu" layoutX="289.0" layoutY="117.0" minWidth="120.0" mnemonicParsing="false" style="-fx-background-color: #E0E6B2;" textOverrun="CLIP">
       </MenuButton>
+      <Label fx:id="noCarWarning" layoutX="457.0" layoutY="42.0" textFill="#da0000" />
     </children>
 </AnchorPane>

@@ -58,7 +58,7 @@ public class MainController {
                     "Type 2 Socketed",
                     "CHAdeMO",
                     "Type 2 Tethered",
-                    "Type 2 CSS",
+                    "Type 2 CCS",
                     "Type 1 Tethered"
             );
 
@@ -377,8 +377,8 @@ public class MainController {
             Scene scene = new Scene(root);
             profileStage.setScene(scene);
             profileStage.show();
-            profileStage.setMinHeight(400);
-            profileStage.setMinWidth(500);
+            profileStage.setMinHeight(393);
+            profileStage.setMinWidth(626);
         } catch (IOException e) {
             e.printStackTrace();
         }
