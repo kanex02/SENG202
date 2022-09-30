@@ -2,9 +2,6 @@ package journey.controller;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -12,21 +9,22 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import journey.data.*;
-import journey.repository.*;
+import journey.data.Journey;
+import journey.data.QueryResult;
+import journey.data.Station;
+import journey.data.User;
+import journey.repository.StationDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * FXML controller class for the main window.
@@ -39,15 +37,12 @@ public class MainController {
     private static final Logger log = LogManager.getLogger();
 
     private StationDAO stationDAO;
-    private NoteDAO noteDAO;
-    private VehicleDAO vehicleDAO;
     private Stage stage;
     private int selectedStation = -1;
     private User currentUser;
 
 
     private QueryResult currentStations;
-    @FXML private TextArea stationDetailTextArea;
     @FXML private BorderPane mapPane;
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
@@ -61,8 +56,10 @@ public class MainController {
     @FXML private AnchorPane searchWrapper;
     @FXML private AnchorPane recordJourneyWrapper;
     @FXML private AnchorPane registerVehicleWrapper;
+    @FXML private AnchorPane notesWrapper;
 
 
+    private NotesController notesController;
     private SearchController searchController;
     private TableController tableController;
     private CreateJourneyController recordJourneyController;
@@ -88,7 +85,7 @@ public class MainController {
             Parent mapViewParent = mapViewLoader.load();
 
             mapViewController = mapViewLoader.getController();
-            mapViewController.init(stage, this);
+            mapViewController.init(this);
             mapPane.setCenter(mapViewParent);
             mapPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
@@ -106,7 +103,7 @@ public class MainController {
             Parent tableViewParent = tableViewLoader.load();
 
             tableController = tableViewLoader.getController();
-            tableController.init(stage, this);
+            tableController.init(this);
             tablePane.getChildren().add(tableViewParent);
             AnchorPane.setTopAnchor(tableViewParent, 0d);
             AnchorPane.setBottomAnchor(tableViewParent, 0d);
@@ -138,31 +135,8 @@ public class MainController {
         }
     }
 
-
-    private String getChargerNoteText() {
-        return stationDetailTextArea.getText();
-    }
-
-    private void setChargerNoteText(String s) {
-        stationDetailTextArea.setText(s);
-    }
-
     private void setStationDescription(String s) {
         stationDescription.setText(s);
-    }
-
-    /**
-     * Sets Note text for a given charger based on the current station selected.
-     */
-    public void setNoteText() {
-
-        if (selectedStation != -1) {
-            Station currStation = stationDAO.queryStation(selectedStation);
-            if (currStation != null) {
-                Note note = noteDAO.getNoteFromStation(currStation, currentUser);
-                setChargerNoteText(note.getNote());
-            }
-        }
     }
 
     /**
@@ -175,23 +149,6 @@ public class MainController {
         }
     }
 
-    /**
-     * Submits notes and adds them the database for the current user.
-
-     * @param event submit notes button clicked
-     */
-    @FXML private void submitNotes(Event event) {
-        Station currStation = stationDAO.queryStation(selectedStation);
-        String stationNote = getChargerNoteText();
-
-        if (currStation != null) {
-            Note newNote = new Note(currStation, stationNote);
-            // Set the note on the database
-            noteDAO.setNote(newNote, currentUser);
-        }
-        setNoteText();
-        event.consume();
-    }
 
     public int getSelectedStation() {
         return selectedStation;
@@ -275,6 +232,15 @@ public class MainController {
         }
     }
 
+    public void updateNoteText() {
+        notesController.updateNoteText();
+    }
+
+    /**
+     * Sets the current stations, and updates the map and table.
+
+     * @param currentStations new set of stations
+     */
     public void setCurrentStations(QueryResult currentStations) {
         this.currentStations = currentStations;
         mapViewController.addStationsOnMap();
@@ -328,6 +294,23 @@ public class MainController {
         }
     }
 
+    private void viewNotes() {
+        try {
+            FXMLLoader notesLoader = new FXMLLoader(getClass().getResource("/fxml/notes.fxml"));
+            Parent notesParent = notesLoader.load();
+
+            notesController = notesLoader.getController();
+            notesController.init(this);
+            notesWrapper.getChildren().add(notesParent);
+            AnchorPane.setTopAnchor(notesParent, 0d);
+            AnchorPane.setBottomAnchor(notesParent, 0d);
+            AnchorPane.setLeftAnchor(notesParent, 0d);
+            AnchorPane.setRightAnchor(notesParent, 0d);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void clearSearch() {
         setCurrentStations(stationDAO.getAll());
         mapViewController.clearSearch();
@@ -364,8 +347,6 @@ public class MainController {
      */
     public void init(Stage stage, User user) {
         stationDAO = new StationDAO();
-        noteDAO = new NoteDAO();
-        vehicleDAO = new VehicleDAO();
         currentUser = user;
         currentStations = stationDAO.getAll();
         // Fill the combo boxes
@@ -384,7 +365,10 @@ public class MainController {
         viewPrevJourneysTable();
         viewRecordJourney();
         viewSearch();
+        viewNotes();
 
-        journeyTab.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVal, newVal) -> mapViewController.clearRoute()));
+        journeyTab.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldVal, newVal) -> mapViewController.clearRoute()
+        );
     }
 }

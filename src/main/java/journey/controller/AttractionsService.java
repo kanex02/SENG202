@@ -27,12 +27,12 @@ public class AttractionsService {
      */
     public ArrayList<Feature> getAttractions(double lat, double lng, int range) throws IOException {
         Dotenv dotenv = Dotenv.load();
-        String URL = "https://api.geoapify.com/v2/places?categories=tourism&conditions=named"
+        String urlString = "https://api.geoapify.com/v2/places?categories=tourism&conditions=named"
                 + "&filter=circle:" + lng + "," + lat + "," + range
                 + "&bias=proximity:" + lng + "," + lat
                 + "&limit=20"
                 + "&apiKey=" + dotenv.get("GEOAPIFY_API_KEY");
-        URL url = new URL(URL);
+        URL url = new URL(urlString);
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestProperty("Accept", "application/json");
 
