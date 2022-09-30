@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #C4CEA1;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <children>
       <GridPane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -39,58 +39,20 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <GridPane fx:id="leftPanel" style="-fx-background-color: white;">
+            <GridPane fx:id="leftPanel" style="-fx-background-color: white;" GridPane.hgrow="ALWAYS">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="83.0" minHeight="40.0" prefHeight="55.0" vgrow="NEVER" />
-                  <RowConstraints maxHeight="251.0" minHeight="181.19998474121093" prefHeight="182.19998474121093" vgrow="NEVER" />
-                  <RowConstraints maxHeight="100.40001525878904" minHeight="18.999984741210938" prefHeight="33.0" vgrow="NEVER" />
-                  <RowConstraints maxHeight="251.0" minHeight="30.0" prefHeight="34.60000000000002" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" maxHeight="93.39999999999998" minHeight="30.0" prefHeight="33.599999999999966" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" maxHeight="327.86712646484375" minHeight="180.0" prefHeight="300.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" vgrow="ALWAYS" />
                </rowConstraints>
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="71.0" prefWidth="111.0" text="REGISTER A VEHICLE" textAlignment="CENTER" textOverrun="CLIP" underline="true" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </Label>
-                  <HBox GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                     <children>
-                        <Pane HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label layoutY="151.0" text="Charger Type:" />
-                              <Label layoutY="48.0" text="Make:" />
-                              <Label layoutY="117.0" text="Year:" />
-                              <Label layoutY="82.0" text="Model:" />
-                              <Label layoutY="17.0" text="Registration:" />
-                           </children>
-                        </Pane>
-                        <Pane maxWidth="200.0" prefHeight="229.0" prefWidth="95.0" HBox.hgrow="NEVER">
-                           <children>
-                              <ChoiceBox fx:id="chargerBox" layoutX="5.0" layoutY="150.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #E0E6B2;" />
-                              <TextField fx:id="registrationTextBox" layoutX="5.0" layoutY="14.0" prefHeight="26.0" prefWidth="85.0" />
-                              <TextField fx:id="modelTextBox" layoutX="5.0" layoutY="82.0" prefHeight="26.0" prefWidth="85.0" />
-                              <TextField fx:id="yearTextBox" layoutX="5.0" layoutY="116.0" prefHeight="26.0" prefWidth="85.0" />
-                              <TextField fx:id="makeTextBox" layoutX="5.0" layoutY="48.0" prefHeight="26.0" prefWidth="85.0" />
-                           </children>
-                        </Pane>
-                     </children>
-                  </HBox>
-                  <Label fx:id="warningLabel" prefHeight="28.0" prefWidth="290.0" textFill="#fa0202" textOverrun="CLIP" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <Button fx:id="registerVehicleButton" mnemonicParsing="false" onAction="#registerVehicle" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #E0E6B2;" text="Register Vehicle" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                  <AnchorPane prefHeight="339.0" prefWidth="290.0" GridPane.rowIndex="4" GridPane.rowSpan="2">
+                  <AnchorPane fx:id="registerVehicleWrapper" />
+                  <AnchorPane prefHeight="339.0" prefWidth="290.0" GridPane.rowIndex="1" GridPane.rowSpan="1">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutY="15.0" prefHeight="19.0" prefWidth="149.0" text="SELECTED STATION" textAlignment="CENTER" underline="true">
                            <font>

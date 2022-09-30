@@ -20,9 +20,13 @@ public class QueryResult {
         this.vehicles = vehicles;
     }
 
-    public void setJourney(Journey[] journeys) { this.journeys = journeys; }
+    public void setJourney(Journey[] journeys) {
+        this.journeys = journeys;
+    }
 
-    public Journey[] getJourney() { return journeys; }
+    public Journey[] getJourney() {
+        return journeys;
+    }
 
     public Vehicle[] getVehicles() {
         return vehicles;

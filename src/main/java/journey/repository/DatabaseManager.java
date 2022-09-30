@@ -7,10 +7,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import journey.controller.ReadCSV;
 import journey.data.Utils;
@@ -30,10 +27,7 @@ public final class DatabaseManager {
      * Constructs a new database manager.
      */
     private DatabaseManager() {
-        String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        path = URLDecoder.decode(path, StandardCharsets.UTF_8);
-        File jarDir = new File(path);
-        databasePath = jarDir.getParentFile() + "/database.db";
+        databasePath = "database.db";
     }
 
     /**
@@ -72,9 +66,18 @@ public final class DatabaseManager {
         if (instance == null) {
             instance = new DatabaseManager();
             try {
-                instance.setup();
-                ReadCSV.readStations();
-            } catch (Exception ignored) {}
+                Connection conn = instance.connect();
+                Statement statement = conn.createStatement();
+                ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM main.sqlite_master "
+                        + "WHERE name = 'Stations'");
+                if (rs.getInt(1) == 0) {
+                    instance.setup();
+                    ReadCSV.readStations();
+                }
+                Utils.closeConn(conn);
+            } catch (Exception ignored) {
+                //ignore
+            }
         }
 
         return instance;
