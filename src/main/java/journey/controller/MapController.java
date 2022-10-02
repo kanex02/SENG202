@@ -9,9 +9,8 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
-import journey.data.Journey;
-import journey.data.Station;
-import journey.data.Utils;
+import journey.business.NominatimGeolocationManager;
+import journey.data.*;
 import journey.repository.StationDAO;
 import netscape.javascript.JSObject;
 /**
@@ -71,9 +70,9 @@ public class MapController {
                         addStationsOnMap();
                     }
                 });
-
-
     }
+
+
 
     /**
      * Maps a journey.
@@ -82,12 +81,12 @@ public class MapController {
      */
     public void mapJourney(Journey journey) {
         ArrayList<String> waypoints = new ArrayList<>();
-        waypoints.add(journey.getStart());
+        waypoints.add(Utils.locToLatLng(journey.getStart()));
         for (int stationID : journey.getStations()) {
             Station station = stationDAO.queryStation(stationID);
             waypoints.add(station.getLatitude() + "#" + station.getLongitude());
         }
-        waypoints.add(journey.getEnd());
+        waypoints.add(Utils.locToLatLng(journey.getEnd()));
         String waypointString =  Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
         javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2));
         routeDisplayed = true;
@@ -199,13 +198,15 @@ public class MapController {
      * @return whether the operation was successful
      */
     public boolean changeLatLong(double lat, double lng, String label) {
+        NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
+        GeoCodeResult addr = nomMan.queryLatLng(lat, lng);
         switch (label) {
             case ("search") -> {
-                mainController.changeSearchLatLong(lat, lng);
+                mainController.changeSearchLatLong(addr.getAddress());
                 mainController.refreshSearch();
             }
-            case ("start") -> mainController.changeJourneyStart(lat, lng);
-            case ("end") -> mainController.changeJourneyEnd(lat, lng);
+            case ("start") -> mainController.changeJourneyStart(addr.getAddress());
+            case ("end") -> mainController.changeJourneyEnd(addr.getAddress());
             default -> { }
         }
         return true;

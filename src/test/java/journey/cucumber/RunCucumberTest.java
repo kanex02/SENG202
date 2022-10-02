@@ -22,4 +22,4 @@
 //@ConfigurationParameter(key = SNIPPET_TYPE_PROPERTY_NAME, value = "camelcase")
 //public class RunCucumberTest {
 //}
-//
+

@@ -9,15 +9,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import journey.data.*;
+import journey.repository.NoteDAO;
+import journey.repository.StationDAO;
+import journey.repository.VehicleDAO;
 import journey.data.Journey;
 import journey.data.QueryResult;
 import journey.data.Station;
@@ -25,6 +27,12 @@ import journey.data.User;
 import journey.repository.StationDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * FXML controller class for the main window.
@@ -316,16 +324,16 @@ public class MainController {
         mapViewController.clearSearch();
     }
 
-    public void changeSearchLatLong(double lat, double lng) {
-        searchController.changeSearchLatLong(lat, lng);
+    public void changeSearchLatLong(String addr) {
+        searchController.changeSearchLatLong(addr);
     }
 
-    public void changeJourneyStart(double lat, double lng) {
-        recordJourneyController.changeJourneyStart(lat, lng);
+    public void changeJourneyStart(String addr) {
+        recordJourneyController.changeJourneyStart(addr);
     }
 
-    public void changeJourneyEnd(double lat, double lng) {
-        recordJourneyController.changeJourneyEnd(lat, lng);
+    public void changeJourneyEnd(String addr) {
+        recordJourneyController.changeJourneyEnd(addr);
     }
 
     public void refreshSearch() {
