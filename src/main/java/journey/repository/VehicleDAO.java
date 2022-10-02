@@ -64,6 +64,7 @@ public class VehicleDAO {
 
     /**
      * get all vehicles of the current user
+
      * @return result ArrayList of all vehicles of the current user
      */
     public QueryResult getVehicles(User user) {

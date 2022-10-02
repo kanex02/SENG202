@@ -83,6 +83,7 @@ public class UserDAO {
         currentUser = user;
         return user;
     }
+
     public User getCurrentUser() {
         return currentUser;
     }

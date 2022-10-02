@@ -7,7 +7,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import journey.data.QueryResult;
 import journey.data.Station;
 
@@ -58,16 +57,18 @@ public class TableController {
     /**
      * Initialises the table.
      */
-    public void init(Stage stage, MainController mainController) {
+    public void init(MainController mainController) {
         this.mainController = mainController;
         getData();
         stationTable.maxWidthProperty().bind(tableParent.widthProperty());
         stationTable.maxHeightProperty().bind(tableParent.heightProperty());
 
-        stationTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldStation, newStation) -> {
-            mainController.setSelectedStation(newStation.getOBJECTID());
-            mainController.setNoteText();
-            mainController.setStationText();
-        }));
+        stationTable.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldStation, newStation) -> {
+                    mainController.setSelectedStation(newStation.getOBJECTID());
+                    mainController.updateNoteText();
+                    mainController.setStationText();
+            }
+        );
     }
 }

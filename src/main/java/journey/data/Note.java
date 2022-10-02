@@ -9,6 +9,12 @@ public class Note {
 
     public Note() {}
 
+    /**
+     * initialises stations private variables
+
+     * @param station a station that a note is being added to/removed from
+     * @param note the note for the station
+     */
     public Note(Station station, String note) {
         this.station = station;
         this.note = note;

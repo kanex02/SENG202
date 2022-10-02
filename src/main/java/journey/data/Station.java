@@ -1,12 +1,8 @@
 package journey.data;
 
-import static java.lang.Math.asin;
-import static java.lang.Math.cos;
-import static java.lang.Math.pow;
-import static java.lang.Math.sin;
-import static java.lang.Math.toRadians;
-
 import com.opencsv.bean.CsvBindByName;
+
+import static java.lang.Math.*;
 
 
 
@@ -140,22 +136,6 @@ public class Station {
 
     public void setConnectors(String[] connectors) {
         this.connectors = connectors;
-    }
-
-    public float getX() {
-        return X;
-    }
-
-    public void setX(float x) {
-        this.X = x;
-    }
-
-    public float getY() {
-        return Y;
-    }
-
-    public void setY(float y) {
-        this.Y = y;
     }
 
     public String getOwner() {

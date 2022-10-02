@@ -7,18 +7,14 @@
     <AnchorPane layoutX="10.0" layoutY="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
         <children>
             <Label text="Start: " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <TextField fx:id="startLat" editable="false" layoutX="50.0" prefHeight="24.0" prefWidth="50.0" text="lat" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Label layoutX="105.0" layoutY="5.0" text="," textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <TextField fx:id="startLong" editable="false" layoutX="120.0" layoutY="1.0" prefHeight="24.0" prefWidth="50.0" text="long" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextField fx:id="startAddr" layoutX="42.0" prefHeight="24.0" prefWidth="128.0" promptText="Address" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <Button layoutX="223.0" layoutY="-4.0" mnemonicParsing="false" onAction="#clickStart" style="-fx-background-color: #E0E6B2;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         </children>
     </AnchorPane>
     <AnchorPane layoutX="11.0" layoutY="34.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="44.0">
         <children>
             <Label text="End: " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <TextField fx:id="endLat" editable="false" layoutX="50.0" prefHeight="24.0" prefWidth="50.0" text="lat" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Label layoutX="105.0" layoutY="5.0" text="," textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <TextField fx:id="endLong" editable="false" layoutX="120.0" layoutY="1.0" prefHeight="24.0" prefWidth="50.0" text="long" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextField fx:id="endAddr" layoutX="42.0" prefHeight="24.0" prefWidth="128.0" promptText="Address" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <Button layoutX="223.0" layoutY="-4.0" mnemonicParsing="false" onAction="#clickEnd" style="-fx-background-color: #E0E6B2;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         </children>
     </AnchorPane>
@@ -29,4 +25,13 @@
     <ComboBox fx:id="selectVehicleComboBox" layoutX="10.0" layoutY="76.0" prefHeight="26.0" prefWidth="50.0" promptText="Select vehicle" style="-fx-background-color: #E0E6B2;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="76.0" />
     <TextField fx:id="selectedStationField" editable="false" layoutX="15.0" layoutY="113.0" prefHeight="24.0" promptText="Selected station" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="113.0" />
     <Label fx:id="journeyWarningLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="290.0" lineSpacing="1.0" prefHeight="26.0" prefWidth="266.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" AnchorPane.leftAnchor="10.0" />
+   <ScrollPane fx:id="startAddrScroll" layoutX="53.0" layoutY="34.0" prefHeight="79.0" prefWidth="128.0" visible="false">
+      <content>
+         <VBox fx:id="matchAddrStart" prefHeight="247.0" prefWidth="112.0" />
+      </content></ScrollPane>
+   <ScrollPane fx:id="endAddrScroll" layoutX="53.0" layoutY="63.0" prefHeight="79.0" prefWidth="128.0">
+      <content>
+         <VBox fx:id="matchAddrEnd" prefHeight="247.0" prefWidth="112.0" />
+      </content>
+   </ScrollPane>
 </AnchorPane>

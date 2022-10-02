@@ -1,7 +1,7 @@
 package journey.data;
 
 /**
- *
+ * intermediary result of a query to be allocated to station, vehicle, or journey
  */
 public class QueryResult {
     private Station[] stations;
@@ -20,9 +20,13 @@ public class QueryResult {
         this.vehicles = vehicles;
     }
 
-    public void setJourney(Journey[] journeys) { this.journeys = journeys; }
+    public void setJourney(Journey[] journeys) {
+        this.journeys = journeys;
+    }
 
-    public Journey[] getJourney() { return journeys; }
+    public Journey[] getJourney() {
+        return journeys;
+    }
 
     public Vehicle[] getVehicles() {
         return vehicles;

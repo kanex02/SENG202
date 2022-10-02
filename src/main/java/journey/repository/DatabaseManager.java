@@ -1,5 +1,6 @@
 package journey.repository;
 
+import journey.controller.ReadCSV;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ public final class DatabaseManager {
      * Constructs a new database manager.
      */
     private DatabaseManager() {
-        this.databasePath = "src/main/resources/journey.db";
+        databasePath = "database.db";
     }
 
     /**
@@ -62,6 +63,19 @@ public final class DatabaseManager {
     public static DatabaseManager getInstance() {
         if (instance == null) {
             instance = new DatabaseManager();
+            try {
+                Connection conn = instance.connect();
+                Statement statement = conn.createStatement();
+                ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM main.sqlite_master "
+                        + "WHERE name = 'Stations'");
+                if (rs.getInt(1) == 0) {
+                    instance.setup();
+                    ReadCSV.readStations();
+                }
+                Utils.closeConn(conn);
+            } catch (Exception ignored) {
+                //ignore
+            }
         }
 
         return instance;

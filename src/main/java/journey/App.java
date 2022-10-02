@@ -1,6 +1,5 @@
 package journey;
 
-import java.io.FileNotFoundException;
 import journey.gui.MainWindow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +18,7 @@ public class App {
 
      * @param args program arguments from command line.
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         // Example of logs:
         log.info("App started");
         MainWindow.main(args);

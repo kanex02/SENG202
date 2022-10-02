@@ -2,9 +2,6 @@ package journey.controller;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -12,13 +9,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import journey.data.Journey;
+import journey.data.QueryResult;
+import journey.data.Station;
+import journey.data.User;
+import journey.repository.StationDAO;
 import journey.Utils;
 import journey.data.*;
 import journey.repository.*;
@@ -36,28 +40,12 @@ public class MainController {
     private static final Logger log = LogManager.getLogger();
 
     private StationDAO stationDAO;
-    private NoteDAO noteDAO;
-    private VehicleDAO vehicleDAO;
     private Stage stage;
     private int selectedStation = -1;
     private User currentUser;
 
-    private static final ObservableList<String> chargerTypeOptions =
-        FXCollections.observableArrayList(
-            "AC",
-            "DC"
-        );
-
 
     private QueryResult currentStations;
-    private String chargerTypeChoice;
-    @FXML private ChoiceBox<String> chargerBox;
-    @FXML private TextField registrationTextBox;
-    @FXML private TextField makeTextBox;
-    @FXML private TextField modelTextBox;
-    @FXML private TextField yearTextBox;
-    @FXML private Label warningLabel;
-    @FXML private TextArea stationDetailTextArea;
     @FXML private BorderPane mapPane;
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
@@ -70,106 +58,19 @@ public class MainController {
     @FXML private TitledPane searchTitlePane;
     @FXML private AnchorPane searchWrapper;
     @FXML private AnchorPane recordJourneyWrapper;
+    @FXML private AnchorPane registerVehicleWrapper;
+    @FXML private AnchorPane notesWrapper;
 
 
+    private NotesController notesController;
     private SearchController searchController;
     private TableController tableController;
     private CreateJourneyController recordJourneyController;
     private MapController mapViewController;
-    Pattern digit = Pattern.compile("[0-9]");
-    Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 
-    /**
-     * Loads the open layers map view into the tab pane.
-     */
-    @FXML void selectMapViewTab() {
-        // viewMap();
-    }
 
     @FXML void openPrevJourneysTable() {
         viewPrevJourneysTable();
-    }
-
-    /**
-     * Function run when charger combo box choice is changed.
-     * Used to set the value that is stored.
-
-     * @param event change of Type Choice event
-     */
-    @FXML private void chargerTypeChoice(Event event) {
-        chargerTypeChoice = chargerBox.getValue();
-        event.consume();
-    }
-
-    /**
-     * Run when the user presses the register vehicle button.
-     * Initialises a new vehicle and assigns it to the current user based on the input
-     * fields for make, model, year, registration and charger type.
-
-     * @param event register vehicle button pressed
-     */
-    @FXML private void registerVehicle(Event event) {
-        //get information about the vehicles and reset to null values
-        boolean valid = true;
-        String registration = getRegistrationTextBox();
-        String year = getYearTextBox();
-        String make = getMakeTextBox();
-        String model = getModelTextBox();
-        chargerTypeChoice(event);
-
-        if (Objects.equals(year, "") || Objects.equals(registration, "")
-                || Objects.equals(make, "") || Objects.equals(model, "")
-                || Objects.equals(chargerTypeChoice, "")) {
-            warningLabel.setText("Fill all fields");
-            valid = false;
-        }
-
-        int intYear = 0;
-        if (Utils.isInt(year)) {
-            intYear = Integer.parseInt(year);
-            String date = Utils.getDate();
-            int currentYear = Integer.parseInt(date.split("/")[2]);
-            if (intYear > currentYear || intYear < 1996) {
-                warningLabel.setText("Year is out of range");
-                valid = false;
-            }
-        } else {
-            warningLabel.setText("Year must be an integer");
-            valid = false;
-        }
-
-        Matcher makeHasDigit = digit.matcher(make);
-        Matcher makeHasSpecial = special.matcher(make);
-        Matcher modelHasDigit = digit.matcher(model);
-        Matcher modelHasSpecial = special.matcher(model);
-
-        if (makeHasSpecial.find() || makeHasDigit.find()) {
-            warningLabel.setText("Make entry is invalid. It must only contain characters A-Z.");
-            valid = false;
-        }
-
-        if (modelHasSpecial.find() || modelHasDigit.find()) {
-            warningLabel.setText("Model entry is invalid. It must only contain characters A-Z.");
-            valid = false;
-        }
-
-        if (valid) {
-            registrationTextBox.setText("");
-            yearTextBox.setText("");
-            makeTextBox.setText("");
-            modelTextBox.setText("");
-            warningLabel.setText("");
-            chargerBox.setValue("");
-            Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration);
-            // Send vehicle to database
-            try {
-                vehicleDAO.setVehicle(newVehicle, currentUser);
-                recordJourneyController.populateVehicleDropdown();
-            } catch (Exception e) {
-                log.error(e);
-            }
-            event.consume();
-        }
     }
 
     /**
@@ -181,7 +82,7 @@ public class MainController {
             Parent mapViewParent = mapViewLoader.load();
 
             mapViewController = mapViewLoader.getController();
-            mapViewController.init(stage, this);
+            mapViewController.init(this);
             mapPane.setCenter(mapViewParent);
             mapPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
@@ -199,7 +100,7 @@ public class MainController {
             Parent tableViewParent = tableViewLoader.load();
 
             tableController = tableViewLoader.getController();
-            tableController.init(stage, this);
+            tableController.init(this);
             tablePane.getChildren().add(tableViewParent);
             AnchorPane.setTopAnchor(tableViewParent, 0d);
             AnchorPane.setBottomAnchor(tableViewParent, 0d);
@@ -212,6 +113,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Inserts previous journeys table into an anchor pane
+     */
     private void viewPrevJourneysTable() {
         try {
             FXMLLoader prevJourneysViewLoader = new FXMLLoader(getClass().getResource("/fxml/previousJourneys.fxml"));
@@ -231,48 +135,8 @@ public class MainController {
         }
     }
 
-
-
-    private String getRegistrationTextBox() {
-        return registrationTextBox.getText();
-    }
-
-    private String getMakeTextBox() {
-        return makeTextBox.getText();
-    }
-
-    private String getModelTextBox() {
-        return modelTextBox.getText();
-    }
-
-    private String getYearTextBox() {
-        return yearTextBox.getText();
-    }
-
-    private String getChargerNoteText() {
-        return stationDetailTextArea.getText();
-    }
-
-    private void setChargerNoteText(String s) {
-        stationDetailTextArea.setText(s);
-    }
-
     private void setStationDescription(String s) {
         stationDescription.setText(s);
-    }
-
-    /**
-     * Sets Note text for a given charger based on the current station selected.
-     */
-    public void setNoteText() {
-
-        if (selectedStation != -1) {
-            Station currStation = stationDAO.queryStation(selectedStation);
-            if (currStation != null) {
-                Note note = noteDAO.getNoteFromStation(currStation, currentUser);
-                setChargerNoteText(note.getNote());
-            }
-        }
     }
 
     /**
@@ -285,23 +149,6 @@ public class MainController {
         }
     }
 
-    /**
-     * Submits notes and adds them the database for the current user.
-
-     * @param event submit notes button clicked
-     */
-    @FXML private void submitNotes(Event event) {
-        Station currStation = stationDAO.queryStation(selectedStation);
-        String stationNote = getChargerNoteText();
-
-        if (currStation != null) {
-            Note newNote = new Note(currStation, stationNote);
-            // Set the note on the database
-            noteDAO.setNote(newNote, currentUser);
-        }
-        setNoteText();
-        event.consume();
-    }
 
     public int getSelectedStation() {
         return selectedStation;
@@ -367,6 +214,9 @@ public class MainController {
         searchAccordion.setDisable(false);
     }
 
+    /**
+     * Inserts the search fxml component into an anchor pane in the main controller
+     */
     private void viewSearch() {
         try {
             FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("/fxml/search.fxml"));
@@ -385,6 +235,15 @@ public class MainController {
         }
     }
 
+    public void updateNoteText() {
+        notesController.updateNoteText();
+    }
+
+    /**
+     * Sets the current stations, and updates the map and table.
+
+     * @param currentStations new set of stations
+     */
     public void setCurrentStations(QueryResult currentStations) {
         this.currentStations = currentStations;
         mapViewController.addStationsOnMap();
@@ -403,6 +262,9 @@ public class MainController {
         searchAccordion.expandedPaneProperty().setValue(searchTitlePane);
     }
 
+    /**
+     * Inserts the recordJourney fxml component into an anchor pane in the main controller
+     */
     private void viewRecordJourney() {
         try {
             FXMLLoader recorderLoader = new FXMLLoader(getClass().getResource("/fxml/recordJourney.fxml"));
@@ -420,22 +282,60 @@ public class MainController {
             e.printStackTrace();
         }
     }
+    /**
+     * Inserts the viewRegisteredVehicles fxml component into an anchor pane in the main controller
+     */
+    private void viewRegisterVehicles() {
+        try {
+            FXMLLoader registerVehicleLoader = new FXMLLoader(getClass().getResource("/fxml/registerVehicle.fxml"));
+            Parent registerVehicleParent = registerVehicleLoader.load();
+
+            RegisterVehicleController registerVehicleController = registerVehicleLoader.getController();
+            registerVehicleController.init(stage, this);
+            registerVehicleWrapper.getChildren().add(registerVehicleParent);
+            AnchorPane.setTopAnchor(registerVehicleParent, 0d);
+            AnchorPane.setBottomAnchor(registerVehicleParent, 0d);
+            AnchorPane.setLeftAnchor(registerVehicleParent, 0d);
+            AnchorPane.setRightAnchor(registerVehicleParent, 0d);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Inserts the viewNotes fxml component into an anchor pane in the main controller
+     */
+    private void viewNotes() {
+        try {
+            FXMLLoader notesLoader = new FXMLLoader(getClass().getResource("/fxml/notes.fxml"));
+            Parent notesParent = notesLoader.load();
+
+            notesController = notesLoader.getController();
+            notesController.init(this);
+            notesWrapper.getChildren().add(notesParent);
+            AnchorPane.setTopAnchor(notesParent, 0d);
+            AnchorPane.setBottomAnchor(notesParent, 0d);
+            AnchorPane.setLeftAnchor(notesParent, 0d);
+            AnchorPane.setRightAnchor(notesParent, 0d);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void clearSearch() {
         setCurrentStations(stationDAO.getAll());
         mapViewController.clearSearch();
     }
 
-    public void changeSearchLatLong(double lat, double lng) {
-        searchController.changeSearchLatLong(lat, lng);
+    public void changeSearchLatLong(String addr) {
+        searchController.changeSearchLatLong(addr);
     }
 
-    public void changeJourneyStart(double lat, double lng) {
-        recordJourneyController.changeJourneyStart(lat, lng);
+    public void changeJourneyStart(String addr) {
+        recordJourneyController.changeJourneyStart(addr);
     }
 
-    public void changeJourneyEnd(double lat, double lng) {
-        recordJourneyController.changeJourneyEnd(lat, lng);
+    public void changeJourneyEnd(String addr) {
+        recordJourneyController.changeJourneyEnd(addr);
     }
 
     public void refreshSearch() {
@@ -446,6 +346,10 @@ public class MainController {
         return currentUser;
     }
 
+    public void updateVehicles() {
+        recordJourneyController.populateVehicleDropdown();
+    }
+
     /**
      * Initialize the window.
 
@@ -453,13 +357,10 @@ public class MainController {
      */
     public void init(Stage stage, User user) {
         stationDAO = new StationDAO();
-        noteDAO = new NoteDAO();
-        vehicleDAO = new VehicleDAO();
         currentUser = user;
         currentStations = stationDAO.getAll();
         // Fill the combo boxes
         this.stage = stage;
-        chargerBox.setItems(chargerTypeOptions);
 
         QueryResult stations = stationDAO.getAll();
         ObservableList<String> stationList = FXCollections.observableArrayList();
@@ -468,12 +369,16 @@ public class MainController {
             newString = newString.substring(1, newString.length() - 1);
             stationList.add(newString);
         }
+        viewRegisterVehicles();
         viewMap();
         viewTable();
         viewPrevJourneysTable();
         viewRecordJourney();
         viewSearch();
+        viewNotes();
 
-        journeyTab.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVal, newVal) -> mapViewController.clearRoute()));
+        journeyTab.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldVal, newVal) -> mapViewController.clearRoute()
+        );
     }
 }

@@ -16,6 +16,7 @@ import java.io.IOException;
 
 /**
  * Class starts the javaFX application window
+
  * @author Journey dev team
  */
 public class MainWindow extends Application {
@@ -23,6 +24,7 @@ public class MainWindow extends Application {
 
     /**
      * Opens the gui with the fxml content specified in resources/fxml/main
+
      * @param primaryStage The current fxml stage, handled by javaFX Application class
      */
     @Override
@@ -30,7 +32,6 @@ public class MainWindow extends Application {
         try {
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
             Parent root = baseLoader.load();
-
             LoginController baseController = baseLoader.getController();
             baseController.init(primaryStage);
             primaryStage.setTitle("Journey");
@@ -55,6 +56,7 @@ public class MainWindow extends Application {
     /**
      * Launches the FXML application, this must be called from another class (in this cass App.java) otherwise JavaFX
      * errors out and does not run
+
      * @param args command line arguments
      */
     public static void main(String [] args) {

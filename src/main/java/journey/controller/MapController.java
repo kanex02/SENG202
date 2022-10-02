@@ -5,9 +5,10 @@ import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
+import journey.business.NominatimGeolocationManager;
+import journey.data.GeoCodeResult;
 import journey.data.Journey;
 import journey.data.Station;
 import journey.Utils;
@@ -16,9 +17,9 @@ import netscape.javascript.JSObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
 /**
- * Controller for displaying Open Street Maps through JavaFX webview
+ * Controller for displaying Open Street Maps through JavaFX webview.
+
  * @author Morgan English with slight changes/additions form Daniel Neal
  */
 public class MapController {
@@ -33,9 +34,9 @@ public class MapController {
     private String label;
 
     /**
-     * Initialise map
+     * Initialise map class.
      */
-    void init(Stage stage, MainController mainController) {
+    void init(MainController mainController) {
         // Database db = new Database();
         stationDAO = new StationDAO();
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick,
@@ -47,7 +48,7 @@ public class MapController {
     }
 
     /**
-     * Initialises map
+     * Initialises map.
      */
     private void initMap() {
         webEngine = webView.getEngine();
@@ -63,40 +64,45 @@ public class MapController {
                         // set our bridge object
                         JSObject window = (JSObject) webEngine.executeScript("window");
                         window.setMember("javaScriptBridge", javaScriptBridge);
-                        // get a reference to the js object that has a reference to the js methods we need to use in java
+                        // get a reference to the js object that has a reference to the js
+                        // methods we need to use in java
                         javaScriptConnector = (JSObject) webEngine.executeScript("jsConnector");
 
                         javaScriptConnector.call("initMap");
 
                         // add sale markers
                         addStationsOnMap();
-
                     }
                 });
-
-
     }
 
+
+
+    /**
+     * Maps a journey.
+
+     * @param journey Journey to map
+     */
     public void mapJourney(Journey journey) {
         ArrayList<String> waypoints = new ArrayList<>();
-        waypoints.add(journey.getStart());
+        waypoints.add(Utils.locToLatLng(journey.getStart()));
         for (int stationID : journey.getStations()) {
             Station station = stationDAO.queryStation(stationID);
             waypoints.add(station.getLatitude() + "#" + station.getLongitude());
         }
-        waypoints.add(journey.getEnd());
+        waypoints.add(Utils.locToLatLng(journey.getEnd()));
         String waypointString =  Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
-        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length()-2));
+        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2));
         routeDisplayed = true;
     }
 
     /**
-     * add station markers on map if date first operational are not null (not built yet)
+     * add station markers on map if date first operational are not null (not built yet).
      */
     public void addStationsOnMap() {
         javaScriptConnector.call("clearMap");
         Station[] stations = mainController.getStations().getStations();
-        for (Station station: stations) {
+        for (Station station : stations) {
             if (station != null && station.getDateFirstOperational() != null) {
                 addStationMark(station);
             }
@@ -104,23 +110,23 @@ public class MapController {
     }
 
     /**
-     * Adds route to map, calling the underlying js function
+     * Adds route to map, calling the underlying js function.
      */
-    private void addRoute () {
+    private void addRoute() {
         routeDisplayed = true;
         javaScriptConnector.call("addRoute");
     }
 
     /**
-     * Removes route from map, calling the underlying js function
+     * Removes route from map, calling the underlying js function.
      */
-    private void removeRoute () {
+    private void removeRoute() {
         routeDisplayed = false;
         javaScriptConnector.call("removeRoute");
     }
 
     /**
-     * Simple toggle to hide or display the route on click
+     * Simple toggle to hide or display the route on click.
      */
     public void toggleRoute() {
         if (routeDisplayed) {
@@ -135,28 +141,31 @@ public class MapController {
     }
 
     /**
-     * Add station to map
+     * Add station to map.
+
      * @param station station object to be added
      */
     private void addStationMark(Station station) {
-        javaScriptConnector.call("addMarker", station.getOBJECTID(), station.getShortDescription(), station.getLatitude(), station.getLongitude());
+        javaScriptConnector.call("addMarker", station.getOBJECTID(),
+                station.getShortDescription(), station.getLatitude(), station.getLongitude());
     }
 
     /**
-     * gets station from clicking on a map pointer
+     * gets station from clicking on a map pointer.
      * To be called from {@link JavaScriptBridge} to get the selected charger on click in js
+
      * @param id id of charger to add
      */
     public boolean getStationFromClick(int id) {
         mainController.setSelectedStation(id);
-        mainController.setNoteText();
+        mainController.updateNoteText();
         mainController.setStationText();
         return true;
     }
 
     /**
      * Gets the lat and long from clicking on the map.
-     * To be called from {@link JavaScriptBridge} to get the relevant coordinates
+     * To be called from {@link JavaScriptBridge} to get the relevant coordinates.
 
      * @param lat lat of click
      * @param lng long of click
@@ -183,14 +192,25 @@ public class MapController {
         javaScriptConnector.call("clearMiscMarker", "end");
     }
 
+    /**
+     * Updates the lat and long of a marker.
+     * To be called from {@link JavaScriptBridge} at the end of a drag.
+
+     * @param lat new latitude
+     * @param lng new longitude
+     * @param label type of marker (search, journey start, or journey end)
+     * @return whether the operation was successful
+     */
     public boolean changeLatLong(double lat, double lng, String label) {
+        NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
+        GeoCodeResult addr = nomMan.queryLatLng(lat, lng);
         switch (label) {
             case ("search") -> {
-                mainController.changeSearchLatLong(lat, lng);
+                mainController.changeSearchLatLong(addr.getAddress());
                 mainController.refreshSearch();
             }
-            case ("start") -> mainController.changeJourneyStart(lat, lng);
-            case ("end") -> mainController.changeJourneyEnd(lat, lng);
+            case ("start") -> mainController.changeJourneyStart(addr.getAddress());
+            case ("end") -> mainController.changeJourneyEnd(addr.getAddress());
             default -> { }
         }
         return true;
