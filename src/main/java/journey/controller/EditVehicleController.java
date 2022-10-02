@@ -93,6 +93,8 @@ public class EditVehicleController {
      * @param event event of clicking the save button
      */
     @FXML public void saveVehicle(Event event) {
+        String currentVehicle = mainController.getSelectedVehicle();
+        vehicleDAO.removeVehicle(currentVehicle);
         String reg = registrationTextBox.getText();
         String make = makeTextBox.getText();
         String model = modelTextBox.getText();
@@ -109,8 +111,8 @@ public class EditVehicleController {
         } catch (Exception e) {
             log.error(e);
         }
-        vehicleDAO.removeVehicle(reg);
         mainController.setSelectedVehicle(reg);
+        event.consume();
     }
 
     /**
