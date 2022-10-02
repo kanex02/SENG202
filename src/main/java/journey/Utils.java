@@ -1,6 +1,8 @@
 package journey;
 
 import journey.business.NominatimGeolocationManager;
+import journey.data.GeoCodeResult;
+import journey.data.GeoLocationResult;
 import journey.data.Station;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -40,7 +40,8 @@ public class ProfileController {
      */
     public void closeScene() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
-        mainController.setVehicle(stage);
+        mainController.setVehicle();
+        mainController.setProfile(null);
         stage.close();
     }
 

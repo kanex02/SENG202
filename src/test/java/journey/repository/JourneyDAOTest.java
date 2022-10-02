@@ -44,7 +44,7 @@ class JourneyDAOTest {
 
     @Test
     void getJourneyNumbers() {
-        Vehicle vehicle = new Vehicle(2020, "make", "model", "AC", "FakeRegUnique");
+        Vehicle vehicle = new Vehicle(2020, "make", "model", "AC", "FakeRegUnique", "HDMI");
         vehicleDAO.setVehicle(vehicle, user);
         int id1 = journeyDAO.getNumberOfJourneys();
         ArrayList<Integer> stations = new ArrayList<>();

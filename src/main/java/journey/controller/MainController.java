@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
@@ -43,9 +44,11 @@ public class MainController {
     private Stage stage;
     private int selectedStation = -1;
     private User currentUser;
-
-
+    private String selectedVehicle = null;
     private QueryResult currentStations;
+
+
+    @FXML private Label currentVehicle;
     @FXML private BorderPane mapPane;
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
@@ -67,7 +70,13 @@ public class MainController {
     private TableController tableController;
     private CreateJourneyController recordJourneyController;
     private MapController mapViewController;
+    private Stage profileStage = null;
 
+
+
+    public void populateVehicleDropdown() {
+        recordJourneyController.populateVehicleDropdown();
+    }
 
     @FXML void openPrevJourneysTable() {
         viewPrevJourneysTable();
@@ -112,6 +121,30 @@ public class MainController {
             log.error(e);
         }
     }
+
+    @FXML private void editVehicleButton(Event event) {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editVehicle.fxml"));
+            root = loader.load();
+
+            EditVehicleController editVehicleController = loader.getController();
+
+            Stage editVehicleStage = new Stage(StageStyle.UNDECORATED);
+            editVehicleController.init(editVehicleStage, this);
+
+            editVehicleStage.setTitle("Edit Vehicle");
+            Scene scene = new Scene(root);
+            editVehicleStage.setScene(scene);
+            editVehicleStage.show();
+            editVehicleStage.setMinHeight(371);
+            editVehicleStage.setMinWidth(600);
+        } catch (IOException e) {
+            log.error(e);
+        }
+        event.consume();
+    }
+
 
     /**
      * Inserts previous journeys table into an anchor pane
@@ -180,19 +213,24 @@ public class MainController {
 
             ProfileController controller = loader.getController();
 
-            Stage profileStage = new Stage(StageStyle.UNDECORATED);
-            controller.init(profileStage, this);
-
-            profileStage.setTitle("Profile");
+            if (profileStage == null) {
+                profileStage = new Stage(StageStyle.UNDECORATED);
+                profileStage.setTitle("Profile");
+            }
             Scene scene = new Scene(root);
+            controller.init(profileStage, this);
             profileStage.setScene(scene);
             profileStage.show();
             profileStage.setMinHeight(400);
             profileStage.setMinWidth(500);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
         event.consume();
+    }
+
+    public void setProfile(Stage profileStage) {
+        this.profileStage = profileStage;
     }
 
     /**
@@ -231,7 +269,7 @@ public class MainController {
             AnchorPane.setRightAnchor(searchParent, 0d);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 
@@ -279,7 +317,7 @@ public class MainController {
             AnchorPane.setRightAnchor(recorderParent, 0d);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
     /**
@@ -298,7 +336,7 @@ public class MainController {
             AnchorPane.setLeftAnchor(registerVehicleParent, 0d);
             AnchorPane.setRightAnchor(registerVehicleParent, 0d);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
     /**
@@ -317,13 +355,26 @@ public class MainController {
             AnchorPane.setLeftAnchor(notesParent, 0d);
             AnchorPane.setRightAnchor(notesParent, 0d);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 
     public void clearSearch() {
         setCurrentStations(stationDAO.getAll());
         mapViewController.clearSearch();
+    }
+
+    public void setVehicle() {
+        currentVehicle.setText("Current Vehicle: " + getSelectedVehicle());
+    }
+
+    public void setSelectedVehicle(String selectedVehicle) {
+        currentVehicle.setText("Current Vehicle: " + getSelectedVehicle());
+        this.selectedVehicle = selectedVehicle;
+    }
+
+    public String getSelectedVehicle() {
+        return selectedVehicle;
     }
 
     public void changeSearchLatLong(String addr) {

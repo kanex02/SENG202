@@ -42,17 +42,8 @@ class VehicleDAOTest {
     }
 
     @Test
-    void getSetVehicle() {
-        Vehicle vehicle = new Vehicle(2020, "make", "model", "AC", "FakeRegUnique");
-        User user = userDAO.setCurrentUser("Tester");
-        vehicleDAO.setVehicle(vehicle, user);
-        QueryResult qr = vehicleDAO.getVehicles(user);
-        assertEquals("FakeRegUnique", qr.getVehicles()[0].getRegistration());
-    }
-
-    @Test
     void setVehicleTwice() {
-        Vehicle vehicle = new Vehicle(2020, "make", "model", "AC", "FakeRegUnique");
+        Vehicle vehicle = new Vehicle(2020, "make", "model", "AC", "FakeRegUnique", "HDMI");
         User user = userDAO.setCurrentUser("Tester");
         vehicleDAO.setVehicle(vehicle, user);
         User user1 = userDAO.setCurrentUser("Tester1");

@@ -8,7 +8,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import journey.data.Utils;
+import journey.Utils;
 import journey.data.Vehicle;
 import journey.repository.VehicleDAO;
 import org.apache.logging.log4j.LogManager;
@@ -29,27 +29,35 @@ public class RegisterVehicleController {
                     "AC",
                     "DC"
             );
+    private static final ObservableList<String> connectorTypeOptions =
+            FXCollections.observableArrayList(
+                    "Type 2 Socketed",
+                    "CHAdeMO",
+                    "Type 2 Tethered",
+                    "Type 2 CCS",
+                    "Type 1 Tethered"
+            );
     @FXML private ChoiceBox<String> chargerBox;
+    @FXML private ChoiceBox<String> connectorBox;
     @FXML private Label warningLabel;
     @FXML private TextField registrationTextBox;
     @FXML private TextField yearTextBox;
     @FXML private TextField makeTextBox;
     @FXML private TextField modelTextBox;
+    private String chargerTypeChoice;
+    private String connectorTypeChoice;
     private VehicleDAO vehicleDAO;
     private MainController mainController;
-    private String chargerTypeChoice;
     Pattern digit = Pattern.compile("[0-9]");
     Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
+
 
     /**
      * Run when the user presses the register vehicle button.
      * Initialises a new vehicle and assigns it to the current user based on the input
      * fields for make, model, year, registration and charger type.
-
-     * @param event register vehicle button pressed
      */
-    @FXML
-    private void registerVehicle(Event event) {
+    @FXML private void registerVehicle() {
         //get information about the vehicles and reset to null values
         boolean valid = true;
         String registration = registrationTextBox.getText();
@@ -57,6 +65,7 @@ public class RegisterVehicleController {
         String make = makeTextBox.getText();
         String model = modelTextBox.getText();
         chargerTypeChoice();
+        connectorTypeChoice();
 
         if (Objects.equals(year, "") || Objects.equals(registration, "")
                 || Objects.equals(make, "") || Objects.equals(model, "")
@@ -101,13 +110,18 @@ public class RegisterVehicleController {
             modelTextBox.setText("");
             warningLabel.setText("");
             chargerBox.setValue("");
-            Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration);
+            connectorBox.setValue("");
+            Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration, connectorTypeChoice);
             // Send vehicle to database
-            vehicleDAO.setVehicle(newVehicle, mainController.getCurrentUser());
-            mainController.updateVehicles();
-            event.consume();
+            try {
+                vehicleDAO.setVehicle(newVehicle, mainController.getCurrentUser());
+                mainController.populateVehicleDropdown();
+            } catch (Exception e) {
+                log.error(e);
+            }
         }
     }
+
 
 
     /**
@@ -118,10 +132,17 @@ public class RegisterVehicleController {
         chargerTypeChoice = chargerBox.getValue();
     }
 
+
+    @FXML private void connectorTypeChoice() {
+        connectorTypeChoice = connectorBox.getValue();
+    }
+
     public void init(Stage stage, MainController mainController) {
         this.mainController = mainController;
-        chargerBox.setItems(chargerTypeOptions);
         vehicleDAO = new VehicleDAO();
+        chargerBox.setItems(chargerTypeOptions);
+        connectorBox.setItems(connectorTypeOptions);
+
     }
 
 }

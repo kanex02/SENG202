@@ -50,7 +50,7 @@ public class EditVehicleController {
      */
     public void closeScene() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
-        mainController.setVehicle(stage);
+        mainController.setVehicle();
         stage.close();
     }
 
@@ -142,7 +142,7 @@ public class EditVehicleController {
         vehicleDAO = new VehicleDAO();
         chargerBox.setItems(chargerTypeOptions);
         connectorBox.setItems(connectorTypeOptions);
-        if (!mainController.getSelectedVehicle().equals(null)) {
+        if (mainController.getSelectedVehicle() != null) {
             fillCurrentVehicle();
         }
     }

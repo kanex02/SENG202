@@ -25,6 +25,17 @@
          </GridPane.margin>
       </Label>
       <Button mnemonicParsing="false" onAction="#myProfileButton" prefHeight="24.0" prefWidth="119.0" style="-fx-background-color: #E0E6B2;" text="My Profile" GridPane.columnIndex="3" />
+      <Label fx:id="currentVehicle" alignment="CENTER_RIGHT" contentDisplay="RIGHT" style="-fx-background-color: #E0E6B2;" text="Current Vehicle: " textAlignment="RIGHT" GridPane.columnIndex="2">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding></Label>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.halignment="LEFT">
+         <buttons>
+            <Button mnemonicParsing="false" onAction="#editVehicleButton" stylesheets="@../gui/buttons.css" text="Edit Current Vehicle" />
+         </buttons>
+         <GridPane.margin>
+            <Insets right="100.0" />
+         </GridPane.margin></ButtonBar>
    </GridPane>
    <GridPane layoutX="14.0" layoutY="47.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="70.0">
       <columnConstraints>

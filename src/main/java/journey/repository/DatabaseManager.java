@@ -4,10 +4,8 @@ import journey.controller.ReadCSV;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+
 import journey.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,18 +61,20 @@ public final class DatabaseManager {
     public static DatabaseManager getInstance() {
         if (instance == null) {
             instance = new DatabaseManager();
+            boolean noDB;
             try {
                 Connection conn = instance.connect();
                 Statement statement = conn.createStatement();
                 ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM main.sqlite_master "
                         + "WHERE name = 'Stations'");
-                if (rs.getInt(1) == 0) {
+                noDB = (rs.getInt(1) == 0);
+                Utils.closeConn(conn);
+                if (noDB) {
                     instance.setup();
                     ReadCSV.readStations();
                 }
-                Utils.closeConn(conn);
-            } catch (Exception ignored) {
-                //ignore
+            } catch (Exception e) {
+                log.error(e);
             }
         }
 
