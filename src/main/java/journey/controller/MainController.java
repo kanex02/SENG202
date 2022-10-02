@@ -87,10 +87,15 @@ public class MainController {
     @FXML private TitledPane searchTitlePane;
     @FXML private AnchorPane searchWrapper;
     @FXML private AnchorPane recordJourneyWrapper;
+    @FXML private Accordion editVehicleAccordion;
+    @FXML private TitledPane editVehicleTitlePane;
+    @FXML private AnchorPane editVehicleWrapper;
+
 
 
     private SearchController searchController;
     private TableController tableController;
+    private EditVehicleController editVehicleController;
     private CreateJourneyController recordJourneyController;
     private MapController mapViewController;
     Pattern digit = Pattern.compile("[0-9]");
@@ -126,6 +131,31 @@ public class MainController {
     public void setVehicle(Stage stage) {
         currentVehicle.setText("Current Vehicle: " + getSelectedVehicle());
     }
+
+
+    private void editVehicle() {
+        try {
+            FXMLLoader editVehicleLoader = new FXMLLoader(getClass().getResource("/fxml/editVehicle.fxml"));
+            Parent editVehicleParent = editVehicleLoader.load();
+
+            editVehicleController = editVehicleLoader.getController();
+            editVehicleController.init(stage, this);
+            editVehicleWrapper.getChildren().add(editVehicleParent);
+            AnchorPane.setTopAnchor(editVehicleParent, 0d);
+            AnchorPane.setBottomAnchor(editVehicleParent, 0d);
+            AnchorPane.setLeftAnchor(editVehicleParent, 0d);
+            AnchorPane.setRightAnchor(editVehicleParent, 0d);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openEditVehicle() {
+        editVehicleAccordion.expandedPaneProperty().setValue(editVehicleTitlePane);
+    }
+
+
 
     /**
      * Run when the user presses the register vehicle button.
@@ -511,6 +541,7 @@ public class MainController {
         viewPrevJourneysTable();
         viewRecordJourney();
         viewSearch();
+        editVehicle();
 
         journeyTab.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVal, newVal) -> mapViewController.clearRoute()));
     }

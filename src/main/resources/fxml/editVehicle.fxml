@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="346.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.EditVehicleController">
+   <children>
+      <Label layoutX="52.0" layoutY="64.0" text="Registration:" />
+      <Label layoutX="52.0" layoutY="99.0" text="Make:" />
+      <Label layoutX="52.0" layoutY="138.0" text="Model:" />
+      <Label layoutX="54.0" layoutY="180.0" text="Year:" />
+      <Label layoutX="53.0" layoutY="230.0" text="Current:" />
+      <Label layoutX="53.0" layoutY="275.0" text="Connector:" />
+      <TextField fx:id="registrationBox" layoutX="158.0" layoutY="60.0" prefHeight="26.0" prefWidth="124.0" promptText="registration" />
+      <TextField fx:id="makeBox" layoutX="157.0" layoutY="95.0" prefHeight="26.0" prefWidth="124.0" promptText="make" />
+      <TextField fx:id="modelBox" layoutX="156.0" layoutY="134.0" prefHeight="26.0" prefWidth="124.0" promptText="model" />
+      <TextField fx:id="yearBox" layoutX="156.0" layoutY="176.0" prefHeight="26.0" prefWidth="124.0" promptText="year" />
+      <ChoiceBox fx:id="currentDropdown" layoutX="156.0" layoutY="226.0" prefHeight="26.0" prefWidth="124.0" />
+      <ChoiceBox fx:id="connectorDropdown" layoutX="156.0" layoutY="271.0" prefHeight="26.0" prefWidth="124.0" />
+   </children>
+</AnchorPane>
