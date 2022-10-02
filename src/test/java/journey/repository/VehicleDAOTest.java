@@ -2,7 +2,7 @@ package journey.repository;
 
 import journey.data.QueryResult;
 import journey.data.User;
-import journey.data.Utils;
+import journey.Utils;
 import journey.data.Vehicle;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +42,7 @@ class VehicleDAOTest {
     }
 
     @Test
-    void getSetVehicle() throws Exception {
+    void getSetVehicle() {
         Vehicle vehicle = new Vehicle(2020, "make", "model", "AC", "FakeRegUnique");
         User user = userDAO.setCurrentUser("Tester");
         vehicleDAO.setVehicle(vehicle, user);
@@ -51,7 +51,7 @@ class VehicleDAOTest {
     }
 
     @Test
-    void setVehicleTwice() throws Exception {
+    void setVehicleTwice() {
         Vehicle vehicle = new Vehicle(2020, "make", "model", "AC", "FakeRegUnique");
         User user = userDAO.setCurrentUser("Tester");
         vehicleDAO.setVehicle(vehicle, user);

@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import journey.data.Journey;
 import journey.data.QueryResult;
-import journey.data.Utils;
+import journey.Utils;
 import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;

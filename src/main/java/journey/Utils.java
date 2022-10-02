@@ -1,5 +1,6 @@
-package journey.data;
+package journey;
 
+import journey.data.Station;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,7 +19,9 @@ public class Utils {
     private static final Logger log = LogManager.getLogger();
 
     /**
-     * Closes the connection.
+     * Closes the connection, ignoring any SQLException that maybe thrown, either from the connection already being
+     * closed or conn being null.
+
      * @param conn connection to close.
      */
     public static void closeConn(Connection conn) {

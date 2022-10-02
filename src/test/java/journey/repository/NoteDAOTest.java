@@ -3,7 +3,7 @@ package journey.repository;
 import journey.data.Note;
 import journey.data.Station;
 import journey.data.User;
-import journey.data.Utils;
+import journey.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

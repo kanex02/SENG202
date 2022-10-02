@@ -2,7 +2,7 @@ package journey.repository;
 
 import journey.data.QueryResult;
 import journey.data.User;
-import journey.data.Utils;
+import journey.Utils;
 import journey.data.Vehicle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,10 +29,9 @@ public class VehicleDAO {
      * Adds vehicle to Vehicle
 
      * @param v username entered in login page
-     * @throws Exception Duplicate vehicle entry
 
      */
-    public void setVehicle(Vehicle v, User user) throws Exception {
+    public void setVehicle(Vehicle v, User user) {
         Connection conn = null;
         try {
             conn = databaseManager.connect();

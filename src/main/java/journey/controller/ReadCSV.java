@@ -4,7 +4,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import journey.repository.DatabaseManager;
 import journey.data.Station;
 import journey.repository.StationDAO;
-import journey.data.Utils;
+import journey.Utils;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

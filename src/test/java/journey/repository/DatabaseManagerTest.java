@@ -1,6 +1,6 @@
 package journey.repository;
 
-import journey.data.Utils;
+import journey.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

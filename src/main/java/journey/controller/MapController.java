@@ -10,7 +10,7 @@ import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
 import journey.data.Journey;
 import journey.data.Station;
-import journey.data.Utils;
+import journey.Utils;
 import journey.repository.StationDAO;
 import netscape.javascript.JSObject;
 

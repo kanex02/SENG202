@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import journey.data.QueryStation;
-import journey.data.Utils;
+import journey.Utils;
 import journey.repository.StationDAO;
 
 public class SearchController {

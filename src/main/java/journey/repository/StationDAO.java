@@ -1,6 +1,6 @@
 package journey.repository;
 
-import static journey.data.Utils.convertArrayToString;
+import static journey.Utils.convertArrayToString;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import java.util.Objects;
 import journey.data.QueryResult;
 import journey.data.QueryStation;
 import journey.data.Station;
-import journey.data.Utils;
+import journey.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
