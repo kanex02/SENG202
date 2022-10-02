@@ -5,7 +5,7 @@ import journey.data.User;
 import journey.data.Utils;
 import journey.data.Vehicle;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +44,7 @@ class JourneyDAOTest {
     }
 
     @Test
-    void getJourneyNumbers() throws Exception {
+    void getJourneyNumbers() {
         Vehicle vehicle = new Vehicle(2020, "make", "model", "AC", "FakeRegUnique");
         vehicleDAO.setVehicle(vehicle, user);
         int id1 = journeyDAO.getNumberOfJourneys();

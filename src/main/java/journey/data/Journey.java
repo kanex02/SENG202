@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * A trip that the user took.
  */
 public class Journey {
-    private int userID;
+    private final int userID;
     private ArrayList<Integer> stations;
     private final String start;
     private final String end;
@@ -22,6 +22,16 @@ public class Journey {
         this.date = date;
     }
 
+    /**
+     * initialises private variables
+
+     * @param journeyID journeys ID
+     * @param start start of the journey
+     * @param end end of the journey
+     * @param vehicleID Vehicles ID
+     * @param userID Users ID
+     * @param date date the journey was submitted
+     */
     public Journey(int journeyID, String start, String end, String vehicleID, int userID, String date) {
         this.journeyID = journeyID;
         this.start = start;
@@ -31,6 +41,16 @@ public class Journey {
         this.date = date;
     }
 
+    /**
+     * initialises private variables
+
+     * @param start start of the journey
+     * @param end end of the journey
+     * @param vehicleID Vehicles ID
+     * @param userID Users ID
+     * @param date date the journey was submitted
+     * @param stations stations visited on the trip
+     */
     public Journey(String start, String end, String vehicleID, int userID, String date, ArrayList<Integer> stations) {
         this.start = start;
         this.end = end;

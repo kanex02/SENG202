@@ -1,18 +1,15 @@
 package journey.controller;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import journey.repository.DatabaseManager;
 import journey.data.Station;
-import journey.repository.StationDAO;
 import journey.data.Utils;
+import journey.repository.StationDAO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 
 public class ReadCSV {
@@ -21,10 +18,14 @@ public class ReadCSV {
     /**
      * Imports data into the database.
 
-     * @throws FileNotFoundException the CSV is not found.
      */
-    public static void readStations() throws FileNotFoundException {
-        FileReader file = new FileReader("src/main/resources/EV_Roam_charging_stations.csv");
+    public static void readStations() {
+        FileReader file = null;
+        try {
+            file = new FileReader("src/main/resources/EV_Roam_charging_stations.csv");
+        } catch (FileNotFoundException e) {
+            log.error(e);
+        }
 
         List<Station> beans = new CsvToBeanBuilder<Station>(file)
             .withType(Station.class)

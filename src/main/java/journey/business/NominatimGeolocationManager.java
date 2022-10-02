@@ -41,7 +41,7 @@ public class NominatimGeolocationManager {
             // Parsing the json response to get the latitude and longitude co-ordinates
             JSONParser parser = new JSONParser();
             JSONArray results = (JSONArray)  parser.parse(response.body());
-            if (results.size() == 0) {
+            if (results.isEmpty()) {
                 return new GeoLocationResult(0, 0);
             }
             JSONObject bestResult = (JSONObject) results.get(0);
@@ -53,8 +53,6 @@ public class NominatimGeolocationManager {
         } catch (InterruptedException ie) {
             log.error("Error requesting geolocation", ie);
             Thread.currentThread().interrupt();
-        } catch (Exception iie) {
-            log.error("Error when loading", iie);
         }
         return new GeoLocationResult(0, 0);
     }
@@ -72,7 +70,7 @@ public class NominatimGeolocationManager {
             ).build();
             // Getting the response
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            // Parsing the json response to get the latitude and longitude co-ordinates
+            // Parsing the json response to get the address
             JSONParser parser = new JSONParser();
             JSONObject results = (JSONObject)  parser.parse(response.body());
             return new GeoCodeResult(((String) results.get("display_name")).replaceAll(", New Zealand / Aotearoa", ""));

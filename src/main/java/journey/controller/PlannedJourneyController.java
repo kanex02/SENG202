@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import journey.data.*;
 import journey.repository.JourneyDAO;
 
-
 /**
  * A service to load data into the table viewer. TODO: Figure out how to get expanding rows.
  */
@@ -28,6 +27,7 @@ public class PlannedJourneyController {
 
     /**
      * Imports the data.
+
      * @param stage The stage to import into.
      */
     public void setJourneys(Stage stage) {

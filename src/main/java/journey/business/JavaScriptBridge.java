@@ -12,9 +12,9 @@ import journey.controller.MapController;
  */
 public class JavaScriptBridge {
 
-    private GetStationInterface getStationInterface;
-    private GetLatLongInterface getLatLongInterface;
-    private ChangeLatLongInterface changeLatLongInterface;
+    private final GetStationInterface getStationInterface;
+    private final GetLatLongInterface getLatLongInterface;
+    private final ChangeLatLongInterface changeLatLongInterface;
 
     /**
      * Creates a javascript bridge object with a 'callback' lambda function for displaying the station on the map after creation

@@ -1,7 +1,7 @@
 package journey.data;
 
 /**
- *
+ * intermediary result of a query to be allocated to station, vehicle, or journey
  */
 public class QueryResult {
     private Station[] stations;

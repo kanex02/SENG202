@@ -16,6 +16,7 @@ public class NotesController {
     private NoteDAO noteDAO;
     private MainController mainController;
     @FXML private TextArea stationDetailTextArea;
+
     /**
      * Submits notes and adds them the database for the current user.
 

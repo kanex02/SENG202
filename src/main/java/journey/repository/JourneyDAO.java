@@ -9,6 +9,9 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Concrete implementation of Database Access Object that handles all journey related actions to the database.
+ */
 public class JourneyDAO {
 
     private final DatabaseManager databaseManager;
@@ -18,6 +21,11 @@ public class JourneyDAO {
         databaseManager = DatabaseManager.getInstance();
     }
 
+    /**
+     * Gets number of journeys from the database
+
+     * @return number of journeys in the database
+     */
     public int getNumberOfJourneys() {
         Connection conn = null;
         int count = 0;
@@ -26,7 +34,7 @@ public class JourneyDAO {
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM Journeys");
             count = rs.getInt(1);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             log.error(e);
         } finally {
             Utils.closeConn(conn);
@@ -35,7 +43,12 @@ public class JourneyDAO {
         return count;
     }
 
+    /**
+     * Gets all the journeys inputted by the user
 
+     * @param user current user
+     * @return a list of journeys submitted by the user
+     */
     public Journey[] getJourneys(User user) {
         Connection conn = null;
         ArrayList<Journey> res = new ArrayList<>();
@@ -69,7 +82,11 @@ public class JourneyDAO {
         return res.toArray(Journey[]::new);
     }
 
+    /**
+     * adds a journey into the database
 
+     * @param journey journey to be added into the database
+     */
     public void addJourney(Journey journey) {
         Connection conn = null;
         try {

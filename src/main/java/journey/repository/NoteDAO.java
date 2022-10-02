@@ -1,16 +1,16 @@
 package journey.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import journey.data.Note;
 import journey.data.Station;
 import journey.data.User;
 import journey.data.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Concrete implementation of Database Access Object that handles all notes related actions to the database
@@ -32,7 +32,6 @@ public class NoteDAO {
      */
     public void setNote(Note note, User user) {
         Connection conn = null;
-        // Currently user is just set to ID of 1
         String noteString = note.getNote();
         Station currStation = note.getStation();
         int stationID = currStation.getOBJECTID();

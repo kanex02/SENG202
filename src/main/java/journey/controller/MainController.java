@@ -1,7 +1,5 @@
 package journey.controller;
 
-import java.io.IOException;
-import java.util.Arrays;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -9,17 +7,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import journey.data.*;
-import journey.repository.NoteDAO;
-import journey.repository.StationDAO;
-import journey.repository.VehicleDAO;
 import journey.data.Journey;
 import journey.data.QueryResult;
 import journey.data.Station;
@@ -30,9 +26,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * FXML controller class for the main window.
@@ -73,12 +66,6 @@ public class MainController {
     private CreateJourneyController recordJourneyController;
     private MapController mapViewController;
 
-    /**
-     * Loads the open layers map view into the tab pane.
-     */
-    @FXML void selectMapViewTab() {
-        // viewMap();
-    }
 
     @FXML void openPrevJourneysTable() {
         viewPrevJourneysTable();
@@ -124,6 +111,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Inserts previous journeys table into an anchor pane
+     */
     private void viewPrevJourneysTable() {
         try {
             FXMLLoader prevJourneysViewLoader = new FXMLLoader(getClass().getResource("/fxml/previousJourneys.fxml"));
@@ -222,6 +212,9 @@ public class MainController {
         searchAccordion.setDisable(false);
     }
 
+    /**
+     * Inserts the search fxml component into an anchor pane in the main controller
+     */
     private void viewSearch() {
         try {
             FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("/fxml/search.fxml"));
@@ -267,6 +260,9 @@ public class MainController {
         searchAccordion.expandedPaneProperty().setValue(searchTitlePane);
     }
 
+    /**
+     * Inserts the recordJourney fxml component into an anchor pane in the main controller
+     */
     private void viewRecordJourney() {
         try {
             FXMLLoader recorderLoader = new FXMLLoader(getClass().getResource("/fxml/recordJourney.fxml"));
@@ -284,7 +280,9 @@ public class MainController {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Inserts the viewRegisteredVehicles fxml component into an anchor pane in the main controller
+     */
     private void viewRegisterVehicles() {
         try {
             FXMLLoader registerVehicleLoader = new FXMLLoader(getClass().getResource("/fxml/registerVehicle.fxml"));
@@ -301,7 +299,9 @@ public class MainController {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Inserts the viewNotes fxml component into an anchor pane in the main controller
+     */
     private void viewNotes() {
         try {
             FXMLLoader notesLoader = new FXMLLoader(getClass().getResource("/fxml/notes.fxml"));

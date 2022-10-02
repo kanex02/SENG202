@@ -2,20 +2,21 @@ package journey.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import journey.data.User;
 import journey.repository.UserDAO;
-import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,7 +26,6 @@ import java.util.regex.Pattern;
  * This is a basic window that allows a user to register/login to existing account
  */
 public class LoginController {
-    private MainController mainController;
     private static final Logger log = LogManager.getLogger();
     private UserDAO userDAO;
     private Stage stage;

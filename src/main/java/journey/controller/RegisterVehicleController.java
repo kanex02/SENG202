@@ -18,6 +18,9 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Controller for the registerVehicle FXML allows registering a vehicle and does error checking on the inputs given
+ */
 public class RegisterVehicleController {
 
     private static final Logger log = LogManager.getLogger();
@@ -100,12 +103,8 @@ public class RegisterVehicleController {
             chargerBox.setValue("");
             Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration);
             // Send vehicle to database
-            try {
-                vehicleDAO.setVehicle(newVehicle, mainController.getCurrentUser());
-                mainController.updateVehicles();
-            } catch (Exception e) {
-                log.error(e);
-            }
+            vehicleDAO.setVehicle(newVehicle, mainController.getCurrentUser());
+            mainController.updateVehicles();
             event.consume();
         }
     }

@@ -13,6 +13,9 @@ import journey.data.QueryStation;
 import journey.data.Utils;
 import journey.repository.StationDAO;
 
+/**
+ * Controller for search FXML allows searching and error checking on searches for stations.
+ */
 public class SearchController {
     @FXML private TextField addressSearch;
     @FXML private TextField nameSearch;
@@ -68,6 +71,9 @@ public class SearchController {
 
     }
 
+    /**
+     * clears the search
+     */
     @FXML private void clearSearch() {
         addressSearch.setText("");
         nameSearch.setText("");
@@ -97,6 +103,11 @@ public class SearchController {
         }, "search");
     }
 
+    /**
+     * checks all inputs are given in a way that the database can understand
+
+     * @return A string of errors
+     */
     public String errorCheck() {
         StringBuilder errors = new StringBuilder();
         String address = addressSearch.getText();
@@ -131,12 +142,13 @@ public class SearchController {
         if (!Utils.isInt(range) && !range.equals("")) {
             errors.append("Range needs to be an integer!\n");
         }
-        // ranged address check
+        // range address check
         if (Utils.locToLatLng(rangeAddr).equals("0.0#0.0")) {
             errors.append("Address does not exist!\n");
         }
         return errors.toString();
     }
+
 
     public void changeSearchLatLong(String addr) {
         addrSearch.setText(addr);
@@ -144,6 +156,7 @@ public class SearchController {
 
     /**
      * Initialises the search pane.
+
      * @param stage current stage
      * @param mainController the main controller.
      */

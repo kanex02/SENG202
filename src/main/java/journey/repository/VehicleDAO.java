@@ -29,10 +29,8 @@ public class VehicleDAO {
      * Adds vehicle to Vehicle
 
      * @param v username entered in login page
-     * @throws Exception Duplicate vehicle entry
-
      */
-    public void setVehicle(Vehicle v, User user) throws Exception {
+    public void setVehicle(Vehicle v, User user) {
         Connection conn = null;
         try {
             conn = databaseManager.connect();
@@ -65,6 +63,7 @@ public class VehicleDAO {
 
     /**
      * get all vehicles of the current user
+
      * @return result ArrayList of all vehicles of the current user
      */
     public QueryResult getVehicles(User user) {

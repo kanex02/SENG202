@@ -1,29 +1,34 @@
 package journey.business;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 
+/**
+ * Class to handle requesting addresses from photon API
+ */
 public class searchAutocomplete {
     private static final Logger log = LogManager.getLogger();
 
+    /**
+     * Finds all matching addresses from a given search
+
+     * @param text search inputted by user to be auto completed
+     * @return ArrayList of strings containing possible addresses
+     */
     public ArrayList<String> getMatchingAddresses(String text) {
-
-        ArrayList<String> matchingAddresses = new ArrayList<String>();
+        ArrayList<String> matchingAddresses = new ArrayList<>();
         text = text.replace(' ', '+');
-
         try {
             // Creating the http request
             HttpClient client = HttpClient.newHttpClient();
@@ -36,11 +41,11 @@ public class searchAutocomplete {
             JSONParser parser = new JSONParser();
             JSONObject jsonResult = (JSONObject) parser.parse(response.body());
             JSONArray results = (JSONArray) jsonResult.get("features");
-            for(int i=0; i<results.size(); i++) {
-                JSONObject data = (JSONObject) results.get(i);
+            for (Object result : results) {
+                JSONObject data = (JSONObject) result;
                 JSONObject properties = (JSONObject) data.get("properties");
                 String district;
-                if(properties.get("district") == null) {
+                if (properties.get("district") == null) {
                     district = "";
 
                 } else {
@@ -59,6 +64,6 @@ public class searchAutocomplete {
             log.error("Error when loading", iie);
         }
 
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 }

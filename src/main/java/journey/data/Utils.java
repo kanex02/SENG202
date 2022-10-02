@@ -91,16 +91,24 @@ public class Utils {
         }
     }
     /**
-     * gets lat and lng from location given from database
-     * @param loc location given from database
-     * @return string in format accepted by map journey
+     * gets lat and lng from location
+
+     * @param loc location
+     * @return lat#lng string
      */
     public static String locToLatLng(String loc) {
         NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
         GeoLocationResult geoLoc = nomMan.queryAddress(loc);
         return geoLoc.getLat() + "#" + geoLoc.getLng();
     }
-    
+
+    /**
+     * gets address from lat and lng
+
+     * @param lat latitude
+     * @param lng longitude
+     * @return address String
+     */
     public static String latLngToAddr(double lat, double lng) {
         NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
         GeoCodeResult geoCode = nomMan.queryLatLng(lat, lng);

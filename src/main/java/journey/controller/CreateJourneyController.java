@@ -2,19 +2,15 @@ package journey.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import journey.business.NominatimGeolocationManager;
-import journey.data.*;
+import journey.business.searchAutocomplete;
 import journey.data.Journey;
 import journey.data.QueryResult;
 import journey.data.Utils;
@@ -22,11 +18,11 @@ import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
-import journey.business.searchAutocomplete;
-
 import java.util.ArrayList;
 
-
+/**
+ * Class to handle creating a journey given a start, end and chargers along the way
+ */
 public class CreateJourneyController {
     @FXML private TextField startAddr;
     @FXML private TextField endAddr;
@@ -46,11 +42,14 @@ public class CreateJourneyController {
     private VehicleDAO vehicleDAO;
     private final ArrayList<Integer> journeyStations = new ArrayList<>();
 
-
     public void updateSelectedStation(int selectedStation) {
         selectedStationField.setText(stationDAO.queryStation(selectedStation).getAddress());
     }
 
+    /**
+     * Provides all the users vehicles to choose from for a journey
+
+     */
     public void populateVehicleDropdown() {
         QueryResult data = vehicleDAO.getVehicles(mainController.getCurrentUser());
         ObservableList<String> vehicles = FXCollections.observableArrayList();
@@ -61,9 +60,14 @@ public class CreateJourneyController {
         selectVehicleComboBox.setItems(vehicles);
     }
 
+    /**
+     * Add station to a given journey
+
+     * @param event "add" button pressed event
+     */
     @FXML private void selectStation(Event event) {
         int selectedStation = mainController.getSelectedStation();
-        if(selectedStation != -1 && (journeyStations.size() == 0 || journeyStations.get(journeyStations.size()-1) != selectedStation)) {
+        if(selectedStation != -1 && (journeyStations.isEmpty() || journeyStations.get(journeyStations.size()-1) != selectedStation)) {
             journeyStations.add(selectedStation);
             ObservableList<String> visitedStations = visitedStationsList.getItems();
             visitedStations.add(stationDAO.queryStation(selectedStation).getAddress());
@@ -72,7 +76,11 @@ public class CreateJourneyController {
         event.consume();
     }
 
+    /**
+     * Ensures all fields are filled and valid then adds the filed journey
 
+     * @param event addJourney button pressed
+     */
     @FXML private void addJourney(Event event) {
         boolean valid = true;
         String end = endAddr.getText();
@@ -145,11 +153,23 @@ public class CreateJourneyController {
     /**
     * Function to control the autocomplete for the start search box
     */
-    public void autocompleteStart() {
+    public void autoComplete(boolean start) {
 
+        //determine if editing start or end
+        TextField addrTextField;
+        VBox matchAddr;
+        ScrollPane addrScroll;
+        if (start) {
+            addrTextField = startAddr;
+            matchAddr = matchAddrStart;
+            addrScroll = startAddrScroll;
+        } else {
+            addrTextField = endAddr;
+            matchAddr = matchAddrEnd;
+            addrScroll = endAddrScroll;
+        }
         ArrayList<Button> buttonList = new ArrayList<>();
-
-        String address = startAddr.getText();
+        String address = addrTextField.getText();
         searchAutocomplete search = new searchAutocomplete();
         ArrayList<String> results = search.getMatchingAddresses(address);
 
@@ -158,9 +178,9 @@ public class CreateJourneyController {
             String addr = ((Button)actionEvent.getSource()).getText();
             changeJourneyStart(addr);
             // clear vbox after clicking button
-            matchAddrStart.getChildren().clear();
+            matchAddr.getChildren().clear();
             // Close the scroll pane
-            startAddrScroll.setVisible(false);
+            addrScroll.setVisible(false);
         };
 
         // Fill buttons on VBox
@@ -170,45 +190,20 @@ public class CreateJourneyController {
             buttonList.add(newButton);
         }
 
-        matchAddrStart.getChildren().clear(); //remove all Buttons that are currently in the container
-        matchAddrStart.getChildren().addAll(buttonList); //then add all Buttons just created
+        matchAddr.getChildren().clear(); //remove all Buttons that are currently in the container
+        matchAddr.getChildren().addAll(buttonList); //then add all Buttons just created
 
         // Once buttons are populated, show list
-        startAddrScroll.setVisible(true);
+        addrScroll.setVisible(true);
     }
 
-    public void autocompleteEnd() {
 
-        ArrayList<Button> buttonList = new ArrayList<>();
+    /**
+     * initialises the create journey controller, and scroll pane for autocomplete
 
-        String address = endAddr.getText();
-        searchAutocomplete search = new searchAutocomplete();
-        ArrayList<String> results = search.getMatchingAddresses(address);
-
-        // Event handler for each button - should update the text in the field
-        EventHandler<ActionEvent> event = actionEvent -> {
-            String addr = ((Button)actionEvent.getSource()).getText();
-            changeJourneyEnd(addr);
-            // clear vbox after clicking button
-            matchAddrEnd.getChildren().clear();
-            // Close the scroll pane
-            endAddrScroll.setVisible(false);
-        };
-
-        // Fill buttons on VBox
-        for(String addr : results) {
-            Button newButton = new Button(addr);
-            newButton.setOnAction(event);
-            buttonList.add(newButton);
-        }
-
-        matchAddrEnd.getChildren().clear(); //remove all Buttons that are currently in the container
-        matchAddrEnd.getChildren().addAll(buttonList); //then add all Buttons just created
-
-        // Once buttons are populated, show list
-        endAddrScroll.setVisible(true);
-    }
-
+     * @param stage current stage
+     * @param mainController Main Controller to be inserted into
+     */
     public void init(Stage stage, MainController mainController) {
         this.mainController = mainController;
         this.mapViewController = mainController.getMapViewController();
@@ -221,31 +216,21 @@ public class CreateJourneyController {
         endAddrScroll.setVisible(false);
 
         // Set up event listeners for text areas
-        startAddr.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
-            @Override
-            public void handle(KeyEvent keyEvent)
+        startAddr.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER)
             {
-                if(keyEvent.getCode() == KeyCode.ENTER)
-                {
-                    autocompleteStart();
-                } else if(keyEvent.getCode() == KeyCode.BACK_SPACE){
-                    startAddrScroll.setVisible(false);
-                }
+                autoComplete(true);
+            } else if(keyEvent.getCode() == KeyCode.BACK_SPACE){
+                startAddrScroll.setVisible(false);
             }
         });
 
-        endAddr.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
-            @Override
-            public void handle(KeyEvent keyEvent)
+        endAddr.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER)
             {
-                if(keyEvent.getCode() == KeyCode.ENTER)
-                {
-                    autocompleteEnd();
-                } else if(keyEvent.getCode() == KeyCode.BACK_SPACE){
-                    endAddrScroll.setVisible(false);
-                }
+                autoComplete(false);
+            } else if(keyEvent.getCode() == KeyCode.BACK_SPACE){
+                endAddrScroll.setVisible(false);
             }
         });
 
