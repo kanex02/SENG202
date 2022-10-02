@@ -80,7 +80,7 @@ public class EditVehicleController {
         currentVehicle = vehicleDAO.queryVehicle(reg);
         registrationTextBox.setText(reg);
         makeTextBox.setText(currentVehicle.getMake());
-        modelTextBox.setText(currentVehicle.getMake());
+        modelTextBox.setText(currentVehicle.getModel());
         yearTextBox.setText(Integer.toString(currentVehicle.getYear()));
         chargerBox.setValue(currentVehicle.getChargerType());
         connectorBox.setValue(currentVehicle.getConnectorType());
