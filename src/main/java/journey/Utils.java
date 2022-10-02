@@ -45,6 +45,19 @@ public class Utils {
         return newString.toString();
     }
 
+    public static String convertArrayListToString(ArrayList<String> arr, String delimiter) {
+        String str = "";
+        for (String i : arr) {
+            str = str + i + delimiter;
+        }
+        //return str.substring(0, delimiter.length()-1);
+        if (str.length() > 2) {
+            return str.substring(0, str.length()-2);
+        } else {
+            return "";
+        }
+    }
+
     /**
      * Converts station result set into a station arraylist
      * @param rs result set to be converted

@@ -43,7 +43,7 @@ public class VehicleDAO {
 
             // If there is no item in result set we disconnect first and return an empty note
             if(!resultSet.isBeforeFirst()) {
-                String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?)";
+                String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?,?)";
                 PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
                 insertStatement.setString(1, v.getRegistration());
                 insertStatement.setInt(2, user.getId());
@@ -51,6 +51,7 @@ public class VehicleDAO {
                 insertStatement.setString(4, v.getMake());
                 insertStatement.setString(5, v.getModel());
                 insertStatement.setString(6, v.getChargerType());
+                insertStatement.setString(7, v.getConnectorType());
                 insertStatement.execute();
                 // Insert into list of vehicles for current user
                 user.newVehicle(v);
@@ -80,7 +81,7 @@ public class VehicleDAO {
             while (rs.next()) {
                 res.add(new Vehicle(rs.getInt("Year"), rs.getString("Make"),
                         rs.getString("Model"), rs.getString("ChargerType"),
-                        rs.getString("Registration")));
+                        rs.getString("Registration"), rs.getString("ConnectorType")));
             }
         } catch (SQLException e) {
             log.error(e);
@@ -90,4 +91,45 @@ public class VehicleDAO {
         }
         return result;
     }
+
+    /**
+     * query the 'vehicles' table to get the vehicle with matching registration
+     * @param registration
+     * @return
+     */
+    public Vehicle queryVehicle(String registration) {
+        Connection conn = null;
+        try {
+            String sqlQuery = "SELECT * FROM Vehicles WHERE registration = ?";
+            conn = databaseManager.connect();
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setString(1, registration);
+            ResultSet resultSet = ps.executeQuery();
+            // Create a new station object.
+            return new Vehicle(resultSet.getInt("year"), resultSet.getString("make"),
+                    resultSet.getString("model"), resultSet.getString("chargerType"),
+                    resultSet.getString("registration"), resultSet.getString("connectorType"));
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
+        }
+        return null;
+    }
+
+    public void removeVehicle(String reg) {
+        Connection conn = null;
+        try {
+            String sqlQuery = "DELETE FROM Vehicles WHERE registration = ?";
+            conn = databaseManager.connect();
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setString(1, reg);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
+        }
+    }
+
 }

@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS Vehicles (
     make TEXT,
     model TEXT,
     chargerType TEXT,
+    connectorType TEXT,
     PRIMARY KEY ( registration, user_ID )
 );
 --Break

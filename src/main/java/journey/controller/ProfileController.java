@@ -21,6 +21,7 @@ public class ProfileController {
     private VehicleDAO vehicleDAO;
     @FXML private Button closeButton;
     @FXML private Label name;
+    @FXML private Label vehicle;
     @FXML private TableColumn<Vehicle, String> registrationCol;
 
     @FXML private TableColumn<Vehicle, String> makeCol;
@@ -30,6 +31,7 @@ public class ProfileController {
     @FXML private TableColumn<Vehicle, Integer> yearCol;
 
     @FXML private TableColumn<Vehicle, String> chargerTypeCol;
+    @FXML private TableColumn<Vehicle, String> connectorTypeCol;
 
     @FXML private TableView<Vehicle> vehicleTable;
 
@@ -38,6 +40,7 @@ public class ProfileController {
      */
     public void closeScene() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
+        mainController.setVehicle(stage);
         stage.close();
     }
 
@@ -50,6 +53,14 @@ public class ProfileController {
     }
 
     /**
+     * Sets the text field to the registration of the currently used vehicle
+     * @param stage
+     */
+    public void setVehicle(Stage stage) {
+        vehicle.setText(mainController.getSelectedVehicle());
+    }
+
+    /**
      *Retrieves the vehicles from the database and puts their information into the table
      * @param stage current stage
      */
@@ -59,6 +70,7 @@ public class ProfileController {
         modelCol.setCellValueFactory(new PropertyValueFactory<>("Model"));
         yearCol.setCellValueFactory(new PropertyValueFactory<>("Year"));
         chargerTypeCol.setCellValueFactory(new PropertyValueFactory<>("ChargerType"));
+        connectorTypeCol.setCellValueFactory(new PropertyValueFactory<>("ConnectorType"));
         QueryResult data = vehicleDAO.getVehicles(mainController.getCurrentUser());
         ObservableList<Vehicle> vehicles = FXCollections.observableArrayList(data.getVehicles());
         vehicleTable.setItems(vehicles);
@@ -73,6 +85,12 @@ public class ProfileController {
         vehicleDAO = new VehicleDAO();
         setName(stage);
         setVehicles(stage);
+        setVehicle(stage);
+
+        vehicleTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVehicle, newVehicle) -> {
+            mainController.setSelectedVehicle(newVehicle.getRegistration());
+            setVehicle(stage);
+        }));
     }
 
 }
