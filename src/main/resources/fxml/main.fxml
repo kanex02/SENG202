@@ -9,7 +9,7 @@
    <children>
       <GridPane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="475.0" minWidth="10.0" prefWidth="475.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="475.0" minWidth="10.0" prefWidth="475.0" />
             <ColumnConstraints hgrow="NEVER" maxWidth="350.0" minWidth="133.0" prefWidth="133.0" />
             <ColumnConstraints hgrow="ALWAYS" maxWidth="439.0" minWidth="150.0" prefWidth="282.0" />
             <ColumnConstraints hgrow="NEVER" maxWidth="318.0" minWidth="0.0" prefWidth="193.0" />
@@ -32,18 +32,13 @@
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding></Label>
-            <ButtonBar prefHeight="40.0" prefWidth="200.0">
+            <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.halignment="LEFT">
                <buttons>
-                  <Accordion fx:id="editVehicleAccordion">
-                    <panes>
-                      <TitledPane fx:id="editVehicleTitlePane" animated="false" prefHeight="40.0" prefWidth="315.0" style="-fx-background-color: #E0E6B2;" text="edit/delete vehicle">
-                        <content>
-                          <AnchorPane fx:id="editVehicleWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </TitledPane>
-                    </panes>
-                  </Accordion>
-               </buttons></ButtonBar>
+                  <Button fx:id="editVehicleButton" mnemonicParsing="false" onAction="#editVehicleButton" stylesheets="@../gui/buttons.css" text="Edit Current Vehicle" />
+               </buttons>
+               <GridPane.margin>
+                  <Insets right="100.0" />
+               </GridPane.margin></ButtonBar>
          </children>
       </GridPane>
       <GridPane layoutX="14.0" layoutY="47.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="70.0">

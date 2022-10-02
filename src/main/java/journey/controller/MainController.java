@@ -87,9 +87,6 @@ public class MainController {
     @FXML private TitledPane searchTitlePane;
     @FXML private AnchorPane searchWrapper;
     @FXML private AnchorPane recordJourneyWrapper;
-    @FXML private Accordion editVehicleAccordion;
-    @FXML private TitledPane editVehicleTitlePane;
-    @FXML private AnchorPane editVehicleWrapper;
 
 
 
@@ -133,26 +130,27 @@ public class MainController {
     }
 
 
-    private void editVehicle() {
+    @FXML private void editVehicleButton(Event event) {
+        Parent root;
         try {
-            FXMLLoader editVehicleLoader = new FXMLLoader(getClass().getResource("/fxml/editVehicle.fxml"));
-            Parent editVehicleParent = editVehicleLoader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editVehicle.fxml"));
+            root = loader.load();
 
-            editVehicleController = editVehicleLoader.getController();
-            editVehicleController.init(stage, this);
-            editVehicleWrapper.getChildren().add(editVehicleParent);
-            AnchorPane.setTopAnchor(editVehicleParent, 0d);
-            AnchorPane.setBottomAnchor(editVehicleParent, 0d);
-            AnchorPane.setLeftAnchor(editVehicleParent, 0d);
-            AnchorPane.setRightAnchor(editVehicleParent, 0d);
+            EditVehicleController editVehicleController = loader.getController();
 
+            Stage profileStage = new Stage(StageStyle.UNDECORATED);
+            editVehicleController.init(profileStage, this);
+
+            profileStage.setTitle("Edit Vehicle");
+            Scene scene = new Scene(root);
+            profileStage.setScene(scene);
+            profileStage.show();
+            profileStage.setMinHeight(371);
+            profileStage.setMinWidth(315);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void openEditVehicle() {
-        editVehicleAccordion.expandedPaneProperty().setValue(editVehicleTitlePane);
+        event.consume();
     }
 
 
@@ -541,7 +539,6 @@ public class MainController {
         viewPrevJourneysTable();
         viewRecordJourney();
         viewSearch();
-        editVehicle();
 
         journeyTab.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVal, newVal) -> mapViewController.clearRoute()));
     }

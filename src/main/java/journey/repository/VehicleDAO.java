@@ -113,4 +113,20 @@ public class VehicleDAO {
         }
         return null;
     }
+
+    public void removeVehicle(String reg) {
+        Connection conn = null;
+        try {
+            String sqlQuery = "DELETE FROM Vehicles WHERE registration = ?";
+            conn = databaseManager.connect();
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setString(1, reg);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
+        }
+    }
+
 }
