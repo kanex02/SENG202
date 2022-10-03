@@ -39,7 +39,7 @@ public class MapController {
         stationDAO = new StationDAO();
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick,
                 this::getLatLongFromClick,
-                this::changeLatLong);
+                this::changeLatLong, this::setStartAddr, this::setEndAddr);
         this.mainController = mainController;
         // set custom cell factory for list view
         initMap();
@@ -150,6 +150,16 @@ public class MapController {
         mainController.setSelectedStation(id);
         mainController.setNoteText();
         mainController.setStationText();
+        return true;
+    }
+
+    public boolean setStartAddr(String addr) {
+        mainController.setStartAddr(addr);
+        return true;
+    }
+
+    public boolean setEndAddr(String addr) {
+        mainController.setEndAddr(addr);
         return true;
     }
 

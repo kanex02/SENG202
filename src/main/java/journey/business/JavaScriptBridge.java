@@ -15,6 +15,8 @@ public class JavaScriptBridge {
     private GetStationInterface getStationInterface;
     private GetLatLongInterface getLatLongInterface;
     private ChangeLatLongInterface changeLatLongInterface;
+    private SetStartAddrInterface setStartAddrInterface;
+    private SetEndAddrInterface setEndAddrInterface;
 
     /**
      * Creates a javascript bridge object with a 'callback' lambda function for displaying the station on the map after creation
@@ -22,10 +24,14 @@ public class JavaScriptBridge {
      */
     public JavaScriptBridge(GetStationInterface getStationLambda,
                             GetLatLongInterface getLatLongLambda,
-                            ChangeLatLongInterface changeLatLongLambda) {
+                            ChangeLatLongInterface changeLatLongLambda,
+                            SetStartAddrInterface setStartAddrLambda,
+                            SetEndAddrInterface setEndAddrLambda) {
         getStationInterface = getStationLambda;
         getLatLongInterface = getLatLongLambda;
         changeLatLongInterface = changeLatLongLambda;
+        setStartAddrInterface = setStartAddrLambda;
+        setEndAddrInterface = setEndAddrLambda;
     }
 
     /**
@@ -47,6 +53,10 @@ public class JavaScriptBridge {
     public boolean getLatLongFromClick(double lat, double lng) {
         return getLatLongInterface.operation(lat, lng);
     }
+
+    public boolean fillStartAddressFromSearch(String address) { return setStartAddrInterface.operation(address); }
+
+    public boolean fillEndAddressFromSearch(String address) { return setEndAddrInterface.operation(address); }
 
     public boolean changeLatLongFromClick(double lat, double lng, String label) {
         return changeLatLongInterface.operation(lat, lng, label);
