@@ -1,5 +1,6 @@
 package journey.controller;
 
+import java.io.IOException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,14 +16,11 @@ import journey.data.User;
 import journey.repository.UserDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import service.LoginService;
 
 
 /**
- * FXML controller class for the login window
+ * FXML controller class for the login window.
  * This is a basic window that allows a user to register/login to existing account
  */
 public class LoginController {
@@ -33,22 +31,17 @@ public class LoginController {
     @FXML private TextField nameTextBox;
     @FXML private Label warningLabel;
 
-    Pattern digit = Pattern.compile("[0-9]");
-    Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
-
     /**
      * Register a user and add them to the user database
      * when register button is pressed.
      */
 
     @FXML private void registerUser() {
-        String name = getNameTextBox();
-        Matcher hasDigit = digit.matcher(name);
-        Matcher hasSpecial = special.matcher(name);
+        String name = nameTextBox.getText();
         warningLabel.setText("");
+        Boolean valid = LoginService.checkUser(name);
 
-
-        if (hasDigit.find() || hasSpecial.find()) {
+        if (!valid) {
             warningLabel.setText("Your name cannot contain any digits or special characters!");
         } else {
             user = userDAO.setCurrentUser(name);
@@ -57,12 +50,8 @@ public class LoginController {
         }
     }
 
-    @FXML private String getNameTextBox() {
-        return nameTextBox.getText();
-    }
-
     /**
-     * Switches the current screen to the main screen
+     * Switches the current screen to the main screen.
      */
     private void switchToMain() {
         try {
@@ -95,15 +84,16 @@ public class LoginController {
 
     }
     /**
-     * initialises the login window
+     * initialises the login window.
+
      * @param stage stage to load
      */
     public void init(Stage stage) {
         this.stage = stage;
         userDAO = new UserDAO();
         //This must use Platform.runLater or else we get a core dump.
-        nameTextBox.setOnKeyPressed( event -> {
-            if( event.getCode() == KeyCode.ENTER ) {
+        nameTextBox.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
                 Platform.runLater(this::registerUser);
             }
         });

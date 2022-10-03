@@ -1,27 +1,33 @@
 package journey.controller;
 
+import java.util.ArrayList;
+import java.util.StringJoiner;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import journey.business.searchAutocomplete;
+import journey.Utils;
+import journey.business.SearchAutocomplete;
 import journey.data.Journey;
 import journey.data.QueryResult;
-import journey.Utils;
 import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
-import java.util.ArrayList;
+import service.CreateJourneyService;
 
 /**
- * Class to handle creating a journey given a start, end and chargers along the way
+ * Class to handle creating a journey given a start, end and chargers along the way.
  */
 public class CreateJourneyController {
     @FXML private TextField startAddr;
@@ -34,7 +40,6 @@ public class CreateJourneyController {
     @FXML private VBox matchAddrEnd;
     @FXML private ScrollPane startAddrScroll;
     @FXML private ScrollPane endAddrScroll;
-
     private MainController mainController;
     private MapController mapViewController;
     private JourneyDAO journeyDAO;
@@ -47,7 +52,7 @@ public class CreateJourneyController {
     }
 
     /**
-     * Provides all the users vehicles to choose from for a journey
+     * Provides all the users vehicles to choose from for a journey.
 
      */
     public void populateVehicleDropdown() {
@@ -61,13 +66,14 @@ public class CreateJourneyController {
     }
 
     /**
-     * Add station to a given journey
+     * Add station to a given journey.
 
      * @param event "add" button pressed event
      */
     @FXML private void selectStation(Event event) {
         int selectedStation = mainController.getSelectedStation();
-        if(selectedStation != -1 && (journeyStations.isEmpty() || journeyStations.get(journeyStations.size()-1) != selectedStation)) {
+        if (selectedStation != -1 && (journeyStations.isEmpty()
+                || journeyStations.get(journeyStations.size() - 1) != selectedStation)) {
             journeyStations.add(selectedStation);
             ObservableList<String> visitedStations = visitedStationsList.getItems();
             visitedStations.add(stationDAO.queryStation(selectedStation).getAddress());
@@ -77,29 +83,44 @@ public class CreateJourneyController {
     }
 
     /**
-     * Ensures all fields are filled and valid then adds the filed journey
+     * Ensures all fields are filled and valid then adds the filed journey.
 
      * @param event addJourney button pressed
      */
     @FXML private void addJourney(Event event) {
-        boolean valid = true;
-        String end = endAddr.getText();
-        String start = startAddr.getText();
-        int userID = mainController.getCurrentUser().getId();
         String vehicleChoice = selectVehicleComboBox.getValue();
-        if (vehicleChoice.equals("")|| start.equals("") || end.equals("")) {
-            journeyWarningLabel.setText("Fill all fields");
-            valid = false;
+        String start = startAddr.getText();
+        String end = endAddr.getText();
+        int userID = mainController.getCurrentUser().getId();
+
+        // Check if the inputs are valid
+        Boolean[] valid = CreateJourneyService.checkJourney(vehicleChoice, start, end);
+
+        StringJoiner errors = new StringJoiner("\n");
+
+        if (!valid[0]) {
+            errors.add("Please select a vehicle");
         }
-        if (Utils.locToLatLng(start).equals("0.0#0.0")) {
-            journeyWarningLabel.setText("Start Address Invalid");
-            valid = false;
+
+        if (!valid[1]) {
+            errors.add("Start location invalid");
         }
-        if (Utils.locToLatLng(end).equals("0.0#0.0")) {
-            journeyWarningLabel.setText("End Address Invalid");
-            valid = false;
+
+        if (!valid[2]) {
+            errors.add("End location invalid");
         }
-        if (valid) {
+
+        journeyWarningLabel.setText(errors.toString());
+
+        boolean validJourney = true;
+        for (Boolean bool : valid) {
+            if (!bool) {
+                validJourney = false;
+                break;
+            }
+        }
+
+        if (validJourney) {
             journeyWarningLabel.setText("");
             selectVehicleComboBox.setValue("");
             visitedStationsList.setItems(FXCollections.observableArrayList());
@@ -151,8 +172,11 @@ public class CreateJourneyController {
     }
 
     /**
-    * Function to control the autocomplete for the start search box
-    */
+     * Function to control the autocomplete for the start search box.
+
+     * @param start true if the autocomplete is for the start address,
+     *              false for the end address
+     */
     public void autoComplete(boolean start) {
 
         //determine if editing start or end
@@ -170,12 +194,12 @@ public class CreateJourneyController {
         }
         ArrayList<Button> buttonList = new ArrayList<>();
         String address = addrTextField.getText();
-        searchAutocomplete search = new searchAutocomplete();
+        SearchAutocomplete search = new SearchAutocomplete();
         ArrayList<String> results = search.getMatchingAddresses(address);
 
         // Event handler for each button - should update the text in the field
         EventHandler<ActionEvent> event = actionEvent -> {
-            String addr = ((Button)actionEvent.getSource()).getText();
+            String addr = ((Button) actionEvent.getSource()).getText();
             changeJourneyStart(addr);
             // clear vbox after clicking button
             matchAddr.getChildren().clear();
@@ -184,7 +208,7 @@ public class CreateJourneyController {
         };
 
         // Fill buttons on VBox
-        for(String addr : results) {
+        for (String addr : results) {
             Button newButton = new Button(addr);
             newButton.setOnAction(event);
             buttonList.add(newButton);
@@ -199,12 +223,11 @@ public class CreateJourneyController {
 
 
     /**
-     * initialises the create journey controller, and scroll pane for autocomplete
+     * initialises the create journey controller, and scroll pane for autocomplete.
 
-     * @param stage current stage
      * @param mainController Main Controller to be inserted into
      */
-    public void init(Stage stage, MainController mainController) {
+    public void init(MainController mainController) {
         this.mainController = mainController;
         this.mapViewController = mainController.getMapViewController();
         this.journeyDAO = new JourneyDAO();
@@ -217,19 +240,17 @@ public class CreateJourneyController {
 
         // Set up event listeners for text areas
         startAddr.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER)
-            {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
                 autoComplete(true);
-            } else if(keyEvent.getCode() == KeyCode.BACK_SPACE){
+            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
                 startAddrScroll.setVisible(false);
             }
         });
 
         endAddr.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER)
-            {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
                 autoComplete(false);
-            } else if(keyEvent.getCode() == KeyCode.BACK_SPACE){
+            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
                 endAddrScroll.setVisible(false);
             }
         });

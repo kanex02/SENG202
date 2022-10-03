@@ -1,17 +1,17 @@
-package journey.controller;
+package journey;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import journey.data.Station;
-import journey.repository.StationDAO;
-import journey.Utils;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
+import journey.data.Station;
+import journey.repository.StationDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
+/**
+ * Class to read data from a CSV into the database.
+ */
 public class ReadCSV {
     private static final Logger log = LogManager.getLogger();
 
@@ -26,6 +26,7 @@ public class ReadCSV {
             log.error(e);
         }
 
+        assert file != null;
         List<Station> beans = new CsvToBeanBuilder<Station>(file)
             .withType(Station.class)
             .build()

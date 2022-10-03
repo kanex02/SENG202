@@ -1,22 +1,21 @@
 package journey.controller;
 
-
+import java.util.ArrayList;
+import java.util.Objects;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import journey.Utils;
 import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
 import journey.business.NominatimGeolocationManager;
 import journey.data.GeoCodeResult;
 import journey.data.Journey;
 import journey.data.Station;
-import journey.Utils;
 import journey.repository.StationDAO;
 import netscape.javascript.JSObject;
 
-import java.util.ArrayList;
-import java.util.Objects;
 /**
  * Controller for displaying Open Street Maps through JavaFX webview.
 

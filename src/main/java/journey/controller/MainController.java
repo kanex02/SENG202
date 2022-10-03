@@ -24,9 +24,6 @@ import journey.data.QueryResult;
 import journey.data.Station;
 import journey.data.User;
 import journey.repository.StationDAO;
-import journey.Utils;
-import journey.data.*;
-import journey.repository.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -131,7 +128,7 @@ public class MainController {
             EditVehicleController editVehicleController = loader.getController();
 
             Stage editVehicleStage = new Stage(StageStyle.UNDECORATED);
-            editVehicleController.init(editVehicleStage, this);
+            editVehicleController.init(this);
 
             editVehicleStage.setTitle("Edit Vehicle");
             Scene scene = new Scene(root);
@@ -147,7 +144,7 @@ public class MainController {
 
 
     /**
-     * Inserts previous journeys table into an anchor pane
+     * Inserts previous journeys table into an anchor pane.
      */
     private void viewPrevJourneysTable() {
         try {
@@ -253,7 +250,7 @@ public class MainController {
     }
 
     /**
-     * Inserts the search fxml component into an anchor pane in the main controller
+     * Inserts the search fxml component into an anchor pane in the main controller.
      */
     private void viewSearch() {
         try {
@@ -301,7 +298,7 @@ public class MainController {
     }
 
     /**
-     * Inserts the recordJourney fxml component into an anchor pane in the main controller
+     * Inserts the recordJourney fxml component into an anchor pane in the main controller.
      */
     private void viewRecordJourney() {
         try {
@@ -309,7 +306,7 @@ public class MainController {
             Parent recorderParent = recorderLoader.load();
 
             recordJourneyController = recorderLoader.getController();
-            recordJourneyController.init(stage, this);
+            recordJourneyController.init(this);
             recordJourneyWrapper.getChildren().add(recorderParent);
             AnchorPane.setTopAnchor(recorderParent, 0d);
             AnchorPane.setBottomAnchor(recorderParent, 0d);
@@ -320,8 +317,9 @@ public class MainController {
             log.error(e);
         }
     }
+
     /**
-     * Inserts the viewRegisteredVehicles fxml component into an anchor pane in the main controller
+     * Inserts the viewRegisteredVehicles fxml component into an anchor pane in the main controller.
      */
     private void viewRegisterVehicles() {
         try {
@@ -339,8 +337,9 @@ public class MainController {
             log.error(e);
         }
     }
+
     /**
-     * Inserts the viewNotes fxml component into an anchor pane in the main controller
+     * Inserts the viewNotes fxml component into an anchor pane in the main controller.
      */
     private void viewNotes() {
         try {
@@ -395,10 +394,6 @@ public class MainController {
 
     public User getCurrentUser() {
         return currentUser;
-    }
-
-    public void updateVehicles() {
-        recordJourneyController.populateVehicleDropdown();
     }
 
     /**
