@@ -64,22 +64,22 @@
                <children>
                   <Accordion prefHeight="800.0" prefWidth="350.0">
                     <panes>
-                      <TitledPane animated="false" text="Search and Filter">
+                      <TitledPane animated="false" onMouseClicked="#openSearchPanel" text="Search and Filter">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          <AnchorPane fx:id="searchWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </TitledPane>
-                        <TitledPane animated="false" text="Record Station Details">
+                        <TitledPane animated="false" onMouseClicked="#openNotesPane" text="Record Station Details">
                           <content>
                             <AnchorPane fx:id="notesWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
                         </TitledPane>
-                      <TitledPane animated="false" text="Plan a Journey">
+                      <TitledPane animated="false" onMouseClicked="#openPlanJourneyPane" text="Plan a Journey">
                         <content>
                           <AnchorPane fx:id="recordJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </TitledPane>
-                      <TitledPane animated="false" text="Planned Journeys">
+                      <TitledPane animated="false" onMouseClicked="#openPlannedJourneysPanel" text="Planned Journeys">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
