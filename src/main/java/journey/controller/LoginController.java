@@ -1,16 +1,21 @@
 package journey.controller;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import journey.data.QueryResult;
 import journey.data.User;
 import journey.repository.UserDAO;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +35,9 @@ public class LoginController {
     private UserDAO userDAO;
     private Stage stage;
     private User user;
+    @FXML private AnchorPane wholeScene;
     @FXML private TextField nameTextBox;
+    @FXML private ChoiceBox nameChoiceBox;
     @FXML private Label warningLabel;
 
     Pattern digit = Pattern.compile("[0-9]");
@@ -50,11 +57,29 @@ public class LoginController {
 
         if (hasDigit.find() || hasSpecial.find()) {
             warningLabel.setText("Your name cannot contain any digits or special characters!");
+        } else if (name.equals("")) {
+            warningLabel.setText("Please enter a name or select from dropdown");
         } else {
             user = userDAO.setCurrentUser(name);
             // Switch stages to main window
             switchToMain();
         }
+    }
+
+    private void populateUserDropDown() {
+        QueryResult data = userDAO.getUsers();
+        ObservableList<String> users = FXCollections.observableArrayList();
+        for (User user : data.getUsers()) {
+            String newString = user.getName();
+            users.add(newString);
+        }
+        nameChoiceBox.setItems(users);
+    }
+
+    @FXML private void setUser() {
+        String name = (String) nameChoiceBox.getValue();
+        user = userDAO.setCurrentUser(name);
+        switchToMain();
     }
 
     @FXML private String getNameTextBox() {
@@ -66,7 +91,7 @@ public class LoginController {
      */
     private void switchToMain() {
         try {
-            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main2.fxml"));
             Parent root = baseLoader.load();
             Stage mainStage = new Stage();
 
@@ -102,11 +127,18 @@ public class LoginController {
         this.stage = stage;
         userDAO = new UserDAO();
         //This must use Platform.runLater or else we get a core dump.
-        nameTextBox.setOnKeyPressed( event -> {
+        wholeScene.setOnKeyPressed( event -> {
             if( event.getCode() == KeyCode.ENTER ) {
-                Platform.runLater(this::registerUser);
+                if (nameChoiceBox.getValue() == null) {
+                    Platform.runLater(this::registerUser);
+
+                } else {
+                    Platform.runLater(this::setUser);
+                }
+
             }
         });
         warningLabel.setText("");
+        populateUserDropDown();
     }
 }
