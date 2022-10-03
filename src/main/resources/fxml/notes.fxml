@@ -1,30 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-
-<?import javafx.scene.text.Font?>
-
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            minHeight="150.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0"
-            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
-            fx:controller="journey.controller.NotesController">
-    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" prefHeight="56.0"
-           prefWidth="167.0" text="RECORD STATION DETAILS" textAlignment="CENTER"
-           textOverrun="CLIP" underline="true" wrapText="true" AnchorPane.leftAnchor="10.0"
-           AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+<AnchorPane minHeight="150.0" minWidth="0.0" prefHeight="400.0" prefWidth="310.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.NotesController">
+    <Label layoutX="11.0" layoutY="14.0" prefHeight="24.0" prefWidth="290.0" text="Record Station Details:" textAlignment="CENTER" textOverrun="CLIP" underline="true" wrapText="true" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="14.0">
         <font>
-            <Font size="14.0"/>
+            <Font size="14.0" />
         </font>
     </Label>
-    <TextArea fx:id="stationDetailTextArea" layoutX="10.0" layoutY="56.0" minHeight="100.0"
-              prefHeight="139.0" prefWidth="147.0" AnchorPane.bottomAnchor="45.0"
-              AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
-              AnchorPane.topAnchor="56.0"/>
-    <Button layoutX="53.0" layoutY="169.0" mnemonicParsing="false" onAction="#submitNotes"
-            prefHeight="24.0" prefWidth="69.0" style="-fx-background-color: #E0E6B2;"
-            text="Submit" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="53.0"
-            AnchorPane.rightAnchor="52.0"/>
+    <TextArea fx:id="stationDetailTextArea" layoutX="10.0" layoutY="45.0" minHeight="100.0" prefHeight="305.0" prefWidth="290.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
+    <Button layoutX="53.0" layoutY="362.0" mnemonicParsing="false" onAction="#submitNotes" prefHeight="24.0" prefWidth="69.0" style="-fx-background-color: #FFFFFF;" text="Submit" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="52.0">
+      <effect>
+         <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+            <color>
+               <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.25" />
+            </color>
+         </DropShadow>
+      </effect></Button>
 </AnchorPane>

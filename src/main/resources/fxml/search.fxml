@@ -2,61 +2,104 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 
-<AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="296.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
+<AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
     <children>
-        <Label layoutX="14.0" layoutY="15.0" text="Address:" />
-        <TextField fx:id="addressSearch" layoutX="100.0" layoutY="11.0" prefHeight="25.0" prefWidth="310.0" />
-        <TextField fx:id="nameSearch" layoutX="100.0" layoutY="46.0" prefHeight="25.0" prefWidth="310.0" />
-        <Label layoutX="14.0" layoutY="50.0" text="Name:" />
-        <Label layoutX="14.0" layoutY="85.0" text="Operator:" />
-        <TextField fx:id="operatorSearch" layoutX="100.0" layoutY="81.0" prefHeight="25.0" prefWidth="310.0" />
-        <Label layoutX="14.0" layoutY="120.0" text="Current:" />
-        <ChoiceBox fx:id="chargerBoxSearch" layoutX="100.0" layoutY="116.0" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #E0E6B2;" />
-        <Label layoutX="14.0" layoutY="155.0" text="Time Limit:" />
-        <Label layoutX="100.0" layoutY="155.0" text="At least" />
-        <TextField fx:id="timeSearch" layoutX="155.0" layoutY="151.0" prefHeight="25.0" prefWidth="46.0" />
-        <Label layoutX="205.0" layoutY="155.0" text="minutes" />
-        <Label layoutX="14.0" layoutY="190.0" text="Attractions: " />
-        <ChoiceBox fx:id="attractionSearch" layoutX="100.0" layoutY="186.0" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #E0E6B2;" />
-        <HBox fx:id="searchRow" layoutY="221.0" prefHeight="25.0" prefWidth="367.0">
-            <children>
-                <AnchorPane prefHeight="25.0" prefWidth="349.0" HBox.hgrow="ALWAYS">
-                    <children>
-                        <TextField fx:id="distanceSearch" layoutX="86.0" prefHeight="25.0" prefWidth="35.0" />
-                        <Label layoutY="4.0" text="Range:" />
-                        <TextField fx:id="addrSearch" layoutX="165.0" prefHeight="25.0" prefWidth="145.0" promptText="Address" />
-                        <Label layoutX="125.0" layoutY="4.0" text="km of" />
-                        <Button layoutX="314.0" mnemonicParsing="false" onAction="#clickSearch" prefWidth="100.0" style="-fx-background-color: #E0E6B2;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                    </children>
-                </AnchorPane>
-            </children>
+        <Label layoutX="17.0" layoutY="28.0" text="Address:" />
+        <TextField layoutX="102.0" layoutY="23.0" prefHeight="24.0" prefWidth="196.0" />
+        <TextField layoutX="102.0" layoutY="58.0" prefHeight="24.0" prefWidth="196.0" />
+        <Label layoutX="17.0" layoutY="63.0" text="Name:" />
+        <Label layoutX="17.0" layoutY="98.0" text="Operator:" />
+        <TextField layoutX="102.0" layoutY="93.0" prefHeight="24.0" prefWidth="196.0" />
+        <Label layoutX="17.0" layoutY="133.0" text="Current:" />
+        <ChoiceBox layoutX="102.0" layoutY="128.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-color: #FFFFFF;">
+            <effect>
+                <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+                    <color>
+                        <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
+                    </color>
+                </DropShadow>
+            </effect>
+        </ChoiceBox>
+        <Label layoutX="16.0" layoutY="168.0" text="Connectors:" />
+        <ChoiceBox layoutX="102.0" layoutY="163.0" prefWidth="160.0" style="-fx-background-color: #FFFFFF;">
+            <effect>
+                <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+                    <color>
+                        <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.25" />
+                    </color>
+                </DropShadow>
+            </effect>
+        </ChoiceBox>
+        <Label layoutX="16.0" layoutY="203.0" text="Time Limit: At least" />
+        <Label layoutX="200.0" layoutY="203.0" text="minutes">
             <padding>
-                <Insets left="14.0" />
+                <Insets left="5.0" />
             </padding>
-        </HBox>
-        <BorderPane layoutX="20.4" layoutY="260.6000061035156" prefHeight="24.0" prefWidth="390.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="260.0">
-            <center>
-                <AnchorPane>
-                    <Button mnemonicParsing="false" onAction="#search" stylesheets="@../gui/buttons.css" text="Search" AnchorPane.leftAnchor="80.0">
-                        <padding>
-                            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                        </padding>
-                    </Button>
-                    <Button mnemonicParsing="false" onAction="#clearSearch" stylesheets="@../gui/buttons.css" text="Clear" AnchorPane.leftAnchor="0.0">
-                        <padding>
-                            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                        </padding>
-                    </Button>
-                </AnchorPane>
-            </center>
-        </BorderPane>
-      <Label fx:id="warningLabel" layoutX="254.0" layoutY="265.0" prefHeight="16.0" prefWidth="346.0" textAlignment="CENTER" textFill="#eb0303" />
-      <CheckBox fx:id="myCarCheckBox" layoutX="427.0" layoutY="15.0" mnemonicParsing="false" onAction="#myCar" prefHeight="24.0" prefWidth="155.0" stylesheets="@../gui/style.css" text="Filter for my car" />
-      <Label layoutX="196.0" layoutY="121.0" text="Connectors:" />
-      <MenuButton fx:id="connectorsMenu" layoutX="289.0" layoutY="117.0" minWidth="120.0" mnemonicParsing="false" style="-fx-background-color: #E0E6B2;" textOverrun="CLIP">
-      </MenuButton>
-      <Label fx:id="noCarWarning" layoutX="457.0" layoutY="42.0" textFill="#da0000" />
+        </Label>
+        <TextField layoutX="150.0" layoutY="200.0" prefHeight="25.0" prefWidth="50.0" />
+        <Label layoutX="16.0" layoutY="238.0" text="Attractions:" />
+        <ChoiceBox layoutX="102.0" layoutY="233.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-color: #FFFFFF;">
+            <effect>
+                <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+                    <color>
+                        <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
+                    </color>
+                </DropShadow>
+            </effect>
+        </ChoiceBox>
+        <Label layoutX="16.0" layoutY="273.0" text="Range:" />
+        <TextField layoutX="67.0" layoutY="269.0" prefHeight="24.0" prefWidth="40.0" />
+        <Label layoutX="107.0" layoutY="273.0" text="km of ">
+            <padding>
+                <Insets left="5.0" right="5.0" />
+            </padding>
+        </Label>
+        <TextField layoutX="158.0" layoutY="269.0" prefHeight="24.0" prefWidth="85.0" promptText="Address" />
+        <Button layoutX="158.0" layoutY="300.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="85.0" style="-fx-background-color: #FFFFFF;" text="Click Map">
+            <effect>
+                <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+                    <color>
+                        <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
+                    </color>
+                </DropShadow>
+            </effect></Button>
+        <AnchorPane layoutX="1.0" layoutY="324.0" prefHeight="64.0" prefWidth="310.0">
+            <children>
+                <GridPane layoutY="11.0" prefHeight="56.0" prefWidth="311.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Button mnemonicParsing="false" style="-fx-background-color: #FFFFFF;" text="Clear" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                            <effect>
+                                <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+                                    <color>
+                                        <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
+                                    </color>
+                                </DropShadow>
+                            </effect>
+                        </Button>
+                        <Button mnemonicParsing="false" style="-fx-background-color: #FFFFFF;" text="Search" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                            <effect>
+                                <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+                                    <color>
+                                        <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.25" />
+                                    </color>
+                                </DropShadow>
+                            </effect>
+                        </Button>
+                    </children>
+                </GridPane>
+            </children>
+        </AnchorPane>
     </children>
 </AnchorPane>

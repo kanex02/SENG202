@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="tableParent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="316.0" prefWidth="60.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.PlannedJourneyController">
+<AnchorPane fx:id="tableParent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.PlannedJourneyController">
     <TableView fx:id="journeyTable" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
             <TableColumn fx:id="dateCol" prefWidth="86.0" text="Date" />
             <TableColumn fx:id="vehicleCol" minWidth="3.0" prefWidth="90.0" text="Vehicle" />
             <TableColumn fx:id="startCol" prefWidth="107.0" text="Start" />
-            <TableColumn fx:id="endCol" prefWidth="111.0" text="End" />
+            <TableColumn fx:id="endCol" prefWidth="79.0" text="End" />
         </columns>
       <columnResizePolicy>
          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
