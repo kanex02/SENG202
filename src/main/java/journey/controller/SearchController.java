@@ -179,13 +179,10 @@ public class SearchController {
      * lat and long is updated.
      */
     @FXML private void clickSearch() {
-        mainController.onlyMap();
         mainController.openMap();
         mainController.getMapViewController().setCallback((lat, lng) -> {
             String addr = Utils.latLngToAddr(lat, lng);
             addrSearch.setText(addr);
-            mainController.reenable();
-            mainController.openSearch();
             return true;
         }, "search");
     }

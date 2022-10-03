@@ -117,12 +117,10 @@ public class CreateJourneyController {
      * so when the map is clicked the journey start lat and long is updated.
      */
     @FXML private void clickStart() {
-        mainController.onlyMap();
         mainController.openMap();
         mapViewController.setCallback((lat, lng) -> {
             String addr = Utils.latLngToAddr(lat, lng);
             startAddr.setText(addr);
-            mainController.reenable();
             return true;
         }, "start");
     }
@@ -132,12 +130,10 @@ public class CreateJourneyController {
      * so when the map is clicked the journey end lat and long is updated.
      */
     @FXML private void clickEnd() {
-        mainController.onlyMap();
         mainController.openMap();
         mapViewController.setCallback((lat, lng) -> {
             String addr = Utils.latLngToAddr(lat, lng);
             endAddr.setText(addr);
-            mainController.reenable();
             return true;
         }, "end");
     }

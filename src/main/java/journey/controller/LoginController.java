@@ -48,7 +48,7 @@ public class LoginController {
      * when register button is pressed.
      */
 
-    @FXML private void registerUser() {
+    private void registerUser() {
         String name = getNameTextBox();
         Matcher hasDigit = digit.matcher(name);
         Matcher hasSpecial = special.matcher(name);
@@ -76,13 +76,13 @@ public class LoginController {
         nameChoiceBox.setItems(users);
     }
 
-    @FXML private void setUser() {
+    private void setUser() {
         String name = (String) nameChoiceBox.getValue();
         user = userDAO.setCurrentUser(name);
         switchToMain();
     }
 
-    @FXML private String getNameTextBox() {
+    private String getNameTextBox() {
         return nameTextBox.getText();
     }
 
@@ -91,7 +91,7 @@ public class LoginController {
      */
     private void switchToMain() {
         try {
-            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main2.fxml"));
+            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/newMain.fxml"));
             Parent root = baseLoader.load();
             Stage mainStage = new Stage();
 
@@ -115,7 +115,7 @@ public class LoginController {
             mainStage.show();
             this.stage.close();
         } catch (IOException e) {
-            log.error(e);
+            e.printStackTrace();
         }
 
     }

@@ -58,6 +58,7 @@ public class MainController {
     @FXML private AnchorPane searchWrapper;
     @FXML private AnchorPane notesWrapper;
     @FXML private AnchorPane recordJourneyWrapper;
+    @FXML private AnchorPane plannedJourneysWrapper;
     @FXML private AnchorPane registerVehicleWrapper;
 
 
@@ -66,6 +67,7 @@ public class MainController {
     private TableController tableController;
     private CreateJourneyController recordJourneyController;
     private MapController mapViewController;
+    private RegisterVehicleController registerVehicleController;
     private PlannedJourneyController plannedJourneyController;
     private Stage profileStage = null;
 
@@ -153,12 +155,12 @@ public class MainController {
 
             PlannedJourneyController prevJourneyViewController = prevJourneysViewLoader.getController();
             prevJourneyViewController.init(stage, this);
-            prevJourneysPane.getChildren().add(prevJourneysViewParent);
+            plannedJourneysWrapper.getChildren().add(prevJourneysViewParent);
             AnchorPane.setTopAnchor(prevJourneysViewParent, 0d);
             AnchorPane.setBottomAnchor(prevJourneysViewParent, 0d);
             AnchorPane.setLeftAnchor(prevJourneysViewParent, 0d);
             AnchorPane.setRightAnchor(prevJourneysViewParent, 0d);
-            prevJourneysPane.prefWidthProperty().bind(mainTabs.widthProperty());
+//            prevJourneysPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
         } catch (IOException e) {
             log.error(e);
@@ -255,77 +257,22 @@ public class MainController {
         viewSearch();
     }
 
-    /**
-     * Inserts the search fxml component into an anchor pane in the main controller
-     */
-    private void viewNotesPanel() {
-        try {
-            FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("/fxml/notes.fxml"));
-            Parent notesParent = searchLoader.load();
-
-            notesController = searchLoader.getController();
-            notesController.init(this);
-            notesWrapper.getChildren().add(notesParent);
-            AnchorPane.setTopAnchor(notesParent, 0d);
-            AnchorPane.setBottomAnchor(notesParent, 0d);
-            AnchorPane.setLeftAnchor(notesParent, 0d);
-            AnchorPane.setRightAnchor(notesParent, 0d);
-
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
 
     @FXML public void openNotesPane() {
-        viewNotesPanel();
+        viewNotes();
     }
 
-
-    /**
-     * Inserts the search fxml component into an anchor pane in the main controller
-     */
-    private void viewPlanJourney() {
-        try {
-            FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("/fxml/recordJourney.fxml"));
-            Parent planJourneyParent = searchLoader.load();
-
-            recordJourneyController = searchLoader.getController();
-            recordJourneyController.init(stage, this);
-            recordJourneyWrapper.getChildren().add(planJourneyParent);
-            AnchorPane.setTopAnchor(planJourneyParent, 0d);
-            AnchorPane.setBottomAnchor(planJourneyParent, 0d);
-            AnchorPane.setLeftAnchor(planJourneyParent, 0d);
-            AnchorPane.setRightAnchor(planJourneyParent, 0d);
-
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
 
     @FXML public void openPlanJourneyPane() {
-        viewPlanJourney();
-    }
-
-    private void viewPlannedJourneys() {
-        try {
-            FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("/fxml/plannedJourneys.fxml"));
-            Parent plannedJourneysParent = searchLoader.load();
-
-            plannedJourneyController = searchLoader.getController();
-            plannedJourneyController.init(stage, this);
-            recordJourneyWrapper.getChildren().add(plannedJourneysParent);
-            AnchorPane.setTopAnchor(plannedJourneysParent, 0d);
-            AnchorPane.setBottomAnchor(plannedJourneysParent, 0d);
-            AnchorPane.setLeftAnchor(plannedJourneysParent, 0d);
-            AnchorPane.setRightAnchor(plannedJourneysParent, 0d);
-
-        } catch (IOException e) {
-            log.error(e);
-        }
+        viewRecordJourney();
     }
 
     @FXML public void openPlannedJourneysPanel() {
-        viewPlannedJourneys();
+        viewPrevJourneysTable();
+    }
+
+    @FXML public void openRegisterVehiclePane() {
+        viewRegisterVehicles();
     }
 
     public void updateNoteText() {
@@ -479,8 +426,8 @@ public class MainController {
         viewSearch();
         viewNotes();
 
-        journeyTab.getSelectionModel().selectedItemProperty().addListener(
-                (observableValue, oldVal, newVal) -> mapViewController.clearRoute()
-        );
+//        journeyTab.getSelectionModel().selectedItemProperty().addListener(
+//                (observableValue, oldVal, newVal) -> mapViewController.clearRoute()
+//        );
     }
 }
