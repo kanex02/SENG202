@@ -39,7 +39,12 @@ public class RegisterVehicleController {
             );
     @FXML private ChoiceBox<String> chargerBox;
     @FXML private ChoiceBox<String> connectorBox;
-    @FXML private Label warningLabel;
+    @FXML private Label regWarningLabel;
+    @FXML private Label makeWarningLabel;
+    @FXML private Label modelWarningLabel;
+    @FXML private Label yearWarningLabel;
+    @FXML private Label currentWarningLabel;
+    @FXML private Label connectorWarningLabel;
     @FXML private TextField registrationTextBox;
     @FXML private TextField yearTextBox;
     @FXML private TextField makeTextBox;
@@ -67,40 +72,67 @@ public class RegisterVehicleController {
         chargerTypeChoice();
         connectorTypeChoice();
 
-        if (Objects.equals(year, "") || Objects.equals(registration, "")
-                || Objects.equals(make, "") || Objects.equals(model, "")
-                || Objects.equals(chargerTypeChoice, "")) {
-            warningLabel.setText("Fill all fields");
+        //registration validation
+        Matcher regHasSpecial = special.matcher(registration);
+        if (Objects.equals(registration, "")) {
+            regWarningLabel.setText("Please enter a registration");
+            valid = false;
+        } else if ( regHasSpecial.find() ) {
+            regWarningLabel.setText("Cannot contain special characters");
+            valid = false;
+        } else if (registration.length() > 6) {
+            regWarningLabel.setText("Cannot be more than 6 characters");
             valid = false;
         }
 
-        int intYear = 0;
-        if (Utils.isInt(year)) {
-            intYear = Integer.parseInt(year);
-            String date = Utils.getDate();
-            int currentYear = Integer.parseInt(date.split("/")[2]);
-            if (intYear > currentYear || intYear < 1996) {
-                warningLabel.setText("Year is out of range");
-                valid = false;
-            }
-        } else {
-            warningLabel.setText("Year must be an integer");
-            valid = false;
-        }
-
+        //make validation
         Matcher makeHasDigit = digit.matcher(make);
         Matcher makeHasSpecial = special.matcher(make);
-        Matcher modelHasDigit = digit.matcher(model);
-        Matcher modelHasSpecial = special.matcher(model);
-
         if (makeHasSpecial.find() || makeHasDigit.find()) {
-            warningLabel.setText("Make entry is invalid. It must only contain characters A-Z.");
+            makeWarningLabel.setText("Cannot contain digits or special characters");
             valid = false;
+        } else if (make.equals("")) {
+            makeWarningLabel.setText("Please enter a model");
         }
 
+        //model validation
+        Matcher modelHasDigit = digit.matcher(model);
+        Matcher modelHasSpecial = special.matcher(model);
         if (modelHasSpecial.find() || modelHasDigit.find()) {
-            warningLabel.setText("Model entry is invalid. It must only contain characters A-Z.");
+            modelWarningLabel.setText("Cannot contain digits or special characters");
             valid = false;
+        } else if (model.equals("")) {
+            modelWarningLabel.setText("Please enter a model");
+        }
+
+        //year validation
+        int intYear = 0;
+        if (year.equals("")) {
+            yearWarningLabel.setText("Please enter a year");
+            valid = false;
+        } else {
+            if (Utils.isInt(year)) {
+                intYear = Integer.parseInt(year);
+                String date = Utils.getDate();
+                int currentYear = Integer.parseInt(date.split("/")[2]);
+                if (intYear > currentYear || intYear < 1996) {
+                    yearWarningLabel.setText("Year is out of range");
+                    valid = false;
+                }
+            } else {
+                yearWarningLabel.setText("Year must be an integer");
+                valid = false;
+            }
+        }
+
+        //current validation
+        if (chargerTypeChoice.equals("")) {
+            currentWarningLabel.setText("Please select a current type");
+        }
+
+        //connector validation
+        if (connectorTypeChoice.equals("")) {
+            connectorWarningLabel.setText("Please select a connector type");
         }
 
         if (valid) {
@@ -108,9 +140,14 @@ public class RegisterVehicleController {
             yearTextBox.setText("");
             makeTextBox.setText("");
             modelTextBox.setText("");
-            warningLabel.setText("");
             chargerBox.setValue("");
             connectorBox.setValue("");
+            regWarningLabel.setText("");
+            makeWarningLabel.setText("");
+            modelWarningLabel.setText("");
+            yearWarningLabel.setText("");
+            currentWarningLabel.setText("");
+            connectorWarningLabel.setText("");
             Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration, connectorTypeChoice);
             // Send vehicle to database
             try {
