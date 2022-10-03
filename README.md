@@ -6,7 +6,6 @@ This README file includes some useful information on how to import and run the a
 - Tom Barthelmeh
 - Ella Calder
 - Katherine Field
-- Alexander Holton
 - Daniel Neal
 - Kane Xie
 
