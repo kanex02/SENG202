@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="330.0" prefWidth="293.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.RegisterVehicleController">
     <GridPane prefHeight="330.0" prefWidth="232.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -10,8 +11,8 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
         </columnConstraints>
         <rowConstraints>
-           <RowConstraints maxHeight="272.0" minHeight="10.0" prefHeight="257.0" vgrow="NEVER" />
-           <RowConstraints maxHeight="108.0" minHeight="10.0" prefHeight="63.0" vgrow="SOMETIMES" />
+           <RowConstraints maxHeight="274.0" minHeight="10.0" prefHeight="274.0" vgrow="NEVER" />
+           <RowConstraints maxHeight="108.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
         </rowConstraints>
         <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" />
@@ -19,20 +20,50 @@
 
         <HBox prefWidth="273.0">
             <Pane maxWidth="120.0" prefHeight="206.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                <Label layoutY="163.0" text="Charger Type:" />
-                <Label layoutY="54.0" text="Make:" />
-                <Label layoutY="127.0" text="Year:" />
-                <Label layoutY="90.0" text="Model:" />
+                <Label layoutX="6.0" layoutY="199.0" text="Charger Type:" />
+                <Label layoutX="2.0" layoutY="66.0" text="Make:" />
+                <Label layoutX="5.0" layoutY="152.0" text="Year:" />
+                <Label layoutY="113.0" text="Model:" />
                 <Label layoutY="19.0" text="Registration:" />
-                <Label layoutY="204.0" text="Connector Type:" />
+                <Label layoutX="6.0" layoutY="244.0" text="Connector Type:" />
             </Pane>
             <Pane maxWidth="200.0" prefHeight="204.0" prefWidth="154.0" HBox.hgrow="NEVER">
-                <ChoiceBox fx:id="chargerBox" layoutX="5.0" layoutY="162.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="148.0" />
-                <TextField fx:id="registrationTextBox" layoutX="5.0" layoutY="14.0" prefHeight="26.0" prefWidth="148.0" />
-                <TextField fx:id="modelTextBox" layoutX="5.0" layoutY="88.0" prefHeight="26.0" prefWidth="148.0" />
-                <TextField fx:id="yearTextBox" layoutX="5.0" layoutY="126.0" prefHeight="26.0" prefWidth="148.0" />
-                <TextField fx:id="makeTextBox" layoutX="5.0" layoutY="50.0" prefHeight="26.0" prefWidth="148.0" />
-                <ChoiceBox fx:id="connectorBox" layoutX="5.0" layoutY="199.0" onMouseClicked="#connectorTypeChoice" prefHeight="25.0" prefWidth="148.0" />
+                <ChoiceBox fx:id="chargerBox" layoutX="7.0" layoutY="196.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="148.0" />
+                <TextField fx:id="registrationTextBox" layoutX="7.0" layoutY="14.0" prefHeight="26.0" prefWidth="148.0" />
+                <TextField fx:id="modelTextBox" layoutX="7.0" layoutY="104.0" prefHeight="26.0" prefWidth="148.0" />
+                <TextField fx:id="yearTextBox" layoutX="7.0" layoutY="147.0" prefHeight="26.0" prefWidth="148.0" />
+                <TextField fx:id="makeTextBox" layoutX="7.0" layoutY="61.0" prefHeight="26.0" prefWidth="148.0" />
+                <ChoiceBox fx:id="connectorBox" layoutX="7.0" layoutY="239.0" onMouseClicked="#connectorTypeChoice" prefHeight="25.0" prefWidth="148.0" />
+            <Label fx:id="regWarningLabel" layoutX="-118.0" layoutY="41.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="makeWarningLabel" layoutX="-117.0" layoutY="88.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="modelWarningLabel" layoutX="-115.0" layoutY="131.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="yearWarningLabel" layoutX="-116.0" layoutY="173.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="currentWarningLabel" layoutX="-116.0" layoutY="222.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="connectorWarningLabel" layoutX="-117.0" layoutY="264.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
             </Pane>
         </HBox>
         <Button mnemonicParsing="false" onAction="#registerVehicle" prefHeight="30.0" prefWidth="135.0" text="Register Vehicle" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
