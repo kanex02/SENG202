@@ -7,6 +7,7 @@ public class QueryResult {
     private Station[] stations;
     private Vehicle[] vehicles;
     private Journey[] journeys;
+    private User[] users;
 
     public Station[] getStations() {
         return stations;
@@ -24,6 +25,11 @@ public class QueryResult {
         this.journeys = journeys;
     }
 
+    public void setUsers(User[] users) {
+        this.users = users;
+    }
+
+
     public Journey[] getJourney() {
         return journeys;
     }
@@ -31,5 +37,8 @@ public class QueryResult {
     public Vehicle[] getVehicles() {
         return vehicles;
     }
+
+    public User[] getUsers() {return users;}
+
 
 }

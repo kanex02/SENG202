@@ -1,7 +1,8 @@
 package journey.repository;
 
-import journey.data.User;
 import journey.Utils;
+import journey.data.QueryResult;
+import journey.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 /**
  * Concrete implementation of Database Access Object that handles all user related actions to the database
  */
@@ -87,4 +90,26 @@ public class UserDAO {
     public User getCurrentUser() {
         return currentUser;
     }
+
+    public QueryResult getUsers() {
+        Connection conn = null;
+        ArrayList<User> res = new ArrayList<>();
+        QueryResult result = new QueryResult();
+        try {
+            conn = databaseManager.connect();
+            String sqlQuery = "SELECT * FROM Users";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                res.add(new User(rs.getString("name")));
+            }
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
+            result.setUsers(res.toArray(User[]::new));
+        }
+        return result;
+    }
 }
+
