@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
+<AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="428.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
     <children>
         <Label layoutX="17.0" layoutY="28.0" text="Address:" />
         <TextField fx:id="addressSearch" layoutX="102.0" layoutY="23.0" prefHeight="24.0" prefWidth="196.0" />
         <TextField fx:id="nameSearch" layoutX="102.0" layoutY="58.0" prefHeight="24.0" prefWidth="196.0" />
         <Label layoutX="17.0" layoutY="63.0" text="Name:" />
         <Label layoutX="17.0" layoutY="98.0" text="Operator:" />
-        <TextField fx:id="OperatorSearch" layoutX="102.0" layoutY="93.0" prefHeight="24.0" prefWidth="196.0" />
+        <TextField fx:id="operatorSearch" layoutX="102.0" layoutY="93.0" prefHeight="24.0" prefWidth="196.0" />
         <Label layoutX="17.0" layoutY="133.0" text="Current:" />
         <ChoiceBox fx:id="chargerBoxSearch" layoutX="102.0" layoutY="128.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-color: #FFFFFF;">
             <effect>
@@ -104,5 +104,6 @@
         </AnchorPane>
       <Label layoutX="17.0" layoutY="308.0" text="Filter for my vehicle:" />
       <CheckBox fx:id="myCarCheckBox" layoutX="167.0" layoutY="308.0" mnemonicParsing="false" onAction="#myCar" />
+      <Label fx:id="warningLabel" layoutX="140.0" layoutY="402.0" textAlignment="CENTER" textFill="RED" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
 </AnchorPane>

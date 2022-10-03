@@ -72,27 +72,27 @@
                <children>
                   <Accordion prefHeight="800.0" prefWidth="350.0">
                     <panes>
-                      <TitledPane animated="false" onMouseClicked="#openSearchPanel" text="Search and Filter">
+                      <TitledPane animated="false" text="Search and Filter">
                         <content>
                           <AnchorPane fx:id="searchWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </TitledPane>
-                        <TitledPane animated="false" onMouseClicked="#openNotesPane" text="Record Notes about Station">
+                        <TitledPane animated="false" text="Record Notes about Station">
                           <content>
                             <AnchorPane fx:id="notesWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
                         </TitledPane>
-                      <TitledPane animated="false" onMouseClicked="#openPlanJourneyPane" text="Plan a Journey">
+                      <TitledPane animated="false" text="Plan a Journey">
                         <content>
                           <AnchorPane fx:id="recordJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </TitledPane>
-                      <TitledPane animated="false" onMouseClicked="#openPlannedJourneysPanel" text="Planned Journeys">
+                      <TitledPane animated="false" text="Planned Journeys">
                         <content>
                           <AnchorPane fx:id="plannedJourneysWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </TitledPane>
-                        <TitledPane animated="false" layoutX="30.0" layoutY="102.0" onMouseClicked="#openRegisterVehiclePane" text="Register a Vehicle">
+                        <TitledPane animated="false" layoutX="30.0" layoutY="102.0" text="Register a Vehicle">
                            <content>
                               <AnchorPane fx:id="registerVehicleWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                            </content>
