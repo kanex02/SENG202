@@ -180,13 +180,7 @@ public class MainController {
     }
 
     public void setNoteStationAddr() {
-        Station currStation = stationDAO.queryStation(selectedStation);
-        if (currStation != null) {
-            String addr = currStation.getReadableAddress();
-            notesController.setStationNoteAddr(addr);
-        } else {
-            notesController.setStationNoteAddr("No station selected");
-        }
+        notesController.updateStationNoteAddr();
     }
 
     public int getSelectedStation() {

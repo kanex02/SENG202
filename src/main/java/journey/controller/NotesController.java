@@ -55,8 +55,14 @@ public class NotesController {
     /**
      * Sets the address of station in the notes panel when clicked.
      */
-    public void setStationNoteAddr(String addr) {
-        noteStationAddr.setText(addr);
+    public void updateStationNoteAddr() {
+        if (mainController.getSelectedStation() != -1) {
+            Station currStation = stationDAO.queryStation(mainController.getSelectedStation());
+            if (currStation != null) {
+                String addr = currStation.getReadableAddress();
+                noteStationAddr.setText(addr);
+            }
+        }
     }
 
 

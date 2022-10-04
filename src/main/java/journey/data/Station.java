@@ -52,6 +52,8 @@ public class Station {
     private Boolean hasChargingCost;
     private int maxTime;
     private String[] connectors;
+    private int rating;
+    private boolean favourite;
 
     public Station() {}
 
