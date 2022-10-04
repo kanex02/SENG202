@@ -1,4 +1,4 @@
-package service;
+package journey.service;
 
 import journey.Utils;
 
