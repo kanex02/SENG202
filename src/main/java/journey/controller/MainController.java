@@ -1,7 +1,5 @@
 package journey.controller;
 
-import java.io.IOException;
-import java.util.Arrays;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -10,13 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -28,6 +23,9 @@ import journey.data.User;
 import journey.repository.StationDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * FXML controller class for the main window.
@@ -69,6 +67,8 @@ public class MainController {
     private ProfileController profileController;
     private RegisterVehicleController registerVehicleController;
     private PlannedJourneyController plannedJourneyController;
+    private Stage profileStage = null;
+    private Stage helpStage = null;
 
 
 
@@ -228,6 +228,33 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setProfile(Stage profileStage) {
+        this.profileStage = profileStage;
+    }
+    @FXML private void helpButton(Event event) {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/help.fxml"));
+            root = loader.load();
+            HelpController controller = loader.getController();
+
+            if (helpStage == null) {
+                helpStage = new Stage(StageStyle.UNDECORATED);
+                helpStage.setTitle("Help");
+            }
+            Scene scene = new Scene(root);
+            controller.init(helpStage);
+            helpStage.setScene(scene);
+            helpStage.setMaximized(true);
+            helpStage.show();
+            helpStage.setMinHeight(400);
+            helpStage.setMinWidth(600);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        event.consume();
     }
 
     /**

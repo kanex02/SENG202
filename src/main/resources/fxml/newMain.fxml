@@ -17,13 +17,22 @@
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="911.0" minWidth="10.0" prefWidth="885.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="510.0" minWidth="0.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="510.0" minWidth="100.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#myProfileButton" style="-fx-background-color: transparent;" text="My Profile" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                   <Button mnemonicParsing="false" onAction="#helpButton" prefHeight="20.0" prefWidth="54.0" style="-fx-background-color: transparent;" text="Help" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                       <font>
+                           <Font name="Roboto" size="16.0" />
+                       </font>
+                       <padding>
+                           <Insets right="20.0" />
+                       </padding>
+                   </Button>
+                  <Button mnemonicParsing="false" style="-fx-background-color: transparent;" text="My Profile" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                      <font>
                         <Font name="Roboto" size="16.0" />
                      </font>
