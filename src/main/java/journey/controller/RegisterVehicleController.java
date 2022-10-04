@@ -153,6 +153,7 @@ public class RegisterVehicleController {
             try {
                 vehicleDAO.setVehicle(newVehicle, mainController.getCurrentUser());
                 mainController.populateVehicleDropdown();
+                mainController.populateVehicleTable();
             } catch (Exception e) {
                 log.error(e);
             }
