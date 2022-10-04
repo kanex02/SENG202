@@ -65,7 +65,9 @@ class StationDAOTest {
                 "date",
                 2,
                 new String[]{""},
-                true
+                true,
+                0,
+                false
         );
         ResultSet rs = s.executeQuery("SELECT * FROM Stations WHERE ID = -1");
         rs.next();
@@ -117,6 +119,8 @@ class StationDAOTest {
                 "date",
                 2,
                 new String[]{""},
+                true,
+                2,
                 true
         );
         QueryStation queryStation = new QueryStation();
@@ -154,7 +158,9 @@ class StationDAOTest {
                 "date",
                 2,
                 new String[]{""},
-                true
+                true,
+                5,
+                false
         );
         Station station = stationDAO.queryStation(-1);
         assertEquals("Krane", station.getOwner());

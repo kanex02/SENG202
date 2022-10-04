@@ -61,7 +61,9 @@ class NoteDAOTest {
                 "date",
                 2,
                 new String[]{""},
-                true
+                true,
+                1,
+                false
         );
         stationDAO.insertStation(station);
         Note note = new Note(station, "testing123");
@@ -89,6 +91,8 @@ class NoteDAOTest {
                 "date",
                 2,
                 new String[]{""},
+                true,
+                3,
                 true
         );
         stationDAO.insertStation(station);
@@ -119,7 +123,9 @@ class NoteDAOTest {
                 "date",
                 2,
                 new String[]{""},
-                true
+                true,
+                2,
+                false
         );
         stationDAO.insertStation(station);
         Note result = noteDAO.getNoteFromStation(station, user);

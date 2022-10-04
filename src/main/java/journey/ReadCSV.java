@@ -8,6 +8,7 @@ import journey.data.Station;
 import journey.repository.StationDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import journey.repository.DatabaseManager;
 
 /**
  * Class to read data from a CSV into the database.
@@ -47,6 +48,9 @@ public class ReadCSV {
             s.setMaxTime(time);
             s.setConnectors(connectorsList);
 
+            s.setRating(0);
+            s.setFavourite(false);
+
             StationDAO stationDAO = new StationDAO();
 
             stationDAO.createStation(s.getOBJECTID(),
@@ -65,7 +69,22 @@ public class ReadCSV {
                     s.getDateFirstOperational(),
                     s.getNumberOfConnectors(),
                     s.getConnectors(),
-                    s.isHasChargingCost());
+                    s.isHasChargingCost(),
+                    s.getRating(),
+                    s.getFavourite());
         }
     }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        try {
+            databaseManager.setup();
+            readStations();
+        } catch (Exception e) {
+            System.out.println("BAD");
+            log.error(e);
+        }
+    }
+
+
 }

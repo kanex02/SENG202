@@ -179,8 +179,8 @@ public class MainController {
         }
     }
 
-    public void setNoteStationAddr() {
-        notesController.updateStationNoteAddr();
+    public void updateNote() {
+        notesController.updateNote();
     }
 
     public int getSelectedStation() {
@@ -274,10 +274,6 @@ public class MainController {
 
     @FXML public void openRegisterVehiclePane() {
         viewRegisterVehicles();
-    }
-
-    public void updateNoteText() {
-        notesController.updateNoteText();
     }
 
     /**

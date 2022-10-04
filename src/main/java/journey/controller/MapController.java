@@ -157,8 +157,7 @@ public class MapController {
      */
     public boolean getStationFromClick(int id) {
         mainController.setSelectedStation(id);
-        mainController.updateNoteText();
-        mainController.setNoteStationAddr();
+        mainController.updateNote();
         return true;
     }
 
