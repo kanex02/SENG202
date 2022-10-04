@@ -2,7 +2,6 @@ package journey.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -10,9 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import journey.data.Vehicle;
 import journey.repository.VehicleDAO;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
+/**
+ * Controller for editing existing vehicles.
+ */
 public class EditVehicleController {
     @FXML private Button closeButton;
     @FXML private ChoiceBox<String> chargerBox;
@@ -23,11 +23,9 @@ public class EditVehicleController {
     @FXML private TextField yearTextBox;
     private String chargerTypeChoice;
     private String connectorTypeChoice;
-    private static final Logger log = LogManager.getLogger();
     private MainController mainController;
     private VehicleDAO vehicleDAO;
     private Vehicle currentVehicle;
-    private CreateJourneyController recordJourneyController;
 
     private static final ObservableList<String> chargerTypeOptions =
             FXCollections.observableArrayList(
@@ -46,7 +44,7 @@ public class EditVehicleController {
             );
 
     /**
-     * close the edit/delete vehicle popup
+     * Close the edit/delete vehicle popup.
      */
     public void closeScene() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
@@ -55,25 +53,21 @@ public class EditVehicleController {
     }
 
     /**
-     * set the charger type variable to the value currently in the current dropdown
-     * @param event
+     * Set the charger type variable to the value currently in the current dropdown.
      */
-    @FXML private void chargerTypeChoice(Event event) {
+    @FXML private void chargerTypeChoice() {
         chargerTypeChoice = chargerBox.getValue();
-        event.consume();
     }
 
     /**
-     * set the connector type varibale to the value currently in the connector dropdown
-     * @param event
+     * Set the connector type variable to the value currently in the connector dropdown.
      */
-    @FXML private void connectorTypeChoice(Event event) {
+    @FXML private void connectorTypeChoice() {
         connectorTypeChoice = connectorBox.getValue();
-        event.consume();
     }
 
     /**
-     * fill the popup with the details of the currently selected vehicle
+     * Fill the popup with the details of the currently selected vehicle.
      */
     public void fillCurrentVehicle() {
         String reg = mainController.getSelectedVehicle();
@@ -88,11 +82,10 @@ public class EditVehicleController {
     }
 
     /**
-     * delete the old version of the vehicle and create a new vehicle in the database with the updated
-     * values
-     * @param event event of clicking the save button
+     * Selete the old version of the vehicle and create a new vehicle in the database with the updated
+     * values.
      */
-    @FXML public void saveVehicle(Event event) {
+    @FXML public void saveVehicle() {
         String currentVehicle = mainController.getSelectedVehicle();
         vehicleDAO.removeVehicle(currentVehicle);
         String reg = registrationTextBox.getText();
@@ -100,26 +93,20 @@ public class EditVehicleController {
         String model = modelTextBox.getText();
         String year = yearTextBox.getText();
         int intYear = Integer.parseInt(year);
-        chargerTypeChoice(event);
-        connectorTypeChoice(event);
+        chargerTypeChoice();
+        connectorTypeChoice();
         String current = chargerTypeChoice;
         String connector = connectorTypeChoice;
         Vehicle newVehicle = new Vehicle(intYear, make, model, current, reg, connector);
-        try {
-            vehicleDAO.setVehicle(newVehicle, mainController.getCurrentUser());
-            recordJourneyController.populateVehicleDropdown();
-        } catch (Exception e) {
-            log.error(e);
-        }
+        vehicleDAO.setVehicle(newVehicle, mainController.getCurrentUser());
+        mainController.populateVehicleDropdown();
         mainController.setSelectedVehicle(reg);
-        event.consume();
     }
 
     /**
-     * delete the currently selected vehicle from the database
-     * @param event
+     * delete the currently selected vehicle from the database.
      */
-    @FXML public void deleteVehicle(Event event) {
+    @FXML public void deleteVehicle() {
         String reg = mainController.getSelectedVehicle();
         currentVehicle = vehicleDAO.queryVehicle(reg);
         vehicleDAO.removeVehicle(reg);
@@ -133,11 +120,11 @@ public class EditVehicleController {
     }
 
     /**
-     * initialise the stage with the edit vehicle popup
-     * @param stage
-     * @param mainController
+     * initialise the stage with the edit vehicle popup.
+
+     * @param mainController instance of the main controller
      */
-    public void init(Stage stage, MainController mainController) {
+    public void init(MainController mainController) {
         this.mainController = mainController;
         vehicleDAO = new VehicleDAO();
         chargerBox.setItems(chargerTypeOptions);
