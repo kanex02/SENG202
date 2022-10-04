@@ -1,5 +1,6 @@
 package journey.controller;
 
+import java.io.IOException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,14 +21,11 @@ import journey.data.User;
 import journey.repository.UserDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import service.LoginService;
 
 
 /**
- * FXML controller class for the login window
+ * FXML controller class for the login window.
  * This is a basic window that allows a user to register/login to existing account
  */
 public class LoginController {
@@ -39,9 +37,6 @@ public class LoginController {
     @FXML private TextField nameTextBox;
     @FXML private ChoiceBox nameChoiceBox;
     @FXML private Label warningLabel;
-
-    Pattern digit = Pattern.compile("[0-9]");
-    Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 
     /**
      * Register a user and add them to the user database
@@ -57,14 +52,12 @@ public class LoginController {
         }
     }
 
-    private void registerUser() {
-        String name = getNameTextBox();
-        Matcher hasDigit = digit.matcher(name);
-        Matcher hasSpecial = special.matcher(name);
+    @FXML private void registerUser() {
+        String name = nameTextBox.getText();
         warningLabel.setText("");
+        Boolean valid = LoginService.checkUser(name);
 
-
-        if (hasDigit.find() || hasSpecial.find()) {
+        if (!valid) {
             warningLabel.setText("Your name cannot contain any digits or special characters!");
         } else if (name.equals("")) {
             warningLabel.setText("Please enter a name or select from dropdown");
@@ -96,7 +89,7 @@ public class LoginController {
     }
 
     /**
-     * Switches the current screen to the main screen
+     * Switches the current screen to the main screen.
      */
     private void switchToMain() {
         try {
@@ -124,12 +117,13 @@ public class LoginController {
             mainStage.show();
             this.stage.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
 
     }
     /**
-     * initialises the login window
+     * initialises the login window.
+
      * @param stage stage to load
      */
     public void init(Stage stage) {

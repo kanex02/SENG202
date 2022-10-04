@@ -1,12 +1,5 @@
 package journey;
 
-import journey.business.NominatimGeolocationManager;
-import journey.data.GeoCodeResult;
-import journey.data.GeoLocationResult;
-import journey.data.Station;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +7,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import journey.business.NominatimGeolocationManager;
+import journey.data.GeoCodeResult;
+import journey.data.GeoLocationResult;
+import journey.data.Station;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Provides useful functions for the database.
@@ -30,11 +29,14 @@ public class Utils {
     public static void closeConn(Connection conn) {
         try {
             conn.close();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            //ignored
+        }
     }
 
     /**
      * Converts a string array into a single string, separated by a delimiter.
+
      * @param arr array to convert.
      * @param delimiter string to separate values.
      * @return array in string form.
@@ -47,21 +49,29 @@ public class Utils {
         return newString.toString();
     }
 
+    /**
+     * Converts an array list into a string.
+
+     * @param arr ArrayList to convert
+     * @param delimiter string to separate each item with
+     * @return string representation of array
+     */
     public static String convertArrayListToString(ArrayList<String> arr, String delimiter) {
-        String str = "";
+        StringBuilder str = new StringBuilder();
         for (String i : arr) {
-            str = str + i + delimiter;
+            str.append(i).append(delimiter);
         }
         //return str.substring(0, delimiter.length()-1);
         if (str.length() > 2) {
-            return str.substring(0, str.length()-2);
+            return str.substring(0, str.length() - 2);
         } else {
             return "";
         }
     }
 
     /**
-     * Converts station result set into a station arraylist
+     * Converts station result set into a station arraylist.
+
      * @param rs result set to be converted
      * @param res resultant ArrayList being passed into
      */
@@ -85,7 +95,8 @@ public class Utils {
     }
 
     /**
-     * gets current date from system
+     * gets current date from system.
+
      * @return current date
      */
     public static String getDate() {
@@ -95,7 +106,8 @@ public class Utils {
 
 
     /**
-     * Checks if input can be converted to integer
+     * Checks if input can be converted to integer.
+
      * @param str input to be checked
      * @return boolean is/isn't integer
      */
@@ -109,7 +121,7 @@ public class Utils {
         }
     }
     /**
-     * gets lat and lng from location
+     * gets lat and lng from location.
 
      * @param loc location
      * @return lat#lng string
@@ -121,7 +133,7 @@ public class Utils {
     }
 
     /**
-     * gets address from lat and lng
+     * gets address from lat and lng.
 
      * @param lat latitude
      * @param lng longitude
