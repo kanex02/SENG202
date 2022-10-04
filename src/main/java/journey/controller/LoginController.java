@@ -47,6 +47,15 @@ public class LoginController {
      * Register a user and add them to the user database
      * when register button is pressed.
      */
+    @FXML private void setRunLater() {
+        if (nameChoiceBox.getValue() == null && nameTextBox.getText().equals("")) {
+            warningLabel.setText("Please select or enter Username");
+        } else if (nameChoiceBox.getValue() == null) {
+            Platform.runLater(this::registerUser);
+        } else {
+            Platform.runLater(this::setUser);
+        }
+    }
 
     private void registerUser() {
         String name = getNameTextBox();
@@ -129,16 +138,12 @@ public class LoginController {
         //This must use Platform.runLater or else we get a core dump.
         wholeScene.setOnKeyPressed( event -> {
             if( event.getCode() == KeyCode.ENTER ) {
-                if (nameChoiceBox.getValue() == null) {
-                    Platform.runLater(this::registerUser);
-
-                } else {
-                    Platform.runLater(this::setUser);
-                }
-
+                setRunLater();
             }
         });
         warningLabel.setText("");
         populateUserDropDown();
     }
+
+
 }

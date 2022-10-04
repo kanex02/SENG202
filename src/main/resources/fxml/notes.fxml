@@ -4,15 +4,9 @@
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
 
 <AnchorPane minHeight="150.0" minWidth="0.0" prefHeight="400.0" prefWidth="310.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.NotesController">
-    <Label layoutX="11.0" layoutY="14.0" prefHeight="24.0" prefWidth="290.0" text="Record Station Details:" textAlignment="CENTER" textOverrun="CLIP" underline="true" wrapText="true" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="14.0">
-        <font>
-            <Font size="14.0" />
-        </font>
-    </Label>
-    <TextArea fx:id="stationDetailTextArea" layoutX="10.0" layoutY="45.0" minHeight="100.0" prefHeight="305.0" prefWidth="290.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
+    <TextArea fx:id="stationDetailTextArea" layoutX="10.0" layoutY="17.0" minHeight="100.0" prefHeight="333.0" prefWidth="290.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="17.0" />
     <Button layoutX="53.0" layoutY="362.0" mnemonicParsing="false" onAction="#submitNotes" prefHeight="24.0" prefWidth="69.0" style="-fx-background-color: #FFFFFF;" text="Submit" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="52.0">
       <effect>
          <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">

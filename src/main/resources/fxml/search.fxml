@@ -109,5 +109,8 @@
                 </DropShadow>
             </effect>
       </Button>
+      <Label layoutX="17.0" layoutY="308.0" text="Filter for my vehicle:" />
+      <CheckBox fx:id="myCarCheckBox" layoutX="167.0" layoutY="308.0" mnemonicParsing="false" onAction="#myCar" />
+      <Label fx:id="warningLabel" layoutX="140.0" layoutY="402.0" textAlignment="CENTER" textFill="RED" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
 </AnchorPane>

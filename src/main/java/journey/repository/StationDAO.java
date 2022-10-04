@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.StringJoiner;
+
 import journey.data.QueryResult;
 import journey.data.QueryStation;
 import journey.data.Station;
@@ -201,13 +203,12 @@ public class StationDAO {
                     .append("' OR currentType = 'Mixed') ");
         }
         String[] connectors = searchStation.getConnectors();
-        if (connectors != null) {
-            queryString.append("AND (");
+        if (connectors != null && connectors.length > 0) {
+            StringJoiner connectorQuery = new StringJoiner(" OR ", "AND (", ") ");
             for (String connector : connectors) {
-                queryString.append("connectorsList LIKE '%").append(connector).append("%' OR ");
+                connectorQuery.add("connectorsList LIKE '%").add(connector).add("%'");
             }
-            queryString = new StringBuilder(queryString.substring(0, queryString.length() - 4));
-            queryString.append(") ");
+            queryString.append(connectorQuery);
         }
         Boolean attractions = searchStation.getHasTouristAttraction();
         if (attractions != null) {
@@ -225,6 +226,7 @@ public class StationDAO {
             ResultSet rs = statement.executeQuery(queryString.toString());
             Utils.insertRsIntoArray(rs, res);
         } catch (SQLException e) {
+            System.out.println(queryString);
             throw new RuntimeException(e);
         }
         res.removeIf(station -> searchStation.getRange() > 0

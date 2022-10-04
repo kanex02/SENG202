@@ -60,7 +60,7 @@
                         </InnerShadow>
                      </effect></TextField>
                   <Label layoutX="214.0" layoutY="64.0" text="Name:" />
-                  <Button layoutX="153.0" layoutY="115.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" style="-fx-background-color: #FFFFFF;" text="Continue">
+                  <Button layoutX="153.0" layoutY="115.0" mnemonicParsing="false" onAction="#setRunLater" prefHeight="25.0" prefWidth="95.0" style="-fx-background-color: #FFFFFF;" text="Continue">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX" offsetY="2.0">
                            <color>
