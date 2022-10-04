@@ -69,7 +69,6 @@ public class MainController {
     private ProfileController profileController;
     private RegisterVehicleController registerVehicleController;
     private PlannedJourneyController plannedJourneyController;
-    private Stage profileStage = null;
 
 
 
@@ -77,13 +76,6 @@ public class MainController {
         recordJourneyController.populateVehicleDropdown();
     }
 
-    public void populateVehicleTable() {
-        profileController.setVehicles(stage);
-    }
-
-    @FXML void openPrevJourneysTable() {
-        viewPrevJourneysTable();
-    }
 
     /**
      * Loads the OpenLayers map view into the tab pane component of main view.
@@ -238,10 +230,6 @@ public class MainController {
         }
     }
 
-    public void setProfile(Stage profileStage) {
-        this.profileStage = profileStage;
-    }
-
     /**
      * Inserts the search fxml component into an anchor pane in the main controller.
      */
@@ -261,28 +249,6 @@ public class MainController {
         } catch (IOException e) {
             log.error(e);
         }
-    }
-
-    @FXML public void openSearchPanel() {
-        viewSearch();
-    }
-
-
-    @FXML public void openNotesPane() {
-        viewNotes();
-    }
-
-
-    @FXML public void openPlanJourneyPane() {
-        viewRecordJourney();
-    }
-
-    @FXML public void openPlannedJourneysPanel() {
-        viewPrevJourneysTable();
-    }
-
-    @FXML public void openRegisterVehiclePane() {
-        viewRegisterVehicles();
     }
 
     public void updateNoteText() {
@@ -324,26 +290,6 @@ public class MainController {
             AnchorPane.setLeftAnchor(recorderParent, 0d);
             AnchorPane.setRightAnchor(recorderParent, 0d);
 
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
-
-    /**
-     * Inserts the viewRegisteredVehicles fxml component into an anchor pane in the main controller.
-     */
-    private void viewRegisterVehicles() {
-        try {
-            FXMLLoader registerVehicleLoader = new FXMLLoader(getClass().getResource("/fxml/registerVehicle.fxml"));
-            Parent registerVehicleParent = registerVehicleLoader.load();
-
-            RegisterVehicleController registerVehicleController = registerVehicleLoader.getController();
-            registerVehicleController.init(stage, this);
-            registerVehicleWrapper.getChildren().add(registerVehicleParent);
-            AnchorPane.setTopAnchor(registerVehicleParent, 0d);
-            AnchorPane.setBottomAnchor(registerVehicleParent, 0d);
-            AnchorPane.setLeftAnchor(registerVehicleParent, 0d);
-            AnchorPane.setRightAnchor(registerVehicleParent, 0d);
         } catch (IOException e) {
             log.error(e);
         }
@@ -426,13 +372,13 @@ public class MainController {
             newString = newString.substring(1, newString.length() - 1);
             stationList.add(newString);
         }
-        viewRegisterVehicles();
         viewMap();
         viewTable();
         viewPrevJourneysTable();
         viewRecordJourney();
         viewSearch();
         viewNotes();
+        setVehicle();
 
 //        journeyTab.getSelectionModel().selectedItemProperty().addListener(
 //                (observableValue, oldVal, newVal) -> mapViewController.clearRoute()

@@ -10,6 +10,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import journey.data.User;
 
 import java.io.IOException;
 
@@ -21,7 +22,10 @@ public class MyProfileController {
     private static final Logger log = LogManager.getLogger();
 
     private MainController mainController;
+    private ProfileController profileController = null;
     private Stage stage;
+    private User currentUser;
+    private String selectedVehicle;
 
     private void viewRegisterVehicles() {
         try {
@@ -29,7 +33,7 @@ public class MyProfileController {
             Parent registerVehicleParent = registerVehicleLoader.load();
 
             RegisterVehicleController registerVehicleController = registerVehicleLoader.getController();
-            registerVehicleController.init(stage, mainController);
+            registerVehicleController.init(stage, this);
             registerVehicleWrapper.getChildren().add(registerVehicleParent);
             AnchorPane.setTopAnchor(registerVehicleParent, 0d);
             AnchorPane.setBottomAnchor(registerVehicleParent, 0d);
@@ -46,7 +50,8 @@ public class MyProfileController {
             Parent profileParent = profileLoader.load();
 
             ProfileController profileController = profileLoader.getController();
-            profileController.init(stage, mainController);
+            this.profileController = profileController;
+            profileController.init(stage, this);
             profileWrapper.getChildren().add(profileParent);
             AnchorPane.setTopAnchor(profileParent, 0d);
             AnchorPane.setBottomAnchor(profileParent, 0d);
@@ -55,6 +60,28 @@ public class MyProfileController {
         } catch (IOException e) {
             log.error(e);
         }
+    }
+
+    public void setSelectedVehicle(String selectedVehicle) {
+        this.selectedVehicle = selectedVehicle;
+        mainController.setSelectedVehicle(selectedVehicle);
+        mainController.setVehicle();
+    }
+
+    public String getSelectedVehicle() {
+        return selectedVehicle;
+    }
+
+    public void populateVehicleTable() {
+        profileController.setVehicles();
+    }
+
+    public ProfileController getProfileController() {
+        return profileController;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 
     @FXML private void homeButton() {
@@ -90,6 +117,7 @@ public class MyProfileController {
     public void init(MainController mainController, Stage stage) {
         this.mainController = mainController;
         this.stage = stage;
+        this.currentUser = mainController.getCurrentUser();
         viewProfile();
         viewRegisterVehicles();
     }

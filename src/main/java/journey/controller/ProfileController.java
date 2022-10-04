@@ -3,7 +3,6 @@ package journey.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -17,9 +16,9 @@ import journey.repository.VehicleDAO;
  * Controller for the profile popup
  */
 public class ProfileController {
-    private MainController mainController;
+    private MyProfileController profileController;
     private VehicleDAO vehicleDAO;
-    @FXML private Button closeButton;
+    private Stage stage = null;
     @FXML private Label name;
     @FXML private Label vehicle;
     @FXML private TableColumn<Vehicle, String> registrationCol;
@@ -35,44 +34,48 @@ public class ProfileController {
 
     @FXML private TableView<Vehicle> vehicleTable;
 
-    /**
-     * closes the scene when the close button is pushed
-     */
-    public void closeScene() {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        mainController.setVehicle();
-        mainController.setProfile(null);
-        stage.close();
+
+    public Stage getProfileStage() {
+        return stage;
+    }
+
+    public ProfileController getProfileController() {
+        return this;
     }
 
     /**
      * Sets the text field to the name of the current user in the profile box
-     * @param stage current stage
      */
-    public void setName(Stage stage) {
-        name.setText(mainController.getCurrentUser().getName());
+    public void setName() {
+        name.setText(profileController.getCurrentUser().getName());
     }
 
     /**
      * Sets the text field to the registration of the currently used vehicle
-     * @param stage
      */
-    public void setVehicle(Stage stage) {
-        vehicle.setText(mainController.getSelectedVehicle());
+    public void setVehicle() {
+        vehicle.setText(profileController.getSelectedVehicle());
+    }
+
+    @FXML public void editCurrentVehicle() {
+        System.out.println("edit");
+    }
+
+    @FXML public void deleteCurrentVehicle() {
+        System.out.println("delete");
     }
 
     /**
      *Retrieves the vehicles from the database and puts their information into the table
-     * @param stage current stage
      */
-    public void setVehicles(Stage stage) {
+    public void setVehicles() {
         registrationCol.setCellValueFactory(new PropertyValueFactory<>("Registration"));
         makeCol.setCellValueFactory(new PropertyValueFactory<>("Make"));
         modelCol.setCellValueFactory(new PropertyValueFactory<>("Model"));
         yearCol.setCellValueFactory(new PropertyValueFactory<>("Year"));
         chargerTypeCol.setCellValueFactory(new PropertyValueFactory<>("ChargerType"));
         connectorTypeCol.setCellValueFactory(new PropertyValueFactory<>("ConnectorType"));
-        QueryResult data = vehicleDAO.getVehicles(mainController.getCurrentUser());
+        QueryResult data = vehicleDAO.getVehicles(profileController.getCurrentUser());
         ObservableList<Vehicle> vehicles = FXCollections.observableArrayList(data.getVehicles());
         vehicleTable.setItems(vehicles);
     }
@@ -81,16 +84,17 @@ public class ProfileController {
      * Initialises the profile popup with User's registered vehicles in a table view.
      * @param stage current stage
      */
-    public void init(Stage stage, MainController mainController) {
-        this.mainController = mainController;
+    public void init(Stage stage, MyProfileController profileController) {
+        this.profileController = profileController;
         vehicleDAO = new VehicleDAO();
-        setName(stage);
-        setVehicles(stage);
-        setVehicle(stage);
+        this.stage = stage;
+        setName();
+        setVehicles();
+        setVehicle();
 
         vehicleTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldVehicle, newVehicle) -> {
-            mainController.setSelectedVehicle(newVehicle.getRegistration());
-            setVehicle(stage);
+            profileController.setSelectedVehicle(newVehicle.getRegistration());
+            setVehicle();
         }));
     }
 
