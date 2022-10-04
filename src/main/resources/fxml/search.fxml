@@ -99,7 +99,7 @@
             </children>
         </AnchorPane>
       <Label layoutX="16.0" layoutY="316.0" text="Filter for my vehicle:" />
-      <CheckBox fx:id="myCarCheckBox" layoutX="157.0" layoutY="315.0" mnemonicParsing="false" onAction="#myCar" />
+      <CheckBox fx:id="myCarCheckBox" layoutX="157.0" layoutY="315.0" mnemonicParsing="false" onAction="#myCar" stylesheets="@../gui/style.css" />
         <Button layoutX="210.0" layoutY="21.0" mnemonicParsing="false" onAction="#clickSearch" prefHeight="24.0" prefWidth="85.0" style="-fx-background-color: #FFFFFF;" text="Click Map">
             <effect>
                 <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
