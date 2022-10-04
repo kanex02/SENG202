@@ -11,7 +11,7 @@ import journey.Utils;
 import journey.data.Vehicle;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
-//import journey.service.SearchService;
+import journey.service.SearchService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,15 +101,15 @@ public class SearchController {
             String[] latLng = Utils.locToLatLng(addressSearch.getText()).split("#");
             mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]), "search");
             warningLabel.setText("");
-//            QueryStation queryStation = SearchService.createQueryStation(nameSearch.getText(),
-//                    operatorSearch.getText(),
-//                    currentSearch.getValue(),
-//                    getConnectors(),
-//                    attractionSearch.getValue(),
-//                    timeSearch.getText(),
-//                    addressSearch.getText(),
-//                    distanceSearch.getText());
-//            mainController.setCurrentStations(stationDAO.query(queryStation));
+            QueryStation queryStation = SearchService.createQueryStation(nameSearch.getText(),
+                    operatorSearch.getText(),
+                    currentSearch.getValue(),
+                    getConnectors(),
+                    attractionSearch.getValue(),
+                    timeSearch.getText(),
+                    addressSearch.getText(),
+                    distanceSearch.getText());
+            mainController.setCurrentStations(stationDAO.query(queryStation));
         } else {
             warningLabel.setText(errors);
             mainController.setCurrentStations(stationDAO.getAll());
