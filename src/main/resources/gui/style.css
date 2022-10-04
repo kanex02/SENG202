@@ -24,3 +24,15 @@
     -fx-background-color: white;
     -fx-effect: dropshadow(one-pass-box, rgba(59, 59, 59, 0.25), 10, 0.1, 0.0, 4.0);
 }
+
+.option-tab > .title {
+    -fx-background-color: white;
+    -fx-border-color: rgba(59, 59, 59, 0.1);
+}
+
+
+.accordion {
+    -fx-effect: dropshadow(one-pass-box, rgba(59, 59, 59, 0.25), 10, 0.1, 0.0, 4.0);
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
