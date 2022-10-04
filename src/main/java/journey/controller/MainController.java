@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
@@ -17,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import journey.data.Journey;
@@ -64,6 +66,7 @@ public class MainController {
     private TableController tableController;
     private CreateJourneyController recordJourneyController;
     private MapController mapViewController;
+    private ProfileController profileController;
     private RegisterVehicleController registerVehicleController;
     private PlannedJourneyController plannedJourneyController;
     private Stage profileStage = null;
@@ -72,6 +75,10 @@ public class MainController {
 
     public void populateVehicleDropdown() {
         recordJourneyController.populateVehicleDropdown();
+    }
+
+    public void populateVehicleTable() {
+        profileController.setVehicles(stage);
     }
 
     @FXML void openPrevJourneysTable() {
@@ -202,27 +209,33 @@ public class MainController {
      * @param event Profile button clicked event
      */
     @FXML private void myProfileButton(Event event) {
-        Parent root;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
-            root = loader.load();
+            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/myProfile.fxml"));
+            Parent root = baseLoader.load();
+            Stage mainStage = new Stage();
 
-            ProfileController controller = loader.getController();
+            MyProfileController baseController = baseLoader.getController();
+            baseController.init(this, stage);
 
-            if (profileStage == null) {
-                profileStage = new Stage(StageStyle.UNDECORATED);
-                profileStage.setTitle("Profile");
-            }
-            Scene scene = new Scene(root);
-            controller.init(profileStage, this);
-            profileStage.setScene(scene);
-            profileStage.show();
-            profileStage.setMinHeight(400);
-            profileStage.setMinWidth(500);
+            mainStage.setTitle("Journey");
+            Scene scene = new Scene(root, 600, 400);
+            mainStage.setScene(scene);
+
+            // set the min height and width so the window opens at the correct size
+            mainStage.setMinHeight(650);
+            mainStage.setMinWidth(900);
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            mainStage.setX(bounds.getMinX());
+            mainStage.setY(bounds.getMinY());
+            mainStage.setWidth(bounds.getWidth());
+            mainStage.setHeight(bounds.getHeight());
+            mainStage.setMaximized(true);
+            mainStage.show();
+            this.stage.close();
         } catch (IOException e) {
-            log.error(e);
+            e.printStackTrace();
         }
-        event.consume();
     }
 
     public void setProfile(Stage profileStage) {
