@@ -239,7 +239,7 @@ public class MainController {
             Parent searchParent = searchLoader.load();
 
             searchController = searchLoader.getController();
-            searchController.init(stage, this);
+            searchController.init(this);
             searchWrapper.getChildren().add(searchParent);
             AnchorPane.setTopAnchor(searchParent, 0d);
             AnchorPane.setBottomAnchor(searchParent, 0d);
@@ -293,6 +293,10 @@ public class MainController {
         } catch (IOException e) {
             log.error(e);
         }
+    }
+
+    public void addMiscMarkerToMap(double lat, double lng, String label) {
+        mapViewController.addMiscMarker(lat, lng, label);
     }
 
     /**

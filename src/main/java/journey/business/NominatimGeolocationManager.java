@@ -34,7 +34,7 @@ public class NominatimGeolocationManager {
             // Creating the http request
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(
-                    URI.create("https://nominatim.openstreetmap.org/search?q=" + address + ",+New+Zealand&format=json")
+                    URI.create("https://nominatim.openstreetmap.org/search?q=" + address + "&countrycodes=nz&format=json")
             ).build();
             // Getting the response
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -48,11 +48,8 @@ public class NominatimGeolocationManager {
             float lat = (float) Double.parseDouble((String) bestResult.get("lat"));
             float lng = (float) Double.parseDouble((String) bestResult.get("lon"));
             return new GeoLocationResult(lat, lng);
-        } catch (IOException | ParseException e) {
+        } catch (IOException | ParseException | InterruptedException e) {
             log.error("Error requesting geolocation", e);
-        } catch (InterruptedException ie) {
-            log.error("Error requesting geolocation", ie);
-            Thread.currentThread().interrupt();
         }
         return new GeoLocationResult(0, 0);
     }
