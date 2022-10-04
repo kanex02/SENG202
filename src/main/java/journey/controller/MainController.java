@@ -52,7 +52,7 @@ public class MainController {
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
     @FXML private AnchorPane prevJourneysPane;
-    @FXML private Text stationDescription;
+//    @FXML private Text stationDescription;
     @FXML private TabPane journeyTab;
     @FXML private AnchorPane searchWrapper;
     @FXML private AnchorPane notesWrapper;
@@ -117,28 +117,6 @@ public class MainController {
         }
     }
 
-    @FXML private void editVehicleButton(Event event) {
-        Parent root;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editVehicle.fxml"));
-            root = loader.load();
-
-            EditVehicleController editVehicleController = loader.getController();
-
-            Stage editVehicleStage = new Stage(StageStyle.UNDECORATED);
-            editVehicleController.init(this);
-
-            editVehicleStage.setTitle("Edit Vehicle");
-            Scene scene = new Scene(root);
-            editVehicleStage.setScene(scene);
-            editVehicleStage.show();
-            editVehicleStage.setMinHeight(371);
-            editVehicleStage.setMinWidth(600);
-        } catch (IOException e) {
-            log.error(e);
-        }
-        event.consume();
-    }
 
 
     /**
@@ -163,19 +141,19 @@ public class MainController {
         }
     }
 
-    private void setStationDescription(String s) {
-        stationDescription.setText(s);
-    }
+//    private void setStationDescription(String s) {
+//        stationDescription.setText(s);
+//    }
 
     /**
      * Sets Long Display text for a given charger based on the current station selected.
      */
-    public void setStationText() {
-        Station currStation = stationDAO.queryStation(selectedStation);
-        if (currStation != null) {
-            setStationDescription(currStation.getLongDescription());
-        }
-    }
+//    public void setStationText() {
+//        Station currStation = stationDAO.queryStation(selectedStation);
+//        if (currStation != null) {
+//            setStationDescription(currStation.getLongDescription());
+//        }
+//    }
 
 
     public int getSelectedStation() {
@@ -207,7 +185,7 @@ public class MainController {
             Stage mainStage = new Stage();
 
             MyProfileController baseController = baseLoader.getController();
-            baseController.init(this, stage);
+            baseController.init(this, stage, selectedVehicle);
 
             mainStage.setTitle("Journey");
             Scene scene = new Scene(root, 600, 400);
@@ -324,10 +302,6 @@ public class MainController {
         mapViewController.clearSearch();
     }
 
-    public void setVehicle() {
-        currentVehicle.setText("Current Vehicle: " + getSelectedVehicle());
-    }
-
     public void setSelectedVehicle(String selectedVehicle) {
         currentVehicle.setText("Current Vehicle: " + getSelectedVehicle());
         this.selectedVehicle = selectedVehicle;
@@ -362,9 +336,10 @@ public class MainController {
 
      * @param stage Top level container for this window
      */
-    public void init(Stage stage, User user) {
+    public void init(Stage stage, User user, String vehicle) {
         stationDAO = new StationDAO();
         currentUser = user;
+        this.selectedVehicle = vehicle;
         currentStations = stationDAO.getAll();
         // Fill the combo boxes
         this.stage = stage;
@@ -382,7 +357,7 @@ public class MainController {
         viewRecordJourney();
         viewSearch();
         viewNotes();
-        setVehicle();
+        setSelectedVehicle(selectedVehicle);
 
 //        journeyTab.getSelectionModel().selectedItemProperty().addListener(
 //                (observableValue, oldVal, newVal) -> mapViewController.clearRoute()

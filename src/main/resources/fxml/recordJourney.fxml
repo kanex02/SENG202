@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane maxWidth="-Infinity" minHeight="200.0" prefHeight="400.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.CreateJourneyController">
+<AnchorPane maxWidth="-Infinity" minHeight="200.0" prefHeight="400.0" prefWidth="310.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.CreateJourneyController">
     <AnchorPane layoutX="11.0" layoutY="22.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
         <children>
             <Label text="Start: " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <TextField fx:id="startAddr" layoutX="42.0" prefHeight="24.0" prefWidth="128.0" promptText="Address" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextField fx:id="startAddr" layoutX="42.0" prefHeight="24.0" prefWidth="128.0" promptText="Address" stylesheets="@../gui/textFields.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <Button layoutX="223.0" layoutY="-4.0" mnemonicParsing="false" onAction="#clickStart" style="-fx-background-color: #FFFFFF;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <effect>
                <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
@@ -60,7 +60,7 @@
             </color>
          </DropShadow>
       </effect></ComboBox>
-    <TextField fx:id="selectedStationField" editable="false" layoutX="10.0" layoutY="140.0" prefHeight="24.0" promptText="Selected station" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="140.0" />
+    <TextField fx:id="selectedStationField" editable="false" layoutX="10.0" layoutY="140.0" prefHeight="24.0" promptText="Selected station" stylesheets="@../gui/textFields.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="140.0" />
     <Label fx:id="journeyWarningLabel" contentDisplay="CENTER" layoutX="22.0" layoutY="328.0" lineSpacing="1.0" prefHeight="26.0" prefWidth="266.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="330.0" />
    <ScrollPane fx:id="startAddrScroll" layoutX="53.0" layoutY="34.0" prefHeight="79.0" prefWidth="128.0" visible="false">
       <content>
