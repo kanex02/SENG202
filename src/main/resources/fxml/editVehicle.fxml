@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="371.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.EditVehicleController">
+<AnchorPane prefHeight="371.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.EditVehicleController">
    <children>
       <Label layoutX="52.0" layoutY="64.0" text="Registration:" />
       <Label layoutX="52.0" layoutY="99.0" text="Make:" />
@@ -15,10 +15,10 @@
       <TextField fx:id="makeTextBox" layoutX="157.0" layoutY="95.0" prefHeight="26.0" prefWidth="124.0" promptText="make" />
       <TextField fx:id="modelTextBox" layoutX="156.0" layoutY="134.0" prefHeight="26.0" prefWidth="124.0" promptText="model" />
       <TextField fx:id="yearTextBox" layoutX="156.0" layoutY="176.0" prefHeight="26.0" prefWidth="124.0" promptText="year" />
-      <ChoiceBox fx:id="chargerBox" layoutX="156.0" layoutY="226.0" prefHeight="26.0" prefWidth="124.0" style="-fx-background-color: #E0E6B2;" />
-      <ChoiceBox fx:id="connectorBox" layoutX="156.0" layoutY="271.0" prefHeight="26.0" prefWidth="124.0" style="-fx-background-color: #E0E6B2;" />
+      <ChoiceBox fx:id="chargerBox" layoutX="156.0" layoutY="226.0" prefHeight="26.0" prefWidth="124.0" styleClass="drop-down" stylesheets="@../gui/style.css" />
+      <ChoiceBox fx:id="connectorBox" layoutX="156.0" layoutY="271.0" prefHeight="26.0" prefWidth="124.0" styleClass="drop-down" stylesheets="@../gui/style.css" />
       <Button fx:id="closeButton" layoutX="269.0" layoutY="14.0" mnemonicParsing="false" onAction="#closeScene" prefHeight="26.0" prefWidth="3.0" text="X" />
       <Button fx:id="saveButton" layoutX="55.0" layoutY="323.0" mnemonicParsing="false" onAction="#saveVehicle" stylesheets="@../gui/buttons.css" text="Save" />
-      <Button fx:id="deleteButton" layoutX="185.0" layoutY="324.0" mnemonicParsing="false" onAction="#deleteVehicle" stylesheets="@../gui/buttons.css" text="Delete Vehicle" />
+      <Button fx:id="deleteButton" layoutX="170.0" layoutY="323.0" mnemonicParsing="false" onAction="#deleteVehicle" stylesheets="@../gui/buttons.css" text="Delete Vehicle" />
    </children>
 </AnchorPane>

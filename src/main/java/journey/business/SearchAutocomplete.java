@@ -1,5 +1,11 @@
 package journey.business;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -7,21 +13,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
-
 /**
- * Class to handle requesting addresses from photon API
+ * Class to handle requesting addresses from photon API.
  */
-public class searchAutocomplete {
+public class SearchAutocomplete {
     private static final Logger log = LogManager.getLogger();
 
     /**
-     * Finds all matching addresses from a given search
+     * Finds all matching addresses from a given search.
 
      * @param text search inputted by user to be auto completed
      * @return ArrayList of strings containing possible addresses
@@ -33,7 +32,7 @@ public class searchAutocomplete {
             // Creating the http request
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(
-                    URI.create("https://photon.komoot.io/api/?q="+text+"&lat=-43.53&lon=-172.63&limit=10")
+                    URI.create("https://photon.komoot.io/api/?q=" + text + "&lat=-43.53&lon=-172.63&limit=10")
             ).build();
             // Getting the response
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
