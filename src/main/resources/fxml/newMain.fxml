@@ -70,33 +70,28 @@
          <left>
             <VBox minWidth="300.0" prefHeight="200.0" prefWidth="350.0" BorderPane.alignment="CENTER">
                <children>
-                  <Accordion prefHeight="800.0" prefWidth="350.0">
+                  <Accordion prefHeight="800.0" prefWidth="350.0" stylesheets="@../gui/style.css">
                     <panes>
-                      <TitledPane animated="false" text="Search and Filter">
+                      <TitledPane animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Search and Filter">
                         <content>
                           <AnchorPane fx:id="searchWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </TitledPane>
-                        <TitledPane animated="false" text="Record Notes about Station">
+                        <TitledPane animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Record Notes about Station">
                           <content>
                             <AnchorPane fx:id="notesWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
                         </TitledPane>
-                      <TitledPane animated="false" text="Plan a Journey">
+                      <TitledPane animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Plan a Journey">
                         <content>
                           <AnchorPane fx:id="recordJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </TitledPane>
-                      <TitledPane animated="false" text="Planned Journeys">
+                      <TitledPane animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">
                         <content>
                           <AnchorPane fx:id="plannedJourneysWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </TitledPane>
-                        <TitledPane animated="false" layoutX="30.0" layoutY="102.0" text="Register a Vehicle">
-                           <content>
-                              <AnchorPane fx:id="registerVehicleWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                           </content>
-                        </TitledPane>
                     </panes>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
