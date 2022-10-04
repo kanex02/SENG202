@@ -21,7 +21,7 @@ import journey.data.User;
 import journey.repository.UserDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import service.LoginService;
+import journey.service.LoginService;
 
 
 /**
@@ -79,7 +79,7 @@ public class LoginController {
     }
 
     private void setUser() {
-        String name = (String) nameChoiceBox.getValue();
+        String name = nameChoiceBox.getValue();
         user = userDAO.setCurrentUser(name);
         switchToMain();
     }
@@ -98,7 +98,7 @@ public class LoginController {
             Stage mainStage = new Stage();
 
             MainController baseController = baseLoader.getController();
-            baseController.init(mainStage, user);
+            baseController.init(mainStage, user, null);
 
             mainStage.setTitle("Journey");
             Scene scene = new Scene(root, 600, 400);

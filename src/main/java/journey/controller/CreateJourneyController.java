@@ -24,7 +24,7 @@ import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
-import service.CreateJourneyService;
+import journey.service.CreateJourneyService;
 
 /**
  * Class to handle creating a journey given a start, end and chargers along the way.
