@@ -4,9 +4,11 @@
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import org.controlsfx.control.*?>
 
 <AnchorPane minHeight="150.0" minWidth="0.0" prefHeight="400.0" prefWidth="310.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.NotesController">
-    <TextArea fx:id="stationDetailTextArea" layoutX="10.0" layoutY="17.0" minHeight="100.0" prefHeight="333.0" prefWidth="290.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="17.0" />
+    <TextArea fx:id="stationDetailTextArea" layoutX="10.0" layoutY="263.0" minHeight="81.0" prefHeight="90.0" prefWidth="290.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="263.0" />
     <Button layoutX="53.0" layoutY="362.0" mnemonicParsing="false" onAction="#submitNotes" prefHeight="24.0" prefWidth="69.0" style="-fx-background-color: #FFFFFF;" text="Submit" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="52.0">
       <effect>
          <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
@@ -14,5 +16,19 @@
                <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.25" />
             </color>
          </DropShadow>
-      </effect></Button>
+      </effect>
+   </Button>
+   <Rating layoutX="66.0" layoutY="200.0" rating="3.0" />
+   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="77.0" layoutY="14.0" prefHeight="24.0" prefWidth="156.0" text="Selected Station:" textAlignment="CENTER">
+      <font>
+         <Font name="Roboto" size="18.0" />
+      </font>
+   </Label>
+   <Label fx:id="noteStationAddr" alignment="TOP_CENTER" layoutX="9.0" layoutY="48.0" prefHeight="66.0" prefWidth="290.0" text="No Station Selected">
+      <font>
+         <Font name="Roboto Italic" size="14.0" />
+      </font>
+   </Label>
+   <Label layoutX="21.0" layoutY="128.0" text="Favourite Station" />
+   <CheckBox layoutX="258.0" layoutY="127.0" mnemonicParsing="false" />
 </AnchorPane>

@@ -2,6 +2,7 @@ package journey.controller;
 
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import journey.data.Note;
 import journey.data.Station;
@@ -16,6 +17,7 @@ public class NotesController {
     private NoteDAO noteDAO;
     private MainController mainController;
     @FXML private TextArea stationDetailTextArea;
+    @FXML private Label noteStationAddr;
 
     /**
      * Submits notes and adds them the database for the current user.
@@ -49,6 +51,14 @@ public class NotesController {
             }
         }
     }
+
+    /**
+     * Sets the address of station in the notes panel when clicked.
+     */
+    public void setStationNoteAddr(String addr) {
+        noteStationAddr.setText(addr);
+    }
+
 
     /**
      * Initialises the notes panel.

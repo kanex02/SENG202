@@ -269,6 +269,11 @@ public class Station {
         return longDes;
     }
 
+    public String getReadableAddress() {
+        String desc = String.format("%s at %s", name, address);
+        return desc;
+    }
+
 
 
 }

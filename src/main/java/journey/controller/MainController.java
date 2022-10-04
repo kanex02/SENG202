@@ -60,6 +60,7 @@ public class MainController {
     @FXML private AnchorPane recordJourneyWrapper;
     @FXML private AnchorPane plannedJourneysWrapper;
     @FXML private AnchorPane registerVehicleWrapper;
+    @FXML private Label noteStationAddr;
 
 
     private NotesController notesController;
@@ -181,6 +182,15 @@ public class MainController {
         }
     }
 
+    public void setNoteStationAddr() {
+        Station currStation = stationDAO.queryStation(selectedStation);
+        if (currStation != null) {
+            String addr = currStation.getReadableAddress();
+            notesController.setStationNoteAddr(addr);
+        } else {
+            notesController.setStationNoteAddr("No station selected");
+        }
+    }
 
     public int getSelectedStation() {
         return selectedStation;

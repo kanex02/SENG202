@@ -160,6 +160,7 @@ public class MapController {
         mainController.setSelectedStation(id);
         mainController.updateNoteText();
         mainController.setStationText();
+        mainController.setNoteStationAddr();
         return true;
     }
 
