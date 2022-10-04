@@ -28,12 +28,12 @@
                 <Label layoutX="6.0" layoutY="244.0" text="Connector Type:" />
             </Pane>
             <Pane maxWidth="200.0" prefHeight="204.0" prefWidth="154.0" HBox.hgrow="NEVER">
-                <ChoiceBox fx:id="chargerBox" layoutX="7.0" layoutY="196.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="148.0" />
+                <ChoiceBox fx:id="chargerBox" layoutX="7.0" layoutY="196.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="148.0" styleClass="drop-down" stylesheets="@../gui/style.css" />
                 <TextField fx:id="registrationTextBox" layoutX="7.0" layoutY="14.0" prefHeight="26.0" prefWidth="148.0" />
                 <TextField fx:id="modelTextBox" layoutX="7.0" layoutY="104.0" prefHeight="26.0" prefWidth="148.0" />
                 <TextField fx:id="yearTextBox" layoutX="7.0" layoutY="147.0" prefHeight="26.0" prefWidth="148.0" />
                 <TextField fx:id="makeTextBox" layoutX="7.0" layoutY="61.0" prefHeight="26.0" prefWidth="148.0" />
-                <ChoiceBox fx:id="connectorBox" layoutX="7.0" layoutY="239.0" onMouseClicked="#connectorTypeChoice" prefHeight="25.0" prefWidth="148.0" />
+                <ChoiceBox fx:id="connectorBox" layoutX="7.0" layoutY="239.0" onMouseClicked="#connectorTypeChoice" prefHeight="25.0" prefWidth="148.0" styleClass="drop-down" stylesheets="@../gui/style.css" />
             <Label fx:id="regWarningLabel" layoutX="-118.0" layoutY="41.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
                <font>
                   <Font size="11.0" />
@@ -66,7 +66,7 @@
             </Label>
             </Pane>
         </HBox>
-        <Button mnemonicParsing="false" onAction="#registerVehicle" prefHeight="30.0" prefWidth="135.0" text="Register Vehicle" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+        <Button mnemonicParsing="false" onAction="#registerVehicle" prefHeight="30.0" prefWidth="135.0" stylesheets="@../gui/buttons.css" text="Register Vehicle" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin></Button>

@@ -40,14 +40,7 @@
                         </DropShadow>
                      </effect>
                   </Rectangle>
-                  <ChoiceBox fx:id="nameChoiceBox" layoutX="14.0" layoutY="60.0" prefWidth="130.0" style="-fx-background-color: #FFFFFF;">
-                     <effect>
-                        <DropShadow blurType="ONE_PASS_BOX" offsetY="2.0">
-                           <color>
-                              <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
-                           </color>
-                        </DropShadow>
-                     </effect></ChoiceBox>
+                  <ChoiceBox fx:id="nameChoiceBox" layoutX="14.0" layoutY="60.0" prefWidth="130.0" styleClass="drop-down" stylesheets="@../gui/style.css" />
                   <Label layoutX="36.0" layoutY="26.0" text="Select Profile" />
                   <Label layoutX="193.0" layoutY="26.0" text="or" />
                   <Label layoutX="255.0" layoutY="26.0" text="Register New User" />
@@ -60,15 +53,7 @@
                         </InnerShadow>
                      </effect></TextField>
                   <Label layoutX="214.0" layoutY="64.0" text="Name:" />
-                  <Button layoutX="153.0" layoutY="115.0" mnemonicParsing="false" onAction="#setRunLater" prefHeight="25.0" prefWidth="95.0" style="-fx-background-color: #FFFFFF;" text="Continue">
-                     <effect>
-                        <DropShadow blurType="ONE_PASS_BOX" offsetY="2.0">
-                           <color>
-                              <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.24576270580291748" />
-                           </color>
-                        </DropShadow>
-                     </effect>
-                  </Button>
+                  <Button layoutX="153.0" layoutY="115.0" mnemonicParsing="false" onAction="#setRunLater" prefHeight="25.0" prefWidth="95.0" stylesheets="@../gui/buttons.css" text="Continue" />
                   <Label fx:id="warningLabel" layoutX="13.0" layoutY="93.0" prefHeight="16.0" prefWidth="373.0" textAlignment="CENTER" textFill="RED">
                      <font>
                         <Font size="11.0" />
