@@ -136,7 +136,7 @@ public class MapController {
     }
 
     public void clearSearch() {
-        javaScriptConnector.call("clearSearch");
+        javaScriptConnector.call("clearMiscMarker", "search");
     }
 
     /**
@@ -173,12 +173,16 @@ public class MapController {
     public boolean getLatLongFromClick(double lat, double lng) {
         if (callback != null) {
             callback.operation(lat, lng);
-            javaScriptConnector.call("addMiscMarker", lat, lng, label);
+            addMiscMarker(lat, lng, label);
         }
         //Resets the callback so the previous function is no longer called.
         callback = null;
         label = null;
         return true;
+    }
+
+    public void addMiscMarker(double lat, double lng, String label) {
+        javaScriptConnector.call("addMiscMarker", lat, lng, label);
     }
 
     public void setCallback(GetLatLongInterface callback, String label) {
