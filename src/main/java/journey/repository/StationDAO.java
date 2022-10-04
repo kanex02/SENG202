@@ -206,7 +206,7 @@ public class StationDAO {
         if (connectors != null && connectors.length > 0) {
             StringJoiner connectorQuery = new StringJoiner(" OR ", "AND (", ") ");
             for (String connector : connectors) {
-                connectorQuery.add("connectorsList LIKE '%").add(connector).add("%'");
+                connectorQuery.add("connectorsList LIKE '%" + connector + "%'");
             }
             queryString.append(connectorQuery);
         }

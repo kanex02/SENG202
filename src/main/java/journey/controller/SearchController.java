@@ -1,10 +1,12 @@
 package journey.controller;
 
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import journey.business.NominatimGeolocationManager;
 import journey.data.GeoLocationResult;
 import journey.data.QueryStation;
@@ -20,7 +22,7 @@ import java.util.List;
  * Controller for search FXML allows searching and error checking on searches for stations.
  */
 public class SearchController {
-    private VehicleDAO vehicleDAO = new VehicleDAO();
+    private final VehicleDAO vehicleDAO = new VehicleDAO();
 
     @FXML private TextField addressSearch;
     @FXML private TextField nameSearch;
@@ -104,6 +106,7 @@ public class SearchController {
                     selectedConnectors.remove(connector.getText());
                     connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
                 }
+                search();
             }));
         }
         connectorsList = selectedConnectors;
@@ -203,20 +206,19 @@ public class SearchController {
 
 
         //address check
-        if (!address.matches("[0-9|a-z|A-Z| ]*")) {
+        if (!address.matches("[0-9a-zA-Z ]*")) {
             errors.append("Address must only have A-Z and 0-9\n");
         }
 
         //name check
-        if (!name.matches("[a-z|A-Z| ]*")) {
+        if (!name.matches("[a-zA-Z ]*")) {
             errors.append("Name cannot have special characters or integers\n");
         }
 
         //operator check
-        if (!operator.matches("[a-z|A-Z| ]*")) {
+        if (!operator.matches("[a-zA-Z ]*")) {
             errors.append("Operator cannot have special characters or integers\n");
         }
-
         //time limit check
         if (!Utils.isInt(timeLimit) && !timeLimit.equals("")) {
             errors.append("Time limit must be an integer!\n");
@@ -236,6 +238,45 @@ public class SearchController {
 
     public void changeSearchLatLong(String addr) {
         addrSearch.setText(addr);
+    }
+
+    /**
+     * Add listeners to the search fields.
+     * Note: the functions are not abstracted out as they share a common pause timer.
+     */
+    private void addListeners() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(0.3));
+
+        addressSearch.textProperty().addListener((observable) -> {
+            pause.setOnFinished(event -> search());
+            pause.playFromStart();
+        });
+
+        nameSearch.textProperty().addListener((observable) -> {
+            pause.setOnFinished(event -> search());
+            pause.playFromStart();
+        });
+
+        operatorSearch.textProperty().addListener((observable) -> {
+            pause.setOnFinished(event -> search());
+            pause.playFromStart();
+        });
+
+        chargerBoxSearch.getSelectionModel().selectedItemProperty().addListener((observable -> search()));
+
+        // the listeners for connectors are set in connectorsMultiSelect
+
+        timeSearch.textProperty().addListener((observable) -> {
+            pause.setOnFinished(event -> search());
+            pause.playFromStart();
+        });
+
+        attractionSearch.getSelectionModel().selectedItemProperty().addListener((observable -> search()));
+
+        distanceSearch.textProperty().addListener((observable) -> {
+            pause.setOnFinished(event -> search());
+            pause.playFromStart();
+        });
     }
 
 
@@ -267,5 +308,7 @@ public class SearchController {
         }
         connectorsMenu.getItems().addAll(connectors);
         connectorsMultiSelect();
+
+        addListeners();
     }
 }
