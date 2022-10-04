@@ -67,7 +67,7 @@ public class TableController {
                 (observableValue, oldStation, newStation) -> {
                     mainController.setSelectedStation(newStation.getOBJECTID());
                     mainController.updateNoteText();
-                    mainController.setStationText();
+                    //mainController.setStationText();
             }
         );
     }

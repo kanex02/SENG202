@@ -35,4 +35,6 @@
     -fx-effect: dropshadow(one-pass-box, rgba(59, 59, 59, 0.25), 10, 0.1, 0.0, 4.0);
     -fx-border-radius: 10;
     -fx-background-radius: 10;
+    -fx-background-color: #efefef;
+
 }

@@ -23,7 +23,7 @@ public class EditVehicleController {
     @FXML private TextField yearTextBox;
     private String chargerTypeChoice;
     private String connectorTypeChoice;
-    private MainController mainController;
+    private ProfileController profileController;
     private VehicleDAO vehicleDAO;
     private Vehicle currentVehicle;
 
@@ -48,7 +48,6 @@ public class EditVehicleController {
      */
     public void closeScene() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
-        mainController.setVehicle();
         stage.close();
     }
 
@@ -70,7 +69,7 @@ public class EditVehicleController {
      * Fill the popup with the details of the currently selected vehicle.
      */
     public void fillCurrentVehicle() {
-        String reg = mainController.getSelectedVehicle();
+        String reg = profileController.getMyProfileController().getSelectedVehicle();
         currentVehicle = vehicleDAO.queryVehicle(reg);
         registrationTextBox.setText(reg);
         makeTextBox.setText(currentVehicle.getMake());
@@ -86,7 +85,7 @@ public class EditVehicleController {
      * values.
      */
     @FXML public void saveVehicle() {
-        String currentVehicle = mainController.getSelectedVehicle();
+        String currentVehicle = profileController.getMyProfileController().getSelectedVehicle();
         vehicleDAO.removeVehicle(currentVehicle);
         String reg = registrationTextBox.getText();
         String make = makeTextBox.getText();
@@ -98,38 +97,40 @@ public class EditVehicleController {
         String current = chargerTypeChoice;
         String connector = connectorTypeChoice;
         Vehicle newVehicle = new Vehicle(intYear, make, model, current, reg, connector);
-        vehicleDAO.setVehicle(newVehicle, mainController.getCurrentUser());
-        mainController.populateVehicleDropdown();
-        mainController.setSelectedVehicle(reg);
+        vehicleDAO.setVehicle(newVehicle, profileController.getMyProfileController().getCurrentUser());
+        profileController.getMyProfileController().setSelectedVehicle(reg);
+        profileController.setVehicles();
+        closeScene();
     }
 
     /**
      * delete the currently selected vehicle from the database.
      */
     @FXML public void deleteVehicle() {
-        String reg = mainController.getSelectedVehicle();
+        String reg = profileController.getMyProfileController().getSelectedVehicle();
         currentVehicle = vehicleDAO.queryVehicle(reg);
         vehicleDAO.removeVehicle(reg);
-        mainController.setSelectedVehicle(null);
+        profileController.getMyProfileController().setSelectedVehicle(null);
         registrationTextBox.setText("");
         makeTextBox.setText("");
         modelTextBox.setText("");
         yearTextBox.setText("");
         chargerBox.setValue("");
         connectorBox.setValue("");
+        closeScene();
     }
 
     /**
      * initialise the stage with the edit vehicle popup.
 
-     * @param mainController instance of the main controller
+     * @param profileController instance of the main controller
      */
-    public void init(MainController mainController) {
-        this.mainController = mainController;
+    public void init(ProfileController profileController) {
+        this.profileController = profileController;
         vehicleDAO = new VehicleDAO();
         chargerBox.setItems(chargerTypeOptions);
         connectorBox.setItems(connectorTypeOptions);
-        if (mainController.getSelectedVehicle() != null) {
+        if (profileController.getMyProfileController().getSelectedVehicle() != null) {
             fillCurrentVehicle();
         }
     }

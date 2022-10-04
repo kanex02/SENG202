@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -18,11 +19,13 @@ public class MyProfileController {
 
     @FXML private AnchorPane registerVehicleWrapper;
     @FXML private AnchorPane profileWrapper;
+    @FXML private Button homeButton;
 
     private static final Logger log = LogManager.getLogger();
 
     private MainController mainController;
     private ProfileController profileController = null;
+
     private Stage stage;
     private User currentUser;
     private String selectedVehicle;
@@ -64,8 +67,6 @@ public class MyProfileController {
 
     public void setSelectedVehicle(String selectedVehicle) {
         this.selectedVehicle = selectedVehicle;
-        mainController.setSelectedVehicle(selectedVehicle);
-        mainController.setVehicle();
     }
 
     public String getSelectedVehicle() {
@@ -84,6 +85,11 @@ public class MyProfileController {
         return currentUser;
     }
 
+    public void closeScene() {
+        Stage stage = (Stage) homeButton.getScene().getWindow();
+        stage.close();
+    }
+
     @FXML private void homeButton() {
         try {
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/newMain.fxml"));
@@ -91,7 +97,7 @@ public class MyProfileController {
             Stage mainStage = new Stage();
 
             MainController baseController = baseLoader.getController();
-            baseController.init(mainStage, mainController.getCurrentUser());
+            baseController.init(mainStage, mainController.getCurrentUser(), selectedVehicle);
 
             mainStage.setTitle("Journey");
             Scene scene = new Scene(root, 600, 400);
@@ -109,14 +115,16 @@ public class MyProfileController {
             mainStage.setMaximized(true);
             mainStage.show();
             this.stage.close();
+            closeScene();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void init(MainController mainController, Stage stage) {
+    public void init(MainController mainController, Stage stage, String selectedVehicle) {
         this.mainController = mainController;
         this.stage = stage;
+        this.selectedVehicle = selectedVehicle;
         this.currentUser = mainController.getCurrentUser();
         viewProfile();
         viewRegisterVehicles();
