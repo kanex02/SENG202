@@ -35,7 +35,7 @@ public class LoginController {
     private User user;
     @FXML private AnchorPane wholeScene;
     @FXML private TextField nameTextBox;
-    @FXML private ChoiceBox nameChoiceBox;
+    @FXML private ChoiceBox<String> nameChoiceBox;
     @FXML private Label warningLabel;
 
     /**

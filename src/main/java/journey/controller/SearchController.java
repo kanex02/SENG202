@@ -31,7 +31,6 @@ public class SearchController {
     @FXML private ChoiceBox<String> chargerBoxSearch;
     @FXML private ChoiceBox<String> attractionSearch;
     @FXML private TextField distanceSearch;
-    @FXML private TextField addrSearch;
     @FXML private Label warningLabel;
     @FXML private Label noCarWarning;
     @FXML private CheckBox myCarCheckBox;
@@ -130,7 +129,6 @@ public class SearchController {
         if (errors == null || errors.matches("")) {
             warningLabel.setText("");
             QueryStation searchStation = new QueryStation();
-            searchStation.setAddress(addressSearch.getText());
             searchStation.setName(nameSearch.getText());
             searchStation.setOperator(operatorSearch.getText());
             searchStation.setCurrentType(chargerBoxSearch.getValue());
@@ -143,9 +141,11 @@ public class SearchController {
             if (timeSearch.getText().matches("\\d+")) {
                 searchStation.setMaxTime(Integer.parseInt(timeSearch.getText()));
             }
-            if (distanceSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")) {
+            if (addressSearch.getText() != null
+                    && !addressSearch.getText().isEmpty()
+                    && distanceSearch.getText().matches("[+-]?(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")) {
                 NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
-                GeoLocationResult geoLoc = nomMan.queryAddress(addrSearch.getText());
+                GeoLocationResult geoLoc = nomMan.queryAddress(addressSearch.getText());
                 searchStation.setLatitude(geoLoc.getLat());
                 searchStation.setLongitude(geoLoc.getLng());
                 searchStation.setRange(Double.parseDouble(distanceSearch.getText()));
@@ -168,8 +168,7 @@ public class SearchController {
         chargerBoxSearch.setValue("");
         timeSearch.setText("");
         attractionSearch.setValue("");
-        distanceSearch.setText("");
-        addrSearch.setText("");
+        distanceSearch.setText("50");
         myCarCheckBox.setSelected(false);
         for (CheckMenuItem connector : connectors) { connector.setSelected(false); }
         connectorsMenu.setText("");
@@ -185,7 +184,7 @@ public class SearchController {
         mainController.openMap();
         mainController.getMapViewController().setCallback((lat, lng) -> {
             String addr = Utils.latLngToAddr(lat, lng);
-            addrSearch.setText(addr);
+            addressSearch.setText(addr);
             return true;
         }, "search");
     }
@@ -202,12 +201,12 @@ public class SearchController {
         String operator = operatorSearch.getText();
         String timeLimit = timeSearch.getText();
         String range = distanceSearch.getText();
-        String rangeAddr = addrSearch.getText();
+        String rangeAddr = addressSearch.getText();
 
 
         //address check
-        if (!address.matches("[0-9a-zA-Z ]*")) {
-            errors.append("Address must only have A-Z and 0-9\n");
+        if (!address.matches("[0-9a-zA-Z ,\\-']*")) {
+            errors.append("Invalid address\n");
         }
 
         //name check
@@ -237,7 +236,7 @@ public class SearchController {
 
 
     public void changeSearchLatLong(String addr) {
-        addrSearch.setText(addr);
+        addressSearch.setText(addr);
     }
 
     /**

@@ -52,13 +52,13 @@
             </effect>
         </ChoiceBox>
         <Label layoutX="16.0" layoutY="60.0" text="Range:" />
-        <TextField fx:id="distanceSearch" layoutX="103.0" layoutY="56.0" prefHeight="24.0" prefWidth="40.0" />
+        <TextField fx:id="distanceSearch" layoutX="103.0" layoutY="56.0" prefHeight="24.0" prefWidth="40.0" text="50" />
         <Label layoutX="140.0" layoutY="60.0" text="km ">
             <padding>
                 <Insets left="10.0" />
             </padding>
         </Label>
-        <TextField fx:id="addrSearch" layoutX="102.0" layoutY="21.0" prefHeight="24.0" prefWidth="96.0" promptText="Address" />
+        <TextField fx:id="addressSearch" layoutX="102.0" layoutY="21.0" prefHeight="24.0" prefWidth="96.0" promptText="Address" />
         <AnchorPane layoutX="1.0" layoutY="324.0" prefHeight="64.0" prefWidth="310.0">
             <children>
                 <GridPane layoutY="11.0" prefHeight="56.0" prefWidth="311.0">
@@ -109,6 +109,6 @@
                 </DropShadow>
             </effect>
       </Button>
-      <Label fx:id="warningLabel" layoutX="140.0" layoutY="402.0" textAlignment="CENTER" textFill="RED" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label fx:id="warningLabel" layoutX="140.0" layoutY="402.0" textFill="RED" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
 </AnchorPane>
