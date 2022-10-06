@@ -10,17 +10,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import journey.data.Journey;
 import journey.data.QueryResult;
 import journey.data.Station;
@@ -58,6 +53,7 @@ public class MainController {
     @FXML private AnchorPane notesWrapper;
     @FXML private AnchorPane recordJourneyWrapper;
     @FXML private AnchorPane plannedJourneysWrapper;
+    @FXML private AnchorPane completeJourneyWrapper;
     @FXML private AnchorPane registerVehicleWrapper;
 
 
@@ -119,7 +115,7 @@ public class MainController {
      */
     private void viewPrevJourneysTable() {
         try {
-            FXMLLoader prevJourneysViewLoader = new FXMLLoader(getClass().getResource("/fxml/previousJourneys.fxml"));
+            FXMLLoader prevJourneysViewLoader = new FXMLLoader(getClass().getResource("/fxml/plannedJourneys.fxml"));
             Parent prevJourneysViewParent = prevJourneysViewLoader.load();
 
             PlannedJourneyController prevJourneyViewController = prevJourneysViewLoader.getController();
@@ -129,6 +125,26 @@ public class MainController {
             AnchorPane.setBottomAnchor(prevJourneysViewParent, 0d);
             AnchorPane.setLeftAnchor(prevJourneysViewParent, 0d);
             AnchorPane.setRightAnchor(prevJourneysViewParent, 0d);
+//            prevJourneysPane.prefWidthProperty().bind(mainTabs.widthProperty());
+
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+
+    private void viewCompletedJourneysTable() {
+        try {
+            FXMLLoader completedJourneysViewLoader = new FXMLLoader(getClass().getResource("/fxml/completedJourneys.fxml"));
+            Parent completedJourneysViewParent = completedJourneysViewLoader.load();
+
+            CompletedJourneysController completedJourneyViewController = completedJourneysViewLoader.getController();
+            completedJourneyViewController.init(stage, this);
+            completeJourneyWrapper.getChildren().add(completedJourneysViewParent);
+            AnchorPane.setTopAnchor(completedJourneysViewParent, 0d);
+            AnchorPane.setBottomAnchor(completedJourneysViewParent, 0d);
+            AnchorPane.setLeftAnchor(completedJourneysViewParent, 0d);
+            AnchorPane.setRightAnchor(completedJourneysViewParent, 0d);
 //            prevJourneysPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
         } catch (IOException e) {
@@ -357,6 +373,7 @@ public class MainController {
         viewSearch();
         viewNotes();
         setSelectedVehicle(selectedVehicle);
+        viewCompletedJourneysTable();
 
 //        journeyTab.getSelectionModel().selectedItemProperty().addListener(
 //                (observableValue, oldVal, newVal) -> mapViewController.clearRoute()

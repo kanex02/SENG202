@@ -49,7 +49,8 @@ CREATE TABLE IF NOT EXISTS Journeys (
     vehicle_ID TEXT NOT NULL REFERENCES Vehicles(registration),
     start TEXT,
     end TEXT,
-    date TEXT
+    date TEXT,
+    completed BOOLEAN
 );
 --Break
 DROP TABLE IF EXISTS Notes;
