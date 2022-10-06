@@ -94,10 +94,14 @@ public class VehicleDAO {
 
     /**
      * query the 'vehicles' table to get the vehicle with matching registration
-     * @param registration
-     * @return
+
+     * @param registration registration of the vehicle
+     * @return the vehicle object if the registration is found, null otherwise
      */
     public Vehicle queryVehicle(String registration) {
+        if (registration == null || registration.isBlank()) {
+            return null;
+        }
         Connection conn = null;
         try {
             String sqlQuery = "SELECT * FROM Vehicles WHERE registration = ?";
