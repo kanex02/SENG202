@@ -44,6 +44,7 @@ public class PlannedJourneyController {
     @FXML public void markCompletedButton() {
         int journeyID = selectedJourney.getJourneyID();
         journeyDAO.completeAJourney(journeyID);
+        mainController.updateCompletedJourneys();
     }
 
     /**

@@ -62,6 +62,7 @@ public class MainController {
     private TableController tableController;
     private CreateJourneyController recordJourneyController;
     private MapController mapViewController;
+    private CompletedJourneysController completedJourneysController;
     private ProfileController profileController;
     private RegisterVehicleController registerVehicleController;
     private PlannedJourneyController plannedJourneyController;
@@ -119,6 +120,7 @@ public class MainController {
             Parent prevJourneysViewParent = prevJourneysViewLoader.load();
 
             PlannedJourneyController prevJourneyViewController = prevJourneysViewLoader.getController();
+            plannedJourneyController = prevJourneyViewController;
             prevJourneyViewController.init(stage, this);
             plannedJourneysWrapper.getChildren().add(prevJourneysViewParent);
             AnchorPane.setTopAnchor(prevJourneysViewParent, 0d);
@@ -140,6 +142,7 @@ public class MainController {
 
             CompletedJourneysController completedJourneyViewController = completedJourneysViewLoader.getController();
             completedJourneyViewController.init(stage, this);
+            completedJourneysController = completedJourneyViewController;
             completeJourneyWrapper.getChildren().add(completedJourneysViewParent);
             AnchorPane.setTopAnchor(completedJourneysViewParent, 0d);
             AnchorPane.setBottomAnchor(completedJourneysViewParent, 0d);
@@ -150,6 +153,15 @@ public class MainController {
         } catch (IOException e) {
             log.error(e);
         }
+    }
+
+
+    public void updatePlannedJourneys() {
+        plannedJourneyController.setJourneys(stage);
+    }
+
+    public void updateCompletedJourneys() {
+        completedJourneysController.setJourneys(stage);
     }
 
 //    private void setStationDescription(String s) {

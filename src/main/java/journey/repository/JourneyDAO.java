@@ -86,7 +86,7 @@ public class JourneyDAO {
     public void completeAJourney(int journeyID) {
         Connection conn = null;
         try {
-            String sqlQuery = "UPDATE Journey SET completed = ? WHERE ID = ?";
+            String sqlQuery = "UPDATE Journeys SET completed = ? WHERE ID = ?";
             conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setBoolean(1, true);
