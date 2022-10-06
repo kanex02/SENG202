@@ -123,12 +123,16 @@ public class CreateJourneyController {
         if (validJourney) {
             journeyWarningLabel.setText("");
             selectVehicleComboBox.setValue("");
+            startAddr.setText("");
+            endAddr.setText("");
+            selectedStationField.setText("");
             visitedStationsList.setItems(FXCollections.observableArrayList());
             String[] vehicle = vehicleChoice.split(": ");
             String date = Utils.getDate();
             Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);
             journeyDAO.addJourney(journey);
             mapViewController.clearJourneyMarkers();
+            mainController.updatePlannedJourneys();
             event.consume();
         }
     }
