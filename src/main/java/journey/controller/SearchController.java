@@ -47,7 +47,7 @@ public class SearchController {
     @FXML public void myCar() {
         ArrayList<String> selectedConnectors = new ArrayList<>();
         String myCar = mainController.getSelectedVehicle();
-        Vehicle v = vehicleDAO.queryVehicle(myCar);
+        Vehicle v = vehicleDAO.queryVehicle(myCar, mainController.getCurrentUser().getId());
         if (v != null) {
             currentSearch.setValue(v.getChargerType());
             for (CheckMenuItem connector : connectors) {

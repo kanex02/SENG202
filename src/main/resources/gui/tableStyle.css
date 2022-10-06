@@ -13,7 +13,7 @@
     -fx-background-color: #f0faf0;
     -fx-border-color: darkgrey;
     -fx-text-fill: black;
-    -fx-border-width: 0.5 0 0.5 0;
+    -fx-border-width: 0.1 0 0.1 0;
 
 }
 .table-row-cell:selected .cell{

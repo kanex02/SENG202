@@ -70,7 +70,7 @@ public class EditVehicleController {
      */
     public void fillCurrentVehicle() {
         String reg = profileController.getMyProfileController().getSelectedVehicle();
-        currentVehicle = vehicleDAO.queryVehicle(reg);
+        currentVehicle = vehicleDAO.queryVehicle(reg, profileController.getMyProfileController().getCurrentUser().getId());
         registrationTextBox.setText(reg);
         makeTextBox.setText(currentVehicle.getMake());
         modelTextBox.setText(currentVehicle.getModel());
@@ -108,7 +108,7 @@ public class EditVehicleController {
      */
     @FXML public void deleteVehicle() {
         String reg = profileController.getMyProfileController().getSelectedVehicle();
-        currentVehicle = vehicleDAO.queryVehicle(reg);
+        currentVehicle = vehicleDAO.queryVehicle(reg, profileController.getMyProfileController().getCurrentUser().getId());
         vehicleDAO.removeVehicle(reg);
         profileController.getMyProfileController().setSelectedVehicle(null);
         registrationTextBox.setText("");

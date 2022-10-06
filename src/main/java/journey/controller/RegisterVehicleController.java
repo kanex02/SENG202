@@ -83,6 +83,9 @@ public class RegisterVehicleController {
         } else if (registration.length() > 6) {
             regWarningLabel.setText("Cannot be more than 6 characters");
             valid = false;
+        } else if (vehicleDAO.queryVehicle(registration, myProfileController.getCurrentUser().getId()) != null) {
+            regWarningLabel.setText("A vehicle with this registration already exists!");
+            valid = false;
         }
 
         //make validation
@@ -126,12 +129,12 @@ public class RegisterVehicleController {
         }
 
         //current validation
-        if (chargerTypeChoice == null) {
+        if (chargerTypeChoice == null || chargerTypeChoice.equals("")) {
             currentWarningLabel.setText("Please select a current type");
         }
 
         //connector validation
-        if (connectorTypeChoice == null) {
+        if (connectorTypeChoice == null || connectorTypeChoice.equals("")) {
             connectorWarningLabel.setText("Please select a connector type");
         }
 

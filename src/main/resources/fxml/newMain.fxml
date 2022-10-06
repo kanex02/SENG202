@@ -53,7 +53,7 @@
             </GridPane>
          </top>
          <center>
-            <TabPane fx:id="mainTabs" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane fx:id="mainTabs" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" stylesheets="@../gui/tabs.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
                   <Tab fx:id="mapTab" closable="false" text="Map">
                       <content>
@@ -77,28 +77,28 @@
             </TabPane>
          </center>
          <left>
-            <VBox minWidth="300.0" prefHeight="200.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+            <VBox minWidth="300.0" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #efefef;" BorderPane.alignment="CENTER">
                <children>
                   <Accordion prefHeight="800.0" prefWidth="350.0" stylesheets="@../gui/style.css">
                     <panes>
-                      <TitledPane animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Search and Filter">
+                      <TitledPane animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Search and Filter">
                         <content>
-                          <AnchorPane fx:id="searchWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          <AnchorPane fx:id="searchWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                         </content>
                       </TitledPane>
-                        <TitledPane animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Record Notes about Station">
+                        <TitledPane animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Record Notes about Station">
                           <content>
-                            <AnchorPane fx:id="notesWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            <AnchorPane fx:id="notesWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                           </content>
                         </TitledPane>
                       <TitledPane animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Plan a Journey">
                         <content>
-                          <AnchorPane fx:id="recordJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          <AnchorPane fx:id="recordJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                         </content>
                       </TitledPane>
                       <TitledPane animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">
                         <content>
-                          <AnchorPane fx:id="plannedJourneysWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          <AnchorPane fx:id="plannedJourneysWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                         </content>
                       </TitledPane>
                     </panes>
@@ -109,7 +109,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Accordion>
-                  <GridPane prefHeight="402.0" prefWidth="350.0">
+                  <GridPane prefHeight="402.0" prefWidth="350.0" style="-fx-background-color: #efefef;">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
