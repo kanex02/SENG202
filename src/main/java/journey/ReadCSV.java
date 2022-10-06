@@ -3,8 +3,11 @@ package journey;
 import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import journey.data.Station;
+import journey.repository.DatabaseManager;
 import journey.repository.StationDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,4 +71,16 @@ public class ReadCSV {
                     s.isHasChargingCost());
         }
     }
+
+
+//    public static void main(String[] args) {
+//        DatabaseManager databaseManager = DatabaseManager.getInstance();
+//        try {
+//            databaseManager.setup();
+//        } catch (SQLException | IOException e) {
+//            log.error(e);
+//        }
+//        readStations();
+//    }
+
 }
