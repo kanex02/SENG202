@@ -72,11 +72,6 @@ public class MainController {
 
 
 
-    public void populateVehicleDropdown() {
-        recordJourneyController.populateVehicleDropdown();
-    }
-
-
     /**
      * Loads the OpenLayers map view into the tab pane component of main view.
      */
@@ -303,7 +298,11 @@ public class MainController {
     }
 
     public void setSelectedVehicle(String selectedVehicle) {
-        currentVehicle.setText("Current Vehicle: " + getSelectedVehicle());
+        if (getSelectedVehicle() == null) {
+            currentVehicle.setText("Current Vehicle: none selected");
+        } else {
+            currentVehicle.setText("Current Vehicle: " + getSelectedVehicle());
+        }
         this.selectedVehicle = selectedVehicle;
     }
 

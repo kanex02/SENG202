@@ -40,7 +40,7 @@
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Rectangle>
-                <ImageView fitHeight="40.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                <ImageView fitHeight="40.0" fitWidth="105.0" onMouseClicked="#homeButton" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                     <image>
                         <Image url="@../pictures/Journey_Logo.jpeg" />
                     </image>
