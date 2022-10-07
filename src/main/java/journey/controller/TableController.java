@@ -28,6 +28,9 @@ public class TableController {
     @FXML private TableColumn<Station, String> nameCol;
     @FXML private TableColumn<Station, String> operatorCol;
     @FXML private TableColumn<Station, Integer> timeLimitCol;
+    @FXML private TableColumn<Station, Integer> ratingCol;
+    @FXML private TableColumn<Station, Boolean> favouriteCol;
+
     @FXML private TableView<Station> stationTable;
     @FXML private AnchorPane tableParent;
 
@@ -49,6 +52,8 @@ public class TableController {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         operatorCol.setCellValueFactory(new PropertyValueFactory<>("operator"));
         timeLimitCol.setCellValueFactory(new PropertyValueFactory<>("maxTime"));
+        ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
+        favouriteCol.setCellValueFactory(new PropertyValueFactory<>("favourite"));
         QueryResult data = mainController.getStations();
         ObservableList<Station> stations = FXCollections.observableArrayList(data.getStations());
         stationTable.setItems(stations);
@@ -66,8 +71,7 @@ public class TableController {
         stationTable.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldStation, newStation) -> {
                     mainController.setSelectedStation(newStation.getOBJECTID());
-                    mainController.updateNoteText();
-                    //mainController.setStationText();
+                    mainController.updateNote();
             }
         );
     }

@@ -157,8 +157,7 @@ public class MapController {
      */
     public boolean getStationFromClick(int id) {
         mainController.setSelectedStation(id);
-        mainController.updateNoteText();
-        //mainController.setStationText();
+        mainController.updateNote();
         return true;
     }
 
@@ -173,7 +172,7 @@ public class MapController {
     public boolean getLatLongFromClick(double lat, double lng) {
         if (callback != null) {
             callback.operation(lat, lng);
-            addMiscMarker(lat, lng, label);
+            javaScriptConnector.call("addMiscMarker", lat, lng, label);
         }
         //Resets the callback so the previous function is no longer called.
         callback = null;

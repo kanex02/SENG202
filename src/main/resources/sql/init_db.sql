@@ -17,7 +17,9 @@ CREATE TABLE IF NOT EXISTS Stations (
     dateFirstOperational TEXT,
     numberOfConnectors INTEGER,
     connectorsList TEXT NOT NULL,
-    hasChargingCost BOOLEAN
+    hasChargingCost BOOLEAN,
+    rating INTEGER,
+    favourite BOOLEAN
 );
 --Break
 DROP TABLE IF EXISTS Users;

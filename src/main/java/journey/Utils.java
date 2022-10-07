@@ -11,6 +11,7 @@ import journey.business.NominatimGeolocationManager;
 import journey.data.GeoCodeResult;
 import journey.data.GeoLocationResult;
 import journey.data.Station;
+import journey.repository.DatabaseManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -87,7 +88,7 @@ public class Utils {
                         rs.getBoolean("hasTouristAttraction"), rs.getFloat("latitude"),
                         rs.getFloat("longitude"), rs.getString("currentType"), rs.getString("dateFirstOperational"),
                         rs.getInt("numberOfConnectors"), (rs.getString("connectorsList")).split(":"),
-                        rs.getBoolean("hasChargingCost")));
+                        rs.getBoolean("hasChargingCost"), rs.getInt("rating"), rs.getBoolean("favourite")));
             }
         } catch (SQLException e) {
             log.error(e);

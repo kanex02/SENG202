@@ -72,6 +72,8 @@ public class NoteDAO {
         }
     }
 
+
+
     /**
      * Gets not from give station
      * @param station station to get notes from
@@ -87,7 +89,7 @@ public class NoteDAO {
             String sqlQuery = "SELECT * FROM Notes WHERE station_ID = ? AND user_ID = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, stationID);
-            ps.setInt(2, userID); // Hardcoded user ID
+            ps.setInt(2, userID);
             ResultSet resultSet = ps.executeQuery();
             // If there is no item in result set we disconnect first and return an empty note
             if (!resultSet.isBeforeFirst()) {

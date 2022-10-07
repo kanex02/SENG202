@@ -1,5 +1,7 @@
 package journey.controller;
 
+import java.io.IOException;
+import java.util.Arrays;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -8,12 +10,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import journey.data.Journey;
 import journey.data.QueryResult;
 import journey.data.Station;
@@ -56,6 +61,7 @@ public class MainController {
     @FXML private AnchorPane plannedJourneysWrapper;
     @FXML private AnchorPane completeJourneyWrapper;
     @FXML private AnchorPane registerVehicleWrapper;
+    @FXML private Label noteStationAddr;
 
 
     private NotesController notesController;
@@ -181,6 +187,9 @@ public class MainController {
 //        }
 //    }
 
+    public void updateNote() {
+        notesController.updateNote();
+    }
 
     public int getSelectedStation() {
         return selectedStation;
@@ -282,8 +291,26 @@ public class MainController {
         }
     }
 
-    public void updateNoteText() {
-        notesController.updateNoteText();
+    @FXML public void openSearchPanel() {
+        viewSearch();
+    }
+
+
+    @FXML public void openNotesPane() {
+        viewNotes();
+    }
+
+
+    @FXML public void openPlanJourneyPane() {
+        viewRecordJourney();
+    }
+
+    @FXML public void openPlannedJourneysPanel() {
+        viewPrevJourneysTable();
+    }
+
+    @FXML public void openRegisterVehiclePane() {
+        viewRegisterVehicles();
     }
 
     /**
