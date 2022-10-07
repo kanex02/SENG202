@@ -101,7 +101,7 @@ public class SearchController {
         String address = addressSearch.getText();
         String addressLatLng = "";
         if (!address.isBlank()) {
-            Utils.locToLatLng(address);
+            addressLatLng = Utils.locToLatLng(address);
         }
         String name = nameSearch.getText();
         String operator = operatorSearch.getText();
@@ -171,7 +171,7 @@ public class SearchController {
      * Note: the functions are not abstracted out as they share a common pause timer.
      */
     private void addListeners() {
-        PauseTransition pause = new PauseTransition(Duration.seconds(0.3));
+        PauseTransition pause = new PauseTransition(Duration.seconds(0.1));
 
         addressSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             pause.setOnFinished(event -> search());

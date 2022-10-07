@@ -16,6 +16,10 @@ public class StationsService {
         allStations = stationDAO.getAll();
     }
 
+    public StationsService(Station[] stations) {
+        allStations = stations;
+    }
+
     public static QueryStation createQueryStation(String name,
                                                   String operator,
                                                   String currentType,
@@ -36,9 +40,7 @@ public class StationsService {
         if (maxTime.matches("\\d+")) {
             searchStation.setMaxTime(Integer.parseInt(maxTime));
         }
-        if (addressLatLng != null
-                && !addressLatLng.isBlank()
-                && range.matches("(\\d+|\\d+\\.\\d+|\\.\\d+|\\d+\\.)")) {
+        if (addressLatLng != null && !addressLatLng.isBlank()) {
             String[] latLng = addressLatLng.split("#");
             searchStation.setLatitude(Double.parseDouble(latLng[0]));
             searchStation.setLongitude(Double.parseDouble(latLng[1]));
@@ -104,12 +106,24 @@ public class StationsService {
         String[] connectors = queryStation.getConnectors();
         if (connectors != null && connectors.length > 0) {
             //remove if the set difference between the query station and result station is 0. (No overlap)
-            Set<String> queryConnectors = new HashSet<>(Arrays.asList(queryStation.getConnectors()));
+
             ArrayList<Station> toRemove = new ArrayList<>();
             for (Station station : result) {
-                Set<String> stationConnectors = new HashSet<>(Arrays.asList(station.getConnectors()));
-                stationConnectors.retainAll(queryConnectors);
-                if (stationConnectors.size() == 0) {
+                String[] stationConnectors = station.getConnectors();
+
+                boolean hasConnector = false;
+
+                filterConnector:
+                for (String connector : queryStation.getConnectors()) {
+                    for (String stationConnector : stationConnectors) {
+                        if (stationConnector.contains(connector)) {
+                            hasConnector = true;
+                            break filterConnector;
+                        }
+                    }
+                }
+
+                if (!hasConnector) {
                     toRemove.add(station);
                 }
             }
@@ -126,9 +140,9 @@ public class StationsService {
                 result.removeIf(Station::getHasTouristAttraction);
             }
         }
-        result.removeIf(station -> queryStation.getRange() > 0
-                && queryStation.distanceTo(station) > queryStation.getRange());
-
+        if (queryStation.getRange() > 0) {
+            result.removeIf(station -> queryStation.distanceTo(station) > queryStation.getRange());
+        }
 
         return result.toArray(Station[]::new);
     }
