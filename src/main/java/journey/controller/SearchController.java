@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class SearchController {
     private final VehicleDAO vehicleDAO = new VehicleDAO();
+    private final StationsService stationsService = new StationsService();
 
     @FXML private TextField addressSearch;
     @FXML private TextField nameSearch;
@@ -97,7 +98,11 @@ public class SearchController {
      */
     @FXML public void search() {
         // TODO: move out of Util
-        String addressLatLng = Utils.locToLatLng(addressSearch.getText());
+        String address = addressSearch.getText();
+        String addressLatLng = "";
+        if (!address.isBlank()) {
+            Utils.locToLatLng(address);
+        }
         String name = nameSearch.getText();
         String operator = operatorSearch.getText();
         String timeLimit = timeSearch.getText();
@@ -117,7 +122,7 @@ public class SearchController {
                     timeLimit,
                     addressLatLng,
                     range);
-            mainController.setCurrentStations(stationDAO.query(queryStation));
+            mainController.setCurrentStations(stationsService.filterBy(queryStation));
         } else {
             warningLabel.setText(errors);
             mainController.setCurrentStations(stationDAO.getAll());
