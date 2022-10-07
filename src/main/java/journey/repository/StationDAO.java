@@ -233,10 +233,6 @@ public class StationDAO {
         //query with WHERE that is always true so that further statements can be chained on
         StringBuilder queryString = new StringBuilder("SELECT * FROM Stations WHERE id LIKE'%' ");
         //monster that builds up the query
-        String address = searchStation.getAddress();
-        if (address != null && address.trim().length() > 0) {
-            queryString.append("AND address LIKE '%").append(address).append("%' ");
-        }
         String name = searchStation.getName();
         if (name != null && name.trim().length() > 0) {
             queryString.append("AND name LIKE '%").append(name).append("%' ");

@@ -11,7 +11,7 @@ import journey.data.QueryStation;
 import journey.data.Vehicle;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
-import journey.service.SearchService;
+import journey.service.StationsService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,19 +96,27 @@ public class SearchController {
      * TODO: reduce external API calls. Currently calling geolocation 3 times for each address search.
      */
     @FXML public void search() {
-        String errors = errorCheck();
-        if (errors == null || errors.matches("")) {
+        // TODO: move out of Util
+        String addressLatLng = Utils.locToLatLng(addressSearch.getText());
+        String name = nameSearch.getText();
+        String operator = operatorSearch.getText();
+        String timeLimit = timeSearch.getText();
+        String range = distanceSearch.getText();
+        String errors = StationsService.errorCheck(addressLatLng, name, operator, timeLimit, range);
+
+
+        if (errors.isBlank()) {
             String[] latLng = Utils.locToLatLng(addressSearch.getText()).split("#");
             mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]), "search");
             warningLabel.setText("");
-            QueryStation queryStation = SearchService.createQueryStation(nameSearch.getText(),
-                    operatorSearch.getText(),
+            QueryStation queryStation = StationsService.createQueryStation(nameSearch.getText(),
+                    operator,
                     currentSearch.getValue(),
                     getConnectors(),
                     attractionSearch.getValue(),
-                    timeSearch.getText(),
-                    addressSearch.getText(),
-                    distanceSearch.getText());
+                    timeLimit,
+                    addressLatLng,
+                    range);
             mainController.setCurrentStations(stationDAO.query(queryStation));
         } else {
             warningLabel.setText(errors);
@@ -146,45 +154,6 @@ public class SearchController {
             addressSearch.setText(addr);
             return true;
         }, "search");
-    }
-
-    /**
-     * checks all inputs are given in a way that the database can understand
-
-     * @return A string of errors
-     */
-    public String errorCheck() {
-        StringBuilder errors = new StringBuilder();
-        String address = addressSearch.getText();
-        String name = nameSearch.getText();
-        String operator = operatorSearch.getText();
-        String timeLimit = timeSearch.getText();
-        String range = distanceSearch.getText();
-
-        //name check
-        if (!name.matches("[a-zA-Z ]*")) {
-            errors.append("Name cannot have special characters or integers\n");
-        }
-
-        //operator check
-        if (!operator.matches("[a-zA-Z ]*")) {
-            errors.append("Operator cannot have special characters or integers\n");
-        }
-        //time limit check
-        if (!Utils.isInt(timeLimit) && !timeLimit.equals("")) {
-            errors.append("Time limit must be an integer!\n");
-        }
-
-        //range check
-        if (!Utils.isInt(range) && !range.equals("")) {
-            errors.append("Range needs to be an integer!\n");
-        }
-
-        // range address check
-        if (Utils.locToLatLng(address).equals("0.0#0.0") && !address.isBlank()) {
-            errors.append("Address does not exist!\n");
-        }
-        return errors.toString();
     }
 
 
