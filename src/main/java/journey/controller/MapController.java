@@ -100,7 +100,7 @@ public class MapController {
      */
     public void addStationsOnMap() {
         javaScriptConnector.call("clearMap");
-        Station[] stations = mainController.getStations().getStations();
+        Station[] stations = mainController.getStations();
         for (Station station : stations) {
             if (station != null && station.getDateFirstOperational() != null) {
                 addStationMark(station);

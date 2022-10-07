@@ -1,7 +1,6 @@
 package journey.repository;
 
 import journey.Utils;
-import journey.data.QueryResult;
 import journey.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,10 +90,9 @@ public class UserDAO {
         return currentUser;
     }
 
-    public QueryResult getUsers() {
+    public User[] getUsers() {
         Connection conn = null;
         ArrayList<User> res = new ArrayList<>();
-        QueryResult result = new QueryResult();
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Users";
@@ -105,11 +103,9 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            Utils.closeConn(conn);
-            result.setUsers(res.toArray(User[]::new));
         }
-        return result;
+        Utils.closeConn(conn);
+        return res.toArray(User[]::new);
     }
 }
 

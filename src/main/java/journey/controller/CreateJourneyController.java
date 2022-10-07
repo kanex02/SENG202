@@ -19,7 +19,6 @@ import javafx.scene.layout.VBox;
 import journey.Utils;
 import journey.business.SearchAutocomplete;
 import journey.data.Journey;
-import journey.data.QueryResult;
 import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
@@ -56,9 +55,9 @@ public class CreateJourneyController {
 
      */
     public void populateVehicleDropdown() {
-        QueryResult data = vehicleDAO.getVehicles(mainController.getCurrentUser());
+        Vehicle[] data = vehicleDAO.getVehicles(mainController.getCurrentUser());
         ObservableList<String> vehicles = FXCollections.observableArrayList();
-        for (Vehicle vehicle : data.getVehicles()) {
+        for (Vehicle vehicle : data) {
             String newString = vehicle.getStringRepresentation();
             vehicles.add(newString);
         }

@@ -1,6 +1,5 @@
 package journey.repository;
 
-import journey.data.QueryResult;
 import journey.data.User;
 import journey.Utils;
 import journey.data.Vehicle;
@@ -68,10 +67,9 @@ public class VehicleDAO {
 
      * @return result ArrayList of all vehicles of the current user
      */
-    public QueryResult getVehicles(User user) {
+    public Vehicle[] getVehicles(User user) {
         Connection conn = null;
         ArrayList<Vehicle> res = new ArrayList<>();
-        QueryResult result = new QueryResult();
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Vehicles WHERE User_ID = ?";
@@ -85,11 +83,9 @@ public class VehicleDAO {
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            Utils.closeConn(conn);
-            result.setVehicles(res.toArray(Vehicle[]::new));
         }
-        return result;
+        Utils.closeConn(conn);
+        return res.toArray(Vehicle[]::new);
     }
 
     /**

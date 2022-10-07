@@ -7,7 +7,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import journey.data.QueryResult;
 import journey.data.Station;
 
 
@@ -54,8 +53,8 @@ public class TableController {
         timeLimitCol.setCellValueFactory(new PropertyValueFactory<>("maxTime"));
         ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
         favouriteCol.setCellValueFactory(new PropertyValueFactory<>("favourite"));
-        QueryResult data = mainController.getStations();
-        ObservableList<Station> stations = FXCollections.observableArrayList(data.getStations());
+        Station[] data = mainController.getStations();
+        ObservableList<Station> stations = FXCollections.observableArrayList(data);
         stationTable.setItems(stations);
     }
 

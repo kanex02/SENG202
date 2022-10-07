@@ -10,8 +10,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.StringJoiner;
-
-import journey.data.QueryResult;
 import journey.data.QueryStation;
 import journey.data.Station;
 import journey.Utils;
@@ -205,7 +203,7 @@ public class StationDAO {
 
      * @return result ArrayList of all stations in the database
      */
-    public QueryResult getAll() {
+    public Station[] getAll() {
         Connection conn = null;
         ArrayList<Station> res = new ArrayList<>();
         try {
@@ -217,9 +215,7 @@ public class StationDAO {
             log.error(e);
         }
         Utils.closeConn(conn);
-        QueryResult result = new QueryResult();
-        result.setStations(res.toArray(Station[]::new));
-        return result;
+        return res.toArray(Station[]::new);
     }
 
     /**
@@ -229,7 +225,7 @@ public class StationDAO {
      * @param searchStation QueryStation object which holds all necessary search values (the rest are null/null-like)
      * @return result ArrayList of all stations in the database that match given values in QueryStation
      */
-    public QueryResult query(QueryStation searchStation) {
+    public Station[] query(QueryStation searchStation) {
         //query with WHERE that is always true so that further statements can be chained on
         StringBuilder queryString = new StringBuilder("SELECT * FROM Stations WHERE id LIKE'%' ");
         //monster that builds up the query
@@ -281,8 +277,6 @@ public class StationDAO {
         res.removeIf(station -> searchStation.getRange() > 0
                 && searchStation.distanceTo(station) > searchStation.getRange());
         Utils.closeConn(conn);
-        QueryResult result = new QueryResult();
-        result.setStations(res.toArray(Station[]::new));
-        return result;
+        return res.toArray(Station[]::new);
     }
 }

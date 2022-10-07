@@ -16,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import journey.data.QueryResult;
 import journey.data.User;
 import journey.repository.UserDAO;
 import org.apache.logging.log4j.LogManager;
@@ -69,9 +68,9 @@ public class LoginController {
     }
 
     private void populateUserDropDown() {
-        QueryResult data = userDAO.getUsers();
+        User[] data = userDAO.getUsers();
         ObservableList<String> users = FXCollections.observableArrayList();
-        for (User user : data.getUsers()) {
+        for (User user : data) {
             String newString = user.getName();
             users.add(newString);
         }

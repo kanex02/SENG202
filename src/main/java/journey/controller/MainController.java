@@ -15,7 +15,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import journey.data.Journey;
-import journey.data.QueryResult;
 import journey.data.Station;
 import journey.data.User;
 import journey.repository.StationDAO;
@@ -40,7 +39,7 @@ public class MainController {
     private int selectedStation = -1;
     private User currentUser;
     private String selectedVehicle = null;
-    private QueryResult currentStations;
+    private Station[] currentStations;
 
 
     @FXML private Label currentVehicle;
@@ -195,7 +194,7 @@ public class MainController {
         this.selectedStation = selectedStation;
     }
 
-    public QueryResult getStations() {
+    public Station[] getStations() {
         return currentStations;
     }
 
@@ -291,7 +290,7 @@ public class MainController {
 
      * @param currentStations new set of stations
      */
-    public void setCurrentStations(QueryResult currentStations) {
+    public void setCurrentStations(Station[] currentStations) {
         this.currentStations = currentStations;
         mapViewController.addStationsOnMap();
         tableController.getData();
@@ -401,9 +400,9 @@ public class MainController {
         // Fill the combo boxes
         this.stage = stage;
 
-        QueryResult stations = stationDAO.getAll();
+        Station[] stations = stationDAO.getAll();
         ObservableList<String> stationList = FXCollections.observableArrayList();
-        for (Station station : stations.getStations()) {
+        for (Station station : stations) {
             String newString = Arrays.toString(Arrays.copyOfRange(station.getAddress().split(","), 0, 2));
             newString = newString.substring(1, newString.length() - 1);
             stationList.add(newString);

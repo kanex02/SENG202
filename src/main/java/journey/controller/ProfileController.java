@@ -13,7 +13,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import journey.data.QueryResult;
 import journey.data.Vehicle;
 import journey.repository.VehicleDAO;
 import org.apache.logging.log4j.LogManager;
@@ -110,8 +109,8 @@ public class ProfileController {
         yearCol.setCellValueFactory(new PropertyValueFactory<>("Year"));
         chargerTypeCol.setCellValueFactory(new PropertyValueFactory<>("ChargerType"));
         connectorTypeCol.setCellValueFactory(new PropertyValueFactory<>("ConnectorType"));
-        QueryResult data = vehicleDAO.getVehicles(profileController.getCurrentUser());
-        ObservableList<Vehicle> vehicles = FXCollections.observableArrayList(data.getVehicles());
+        Vehicle[] data = vehicleDAO.getVehicles(profileController.getCurrentUser());
+        ObservableList<Vehicle> vehicles = FXCollections.observableArrayList(data);
         vehicleTable.setItems(vehicles);
     }
 
