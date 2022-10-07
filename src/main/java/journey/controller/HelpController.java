@@ -28,11 +28,10 @@ public class HelpController {
                 ));
     }
     private void changeImage(String image) {
-        System.out.println(image);
         if (image.equals("Search and Filter")) {
             img = new Image(
                     new BufferedInputStream(
-                            getClass().getResourceAsStream("/pictures/Journey_Logo.jpeg")
+                            getClass().getResourceAsStream("/pictures/Search.png")
                     ));
             helpImage.setImage(img);
         } else if (image.equals("Record Notes")) {
@@ -40,6 +39,7 @@ public class HelpController {
                     new BufferedInputStream(
                             getClass().getResourceAsStream("/pictures/marker-icon-2x-gold.png")
                     ));
+
             helpImage.setImage(img);
         } else if (image.equals("Plan a Journey")) {
             img = new Image(
@@ -60,16 +60,19 @@ public class HelpController {
                     ));
             helpImage.setImage(img);
         }
-
+        helpImage.fitWidthProperty().bind(stage.widthProperty());
+        helpImage.fitHeightProperty().bind(stage.heightProperty());
     }
 
     void init(Stage helpStage) {
         this.stage = helpStage;
         img = new Image(
                 new BufferedInputStream(
-                        getClass().getResourceAsStream("/pictures/Journey_Logo.jpeg")
+                        getClass().getResourceAsStream("/pictures/Search.png")
                 ));
         helpImage.setImage(img);
+        helpImage.fitWidthProperty().bind(stage.widthProperty());
+        helpImage.fitHeightProperty().bind(stage.heightProperty());
         fillHelp();
     }
 

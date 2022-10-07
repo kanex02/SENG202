@@ -230,7 +230,7 @@ public class MainController {
             mainStage.show();
             this.stage.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 
@@ -242,19 +242,19 @@ public class MainController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/help.fxml"));
             root = loader.load();
-            HelpController controller = loader.getController();
-
             if (helpStage == null) {
-                helpStage = new Stage(StageStyle.UNDECORATED);
-                helpStage.setTitle("Help");
+                helpStage = new Stage();
             }
-            Scene scene = new Scene(root);
+            HelpController controller = loader.getController();
             controller.init(helpStage);
+            helpStage.setTitle("Help");
+
+            Scene scene = new Scene(root);
             helpStage.setScene(scene);
-            helpStage.setMaximized(true);
-            helpStage.show();
             helpStage.setMinHeight(400);
             helpStage.setMinWidth(600);
+            helpStage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

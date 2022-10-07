@@ -32,7 +32,7 @@
                            <Insets right="20.0" />
                        </padding>
                    </Button>
-                  <Button mnemonicParsing="false" style="-fx-background-color: transparent;" text="My Profile" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                  <Button mnemonicParsing="false" onAction="#myProfileButton" style="-fx-background-color: transparent;" text="My Profile" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                      <font>
                         <Font name="Roboto" size="16.0" />
                      </font>
