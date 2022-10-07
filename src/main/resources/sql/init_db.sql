@@ -1,3 +1,7 @@
+-- noinspection SqlDialectInspectionForFile
+
+-- noinspection SqlNoDataSourceInspectionForFile
+
 DROP TABLE IF EXISTS Stations;
 --Break
 CREATE TABLE IF NOT EXISTS Stations (
