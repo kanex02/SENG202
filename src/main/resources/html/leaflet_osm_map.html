@@ -30,7 +30,7 @@
     let route;
     let previousRoute = [];
     let miscMarkers = {};
-    let searchMarker = null;
+
     //var searchAPIKey = "8bbefdb85c2f4671aeada47ff2930302";
 
     //const addressSearchControl = L.control.addressSearch(searchAPIKey, { });
@@ -102,6 +102,21 @@
         addRoute();
     }
 
+    function getButtonHTML(text) {
+        let buttonDialog = '<!DOCTYPE html>\n' +
+            '<html>\n' +
+            '<body>\n' +
+            '\n' +
+            '<p>'+text+'</p>\n' +
+            '<button name="submit" class="setStart" type="submit" value="Set Start" >Set Start</button>\n' +
+            '<button name="submit" class="setEnd" type="submit" value="Set End" >Set End</button>\n' +
+            '</body>\n' +
+            '</html>\n' +
+            '';
+
+        return buttonDialog;
+    }
+
 
     /**
      * creates and initialises the Google map, also defines on click event that calls java code
@@ -118,16 +133,18 @@
         }).addTo(map);
         map.on('click', function (e) {
 
-            // Remove search marker
-            if(searchMarker != null) {
-                map.removeLayer(searchMarker);
-                searchMarker = null;
-            }
-
-
             var latlng = map.mouseEventToLatLng(e.originalEvent);
             javaScriptBridge.getLatLongFromClick(latlng.lat, latlng.lng);
         })
+
+        function setStart(address) {
+            javaScriptBridge.fillStartAddressFromSearch(address);
+        }
+
+        function setEnd(address) {
+            javaScriptBridge.fillEndAddressFromSearch(address)
+        }
+
 
         // Add autocomplete search bar to map
         // Rewriting add marker function so can get address updated on click of marker
@@ -142,25 +159,33 @@
                 var address = e.geocode.name;
                 var latlng = e.geocode.center;
 
+                let buttonDialog = getButtonHTML(address);
+
                 /* TODO: Add param onClick so that any marker clicked will set the address into start.
                  * Also when click off marker it gets deleted.
                  */
                 let m = new L.Marker([latlng.lat, latlng.lng], {icon: redIcon})
-                m.bindPopup(address).openPopup()
-                // Add marker to map, and specify our own on click function which passes the id of the sale back to java,
-                // so we can reference it
-                m.addTo(map).on('click', e => javaScriptBridge.fillStartAddressFromSearch(address));
+                m.bindPopup(buttonDialog).on("popupopen", (a) => {
+                    var popUp = a.target.getPopup();
+
+                    popUp.getElement().querySelector(".setStart").addEventListener("click", e =>
+                    {javaScriptBridge.fillStartAddressFromSearch(address);});
+
+                    popUp.getElement().querySelector(".setEnd").addEventListener("click", e =>
+                    {javaScriptBridge.fillEndAddressFromSearch(address);});
+
+                });
+
+                m.on('popupclose', e => {
+                    map.removeLayer(e.target);
+                });
+
+                m.addTo(map);
                 markers.push(m)
 
                 // Zoom to marker bounds
                 var markerBounds = e.geocode.bbox;
                 map.fitBounds(markerBounds);
-
-                // Set search marker - remove if already exists
-                if(searchMarker != null) {
-                    map.removeLayer(searchMarker);
-                }
-                searchMarker = m;
 
             })
             .addTo(map);
@@ -194,8 +219,23 @@
      * @param lng longitude to place marker at
      */
     function addMarker(id, title, lat, lng) {
+
+        let buttonDialog = getButtonHTML(title);
+
         let m = new L.Marker([lat, lng])
-        m.bindPopup(title).openPopup()
+        m.bindPopup(buttonDialog).openPopup()
+
+        m.bindPopup(buttonDialog).on("popupopen", (a) => {
+            var popUp = a.target.getPopup();
+
+            popUp.getElement().querySelector(".setStart").addEventListener("click", e =>
+            {javaScriptBridge.fillStartAddressFromSearch(title);});
+
+            popUp.getElement().querySelector(".setEnd").addEventListener("click", e =>
+            {javaScriptBridge.fillEndAddressFromSearch(title);});
+
+        });
+
         // Add marker to map, and specify our own on click function which passes the id of the sale back to java,
         // so we can reference it
         m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(id));
