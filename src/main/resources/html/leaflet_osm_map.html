@@ -4,6 +4,7 @@
     <title>Leaflet & OSM Map Demo</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <style>
@@ -21,6 +22,7 @@
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 <script>
     let map;
     let markers = [];
@@ -28,6 +30,10 @@
     let route;
     let previousRoute = [];
     let miscMarkers = {};
+
+    //var searchAPIKey = "8bbefdb85c2f4671aeada47ff2930302";
+
+    //const addressSearchControl = L.control.addressSearch(searchAPIKey, { });
 
     const greenIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -40,6 +46,15 @@
 
     const yellowIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    const redIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
         iconSize: [25, 41],
         iconAnchor: [12, 41],
@@ -87,9 +102,25 @@
         addRoute();
     }
 
+    function getButtonHTML(text) {
+        let buttonDialog = '<!DOCTYPE html>\n' +
+            '<html>\n' +
+            '<body>\n' +
+            '\n' +
+            '<p>'+text+'</p>\n' +
+            '<button name="submit" class="setStart" type="submit" value="Set Start" >Set Start</button>\n' +
+            '<button name="submit" class="setEnd" type="submit" value="Set End" >Set End</button>\n' +
+            '</body>\n' +
+            '</html>\n' +
+            '';
+
+        return buttonDialog;
+    }
+
 
     /**
      * creates and initialises the Google map, also defines on click event that calls java code
+     * Adds the autocomplete address search bar to the map
      */
     function initMap() {
         let mapOptions = {
@@ -101,9 +132,64 @@
             attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
         }).addTo(map);
         map.on('click', function (e) {
+
             var latlng = map.mouseEventToLatLng(e.originalEvent);
             javaScriptBridge.getLatLongFromClick(latlng.lat, latlng.lng);
         })
+
+        function setStart(address) {
+            javaScriptBridge.fillStartAddressFromSearch(address);
+        }
+
+        function setEnd(address) {
+            javaScriptBridge.fillEndAddressFromSearch(address)
+        }
+
+
+        // Add autocomplete search bar to map
+        // Rewriting add marker function so can get address updated on click of marker
+        let options = {
+            focus: [-43.53, 172.64], // Focus on Christchurch, New Zealand
+            defaultMarkGeocode: false,
+            panToPoint: true,
+            autocomplete: true
+        }
+        let geocoder = L.Control.geocoder(options)
+            .on('markgeocode', function(e) {
+                var address = e.geocode.name;
+                var latlng = e.geocode.center;
+
+                let buttonDialog = getButtonHTML(address);
+
+                /* TODO: Add param onClick so that any marker clicked will set the address into start.
+                 * Also when click off marker it gets deleted.
+                 */
+                let m = new L.Marker([latlng.lat, latlng.lng], {icon: redIcon})
+                m.bindPopup(buttonDialog).on("popupopen", (a) => {
+                    var popUp = a.target.getPopup();
+
+                    popUp.getElement().querySelector(".setStart").addEventListener("click", e =>
+                    {javaScriptBridge.fillStartAddressFromSearch(address);});
+
+                    popUp.getElement().querySelector(".setEnd").addEventListener("click", e =>
+                    {javaScriptBridge.fillEndAddressFromSearch(address);});
+
+                });
+
+                m.on('popupclose', e => {
+                    map.removeLayer(e.target);
+                });
+
+                m.addTo(map);
+                markers.push(m)
+
+                // Zoom to marker bounds
+                var markerBounds = e.geocode.bbox;
+                map.fitBounds(markerBounds);
+
+            })
+            .addTo(map);
+
     }
 
     function addMiscMarker(lat, lng, label) {
@@ -133,12 +219,33 @@
      * @param lng longitude to place marker at
      */
     function addMarker(id, title, lat, lng) {
+
+        let buttonDialog = getButtonHTML(title);
+
         let m = new L.Marker([lat, lng])
-        m.bindPopup(title).openPopup()
+        m.bindPopup(buttonDialog).openPopup()
+
+        m.bindPopup(buttonDialog).on("popupopen", (a) => {
+            var popUp = a.target.getPopup();
+
+            popUp.getElement().querySelector(".setStart").addEventListener("click", e =>
+            {javaScriptBridge.fillStartAddressFromSearch(title);});
+
+            popUp.getElement().querySelector(".setEnd").addEventListener("click", e =>
+            {javaScriptBridge.fillEndAddressFromSearch(title);});
+
+        });
+
         // Add marker to map, and specify our own on click function which passes the id of the sale back to java,
         // so we can reference it
-        m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(id))
+        m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(id));
         markers.push(m)
+    }
+    /**
+     * removes the last marker from the markers array
+     */
+    function removeLastMarker() {
+        map.removeLayer(markers[markers.length - 1]);
     }
 
     /**

@@ -79,6 +79,15 @@ public class MainController {
         viewPrevJourneysTable();
     }
 
+    public void setStartAddr(String addr) {
+        recordJourneyController.changeJourneyStart(addr);
+    }
+
+    public void setEndAddr(String addr) {
+        recordJourneyController.changeJourneyEnd(addr);
+    }
+
+
     /**
      * Loads the OpenLayers map view into the tab pane component of main view.
      */
