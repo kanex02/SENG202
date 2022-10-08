@@ -1,4 +1,4 @@
-package service;
+package journey.service;
 
 /**
  * Service class to extract testable methods for logging in.

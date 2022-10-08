@@ -13,18 +13,17 @@ import journey.repository.JourneyDAO;
 /**
  * A service to load data into the table viewer. TODO: Figure out how to get expanding rows.
  */
-public class PlannedJourneyController {
+public class CompletedJourneysController {
 
     @FXML private TableColumn<Journey, String> startCol;
     @FXML private TableColumn<Journey, String> endCol;
     @FXML private TableColumn<Journey, String> vehicleCol;
     @FXML private TableColumn<Journey, String> dateCol;
     @FXML private TableView<Journey> journeyTable;
-    @FXML private AnchorPane tableParent;
+    @FXML private AnchorPane completedJourneysParent;
 
     private MainController mainController;
     private JourneyDAO journeyDAO;
-    private Journey selectedJourney;
 
     /**
      * Imports the data.
@@ -36,15 +35,9 @@ public class PlannedJourneyController {
         vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicle_ID"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
-        Journey[] data = journeyDAO.getJourneys(mainController.getCurrentUser());
+        Journey[] data = journeyDAO.getCompletedJourneys(mainController.getCurrentUser());
         ObservableList<Journey> journeys = FXCollections.observableArrayList(data);
         journeyTable.setItems(journeys);
-    }
-
-    @FXML public void markCompletedButton() {
-        int journeyID = selectedJourney.getJourneyID();
-        journeyDAO.completeAJourney(journeyID);
-        mainController.updateCompletedJourneys();
     }
 
     /**
@@ -57,13 +50,12 @@ public class PlannedJourneyController {
         journeyDAO = new JourneyDAO();
 
         setJourneys(stage);
-        journeyTable.maxWidthProperty().bind(tableParent.widthProperty());
-        journeyTable.maxHeightProperty().bind(tableParent.heightProperty());
+        journeyTable.maxWidthProperty().bind(completedJourneysParent.widthProperty());
+        journeyTable.maxHeightProperty().bind(completedJourneysParent.heightProperty());
 
         journeyTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldJourney, newJourney) -> {
-                mainController.mapJourney(newJourney);
-                this.selectedJourney = newJourney;
-            }
+                    mainController.mapJourney(newJourney);
+                }
         );
     }
 }

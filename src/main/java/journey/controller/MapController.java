@@ -100,7 +100,7 @@ public class MapController {
      */
     public void addStationsOnMap() {
         javaScriptConnector.call("clearMap");
-        Station[] stations = mainController.getStations().getStations();
+        Station[] stations = mainController.getStations();
         for (Station station : stations) {
             if (station != null && station.getDateFirstOperational() != null) {
                 addStationMark(station);
@@ -136,7 +136,7 @@ public class MapController {
     }
 
     public void clearSearch() {
-        javaScriptConnector.call("clearSearch");
+        javaScriptConnector.call("clearMiscMarker", "search");
     }
 
     /**
@@ -157,9 +157,7 @@ public class MapController {
      */
     public boolean getStationFromClick(int id) {
         mainController.setSelectedStation(id);
-        mainController.updateNoteText();
-        mainController.setStationText();
-        mainController.setNoteStationAddr();
+        mainController.updateNote();
         return true;
     }
 
@@ -190,6 +188,10 @@ public class MapController {
         callback = null;
         label = null;
         return true;
+    }
+
+    public void addMiscMarker(double lat, double lng, String label) {
+        javaScriptConnector.call("addMiscMarker", lat, lng, label);
     }
 
     public void setCallback(GetLatLongInterface callback, String label) {

@@ -3,21 +3,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="tableParent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.TableController">
+<AnchorPane fx:id="tableParent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="1394.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.TableController">
    <TableView fx:id="stationTable" minWidth="0.0" stylesheets="@../gui/tableStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <columns>
-         <TableColumn fx:id="addressCol" prefWidth="211.0" text="Address" />
+         <TableColumn fx:id="addressCol" prefWidth="400.0" text="Address" />
          <TableColumn fx:id="nameCol" prefWidth="136.0" text="Name" />
-         <TableColumn fx:id="operatorCol" prefWidth="127.0" text="Operator" />
-         <TableColumn fx:id="currentTypeCol" prefWidth="52.0" text="Current" />
-         <TableColumn fx:id="connectorsCol" prefWidth="70.0" text="Connectors" />
-         <TableColumn fx:id="carparksCol" prefWidth="55.0" text="Carparks" />
-         <TableColumn fx:id="timeLimitCol" prefWidth="69.0" text="Time Limit" />
-         <TableColumn fx:id="attractionCol" prefWidth="88.0" text="Has Attraction" />
-         <TableColumn fx:id="latCol" prefWidth="95.0" text="lat" />
-         <TableColumn fx:id="longCol" prefWidth="95.0" text="long" />
-         <TableColumn fx:id="isFreeCharge" prefWidth="85.0" text="Free Charging" />
-         <TableColumn fx:id="isFreePark" prefWidth="78.0" text="Free Parking" />
+         <TableColumn fx:id="operatorCol" prefWidth="117.0" text="Operator" />
+         <TableColumn fx:id="currentTypeCol" prefWidth="67.0" text="Current" />
+         <TableColumn fx:id="connectorsCol" prefWidth="97.0" text="Connectors" />
+         <TableColumn fx:id="carparksCol" minWidth="0.0" text="Carparks" />
+         <TableColumn fx:id="timeLimitCol" prefWidth="99.0" text="Time Limit" />
+         <TableColumn fx:id="attractionCol" prefWidth="126.0" text="Has Attraction" />
+         <TableColumn fx:id="latCol" prefWidth="33.0" text="lat" />
+         <TableColumn fx:id="longCol" prefWidth="41.0" text="long" />
+         <TableColumn fx:id="isFreeCharge" prefWidth="114.0" text="Free Charging" />
+         <TableColumn fx:id="isFreePark" prefWidth="107.0" text="Free Parking" />
+         <TableColumn fx:id="ratingCol" prefWidth="71.0" text="Rating" />
+         <TableColumn fx:id="favouriteCol" prefWidth="149.0" text="Favourite" />
       </columns>
    </TableView>
 </AnchorPane>

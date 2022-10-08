@@ -52,7 +52,7 @@ public class RegisterVehicleController {
     private String chargerTypeChoice;
     private String connectorTypeChoice;
     private VehicleDAO vehicleDAO;
-    private MainController mainController;
+    private MyProfileController myProfileController;
     Pattern digit = Pattern.compile("[0-9]");
     Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 
@@ -82,6 +82,9 @@ public class RegisterVehicleController {
             valid = false;
         } else if (registration.length() > 6) {
             regWarningLabel.setText("Cannot be more than 6 characters");
+            valid = false;
+        } else if (vehicleDAO.queryVehicle(registration, myProfileController.getCurrentUser().getId()) != null) {
+            regWarningLabel.setText("A vehicle with this registration already exists!");
             valid = false;
         }
 
@@ -126,12 +129,12 @@ public class RegisterVehicleController {
         }
 
         //current validation
-        if (chargerTypeChoice.equals("")) {
+        if (chargerTypeChoice == null || chargerTypeChoice.equals("")) {
             currentWarningLabel.setText("Please select a current type");
         }
 
         //connector validation
-        if (connectorTypeChoice.equals("")) {
+        if (connectorTypeChoice == null || connectorTypeChoice.equals("")) {
             connectorWarningLabel.setText("Please select a connector type");
         }
 
@@ -151,8 +154,8 @@ public class RegisterVehicleController {
             Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration, connectorTypeChoice);
             // Send vehicle to database
             try {
-                vehicleDAO.setVehicle(newVehicle, mainController.getCurrentUser());
-                mainController.populateVehicleDropdown();
+                vehicleDAO.setVehicle(newVehicle, myProfileController.getCurrentUser());
+                myProfileController.populateVehicleTable();
             } catch (Exception e) {
                 log.error(e);
             }
@@ -174,8 +177,8 @@ public class RegisterVehicleController {
         connectorTypeChoice = connectorBox.getValue();
     }
 
-    public void init(Stage stage, MainController mainController) {
-        this.mainController = mainController;
+    public void init(Stage stage, MyProfileController myProfileController) {
+        this.myProfileController = myProfileController;
         vehicleDAO = new VehicleDAO();
         chargerBox.setItems(chargerTypeOptions);
         connectorBox.setItems(connectorTypeOptions);

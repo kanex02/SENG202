@@ -19,12 +19,11 @@ import javafx.scene.layout.VBox;
 import journey.Utils;
 import journey.business.SearchAutocomplete;
 import journey.data.Journey;
-import journey.data.QueryResult;
 import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
-import service.CreateJourneyService;
+import journey.service.CreateJourneyService;
 
 /**
  * Class to handle creating a journey given a start, end and chargers along the way.
@@ -56,9 +55,9 @@ public class CreateJourneyController {
 
      */
     public void populateVehicleDropdown() {
-        QueryResult data = vehicleDAO.getVehicles(mainController.getCurrentUser());
+        Vehicle[] data = vehicleDAO.getVehicles(mainController.getCurrentUser());
         ObservableList<String> vehicles = FXCollections.observableArrayList();
-        for (Vehicle vehicle : data.getVehicles()) {
+        for (Vehicle vehicle : data) {
             String newString = vehicle.getStringRepresentation();
             vehicles.add(newString);
         }
@@ -123,12 +122,16 @@ public class CreateJourneyController {
         if (validJourney) {
             journeyWarningLabel.setText("");
             selectVehicleComboBox.setValue("");
+            startAddr.setText("");
+            endAddr.setText("");
+            selectedStationField.setText("");
             visitedStationsList.setItems(FXCollections.observableArrayList());
             String[] vehicle = vehicleChoice.split(": ");
             String date = Utils.getDate();
             Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);
             journeyDAO.addJourney(journey);
             mapViewController.clearJourneyMarkers();
+            mainController.updatePlannedJourneys();
             event.consume();
         }
     }

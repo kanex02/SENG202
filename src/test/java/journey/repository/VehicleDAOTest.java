@@ -1,6 +1,5 @@
 package journey.repository;
 
-import journey.data.QueryResult;
 import journey.data.User;
 import journey.Utils;
 import journey.data.Vehicle;

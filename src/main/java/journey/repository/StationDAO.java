@@ -10,8 +10,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.StringJoiner;
-
-import journey.data.QueryResult;
 import journey.data.QueryStation;
 import journey.data.Station;
 import journey.Utils;
@@ -55,7 +53,8 @@ public class StationDAO {
                     resultSet.getString("dateFirstOperational"),
                     resultSet.getInt("numberOfConnectors"),
                     (resultSet.getString("connectorsList")).split(":"),
-                    resultSet.getBoolean("hasChargingCost"));
+                    resultSet.getBoolean("hasChargingCost"),
+                    resultSet.getInt("rating"), resultSet.getBoolean("favourite"));
         } catch (SQLException e) {
             log.error(e);
         } finally {
@@ -63,6 +62,53 @@ public class StationDAO {
         }
         return null;
     }
+
+    /**
+     * Sets the station rating to the currStation in the Station database
+     * @param rating the rating to set
+     * @param currStation the current station
+     */
+    public void setRating(int rating, Station currStation) {
+        Connection conn = null;
+        int stationID = currStation.getOBJECTID();
+        try {
+            conn = databaseManager.connect();
+
+            String updateQuery = "UPDATE Stations SET rating = ? WHERE ID = ?";
+            PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
+            updateStatement.setInt(1, rating);
+            updateStatement.setInt(2, stationID);
+            updateStatement.execute();
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
+        }
+    }
+
+    /**
+     * Sets the favourite parameter for the current station in the Station database
+     * @param favourite The boolean parameter to set
+     * @param currStation The current station
+     */
+    public void setFavourite(boolean favourite, Station currStation) {
+        Connection conn = null;
+        int stationID = currStation.getOBJECTID();
+        try {
+            conn = databaseManager.connect();
+
+            String updateQuery = "UPDATE Stations SET favourite = ? WHERE ID = ?";
+            PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
+            updateStatement.setBoolean(1, favourite);
+            updateStatement.setInt(2, stationID);
+            updateStatement.execute();
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
+        }
+    }
+
 
     /**
      * Inserts all features of the station into the database.
@@ -90,12 +136,13 @@ public class StationDAO {
                               Boolean is24Hours, int carParkCount, Boolean hasCarparkCost, int maxTimeLimit,
                               Boolean hasTouristAttraction, double latitude, double longitude, String currentType,
                               String dateFirstOperational, int numberOfConnectors, String[] connectorsList,
-                              Boolean hasChargingCost) {
+                              Boolean hasChargingCost, int rating, boolean favourite) {
         //Creates new station in database.
         Connection conn = null;
+
         try {
             conn = databaseManager.connect();
-            String sqlQuery = "INSERT INTO Stations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sqlQuery = "INSERT INTO Stations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, id);
             ps.setString(2, name);
@@ -114,6 +161,8 @@ public class StationDAO {
             ps.setInt(15, numberOfConnectors);
             ps.setString(16, convertArrayToString(connectorsList, "//"));
             ps.setBoolean(17, hasChargingCost);
+            ps.setInt(18, rating);
+            ps.setBoolean(19, favourite);
             ps.execute();
         } catch (SQLException e) {
             log.error(e);
@@ -144,7 +193,9 @@ public class StationDAO {
                 station.getDateFirstOperational(),
                 station.getNumberOfConnectors(),
                 station.getConnectors(),
-                station.isHasChargingCost());
+                station.isHasChargingCost(),
+                station.getRating(),
+                station.getFavourite());
     }
 
     /**
@@ -152,7 +203,7 @@ public class StationDAO {
 
      * @return result ArrayList of all stations in the database
      */
-    public QueryResult getAll() {
+    public Station[] getAll() {
         Connection conn = null;
         ArrayList<Station> res = new ArrayList<>();
         try {
@@ -164,9 +215,7 @@ public class StationDAO {
             log.error(e);
         }
         Utils.closeConn(conn);
-        QueryResult result = new QueryResult();
-        result.setStations(res.toArray(Station[]::new));
-        return result;
+        return res.toArray(Station[]::new);
     }
 
     /**
@@ -176,14 +225,10 @@ public class StationDAO {
      * @param searchStation QueryStation object which holds all necessary search values (the rest are null/null-like)
      * @return result ArrayList of all stations in the database that match given values in QueryStation
      */
-    public QueryResult query(QueryStation searchStation) {
+    public Station[] query(QueryStation searchStation) {
         //query with WHERE that is always true so that further statements can be chained on
         StringBuilder queryString = new StringBuilder("SELECT * FROM Stations WHERE id LIKE'%' ");
         //monster that builds up the query
-        String address = searchStation.getAddress();
-        if (address != null && address.trim().length() > 0) {
-            queryString.append("AND address LIKE '%").append(address).append("%' ");
-        }
         String name = searchStation.getName();
         if (name != null && name.trim().length() > 0) {
             queryString.append("AND name LIKE '%").append(name).append("%' ");
@@ -232,8 +277,6 @@ public class StationDAO {
         res.removeIf(station -> searchStation.getRange() > 0
                 && searchStation.distanceTo(station) > searchStation.getRange());
         Utils.closeConn(conn);
-        QueryResult result = new QueryResult();
-        result.setStations(res.toArray(Station[]::new));
-        return result;
+        return res.toArray(Station[]::new);
     }
 }

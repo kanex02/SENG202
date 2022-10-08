@@ -74,12 +74,7 @@
         addMiscMarker: addMiscMarker,
         clearMiscMarker: clearMiscMarker,
         clearMap: clearMap,
-        clearSearch: clearSearch
     };
-
-    function clearSearch() {
-        miscMarkers['search'].remove(map);
-    }
 
     function clearMap() {
         for (i=0; i<markers.length; i++) {
@@ -238,7 +233,7 @@
 
         // Add marker to map, and specify our own on click function which passes the id of the sale back to java,
         // so we can reference it
-        m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(id));
+        m.addTo(map).on('click', () => javaScriptBridge.getStationFromClick(id))
         markers.push(m)
     }
     /**

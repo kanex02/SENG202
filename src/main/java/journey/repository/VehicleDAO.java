@@ -1,6 +1,5 @@
 package journey.repository;
 
-import journey.data.QueryResult;
 import journey.data.User;
 import journey.Utils;
 import journey.data.Vehicle;
@@ -68,10 +67,9 @@ public class VehicleDAO {
 
      * @return result ArrayList of all vehicles of the current user
      */
-    public QueryResult getVehicles(User user) {
+    public Vehicle[] getVehicles(User user) {
         Connection conn = null;
         ArrayList<Vehicle> res = new ArrayList<>();
-        QueryResult result = new QueryResult();
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Vehicles WHERE User_ID = ?";
@@ -85,25 +83,28 @@ public class VehicleDAO {
             }
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            Utils.closeConn(conn);
-            result.setVehicles(res.toArray(Vehicle[]::new));
         }
-        return result;
+        Utils.closeConn(conn);
+        return res.toArray(Vehicle[]::new);
     }
 
     /**
      * query the 'vehicles' table to get the vehicle with matching registration
-     * @param registration
-     * @return
+
+     * @param registration registration of the vehicle
+     * @return the vehicle object if the registration is found, null otherwise
      */
-    public Vehicle queryVehicle(String registration) {
+    public Vehicle queryVehicle(String registration, int currentUser) {
+        if (registration == null || registration.isBlank()) {
+            return null;
+        }
         Connection conn = null;
         try {
-            String sqlQuery = "SELECT * FROM Vehicles WHERE registration = ?";
+            String sqlQuery = "SELECT * FROM Vehicles WHERE registration = ? and user_ID = ?";
             conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setString(1, registration);
+            ps.setInt(2, currentUser);
             ResultSet resultSet = ps.executeQuery();
             // Create a new station object.
             return new Vehicle(resultSet.getInt("year"), resultSet.getString("make"),

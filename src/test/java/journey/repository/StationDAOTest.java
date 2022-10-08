@@ -1,6 +1,5 @@
 package journey.repository;
 
-import journey.data.QueryResult;
 import journey.data.QueryStation;
 import journey.data.Station;
 import journey.Utils;
@@ -65,7 +64,9 @@ class StationDAOTest {
                 "date",
                 2,
                 new String[]{""},
-                true
+                true,
+                0,
+                false
         );
         ResultSet rs = s.executeQuery("SELECT * FROM Stations WHERE ID = -1");
         rs.next();
@@ -75,23 +76,23 @@ class StationDAOTest {
 
     @Test
     void testGetAll() throws SQLException {
-        QueryResult qr = stationDAO.getAll();
+        Station[] stations = stationDAO.getAll();
         databaseManager = DatabaseManager.getInstance();
         conn = databaseManager.connect();
         Statement s = conn.createStatement();
         ResultSet rs = s.executeQuery("SELECT COUNT(*) FROM Stations");
-        assertEquals(rs.getInt(1), qr.getStations().length);
+        assertEquals(rs.getInt(1), stations.length);
     }
 
     @Test
     void testQueryEmpty() throws SQLException {
         QueryStation queryStation = new QueryStation();
-        QueryResult stations = stationDAO.query(queryStation);
+        Station[] stations = stationDAO.getAll();
         databaseManager = DatabaseManager.getInstance();
         conn = databaseManager.connect();
         Statement s = conn.createStatement();
         ResultSet rs = s.executeQuery("SELECT COUNT(*) FROM Stations");
-        assertEquals(rs.getInt(1), stations.getStations().length);
+        assertEquals(rs.getInt(1), stations.length);
     }
 
     @Test
@@ -117,16 +118,17 @@ class StationDAOTest {
                 "date",
                 2,
                 new String[]{""},
+                true,
+                2,
                 true
         );
         QueryStation queryStation = new QueryStation();
-        queryStation.setAddress("10 Downing Street");
         queryStation.setName("queryTest");
         queryStation.setOperator("rotarepo");
         queryStation.setMaxTime(120);
         queryStation.setCurrentType("AC");
         queryStation.setHasTouristAttraction(true);
-        int id = stationDAO.query(queryStation).getStations()[0].getOBJECTID();
+        int id = stationDAO.query(queryStation)[0].getOBJECTID();
         assertEquals(-1, id);
 
         s.execute("DELETE FROM Stations WHERE ID = -1");
@@ -154,7 +156,9 @@ class StationDAOTest {
                 "date",
                 2,
                 new String[]{""},
-                true
+                true,
+                5,
+                false
         );
         Station station = stationDAO.queryStation(-1);
         assertEquals("Krane", station.getOwner());
