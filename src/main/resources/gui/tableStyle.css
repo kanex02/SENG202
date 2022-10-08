@@ -1,22 +1,77 @@
+* {
+    -fx-primary-color: #c0d6bc;
+    -fx-secondary-color: #aed9a7;
+    -fx-accent-color: #88B181;
+    -fx-darkest-green: #5c7a57;
+    -fx-grey-color: #b9b9b9;
+    -fx-light-grey-color: #d1d1d1;
+    -fx-lightest-grey-color: #F9F9FB;
 
-.table-view .column-header,
-.table-view .column-header-background .filler {
-    -fx-background-color:  white;
+    -fx-focus-color: -fx-secondary-color;
+}
+
+.table-button {
+    -fx-background-color: -fx-primary-color;
+    -fx-cursor: hand;
+}
+.table-button:hover{
+    -fx-background-color: -fx-accent-color;
+}
+.table-view {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent; /* OR  -fx-background-insets: 0.0; */
+}
+.table-view .column-header-background,
+.table-view .column-header-background .filler,
+.table-view .corner {
+    -fx-background-color: -fx-accent-color;
+}
+.table-view .column-header {
+    -fx-background-color: -fx-accent-color;
+    -fx-border-color: -fx-darkest-green;
 }
 .table-view .column-header .label{
-    -fx-text-fill: black;
     -fx-font-weight: bold;
-    -fx-alignment: CENTER_LEFT;
+    -fx-alignment: center-left;
+    -fx-text-fill: -fx-lightest-grey-color;
 }
-.table-view .cell{
-    -fx-cell-size: 35;
-    -fx-background-color: #f0faf0;
-    -fx-border-color: darkgrey;
-    -fx-text-fill: black;
-    -fx-border-width: 0.1 0 0.1 0;
-
+/* This is just magic */
+.table-row-cell:filled {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent -fx-light-grey-color -fx-light-grey-color -fx-light-grey-color, transparent;
+    -fx-border-insets: 0, 1;
 }
-.table-row-cell:selected .cell{
-    -fx-background-color: #88B181;
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}
+.table-row-cell:filled:hover {
+    -fx-background-color: -fx-light-grey-color;
+}
+.table-row-cell:filled:selected:hover {
+    -fx-background-color: -fx-accent-color;
+}
+.table-row-cell:filled:selected {
+    -fx-background-color: -fx-secondary-color;
+    -fx-border-color: transparent -fx-light-grey-color -fx-light-grey-color -fx-light-grey-color, transparent;
+    -fx-border-insets: 0, 1;
+    -fx-background-insets: 0.0;
+    -fx-background-radius: 0.0;
+}
+.table-row-cell:filled:selected .table-cell {
+    -fx-text-fill: #474747;
+}
+.table-view .cell:filled{
+    -fx-cell-size: 30;
+    -fx-alignment: center-left;
+}
+.check-box-table-cell > .check-box:selected .box .mark {
+    -fx-background-color: white;
+}
+.check-box-table-cell > .check-box:selected .box{
+    -fx-background-color: -fx-accent-color;
+}
+.table-view .placeholder .label {
+    -fx-text-fill: red;
+    -fx-padding:20px;
 }
 

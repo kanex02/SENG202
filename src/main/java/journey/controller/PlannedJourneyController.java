@@ -36,14 +36,14 @@ public class PlannedJourneyController {
         vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicle_ID"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
-        Journey[] data = journeyDAO.getJourneys(mainController.getCurrentUser());
+        Journey[] data = journeyDAO.getPlannedJourneys(mainController.getCurrentUser());
         ObservableList<Journey> journeys = FXCollections.observableArrayList(data);
         journeyTable.setItems(journeys);
     }
 
     @FXML public void markCompletedButton() {
         int journeyID = selectedJourney.getJourneyID();
-        journeyDAO.completeAJourney(journeyID);
+        journeyDAO.completeAJourney(journeyID, mainController.getCurrentUser().getId());
         mainController.updateCompletedJourneys();
     }
 

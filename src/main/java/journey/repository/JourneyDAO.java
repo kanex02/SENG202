@@ -3,6 +3,7 @@ package journey.repository;
 import journey.data.Journey;
 import journey.data.User;
 import journey.Utils;
+import journey.data.Vehicle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,15 +50,16 @@ public class JourneyDAO {
      * @param user current user
      * @return a list of journeys submitted by the user
      */
-    public Journey[] getJourneys(User user) {
+    public Journey[] getPlannedJourneys(User user) {
         Connection conn = null;
         ArrayList<Journey> res = new ArrayList<>();
         try {
 
             conn = databaseManager.connect();
-            String sqlQuery = "SELECT * FROM Journeys WHERE User_ID = ?";
+            String sqlQuery = "SELECT * FROM Journeys WHERE User_ID = ? and completed = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, user.getId());
+            ps.setBoolean(2, false);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 res.add(new Journey(rs.getInt("ID"), rs.getString("start"), rs.getString("end"),
@@ -83,15 +85,30 @@ public class JourneyDAO {
     }
 
 
-    public void completeAJourney(int journeyID) {
+    public void completeAJourney(int journeyID, int currentUser) {
         Connection conn = null;
+        Journey journey = queryJourney(journeyID, currentUser);
+        journey.setDate(Utils.getDate());
         try {
-            String sqlQuery = "UPDATE Journeys SET completed = ? WHERE ID = ?";
             conn = databaseManager.connect();
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setBoolean(1, true);
-            ps.setInt(2, journeyID);
-            ps.executeUpdate();
+            String insertQuery = "INSERT INTO Journeys VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
+            insertStatement.setInt(3, journey.getUserID());
+            insertStatement.setString(4, journey.getVehicle_ID());
+            insertStatement.setString(5, journey.getStart());
+            insertStatement.setString(6, journey.getEnd());
+            insertStatement.setString(7, journey.getDate());
+            insertStatement.setBoolean(8, true);
+            insertStatement.execute();
+
+            Statement statement = conn.createStatement();
+            for (int i = 0; i < journey.getStations().size(); i++) {
+                String sql = "INSERT INTO JourneyStations VALUES (" + getNumberOfJourneys() + "," +
+                        journey.getStations().get(i) + "," +
+                        i + ")";
+                statement.addBatch(sql);
+            }
+            statement.executeBatch();
         } catch (SQLException e) {
             log.error(e);
         } finally {
@@ -104,7 +121,6 @@ public class JourneyDAO {
         Connection conn = null;
         ArrayList<Journey> res = new ArrayList<>();
         try {
-
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Journeys WHERE User_ID = ? and completed = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
@@ -166,6 +182,38 @@ public class JourneyDAO {
         } finally {
             Utils.closeConn(conn);
         }
+    }
+
+    public Journey queryJourney(int journeyID, int currentUser) {
+        Connection conn = null;
+        try {
+            String sqlQuery = "SELECT * FROM Journeys WHERE ID = ? and user_ID = ?";
+            conn = databaseManager.connect();
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, journeyID);
+            ps.setInt(2, currentUser);
+            ResultSet resultSet = ps.executeQuery();
+            // Create a new journey object.
+            Journey journey = new Journey(resultSet.getInt("ID"), resultSet.getString("start"),
+                    resultSet.getString("end"), resultSet.getString("vehicle_ID"),
+                    resultSet.getInt("user_ID"), resultSet.getString("date"));
+            ArrayList<Integer> stations = new ArrayList<>();
+            String sqlQuery2 = "SELECT station_ID FROM JourneyStations WHERE journey_ID = ?";
+            PreparedStatement ps2 = conn.prepareStatement(sqlQuery2);
+            ps2.setInt(1, journey.getJourneyID());
+            ResultSet resultSet2 = ps2.executeQuery();
+            while (resultSet2.next()) {
+                stations.add(resultSet2.getInt("station_id"));
+            }
+            journey.setStations(stations);
+            return journey;
+
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            Utils.closeConn(conn);
+        }
+        return null;
     }
 
 
