@@ -154,11 +154,13 @@ public class MapController {
 
     public boolean setStartAddr(String addr) {
         mainController.setStartAddr(addr);
+        mainController.setViewPlanJourneys();
         return true;
     }
 
     public boolean setEndAddr(String addr) {
         mainController.setEndAddr(addr);
+        mainController.setViewPlanJourneys();
         return true;
     }
 

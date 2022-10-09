@@ -15,8 +15,8 @@ public class JavaScriptBridge {
     private final GetStationInterface getStationInterface;
     private final GetLatLongInterface getLatLongInterface;
     private final ChangeLatLongInterface changeLatLongInterface;
-    private SetStartAddrInterface setStartAddrInterface;
-    private SetEndAddrInterface setEndAddrInterface;
+    private final SetStartAddrInterface setStartAddrInterface;
+    private final SetEndAddrInterface setEndAddrInterface;
 
     /**
      * Creates a javascript bridge object with a 'callback' lambda function for displaying the station on the map after creation

@@ -187,7 +187,7 @@ public class Station {
     }
 
 
-    public Boolean getHasTouristAttraction() {
+    public boolean getHasTouristAttraction() {
         return hasTouristAttraction;
     }
 
@@ -305,8 +305,7 @@ public class Station {
     }
 
     public String getReadableAddress() {
-        String desc = String.format("%s at %s", name, address);
-        return desc;
+        return String.format("%s at %s", name, address);
     }
 
 
