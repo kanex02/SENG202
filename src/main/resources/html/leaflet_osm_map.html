@@ -145,10 +145,16 @@
         // Add autocomplete search bar to map
         // Rewriting add marker function so can get address updated on click of marker
         let options = {
+            geocoder: new L.Control.Geocoder.Nominatim({
+                geocodingQueryParams: {
+                    countrycodes: 'nz'
+                }
+            }),
             focus: [-43.53, 172.64], // Focus on Christchurch, New Zealand
             defaultMarkGeocode: false,
             panToPoint: true,
-            autocomplete: true
+            autocomplete: true,
+
         }
         let geocoder = L.Control.geocoder(options)
             .on('markgeocode', function(e) {
