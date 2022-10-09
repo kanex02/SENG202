@@ -22,8 +22,6 @@ CREATE TABLE IF NOT EXISTS Stations (
     numberOfConnectors INTEGER,
     connectorsList TEXT NOT NULL,
     hasChargingCost BOOLEAN,
-    rating INTEGER,
-    favourite BOOLEAN
 );
 --Break
 DROP TABLE IF EXISTS Users;
@@ -66,6 +64,8 @@ CREATE TABLE IF NOT EXISTS Notes (
     user_ID INTEGER NOT NULL REFERENCES Users(ID),
     station_ID INTEGER NOT NULL REFERENCES Stations(ID),
     note TEXT
+    rating INTEGER,
+    favourited BOOLEAN
 );
 --Break
 DROP TABLE IF EXISTS JourneyStations;

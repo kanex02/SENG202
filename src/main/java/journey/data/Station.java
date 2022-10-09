@@ -52,8 +52,6 @@ public class Station {
     private Boolean hasChargingCost;
     private int maxTime;
     private String[] connectors;
-    private int rating = 0;
-    private boolean favourite = false;
 
     public Station() {}
 
@@ -82,8 +80,7 @@ public class Station {
                    Boolean is24Hours, int carParkCount, Boolean hasCarParkCost,
                    int maxTimeLimit, Boolean hasTouristAttraction, float latitude,
                    float longitude, String currentType, String dateFirstOperational,
-                   int numberOfConnectors, String[] connectorsList, Boolean hasChargingCost,
-                   int rating, boolean favourite) {
+                   int numberOfConnectors, String[] connectorsList, Boolean hasChargingCost) {
         this.OBJECTID = id;
         this.name = name;
         this.operator = operator;
@@ -101,8 +98,6 @@ public class Station {
         this.numberOfConnectors = numberOfConnectors;
         this.connectors = connectorsList;
         this.hasChargingCost = hasChargingCost;
-        this.rating = rating;
-        this.favourite = favourite;
     }
 
     /**
@@ -124,23 +119,6 @@ public class Station {
         double c = 2 * asin(Math.sqrt(a));
         double radius = 6357;
         return radius * c;
-    }
-
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int newRating) {
-        rating = newRating;
-    }
-
-    public boolean getFavourite() {
-        return favourite;
-    }
-
-    public void setFavourite(boolean favourite) {
-        this.favourite = favourite;
     }
 
     public int getMaxTime() {
@@ -286,12 +264,6 @@ public class Station {
         longDes += String.format("Current Type: %s\nNumber of Connectors: %s\n", currentType, numberOfConnectors);
         if (hasChargingCost) {
             longDes += "Not free charging\n";
-        }
-        longDes += "Rating: " + rating + "\n";
-        if (favourite) {
-            longDes += "Favourite station\n";
-        } else {
-            longDes += "Not a favourite\n";
         }
         return longDes;
     }

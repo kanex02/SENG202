@@ -6,18 +6,31 @@ package journey.data;
 public class Note {
     private Station station;
     private String note;
+    private boolean favourite;
+    private int rating;
 
     public Note() {}
 
     /**
      * initialises stations private variables
-
      * @param station a station that a note is being added to/removed from
      * @param note the note for the station
+     * @param rating the rating of the station
+     * @param favourite whether the station has been favourited or not
      */
-    public Note(Station station, String note) {
+    public Note(Station station, String note, int rating, boolean favourite) {
         this.station = station;
         this.note = note;
+        this.rating = rating;
+        this.favourite = favourite;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public boolean getFavourite() {
+        return favourite;
     }
 
     public Station getStation() {

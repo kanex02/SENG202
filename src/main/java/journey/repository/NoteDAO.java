@@ -32,10 +32,16 @@ public class NoteDAO {
      */
     public void setNote(Note note, User user) {
         Connection conn = null;
+
         String noteString = note.getNote();
         Station currStation = note.getStation();
+        int rating = note.getRating();
+        boolean favourite = note.getFavourite();
+
         int stationID = currStation.getOBJECTID();
         int userID = user.getId();
+
+
         try {
             conn = databaseManager.connect();
             // Query database to see if a note exists
@@ -50,19 +56,23 @@ public class NoteDAO {
              * In this case we just insert a new note into the station
              */
             if (!findNoteSet.isBeforeFirst()) {
-                String insertQuery = "INSERT INTO notes VALUES (?,?,?,?)";
+                String insertQuery = "INSERT INTO notes VALUES (?,?,?,?,?,?)";
                 PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
-                insertStatement.setInt(2, userID); // UserID set to 1 as no users exist yet.
+                insertStatement.setInt(2, userID);
                 insertStatement.setInt(3, stationID);
                 insertStatement.setString(4, noteString);
+                insertStatement.setInt(5, rating);
+                insertStatement.setBoolean(6, favourite);
                 insertStatement.execute();
             } else {
                 // A note exists, therefore we update it
-                String updateQuery = "UPDATE Notes SET note = ? WHERE station_ID = ? AND user_ID = ?";
+                String updateQuery = "UPDATE Notes SET note = ?, rating = ?, favourited = ? WHERE station_ID = ? AND user_ID = ?";
                 PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
                 updateStatement.setString(1, noteString); // Updating the note field with the new note string.
-                updateStatement.setInt(2, stationID);
-                updateStatement.setInt(3, userID); // Hardcoded userID, update with actual id of user.
+                updateStatement.setInt(2, rating);
+                updateStatement.setBoolean(3, favourite);
+                updateStatement.setInt(4, stationID);
+                updateStatement.setInt(5, userID);
                 updateStatement.execute();
             }
         } catch (SQLException e) {
@@ -93,10 +103,15 @@ public class NoteDAO {
             ResultSet resultSet = ps.executeQuery();
             // If there is no item in result set we disconnect first and return an empty note
             if (!resultSet.isBeforeFirst()) {
-                return new Note(null, null);
+                return new Note(null, null, 0, false);
             }
-            String stationNote = resultSet.getString(4); // Get the note from the result set
-            return new Note(station, stationNote);
+
+            String stationNote = resultSet.getString(4);
+            int stationRating = resultSet.getInt(5);
+            boolean stationFavourited = resultSet.getBoolean(6);
+
+            return new Note(station, stationNote, stationRating, stationFavourited);
+
         }  catch (SQLException e) {
             log.error(e);
         } finally {
