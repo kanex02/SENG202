@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import journey.data.Vehicle;
@@ -30,6 +31,7 @@ public class ProfileController {
     private Stage stage = null;
     @FXML private Label name;
     @FXML private Label vehicle;
+    @FXML private Label warningLabel;
     @FXML private TableColumn<Vehicle, String> registrationCol;
 
     @FXML private TableColumn<Vehicle, String> makeCol;
@@ -42,7 +44,7 @@ public class ProfileController {
     @FXML private TableColumn<Vehicle, String> connectorTypeCol;
 
     @FXML private TableView<Vehicle> vehicleTable;
-
+    private String editFXML = "/fxml/vehicleEdit.fxml";
 
     public Stage getProfileStage() {
         return stage;
@@ -67,34 +69,29 @@ public class ProfileController {
      * Sets the text field to the registration of the currently used vehicle
      */
     public void setVehicle() {
-        vehicle.setText(profileController.getSelectedVehicle());
-    }
-
-    @FXML private void editCurrentVehicle() {
-        Parent root;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editVehicle.fxml"));
-            root = loader.load();
-
-            EditVehicleController editVehicleController = loader.getController();
-
-            Stage editVehicleStage = new Stage(StageStyle.UNDECORATED);
-            editVehicleController.init(this);
-
-            editVehicleStage.setTitle("Edit Vehicle");
-            Scene scene = new Scene(root);
-            editVehicleStage.setScene(scene);
-            editVehicleStage.show();
-            editVehicleStage.setMinHeight(424);
-            editVehicleStage.setMinWidth(371);
-        } catch (IOException e) {
-            log.error(e);
+        String reg = profileController.getSelectedVehicle();
+        if (reg == null) {
+            vehicle.setText("");
+        } else {
+            vehicle.setText(profileController.getSelectedVehicle());
         }
     }
 
+    @FXML private void editCurrentVehicle() {
+        if (profileController.getSelectedVehicle() == null) {
+            warningLabel.setText("You haven't selected a vehicle");
+        } else {
+            profileController.loadEditVehicle();
+        }
+    }
 
+    /**
+     * delete the currently selected vehicle from the database.
+     */
     @FXML public void deleteCurrentVehicle() {
-        System.out.println("delete");
+        String reg = profileController.getSelectedVehicle();
+        vehicleDAO.removeVehicle(reg, profileController.getCurrentUser().getId());
+        profileController.setSelectedVehicle(null);
     }
 
 

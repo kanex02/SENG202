@@ -118,13 +118,14 @@ public class VehicleDAO {
         return null;
     }
 
-    public void removeVehicle(String reg) {
+    public void removeVehicle(String reg, int userID) {
         Connection conn = null;
         try {
-            String sqlQuery = "DELETE FROM Vehicles WHERE registration = ?";
+            String sqlQuery = "DELETE FROM Vehicles WHERE registration = ? and user_ID = ?";
             conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setString(1, reg);
+            ps.setInt(2, userID);
             ps.executeUpdate();
         } catch (SQLException e) {
             log.error(e);

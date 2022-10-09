@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MyProfileController">
+<AnchorPane prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MyProfileController">
     <BorderPane prefHeight="750.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <top>
             <GridPane maxHeight="55.0" prefHeight="55.0" style="-fx-background-color: #88B181;" BorderPane.alignment="CENTER">
@@ -51,7 +51,10 @@
             </GridPane>
         </top>
       <left>
-         <AnchorPane fx:id="registerVehicleWrapper" maxWidth="475.0" minWidth="475.0" prefHeight="695.0" prefWidth="475.0" BorderPane.alignment="CENTER" />
+         <AnchorPane maxWidth="475.0" minWidth="475.0" prefHeight="695.0" prefWidth="475.0" BorderPane.alignment="CENTER">
+            <children>
+               <BorderPane fx:id="registerVehicleWrapper" prefHeight="693.0" prefWidth="476.0" />
+            </children></AnchorPane>
       </left>
       <center>
          <GridPane BorderPane.alignment="CENTER">

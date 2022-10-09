@@ -47,6 +47,10 @@ public class PlannedJourneyController {
         mainController.updateCompletedJourneys();
     }
 
+    @FXML public void deleteJourney() {
+        System.out.println("delete journey");
+    }
+
     /**
      * Initialises the table.
 

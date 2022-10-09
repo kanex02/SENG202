@@ -177,7 +177,7 @@ public class RegisterVehicleController {
         connectorTypeChoice = connectorBox.getValue();
     }
 
-    public void init(Stage stage, MyProfileController myProfileController) {
+    public void init(MyProfileController myProfileController) {
         this.myProfileController = myProfileController;
         vehicleDAO = new VehicleDAO();
         chargerBox.setItems(chargerTypeOptions);

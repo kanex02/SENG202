@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="393.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
+<AnchorPane prefHeight="393.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
    <children>
       <GridPane prefHeight="399.0" prefWidth="629.0" style="-fx-background-color: white;">
         <columnConstraints>
@@ -64,6 +64,11 @@
                   </Label>
                   <Button layoutX="419.0" layoutY="72.0" mnemonicParsing="false" onAction="#editCurrentVehicle" stylesheets="@../gui/buttons.css" text="Edit" />
                   <Button layoutX="472.0" layoutY="72.0" mnemonicParsing="false" onAction="#deleteCurrentVehicle" stylesheets="@../gui/buttons.css" text="Delete" />
+                  <Label fx:id="warningLabel" layoutX="533.0" layoutY="85.0" textFill="#da0303">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
          </children>

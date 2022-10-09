@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +19,7 @@ import java.io.IOException;
 
 public class MyProfileController {
 
-    @FXML private AnchorPane registerVehicleWrapper;
+    @FXML private BorderPane registerVehicleWrapper;
     @FXML private AnchorPane profileWrapper;
     @FXML private Button homeButton;
 
@@ -25,23 +27,50 @@ public class MyProfileController {
 
     private MainController mainController;
     private ProfileController profileController = null;
-
     private Stage stage;
     private User currentUser;
     private String selectedVehicle;
 
-    private void viewRegisterVehicles() {
+//    public void viewRegisterVehicles() {
+//        try {
+//            FXMLLoader registerVehicleLoader = new FXMLLoader(getClass().getResource("/fxml/registerVehicle.fxml"));
+//            Parent registerVehicleParent = registerVehicleLoader.load();
+//
+//            RegisterVehicleController registerVehicleController = registerVehicleLoader.getController();
+//            registerVehicleController.init(stage, this);
+//            registerVehicleWrapper.getChildren().add(registerVehicleParent);
+//            AnchorPane.setTopAnchor(registerVehicleParent, 0d);
+//            AnchorPane.setBottomAnchor(registerVehicleParent, 0d);
+//            AnchorPane.setLeftAnchor(registerVehicleParent, 0d);
+//            AnchorPane.setRightAnchor(registerVehicleParent, 0d);
+//        } catch (IOException e) {
+//            log.error(e);
+//        }
+//    }
+
+    public void viewRegisterVehicles() {
         try {
             FXMLLoader registerVehicleLoader = new FXMLLoader(getClass().getResource("/fxml/registerVehicle.fxml"));
             Parent registerVehicleParent = registerVehicleLoader.load();
-
             RegisterVehicleController registerVehicleController = registerVehicleLoader.getController();
-            registerVehicleController.init(stage, this);
-            registerVehicleWrapper.getChildren().add(registerVehicleParent);
-            AnchorPane.setTopAnchor(registerVehicleParent, 0d);
-            AnchorPane.setBottomAnchor(registerVehicleParent, 0d);
-            AnchorPane.setLeftAnchor(registerVehicleParent, 0d);
-            AnchorPane.setRightAnchor(registerVehicleParent, 0d);
+            registerVehicleController.init(this);
+            registerVehicleWrapper.setCenter(registerVehicleParent);
+            registerVehicleWrapper.toFront();
+            registerVehicleWrapper.setVisible(true);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    public void loadEditVehicle() {
+        try {
+            FXMLLoader editVehicleLoader = new FXMLLoader(getClass().getResource("/fxml/vehicleEdit.fxml"));
+            Parent editVehicleParent = editVehicleLoader.load();
+            EditVehicleController editVehicleController = editVehicleLoader.getController();
+            editVehicleController.init(this);
+            registerVehicleWrapper.setCenter(editVehicleParent);
+            registerVehicleWrapper.toFront();
+            registerVehicleWrapper.setVisible(true);
         } catch (IOException e) {
             log.error(e);
         }
