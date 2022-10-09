@@ -1,5 +1,6 @@
 package journey.controller;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,19 +17,19 @@ import journey.data.Station;
 public class TableController {
 
     @FXML private TableColumn<Station, String> addressCol;
-    @FXML private TableColumn<Station, Boolean> attractionCol;
+    @FXML private TableColumn<Station, String> attractionCol;
     @FXML private TableColumn<Station, Integer> carparksCol;
     @FXML private TableColumn<Station, Integer> connectorsCol;
     @FXML private TableColumn<Station, String> currentTypeCol;
-    @FXML private TableColumn<Station, Boolean> isFreePark;
-    @FXML private TableColumn<Station, Boolean> isFreeCharge;
+    @FXML private TableColumn<Station, String> isFreePark;
+    @FXML private TableColumn<Station, String> isFreeCharge;
     @FXML private TableColumn<Station, Integer> latCol;
     @FXML private TableColumn<Station, Integer> longCol;
     @FXML private TableColumn<Station, String> nameCol;
     @FXML private TableColumn<Station, String> operatorCol;
-    @FXML private TableColumn<Station, Integer> timeLimitCol;
+    @FXML private TableColumn<Station, String> timeLimitCol;
     @FXML private TableColumn<Station, Integer> ratingCol;
-    @FXML private TableColumn<Station, Boolean> favouriteCol;
+    @FXML private TableColumn<Station, String> favouriteCol;
 
     @FXML private TableView<Station> stationTable;
     @FXML private AnchorPane tableParent;
@@ -39,20 +40,38 @@ public class TableController {
      * Imports the data.
      */
     public void getData() {
+        timeLimitCol.setComparator((s, t1) -> {
+            if (s.equals("Unlimited")) {
+                return 1;
+            }
+            if (t1.equals("Unlimited")) {
+                return -1;
+            }
+            int firstIntegerValue = Integer.parseInt(s);
+            int secondIntegerValue = Integer.parseInt(t1);
+            return firstIntegerValue- secondIntegerValue;
+        });
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        attractionCol.setCellValueFactory(new PropertyValueFactory<>("hasTouristAttraction"));
+        attractionCol.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getHasTouristAttraction() ? "Yes" : "No"));
         carparksCol.setCellValueFactory(new PropertyValueFactory<>("carParkCount"));
         connectorsCol.setCellValueFactory(new PropertyValueFactory<>("numberOfConnectors"));
         currentTypeCol.setCellValueFactory(new PropertyValueFactory<>("currentType"));
-        isFreePark.setCellValueFactory(new PropertyValueFactory<>("hasCarParkCost"));
-        isFreeCharge.setCellValueFactory(new PropertyValueFactory<>("hasChargingCost"));
+        isFreePark.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().isHasCarParkCost() ? "Yes" : "No"));
+        isFreeCharge.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().isHasChargingCost() ? "Yes" : "No"));
         latCol.setCellValueFactory(new PropertyValueFactory<>("latitude"));
         longCol.setCellValueFactory(new PropertyValueFactory<>("longitude"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         operatorCol.setCellValueFactory(new PropertyValueFactory<>("operator"));
-        timeLimitCol.setCellValueFactory(new PropertyValueFactory<>("maxTime"));
+        timeLimitCol.setCellValueFactory(cellData -> {
+            int value = cellData.getValue().getMaxTime();
+            return new SimpleStringProperty(value == 0 ? "Unlimited" : Integer.toString(value));
+        });
         ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
-        favouriteCol.setCellValueFactory(new PropertyValueFactory<>("favourite"));
+        favouriteCol.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getFavourite()? "Yes" : "No"));
         Station[] data = mainController.getStations();
         ObservableList<Station> stations = FXCollections.observableArrayList(data);
         stationTable.setItems(stations);
