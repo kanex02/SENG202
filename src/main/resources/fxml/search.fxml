@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="350.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="350.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
     <Label layoutX="14.0" layoutY="45.0" text="Address:" />
     <TextField fx:id="nameSearch" layoutX="102.0" layoutY="133.0" prefHeight="24.0" prefWidth="230.0" stylesheets="@../gui/textFields.css" />
     <Label layoutX="14.0" layoutY="141.0" text="Name:" />

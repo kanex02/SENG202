@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="completedJourneysParent" prefHeight="400.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.CompletedJourneysController">
+<AnchorPane fx:id="completedJourneysParent" prefHeight="400.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.CompletedJourneysController">
     <TableView fx:id="journeyTable" minWidth="0.0" prefHeight="400.0" prefWidth="310.0" stylesheets="@../gui/tableStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
             <TableColumn fx:id="dateCol" prefWidth="86.0" text="Date Completed" />

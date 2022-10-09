@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.Rating?>
 
-<AnchorPane minHeight="150.0" minWidth="0.0" prefHeight="400.0" prefWidth="310.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.NotesController">
+<AnchorPane minHeight="150.0" minWidth="0.0" prefHeight="400.0" prefWidth="310.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.NotesController">
     <TextArea fx:id="stationDetailTextArea" layoutX="10.0" layoutY="263.0" minHeight="81.0" prefHeight="90.0" prefWidth="290.0" promptText="Enter a note." AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="263.0" />
     <Button layoutX="53.0" layoutY="362.0" mnemonicParsing="false" onAction="#submitNotes" prefHeight="24.0" prefWidth="69.0" style="-fx-background-color: #FFFFFF;" text="Submit" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="52.0">
       <effect>

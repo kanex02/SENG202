@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="393.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
+<AnchorPane prefHeight="393.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
    <children>
       <GridPane prefHeight="399.0" prefWidth="629.0" style="-fx-background-color: white;">
         <columnConstraints>

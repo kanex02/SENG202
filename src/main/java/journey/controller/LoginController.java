@@ -42,18 +42,16 @@ public class LoginController {
      * when register button is pressed.
      */
     @FXML private void setRunLater() {
-        if (nameChoiceBox.getValue() == null && nameTextBox.getText().equals("")) {
+        if ((nameChoiceBox.getValue() == null || nameChoiceBox.getValue().equals("")) && nameTextBox.getText().equals("")) {
             warningLabel.setText("Please select or enter Username");
-        } else if (nameChoiceBox.getValue() == null) {
+        } else if (nameChoiceBox.getValue() == null || nameChoiceBox.getValue().equals("")) {
             Platform.runLater(this::registerUser);
-        } else if (nameChoiceBox.getValue() != null && !nameChoiceBox.getValue().equals("") && !nameTextBox.getText().equals("")) {
-            warningLabel.setText("Please either select or enter a username");
         } else {
             Platform.runLater(this::setUser);
         }
     }
 
-    @FXML private void registerUser() {
+    private void registerUser() {
         String name = nameTextBox.getText();
         warningLabel.setText("");
         Boolean valid = LoginService.checkUser(name);
