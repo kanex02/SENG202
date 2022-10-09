@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
+<AnchorPane prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <children>
       <BorderPane prefHeight="750.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -76,7 +76,7 @@
          <left>
             <VBox minWidth="300.0" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #efefef;" BorderPane.alignment="CENTER">
                <children>
-                  <Accordion prefHeight="800.0" prefWidth="350.0" stylesheets="@../gui/style.css">
+                  <Accordion fx:id="accordionPane" prefHeight="800.0" prefWidth="350.0" stylesheets="@../gui/style.css">
                     <panes>
                       <TitledPane animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Search and Filter">
                         <content>
@@ -88,7 +88,7 @@
                             <AnchorPane fx:id="notesWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                           </content>
                         </TitledPane>
-                      <TitledPane animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Plan a Journey">
+                      <TitledPane fx:id="planJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Plan a Journey">
                         <content>
                           <AnchorPane fx:id="recordJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                         </content>

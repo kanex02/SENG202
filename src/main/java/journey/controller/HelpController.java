@@ -68,7 +68,7 @@ public class HelpController {
         this.stage = helpStage;
         img = new Image(
                 new BufferedInputStream(
-                        getClass().getResourceAsStream("/pictures/Search.png")
+                        getClass().getResourceAsStream("/pictures/Search.jpg")
                 ));
         helpImage.setImage(img);
         helpImage.fitWidthProperty().bind(stage.widthProperty());

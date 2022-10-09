@@ -147,12 +147,11 @@
         let options = {
             geocoder: new L.Control.Geocoder.Nominatim({
                 geocodingQueryParams: {
-                    countrycodes: 'nz'
+                    countrycodes: 'nz',
+                    focus: [-43.53, 172.64], // Focus on Christchurch, New Zealand
                 }
             }),
-            focus: [-43.53, 172.64], // Focus on Christchurch, New Zealand
             defaultMarkGeocode: false,
-            panToPoint: true,
             autocomplete: true,
 
         }

@@ -8,8 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
@@ -54,6 +56,9 @@ public class MainController {
     @FXML private AnchorPane recordJourneyWrapper;
     @FXML private AnchorPane plannedJourneysWrapper;
     @FXML private AnchorPane completeJourneyWrapper;
+    @FXML private TitledPane planJourneyPane;
+    @FXML private Accordion accordionPane;
+
     @FXML private AnchorPane registerVehicleWrapper;
     @FXML private Label noteStationAddr;
 
@@ -78,6 +83,13 @@ public class MainController {
 
     public void setEndAddr(String addr) {
         recordJourneyController.changeJourneyEnd(addr);
+    }
+
+    /**
+     * Sets the accordion pane to be expanded on the plan journeys tab
+     */
+    public void setViewPlanJourneys() {
+        accordionPane.setExpandedPane(planJourneyPane);
     }
 
 
