@@ -53,7 +53,7 @@
       <left>
          <AnchorPane maxWidth="475.0" minWidth="475.0" prefHeight="695.0" prefWidth="475.0" BorderPane.alignment="CENTER">
             <children>
-               <BorderPane fx:id="registerVehicleWrapper" prefHeight="693.0" prefWidth="476.0" />
+               <BorderPane fx:id="registerVehicleWrapper" prefHeight="695.0" prefWidth="475.0" />
             </children></AnchorPane>
       </left>
       <center>

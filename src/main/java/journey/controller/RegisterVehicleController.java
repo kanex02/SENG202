@@ -56,14 +56,7 @@ public class RegisterVehicleController {
     Pattern digit = Pattern.compile("[0-9]");
     Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 
-
-    /**
-     * Run when the user presses the register vehicle button.
-     * Initialises a new vehicle and assigns it to the current user based on the input
-     * fields for make, model, year, registration and charger type.
-     */
-    @FXML private void registerVehicle() {
-        //get information about the vehicles and reset to null values
+    public boolean isValid() {
         boolean valid = true;
         String registration = registrationTextBox.getText();
         String year = yearTextBox.getText();
@@ -84,7 +77,7 @@ public class RegisterVehicleController {
             regWarningLabel.setText("Cannot be more than 6 characters");
             valid = false;
         } else if (vehicleDAO.queryVehicle(registration, myProfileController.getCurrentUser().getId()) != null) {
-            regWarningLabel.setText("A vehicle with this registration already exists!");
+            regWarningLabel.setText("A vehicle with this registration already exists for this user!");
             valid = false;
         }
 
@@ -96,6 +89,10 @@ public class RegisterVehicleController {
             valid = false;
         } else if (make.equals("")) {
             makeWarningLabel.setText("Please enter a model");
+            valid = false;
+        } else if (make.length() > 20) {
+            makeWarningLabel.setText("Make cannot be more than 20 characters long");
+            valid = false;
         }
 
         //model validation
@@ -106,6 +103,10 @@ public class RegisterVehicleController {
             valid = false;
         } else if (model.equals("")) {
             modelWarningLabel.setText("Please enter a model");
+            valid = false;
+        } else if (model.length() > 20) {
+            modelWarningLabel.setText("Model cannot be more than 20 characters long");
+            valid = false;
         }
 
         //year validation
@@ -138,7 +139,27 @@ public class RegisterVehicleController {
             connectorWarningLabel.setText("Please select a connector type");
         }
 
+        return valid;
+    }
+
+
+    /**
+     * Run when the user presses the register vehicle button.
+     * Initialises a new vehicle and assigns it to the current user based on the input
+     * fields for make, model, year, registration and charger type.
+     */
+    @FXML private void registerVehicle() {
+        //get information about the vehicles and reset to null values
+        boolean valid = isValid();
+
         if (valid) {
+            String registration = registrationTextBox.getText();
+            String year = yearTextBox.getText();
+            int intYear = Integer.parseInt(year);
+            String make = makeTextBox.getText();
+            String model = modelTextBox.getText();
+            chargerTypeChoice();
+            connectorTypeChoice();
             registrationTextBox.setText("");
             yearTextBox.setText("");
             makeTextBox.setText("");
