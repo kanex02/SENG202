@@ -261,14 +261,20 @@ public class MainController {
             controller.init(helpStage);
             helpStage.setTitle("Help");
 
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 1200, 760);
             helpStage.setScene(scene);
-            helpStage.setMinHeight(400);
-            helpStage.setMinWidth(600);
+            helpStage.setMaxHeight(760);
+            helpStage.setMaxWidth(1200);
+            helpStage.setMaximized(false);
             helpStage.show();
+            // set the min height and width so the window opens at the correct size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            helpStage.setX((bounds.getWidth() - helpStage.getWidth())*1.0f/2);
+            helpStage.setY((bounds.getHeight() - helpStage.getHeight())*1.0f/3);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
         event.consume();
     }

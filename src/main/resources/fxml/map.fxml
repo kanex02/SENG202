@@ -9,10 +9,9 @@
     <center>
         <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <WebView fx:id="webView" prefHeight="200.0" prefWidth="645.0" />
-           <Button fx:id="toggleRoutingButton" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#toggleRoute" text="Toggle Routing" StackPane.alignment="TOP_RIGHT">
             <StackPane.margin>
                <Insets right="5.0" top="5.0" />
-            </StackPane.margin></Button>
+            </StackPane.margin>
         </StackPane>
     </center>
 </BorderPane>

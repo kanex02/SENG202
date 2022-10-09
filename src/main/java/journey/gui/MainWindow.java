@@ -35,7 +35,6 @@ public class MainWindow extends Application {
             LoginController baseController = baseLoader.getController();
             baseController.init(primaryStage);
             primaryStage.setTitle("Journey");
-            primaryStage.show();
             Scene scene = new Scene(root, 800, 500);
             primaryStage.setScene(scene);
             primaryStage.setMaxHeight(500);

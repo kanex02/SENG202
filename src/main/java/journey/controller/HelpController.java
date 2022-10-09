@@ -31,32 +31,32 @@ public class HelpController {
         if (image.equals("Search and Filter")) {
             img = new Image(
                     new BufferedInputStream(
-                            getClass().getResourceAsStream("/pictures/Search.png")
+                            getClass().getResourceAsStream("/pictures/Search.jpg")
                     ));
             helpImage.setImage(img);
         } else if (image.equals("Record Notes")) {
             img = new Image(
                     new BufferedInputStream(
-                            getClass().getResourceAsStream("/pictures/marker-icon-2x-gold.png")
+                            getClass().getResourceAsStream("/pictures/Notes.jpg")
                     ));
 
             helpImage.setImage(img);
         } else if (image.equals("Plan a Journey")) {
             img = new Image(
                     new BufferedInputStream(
-                            getClass().getResourceAsStream("/pictures/Journey_Logo.jpeg")
+                            getClass().getResourceAsStream("/pictures/PlanJourney.jpg")
                     ));
             helpImage.setImage(img);
         } else if (image.equals("Planned Journeys")) {
             img = new Image(
                     new BufferedInputStream(
-                            getClass().getResourceAsStream("/pictures/Journey_Logo.jpeg")
+                            getClass().getResourceAsStream("/pictures/Planned.jpg")
                     ));
             helpImage.setImage(img);
         } else if (image.equals("Register a Vehicle")){
             img = new Image(
                     new BufferedInputStream(
-                            getClass().getResourceAsStream("/pictures/Journey_Logo.jpeg")
+                            getClass().getResourceAsStream("/pictures/RegisterVehicle.jpg")
                     ));
             helpImage.setImage(img);
         }

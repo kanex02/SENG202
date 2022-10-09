@@ -1,7 +1,5 @@
 package journey.controller;
 
-import java.util.ArrayList;
-import java.util.Objects;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
@@ -15,6 +13,9 @@ import journey.data.Journey;
 import journey.data.Station;
 import journey.repository.StationDAO;
 import netscape.javascript.JSObject;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Controller for displaying Open Street Maps through JavaFX webview.
@@ -124,16 +125,6 @@ public class MapController {
         javaScriptConnector.call("removeRoute");
     }
 
-    /**
-     * Simple toggle to hide or display the route on click.
-     */
-    public void toggleRoute() {
-        if (routeDisplayed) {
-            removeRoute();
-        } else {
-            addRoute();
-        }
-    }
 
     public void clearSearch() {
         javaScriptConnector.call("clearMiscMarker", "search");
