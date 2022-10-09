@@ -107,5 +107,25 @@ public class UserDAO {
         Utils.closeConn(conn);
         return res.toArray(User[]::new);
     }
+
+
+    public boolean nameInDB(String name) {
+        Connection conn = null;
+        boolean inDB = false;
+        try {
+            conn = databaseManager.connect();
+            String sqlQuery = "SELECT name FROM Users where name = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                inDB = true;
+            }
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        Utils.closeConn(conn);
+        return inDB;
+    }
 }
 

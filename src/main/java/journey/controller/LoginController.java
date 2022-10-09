@@ -46,6 +46,8 @@ public class LoginController {
             warningLabel.setText("Please select or enter Username");
         } else if (nameChoiceBox.getValue() == null) {
             Platform.runLater(this::registerUser);
+        } else if (nameChoiceBox.getValue() != null && !nameChoiceBox.getValue().equals("") && !nameTextBox.getText().equals("")) {
+            warningLabel.setText("Please either select or enter a username");
         } else {
             Platform.runLater(this::setUser);
         }
@@ -60,6 +62,10 @@ public class LoginController {
             warningLabel.setText("Your name cannot contain any digits or special characters!");
         } else if (name.equals("")) {
             warningLabel.setText("Please enter a name or select from dropdown");
+        } else if (userDAO.nameInDB(name)) {
+            warningLabel.setText("A user with that name already exists!");
+        } else if (name.length() > 15) {
+            warningLabel.setText("Your name cannot be longer than 15 characters");
         } else {
             user = userDAO.setCurrentUser(name);
             // Switch stages to main window
@@ -74,6 +80,7 @@ public class LoginController {
             String newString = user.getName();
             users.add(newString);
         }
+        users.add("");
         nameChoiceBox.setItems(users);
     }
 

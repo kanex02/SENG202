@@ -30,7 +30,7 @@ public class MainWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/login2.fxml"));
+            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
             Parent root = baseLoader.load();
             LoginController baseController = baseLoader.getController();
             baseController.init(primaryStage);
