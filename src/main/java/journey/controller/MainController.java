@@ -54,7 +54,7 @@ public class MainController {
     @FXML private AnchorPane recordJourneyWrapper;
     @FXML private AnchorPane plannedJourneysWrapper;
     @FXML private AnchorPane completeJourneyWrapper;
-    @FXML private AnchorPane registerVehicleWrapper;
+    @FXML private AnchorPane selectedStationWrapper;
     @FXML private Label noteStationAddr;
 
 
@@ -64,8 +64,7 @@ public class MainController {
     private CreateJourneyController recordJourneyController;
     private MapController mapViewController;
     private CompletedJourneysController completedJourneysController;
-    private ProfileController profileController;
-    private RegisterVehicleController registerVehicleController;
+    private SelectedStationController selectedStationController;
     private PlannedJourneyController plannedJourneyController;
     private Stage profileStage = null;
     private Stage helpStage = null;
@@ -128,18 +127,17 @@ public class MainController {
      */
     private void viewPrevJourneysTable() {
         try {
-            FXMLLoader prevJourneysViewLoader = new FXMLLoader(getClass().getResource("/fxml/plannedJourneys.fxml"));
-            Parent prevJourneysViewParent = prevJourneysViewLoader.load();
+            FXMLLoader plannedJourneysLoader = new FXMLLoader(getClass().getResource("/fxml/plannedJourneys.fxml"));
+            Parent plannedJourneysViewParent = plannedJourneysLoader.load();
 
-            PlannedJourneyController prevJourneyViewController = prevJourneysViewLoader.getController();
-            plannedJourneyController = prevJourneyViewController;
-            prevJourneyViewController.init(stage, this);
-            plannedJourneysWrapper.getChildren().add(prevJourneysViewParent);
-            AnchorPane.setTopAnchor(prevJourneysViewParent, 0d);
-            AnchorPane.setBottomAnchor(prevJourneysViewParent, 0d);
-            AnchorPane.setLeftAnchor(prevJourneysViewParent, 0d);
-            AnchorPane.setRightAnchor(prevJourneysViewParent, 0d);
-//            prevJourneysPane.prefWidthProperty().bind(mainTabs.widthProperty());
+            PlannedJourneyController plannedJourneyController = plannedJourneysLoader.getController();
+            this.plannedJourneyController = plannedJourneyController;
+            plannedJourneyController.init(stage, this);
+            plannedJourneysWrapper.getChildren().add(plannedJourneysViewParent);
+            AnchorPane.setTopAnchor(plannedJourneysViewParent, 0d);
+            AnchorPane.setBottomAnchor(plannedJourneysViewParent, 0d);
+            AnchorPane.setLeftAnchor(plannedJourneysViewParent, 0d);
+            AnchorPane.setRightAnchor(plannedJourneysViewParent, 0d);
 
         } catch (IOException e) {
             log.error(e);
@@ -167,6 +165,25 @@ public class MainController {
         }
     }
 
+    private void viewSelectedStation() {
+        try {
+            FXMLLoader selectedStationLoader = new FXMLLoader(getClass().getResource("/fxml/selectedStation.fxml"));
+            Parent selectedStationParent = selectedStationLoader.load();
+
+            SelectedStationController selectedStationController = selectedStationLoader.getController();
+            selectedStationController.init(this);
+            this.selectedStationController = selectedStationController;
+            selectedStationWrapper.getChildren().add(selectedStationParent);
+            AnchorPane.setTopAnchor(selectedStationParent, 0d);
+            AnchorPane.setBottomAnchor(selectedStationParent, 0d);
+            AnchorPane.setLeftAnchor(selectedStationParent, 0d);
+            AnchorPane.setRightAnchor(selectedStationParent, 0d);
+
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
 
     public void updatePlannedJourneys() {
         plannedJourneyController.setJourneys(stage);
@@ -175,20 +192,6 @@ public class MainController {
     public void updateCompletedJourneys() {
         completedJourneysController.setJourneys(stage);
     }
-
-//    private void setStationDescription(String s) {
-//        stationDescription.setText(s);
-//    }
-
-    /**
-     * Sets Long Display text for a given charger based on the current station selected.
-     */
-//    public void setStationText() {
-//        Station currStation = stationDAO.queryStation(selectedStation);
-//        if (currStation != null) {
-//            setStationDescription(currStation.getLongDescription());
-//        }
-//    }
 
     public void updateNote() {
         notesController.updateNote();
@@ -200,6 +203,7 @@ public class MainController {
 
     public void setSelectedStation(int selectedStation) {
         recordJourneyController.updateSelectedStation(selectedStation);
+        selectedStationController.updateSelectedStation(selectedStation);
         this.selectedStation = selectedStation;
     }
 
@@ -430,6 +434,7 @@ public class MainController {
         viewNotes();
         setSelectedVehicle(selectedVehicle);
         viewCompletedJourneysTable();
+        viewSelectedStation();
 
 //        journeyTab.getSelectionModel().selectedItemProperty().addListener(
 //                (observableValue, oldVal, newVal) -> mapViewController.clearRoute()

@@ -1,29 +1,23 @@
 package journey.controller;
 
-import java.util.ArrayList;
-import java.util.StringJoiner;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import journey.Utils;
 import journey.business.SearchAutocomplete;
 import journey.data.Journey;
 import journey.data.Vehicle;
-import journey.repository.JourneyDAO;
-import journey.repository.StationDAO;
-import journey.repository.VehicleDAO;
+import journey.repository.*;
 import journey.service.CreateJourneyService;
+
+import java.util.ArrayList;
+import java.util.StringJoiner;
 
 /**
  * Class to handle creating a journey given a start, end and chargers along the way.
@@ -43,7 +37,7 @@ public class CreateJourneyController {
     private MapController mapViewController;
     private JourneyDAO journeyDAO;
     private StationDAO stationDAO;
-    private VehicleDAO vehicleDAO;
+    private VehicleDAO vehicleDAO = new VehicleDAO();
     private final ArrayList<Integer> journeyStations = new ArrayList<>();
 
     public void updateSelectedStation(int selectedStation) {
@@ -231,7 +225,6 @@ public class CreateJourneyController {
         this.mapViewController = mainController.getMapViewController();
         this.journeyDAO = new JourneyDAO();
         this.stationDAO = new StationDAO();
-        this.vehicleDAO = new VehicleDAO();
 
         // disable scroll pane at start
         startAddrScroll.setVisible(false);

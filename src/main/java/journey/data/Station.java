@@ -259,6 +259,14 @@ public class Station {
         return String.format("%s, %s", name, address);
     }
 
+    public Boolean getHasCarParkCost() {
+        return hasCarParkCost;
+    }
+
+    public Boolean getHasChargingCost() {
+        return hasChargingCost;
+    }
+
     /**
      * Assembles a string of details about itself.
 
