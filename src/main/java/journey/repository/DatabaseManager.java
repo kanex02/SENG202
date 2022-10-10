@@ -113,6 +113,7 @@ public final class DatabaseManager {
             log.info("DatabaseManager setup.");
         } catch (Exception e) {
             log.error(e);
+            e.printStackTrace();
             throw e;
         } finally {
             Utils.closeConn(conn);

@@ -88,13 +88,13 @@ public class StationDAO {
                               Boolean is24Hours, int carParkCount, Boolean hasCarparkCost, int maxTimeLimit,
                               Boolean hasTouristAttraction, double latitude, double longitude, String currentType,
                               String dateFirstOperational, int numberOfConnectors, String[] connectorsList,
-                              Boolean hasChargingCost, int rating, boolean favourite) {
+                              Boolean hasChargingCost) {
         //Creates new station in database.
         Connection conn = null;
 
         try {
             conn = databaseManager.connect();
-            String sqlQuery = "INSERT INTO Stations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sqlQuery = "INSERT INTO Stations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, id);
             ps.setString(2, name);
@@ -113,8 +113,6 @@ public class StationDAO {
             ps.setInt(15, numberOfConnectors);
             ps.setString(16, convertArrayToString(connectorsList, "//"));
             ps.setBoolean(17, hasChargingCost);
-            ps.setInt(18, rating);
-            ps.setBoolean(19, favourite);
             ps.execute();
         } catch (SQLException e) {
             log.error(e);
@@ -145,9 +143,7 @@ public class StationDAO {
                 station.getDateFirstOperational(),
                 station.getNumberOfConnectors(),
                 station.getConnectors(),
-                station.isHasChargingCost(),
-                station.getRating(),
-                station.getFavourite());
+                station.isHasChargingCost());
     }
 
     /**

@@ -72,9 +72,7 @@ public class ReadCSV {
                     s.getDateFirstOperational(),
                     s.getNumberOfConnectors(),
                     s.getConnectors(),
-                    s.isHasChargingCost(),
-                    s.getRating(),
-                    s.getFavourite());
+                    s.isHasChargingCost());
         }
     }
 
@@ -85,7 +83,7 @@ public class ReadCSV {
             readStations();
         } catch (Exception e) {
             System.out.println("BAD");
-            log.error(e);
+            e.printStackTrace();
         }
     }
 
