@@ -18,24 +18,46 @@
                    <GridPane maxHeight="55.0" prefHeight="55.0" style="-fx-background-color: #88B181;" BorderPane.alignment="CENTER">
                        <columnConstraints>
                            <ColumnConstraints hgrow="NEVER" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
-                           <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="865.0" />
-                           <ColumnConstraints hgrow="NEVER" maxWidth="55.0" minWidth="55.0" prefWidth="55.0" />
-                           <ColumnConstraints hgrow="NEVER" maxWidth="66.0" minWidth="66.0" prefWidth="66.0" />
-                           <ColumnConstraints hgrow="NEVER" maxWidth="95.0" minWidth="95.0" prefWidth="95.0" />
+                           <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="726.0" />
+                           <ColumnConstraints hgrow="NEVER" maxWidth="160.0" minWidth="55.0" prefWidth="117.0" />
+                           <ColumnConstraints hgrow="NEVER" maxWidth="143.0" minWidth="66.0" prefWidth="109.0" />
+                           <ColumnConstraints hgrow="NEVER" maxWidth="129.0" minWidth="95.0" prefWidth="129.0" />
                        </columnConstraints>
                        <rowConstraints>
                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                        </rowConstraints>
                        <children>
-                           <Button alignment="CENTER" mnemonicParsing="false" onAction="#helpButton" prefHeight="30.0" prefWidth="62.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="Help" textFill="WHITE" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                           <Button alignment="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#helpButton" prefHeight="30.0" prefWidth="100.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="Help" textFill="WHITE" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                                <font>
                                    <Font name="Roboto" size="16.0" />
                                </font>
+                               <graphic>
+                                   <HBox alignment="CENTER" prefHeight="30.0" prefWidth="30.0">
+                                       <children>
+                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                               <image>
+                                                   <Image url="@../pictures/question 1.png" />
+                                               </image>
+                                           </ImageView>
+                                       </children>
+                                   </HBox>
+                               </graphic>
                            </Button>
-                           <Button alignment="CENTER" mnemonicParsing="false" onAction="#myProfileButton" prefHeight="30.0" prefWidth="95.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="My Profile" textFill="WHITE" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <Button alignment="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#myProfileButton" prefHeight="30.0" prefWidth="120.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="My Profile" textFill="WHITE" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                <font>
                                    <Font name="Roboto" size="16.0" />
                                </font>
+                               <graphic>
+                                   <HBox alignment="CENTER" prefHeight="30.0" prefWidth="30.0">
+                                       <children>
+                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                               <image>
+                                                   <Image url="@../pictures/user 1.png" />
+                                               </image>
+                                           </ImageView>
+                                       </children>
+                                   </HBox>
+                               </graphic>
                            </Button>
                            <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="CENTER" />
                            <ImageView fitHeight="40.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
@@ -43,10 +65,21 @@
                                    <Image url="@../pictures/Journey_Logo.jpeg" />
                                </image>
                            </ImageView>
-                           <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Home" textFill="#3b3b3b" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <Button alignment="CENTER" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: transparent;" text="Home" textFill="#3b3b3b" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                <font>
                                    <Font name="Roboto" size="16.0" />
                                </font>
+                               <graphic>
+                                   <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="30.0">
+                                       <children>
+                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                               <image>
+                                                   <Image url="@../pictures/home-svgrepo-com.png" />
+                                               </image>
+                                           </ImageView>
+                                       </children>
+                                   </HBox>
+                               </graphic>
                            </Button>
                        </children>
                        <effect>
