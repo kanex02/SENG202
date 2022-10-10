@@ -23,6 +23,10 @@ public class NotesController {
     @FXML private Rating stationRating;
     @FXML private CheckBox favouriteCheckBox;
 
+    @FXML private Label notesSuccess;
+
+    @FXML private Label notesWarning;
+
     /**
      * Submits notes and adds them the database for the current user.
 
@@ -30,7 +34,8 @@ public class NotesController {
      */
     @FXML
     private void submitNotes(Event event) {
-
+        notesSuccess.setText("");
+        notesWarning.setText("");
         Station currStation = stationDAO.queryStation(mainController.getSelectedStation());
         String stationNote = stationDetailTextArea.getText();
         int rating = (int) stationRating.getRating();
@@ -38,9 +43,14 @@ public class NotesController {
 
         Note newNote = new Note(currStation, stationNote, rating, favourite);
 
-        if (currStation != null) {
+        if (currStation != null && (stationNote != null || rating != 0 || favourite)) {
             // Set the note on the database
             noteDAO.setNote(newNote, mainController.getCurrentUser());
+            notesSuccess.setText("Added station feedback");
+        } else if (currStation == null) {
+            notesWarning.setText("No station selected");
+        } else if (!(stationNote!=null || rating != 0 || favourite)) {
+            notesWarning.setText("No station feedback provided");
         }
 
         updateNoteText(newNote);
@@ -74,7 +84,8 @@ public class NotesController {
 
     /**
      * Updates the ratings display for the current station
-     * @param note The not object to display
+
+     * @param note The note object to display
      */
     public void updateRatings(Note note) {
         int rating = note.getRating();
@@ -91,10 +102,13 @@ public class NotesController {
 
     /**
      * Sets the address of station in the notes panel when clicked.
+     * Also resets notesSuccess/Warning
      */
     public void updateStationNoteAddr(Station currStation) {
         if (currStation != null) {
             String addr = currStation.getReadableAddress();
+            notesSuccess.setText("");
+            notesWarning.setText("");
             noteStationAddr.setText(addr);
         }
     }
@@ -109,6 +123,8 @@ public class NotesController {
         stationDAO = new StationDAO();
         noteDAO = new NoteDAO();
         this.mainController = mainController;
+        stationRating.setUpdateOnHover(true);
+
     }
 
 }
