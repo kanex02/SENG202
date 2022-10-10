@@ -129,8 +129,8 @@ public class EditVehicleController {
         //model validation
         Matcher modelHasDigit = digit.matcher(model);
         Matcher modelHasSpecial = special.matcher(model);
-        if (modelHasSpecial.find() || modelHasDigit.find()) {
-            modelWarningLabel.setText("Cannot contain digits or special characters");
+        if (modelHasSpecial.find()) {
+            modelWarningLabel.setText("Cannot contain special characters");
             valid = false;
         } else if (model.equals("")) {
             modelWarningLabel.setText("Please enter a model");
