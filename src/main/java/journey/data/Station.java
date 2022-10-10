@@ -52,8 +52,9 @@ public class Station {
     private Boolean hasChargingCost;
     private int maxTime;
     private String[] connectors;
-    private int rating = 0;
-    private boolean favourite = false;
+
+    private int rating;
+    private boolean favourite;
 
     public Station() {}
 
@@ -82,8 +83,33 @@ public class Station {
                    Boolean is24Hours, int carParkCount, Boolean hasCarParkCost,
                    int maxTimeLimit, Boolean hasTouristAttraction, float latitude,
                    float longitude, String currentType, String dateFirstOperational,
-                   int numberOfConnectors, String[] connectorsList, Boolean hasChargingCost,
-                   int rating, boolean favourite) {
+                   int numberOfConnectors, String[] connectorsList, Boolean hasChargingCost) {
+        this.OBJECTID = id;
+        this.name = name;
+        this.operator = operator;
+        this.owner = owner;
+        this.address = address;
+        this.is24Hours = is24Hours;
+        this.carParkCount = carParkCount;
+        this.hasCarParkCost = hasCarParkCost;
+        this.maxTime = maxTimeLimit;
+        this.hasTouristAttraction = hasTouristAttraction;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.currentType = currentType;
+        this.dateFirstOperational = dateFirstOperational;
+        this.numberOfConnectors = numberOfConnectors;
+        this.connectors = connectorsList;
+        this.hasChargingCost = hasChargingCost;
+        rating = 0;
+        favourite = false;
+    }
+
+    public Station(int id, String name, String operator, String owner, String address,
+                   Boolean is24Hours, int carParkCount, Boolean hasCarParkCost,
+                   int maxTimeLimit, Boolean hasTouristAttraction, float latitude,
+                   float longitude, String currentType, String dateFirstOperational,
+                   int numberOfConnectors, String[] connectorsList, Boolean hasChargingCost, int rating, boolean favourite) {
         this.OBJECTID = id;
         this.name = name;
         this.operator = operator;
@@ -126,22 +152,13 @@ public class Station {
         return radius * c;
     }
 
+    public int getRating() { return rating; }
 
-    public int getRating() {
-        return rating;
-    }
+    public void setRating(int rating) { this.rating = rating; }
 
-    public void setRating(int newRating) {
-        rating = newRating;
-    }
+    public boolean getFavourite() { return favourite; }
 
-    public boolean getFavourite() {
-        return favourite;
-    }
-
-    public void setFavourite(boolean favourite) {
-        this.favourite = favourite;
-    }
+    public void setFavourite(boolean favourite) { this.favourite = favourite; }
 
     public int getMaxTime() {
         return maxTime;
@@ -294,12 +311,6 @@ public class Station {
         longDes += String.format("Current Type: %s\nNumber of Connectors: %s\n", currentType, numberOfConnectors);
         if (hasChargingCost) {
             longDes += "Not free charging\n";
-        }
-        longDes += "Rating: " + rating + "\n";
-        if (favourite) {
-            longDes += "Favourite station\n";
-        } else {
-            longDes += "Not a favourite\n";
         }
         return longDes;
     }

@@ -72,21 +72,19 @@ public class ReadCSV {
                     s.getDateFirstOperational(),
                     s.getNumberOfConnectors(),
                     s.getConnectors(),
-                    s.isHasChargingCost(),
-                    s.getRating(),
-                    s.getFavourite());
+                    s.isHasChargingCost());
         }
     }
 
     public static void main(String[] args) throws FileNotFoundException {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
-//        try {
-//            databaseManager.setup();
-//            readStations();
-//        } catch (Exception e) {
-//            System.out.println("BAD");
-//            log.error(e);
-//        }
+        try {
+            databaseManager.setup();
+            readStations();
+        } catch (Exception e) {
+            System.out.println("BAD");
+            e.printStackTrace();
+        }
     }
 
 

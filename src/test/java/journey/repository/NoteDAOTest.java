@@ -66,7 +66,7 @@ class NoteDAOTest {
                 false
         );
         stationDAO.insertStation(station);
-        Note note = new Note(station, "testing123");
+        Note note = new Note(station, "testing123", 0, false);
         noteDAO.setNote(note, user);
         Note result = noteDAO.getNoteFromStation(station, user);
         assertEquals("testing123", result.getNote());
@@ -96,9 +96,9 @@ class NoteDAOTest {
                 true
         );
         stationDAO.insertStation(station);
-        Note note = new Note(station, "testing123");
+        Note note = new Note(station, "testing123", 0, false);
         noteDAO.setNote(note, user);
-        Note newNote = new Note(station, "testing234");
+        Note newNote = new Note(station, "testing234", 3, true);
         noteDAO.setNote(newNote, user);
         Note result = noteDAO.getNoteFromStation(station, user);
         assertEquals("testing234", result.getNote());

@@ -232,7 +232,7 @@ public class MainController {
 
     /**
      * Brings up the profile popup window when the 'my profile' button is pressed.
-     
+
      */
     @FXML private void myProfileButton() {
         try {
