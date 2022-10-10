@@ -2,6 +2,7 @@ package journey.controller;
 
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import journey.Utils;
@@ -20,10 +21,11 @@ import java.util.Objects;
 /**
  * Controller for displaying Open Street Maps through JavaFX webview.
 
- * @author Morgan English with slight changes/additions form Daniel Neal
+ * @author Morgan English with slight changes/additions from Daniel Neal
  */
 public class MapController {
     @FXML private WebView webView;
+    @FXML private Button toggleRouteButton;
     private WebEngine webEngine;
     private JavaScriptBridge javaScriptBridge;
     private JSObject javaScriptConnector;
@@ -44,6 +46,7 @@ public class MapController {
                 this::changeLatLong, this::setStartAddr, this::setEndAddr);
         this.mainController = mainController;
         // set custom cell factory for list view
+        setToggle(false);
         initMap();
     }
 
@@ -69,8 +72,6 @@ public class MapController {
                         javaScriptConnector = (JSObject) webEngine.executeScript("jsConnector");
 
                         javaScriptConnector.call("initMap");
-
-                        // add sale markers
                         addStationsOnMap();
                     }
                 });
@@ -94,6 +95,7 @@ public class MapController {
         String waypointString =  Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
         javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2));
         routeDisplayed = true;
+        setToggle(true);
     }
 
     /**
@@ -107,6 +109,14 @@ public class MapController {
                 addStationMark(station);
             }
         }
+    }
+
+    /**
+     * Sets the toggle button to be visible/not visible.
+     * @param toggleOn visible/not visible.
+     */
+    void setToggle(boolean toggleOn) {
+        toggleRouteButton.setVisible(toggleOn);
     }
 
     /**
@@ -124,6 +134,20 @@ public class MapController {
         routeDisplayed = false;
         javaScriptConnector.call("removeRoute");
     }
+
+    /**
+     * Simple toggle to hide or display the route on click.
+     */
+    public void toggleRoute() {
+        if (routeDisplayed) {
+            removeRoute();
+            toggleRouteButton.setText("Display Route");
+        } else {
+            addRoute();
+            toggleRouteButton.setText("Hide Route");
+        }
+    }
+
 
 
     public void clearSearch() {

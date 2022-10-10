@@ -7,21 +7,15 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import journey.Utils;
 import journey.business.SearchAutocomplete;
 import journey.data.Journey;
 import journey.data.Vehicle;
-import journey.repository.*;
+import journey.repository.JourneyDAO;
+import journey.repository.StationDAO;
+import journey.repository.VehicleDAO;
 import journey.service.CreateJourneyService;
 
 import java.util.ArrayList;
@@ -37,6 +31,7 @@ public class CreateJourneyController {
     @FXML private ListView<String> visitedStationsList;
     @FXML private ComboBox<String> selectVehicleComboBox;
     @FXML private Label journeyWarningLabel;
+    @FXML private Label journeySuccessLabel;
     @FXML private VBox matchAddrStart;
     @FXML private VBox matchAddrEnd;
     @FXML private ScrollPane startAddrScroll;
@@ -89,6 +84,7 @@ public class CreateJourneyController {
      * @param event addJourney button pressed
      */
     @FXML private void addJourney(Event event) {
+        journeySuccessLabel.setText("");
         String vehicleChoice = selectVehicleComboBox.getValue();
         String start = startAddr.getText();
         String end = endAddr.getText();
@@ -123,6 +119,7 @@ public class CreateJourneyController {
 
         if (validJourney) {
             journeyWarningLabel.setText("");
+            journeySuccessLabel.setText("Added Journey to Planned Journeys");
             selectVehicleComboBox.setValue("");
             startAddr.setText("");
             endAddr.setText("");

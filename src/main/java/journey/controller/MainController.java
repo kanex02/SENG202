@@ -57,6 +57,7 @@ public class MainController {
     @FXML private AnchorPane plannedJourneysWrapper;
     @FXML private AnchorPane completeJourneyWrapper;
     @FXML private TitledPane planJourneyPane;
+    @FXML private TitledPane plannedJourneyPane;
     @FXML private Accordion accordionPane;
 
     @FXML private AnchorPane registerVehicleWrapper;

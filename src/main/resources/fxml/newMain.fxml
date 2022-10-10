@@ -93,7 +93,7 @@
                           <AnchorPane fx:id="recordJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                         </content>
                       </TitledPane>
-                      <TitledPane animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">
+                      <TitledPane fx:id="plannedJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">
                         <content>
                           <AnchorPane fx:id="plannedJourneysWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                         </content>
