@@ -37,6 +37,7 @@ public class RegisterVehicleController {
             );
     @FXML private ChoiceBox<String> chargerBox;
     @FXML private ChoiceBox<String> connectorBox;
+    @FXML private Label successLabel;
     @FXML private Label regWarningLabel;
     @FXML private Label makeWarningLabel;
     @FXML private Label modelWarningLabel;
@@ -47,6 +48,7 @@ public class RegisterVehicleController {
     @FXML private TextField yearTextBox;
     @FXML private TextField makeTextBox;
     @FXML private TextField modelTextBox;
+
     private String chargerTypeChoice;
     private String connectorTypeChoice;
     private VehicleDAO vehicleDAO;
@@ -140,7 +142,7 @@ public class RegisterVehicleController {
         if (connectorTypeChoice == null || connectorTypeChoice.equals("")) {
             connectorWarningLabel.setText("Please select a connector type");
         }
-
+        successLabel.setText("");
         return valid;
     }
 
@@ -175,6 +177,7 @@ public class RegisterVehicleController {
             currentWarningLabel.setText("");
             connectorWarningLabel.setText("");
             Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration, connectorTypeChoice);
+            successLabel.setText("Successfully registered a vehicle");
             // Send vehicle to database
             try {
                 vehicleDAO.setVehicle(newVehicle, myProfileController.getCurrentUser());
