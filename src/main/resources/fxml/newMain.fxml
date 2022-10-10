@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -8,7 +9,6 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-
 
 <BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <center>
@@ -86,31 +86,97 @@
                               <content>
                                 <AnchorPane fx:id="searchWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                               </content>
+                                 <graphic>
+                                    <HBox prefHeight="20.0" prefWidth="20.0">
+                                       <children>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../pictures/search-svgrepo-com.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </graphic>
                             </TitledPane>
                               <TitledPane animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Record Notes about Station">
                                 <content>
                                   <AnchorPane fx:id="notesWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                                 </content>
+                                  <graphic>
+                                      <HBox prefHeight="20.0" prefWidth="20.0">
+                                          <children>
+                                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                  <image>
+                                                      <Image url="@../pictures/notes-svgrepo-com.png" />
+                                                  </image>
+                                              </ImageView>
+                                          </children>
+                                      </HBox>
+                                  </graphic>
                               </TitledPane>
                             <TitledPane fx:id="planJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Plan a Journey">
                               <content>
                                 <AnchorPane fx:id="recordJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                               </content>
+                                <graphic>
+                                    <HBox prefHeight="20.0" prefWidth="20.0">
+                                        <children>
+                                            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../pictures/destination.png" />
+                                                </image>
+                                            </ImageView>
+                                        </children>
+                                    </HBox>
+                                </graphic>
                             </TitledPane>
                             <TitledPane fx:id="plannedJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">
                               <content>
                                 <AnchorPane fx:id="plannedJourneysWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                               </content>
+                                <graphic>
+                                    <HBox prefHeight="20.0" prefWidth="20.0">
+                                        <children>
+                                            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../pictures/task.png" />
+                                                </image>
+                                            </ImageView>
+                                        </children>
+                                    </HBox>
+                                </graphic>
                             </TitledPane>
                               <TitledPane animated="false" layoutX="30.0" layoutY="108.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="Completed Journeys">
                                  <content>
                                     <AnchorPane fx:id="completeJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                                  </content>
+                                  <graphic>
+                                      <HBox prefHeight="20.0" prefWidth="20.0">
+                                          <children>
+                                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                  <image>
+                                                      <Image url="@../pictures/check-mark.png" />
+                                                  </image>
+                                              </ImageView>
+                                          </children>
+                                      </HBox>
+                                  </graphic>
                               </TitledPane>
                               <TitledPane animated="false" layoutX="30.0" layoutY="134.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="More Information about Selected Station">
                                  <content>
                                     <AnchorPane fx:id="selectedStationWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                                  </content>
+                                  <graphic>
+                                      <HBox prefHeight="20.0" prefWidth="20.0">
+                                          <children>
+                                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                  <image>
+                                                      <Image url="@../pictures/charging-station.png" />
+                                                  </image>
+                                              </ImageView>
+                                          </children>
+                                      </HBox>
+                                  </graphic>
                               </TitledPane>
                           </panes>
                            <padding>
