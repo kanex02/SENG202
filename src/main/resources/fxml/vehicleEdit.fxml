@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="625.0" prefWidth="475.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.EditVehicleController">
+<AnchorPane prefHeight="625.0" prefWidth="475.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.EditVehicleController">
     <GridPane prefHeight="624.0" prefWidth="510.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
          <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="35.0" />
@@ -37,32 +37,32 @@
                 <TextField fx:id="yearTextBox" layoutX="7.0" layoutY="190.0" prefHeight="26.0" prefWidth="250.0" stylesheets="@../gui/textFields.css" />
                 <TextField fx:id="makeTextBox" layoutX="7.0" layoutY="80.0" prefHeight="26.0" prefWidth="250.0" stylesheets="@../gui/textFields.css" />
                 <ChoiceBox fx:id="connectorBox" layoutX="7.0" layoutY="300.0" onMouseClicked="#connectorTypeChoice" prefHeight="25.0" prefWidth="250.0" styleClass="drop-down" stylesheets="@../gui/style.css" />
-            <Label fx:id="regWarningLabel" layoutX="-118.0" layoutY="57.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+            <Label fx:id="regWarningLabel" layoutX="-118.0" layoutY="57.0" prefHeight="14.0" prefWidth="380.0" textFill="#cd0000">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <Label fx:id="makeWarningLabel" layoutX="-117.0" layoutY="111.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+            <Label fx:id="makeWarningLabel" layoutX="-117.0" layoutY="111.0" prefHeight="14.0" prefWidth="380.0" textFill="#cd0000">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <Label fx:id="modelWarningLabel" layoutX="-115.0" layoutY="166.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+            <Label fx:id="modelWarningLabel" layoutX="-115.0" layoutY="166.0" prefHeight="14.0" prefWidth="380.0" textFill="#cd0000">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <Label fx:id="yearWarningLabel" layoutX="-116.0" layoutY="221.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+            <Label fx:id="yearWarningLabel" layoutX="-116.0" layoutY="221.0" prefHeight="14.0" prefWidth="365.0" textFill="#cd0000">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <Label fx:id="currentWarningLabel" layoutX="-116.0" layoutY="277.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+            <Label fx:id="currentWarningLabel" layoutX="-116.0" layoutY="277.0" prefHeight="14.0" prefWidth="380.0" textFill="#cd0000">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <Label fx:id="connectorWarningLabel" layoutX="-117.0" layoutY="331.0" prefHeight="14.0" prefWidth="273.0" textFill="#cd0000">
+            <Label fx:id="connectorWarningLabel" layoutX="-117.0" layoutY="331.0" prefHeight="14.0" prefWidth="380.0" textFill="#cd0000">
                <font>
                   <Font size="11.0" />
                </font>

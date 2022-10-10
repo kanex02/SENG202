@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -9,136 +10,214 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
-   <children>
-      <BorderPane prefHeight="750.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-            <GridPane maxHeight="55.0" prefHeight="55.0" style="-fx-background-color: #88B181;" BorderPane.alignment="CENTER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="NEVER" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="885.0" />
-                  <ColumnConstraints hgrow="NEVER" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                <ColumnConstraints hgrow="NEVER" maxWidth="95.0" minWidth="95.0" prefWidth="95.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#helpButton" prefHeight="30.0" prefWidth="62.0" style="-fx-background-color: transparent;" text="Help" textFill="WHITE" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                       <font>
-                           <Font name="Roboto" size="16.0" />
-                       </font>
-                   </Button>
-                  <Button mnemonicParsing="false" onAction="#myProfileButton" style="-fx-background-color: transparent;" text="My Profile" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-                     <font>
-                        <Font name="Roboto" size="16.0" />
-                     </font>
-                  </Button>
-                  <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="CENTER" />
-                  <ImageView fitHeight="40.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                     <image>
-                        <Image url="@../pictures/Journey_Logo.jpeg" />
-                     </image></ImageView>
-               </children>
-               <effect>
-                  <DropShadow offsetY="4.0">
-                     <color>
-                        <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.24576270580291748" />
-                     </color>
-                  </DropShadow>
-               </effect>
-            </GridPane>
-         </top>
-         <center>
-            <TabPane fx:id="mainTabs" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" stylesheets="@../gui/tabs.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-              <tabs>
-                  <Tab fx:id="mapTab" closable="false" text="Map">
-                      <content>
-                          <AnchorPane fx:id="mapPaneWrapper" prefHeight="635.0">
-                              <children>
-                                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <children>
-                                          <BorderPane fx:id="mapPane" prefHeight="320.0" prefWidth="367.0" VBox.vgrow="ALWAYS" />
-                                      </children>
-                                  </VBox>
-                              </children>
-                          </AnchorPane>
-                      </content>
-                  </Tab>
-                <Tab text="Table">
-                  <content>
-                    <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </Tab>
-              </tabs>
-            </TabPane>
-         </center>
-         <left>
-            <VBox minWidth="300.0" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #efefef;" BorderPane.alignment="CENTER">
-               <children>
-                  <Accordion fx:id="accordionPane" prefHeight="800.0" prefWidth="350.0" stylesheets="@../gui/style.css">
-                    <panes>
-                      <TitledPane animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Search and Filter">
-                        <content>
-                          <AnchorPane fx:id="searchWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                        </content>
-                      </TitledPane>
-                        <TitledPane animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Record Notes about Station">
-                          <content>
-                            <AnchorPane fx:id="notesWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                          </content>
-                        </TitledPane>
-                      <TitledPane fx:id="planJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Plan a Journey">
-                        <content>
-                          <AnchorPane fx:id="recordJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                        </content>
-                      </TitledPane>
-                      <TitledPane animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">
-                        <content>
-                          <AnchorPane fx:id="plannedJourneysWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                        </content>
-                      </TitledPane>
-                        <TitledPane animated="false" layoutX="30.0" layoutY="108.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="Completed Journeys">
-                           <content>
-                              <AnchorPane fx:id="completeJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                           </content>
-                        </TitledPane>
-                    </panes>
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </padding>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Accordion>
-                  <GridPane prefHeight="402.0" prefWidth="350.0" style="-fx-background-color: #efefef;">
+<BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
+   <center>
+      <AnchorPane prefHeight="750.0" prefWidth="1200.0">
+         <children>
+            <BorderPane prefHeight="750.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <top>
+                  <GridPane maxHeight="55.0" prefHeight="55.0" style="-fx-background-color: #88B181;" BorderPane.alignment="CENTER">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="NEVER" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="885.0" />
+                        <ColumnConstraints hgrow="NEVER" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+                      <ColumnConstraints hgrow="NEVER" maxWidth="95.0" minWidth="95.0" prefWidth="95.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints maxHeight="188.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="329.0" minHeight="50.0" prefHeight="100.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="329.0" minHeight="10.0" prefHeight="316.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label fx:id="currentVehicle" contentDisplay="CENTER" prefHeight="36.0" prefWidth="250.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10;" text="Current Vehicle: " GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                           <effect>
-                              <DropShadow offsetY="4.0">
-                                 <color>
-                                    <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.25" />
-                                 </color>
-                              </DropShadow>
-                           </effect>
-                        </Label>
+                         <Button alignment="CENTER" mnemonicParsing="false" onAction="#helpButton" prefHeight="30.0" prefWidth="62.0" style="-fx-background-color: transparent;" text="Help" textFill="WHITE" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                             <font>
+                                 <Font name="Roboto" size="16.0" />
+                             </font>
+                         </Button>
+                        <Button mnemonicParsing="false" onAction="#myProfileButton" style="-fx-background-color: transparent;" text="My Profile" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Roboto" size="16.0" />
+                           </font>
+                        </Button>
+                        <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="CENTER" />
+                        <ImageView fitHeight="40.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                           <image>
+                              <Image url="@../pictures/Journey_Logo.jpeg" />
+                           </image>
+                        </ImageView>
                      </children>
-                     <padding>
-                        <Insets top="10.0" />
-                     </padding>
+                     <effect>
+                        <DropShadow offsetY="4.0">
+                           <color>
+                              <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.24576270580291748" />
+                           </color>
+                        </DropShadow>
+                     </effect>
                   </GridPane>
-               </children></VBox>
-         </left></BorderPane>
-   </children>
-</AnchorPane>
+               </top>
+               <center>
+                  <TabPane fx:id="mainTabs" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" stylesheets="@../gui/tabs.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                    <tabs>
+                        <Tab fx:id="mapTab" closable="false" text="Map">
+                            <content>
+                                <AnchorPane fx:id="mapPaneWrapper" prefHeight="635.0">
+                                    <children>
+                                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <children>
+                                                <BorderPane fx:id="mapPane" prefHeight="320.0" prefWidth="367.0" VBox.vgrow="ALWAYS" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                      <Tab text="Table">
+                        <content>
+                          <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </center>
+               <left>
+                  <VBox minWidth="300.0" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #efefef;" BorderPane.alignment="CENTER">
+                     <children>
+                        <Accordion fx:id="accordionPane" prefHeight="800.0" prefWidth="350.0" stylesheets="@../gui/style.css">
+                          <panes>
+                            <TitledPane animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Search and Filter">
+                              <content>
+                                <AnchorPane fx:id="searchWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                              </content>
+                                 <graphic>
+                                    <HBox prefHeight="20.0" prefWidth="20.0">
+                                       <children>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../pictures/search-svgrepo-com.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </graphic>
+                            </TitledPane>
+                              <TitledPane animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Record Notes about Station">
+                                <content>
+                                  <AnchorPane fx:id="notesWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                                </content>
+                                  <graphic>
+                                      <HBox prefHeight="20.0" prefWidth="20.0">
+                                          <children>
+                                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                  <image>
+                                                      <Image url="@../pictures/notes-svgrepo-com.png" />
+                                                  </image>
+                                              </ImageView>
+                                          </children>
+                                      </HBox>
+                                  </graphic>
+                              </TitledPane>
+                            <TitledPane fx:id="planJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Plan a Journey">
+                              <content>
+                                <AnchorPane fx:id="recordJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                              </content>
+                                <graphic>
+                                    <HBox prefHeight="20.0" prefWidth="20.0">
+                                        <children>
+                                            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../pictures/destination.png" />
+                                                </image>
+                                            </ImageView>
+                                        </children>
+                                    </HBox>
+                                </graphic>
+                            </TitledPane>
+                            <TitledPane fx:id="plannedJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">
+                              <content>
+                                <AnchorPane fx:id="plannedJourneysWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                              </content>
+                                <graphic>
+                                    <HBox prefHeight="20.0" prefWidth="20.0">
+                                        <children>
+                                            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../pictures/task.png" />
+                                                </image>
+                                            </ImageView>
+                                        </children>
+                                    </HBox>
+                                </graphic>
+                            </TitledPane>
+                              <TitledPane animated="false" layoutX="30.0" layoutY="108.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="Completed Journeys">
+                                 <content>
+                                    <AnchorPane fx:id="completeJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                                 </content>
+                                  <graphic>
+                                      <HBox prefHeight="20.0" prefWidth="20.0">
+                                          <children>
+                                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                  <image>
+                                                      <Image url="@../pictures/check-mark.png" />
+                                                  </image>
+                                              </ImageView>
+                                          </children>
+                                      </HBox>
+                                  </graphic>
+                              </TitledPane>
+                              <TitledPane animated="false" layoutX="30.0" layoutY="134.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="More Information about Selected Station">
+                                 <content>
+                                    <AnchorPane fx:id="selectedStationWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                                 </content>
+                                  <graphic>
+                                      <HBox prefHeight="20.0" prefWidth="20.0">
+                                          <children>
+                                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                  <image>
+                                                      <Image url="@../pictures/charging-station.png" />
+                                                  </image>
+                                              </ImageView>
+                                          </children>
+                                      </HBox>
+                                  </graphic>
+                              </TitledPane>
+                          </panes>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </Accordion>
+                        <GridPane prefHeight="402.0" prefWidth="350.0" style="-fx-background-color: #efefef;">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="188.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="329.0" minHeight="50.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="329.0" minHeight="10.0" prefHeight="316.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label fx:id="currentVehicle" contentDisplay="CENTER" prefHeight="36.0" prefWidth="250.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10;" text="Current Vehicle: " GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                                 <effect>
+                                    <DropShadow offsetY="4.0">
+                                       <color>
+                                          <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.25" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </left>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

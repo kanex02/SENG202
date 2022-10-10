@@ -28,25 +28,9 @@ public class MyProfileController {
     private MainController mainController;
     private ProfileController profileController = null;
     private Stage stage;
+    private BorderPane mainPane;
     private User currentUser;
     private String selectedVehicle;
-
-//    public void viewRegisterVehicles() {
-//        try {
-//            FXMLLoader registerVehicleLoader = new FXMLLoader(getClass().getResource("/fxml/registerVehicle.fxml"));
-//            Parent registerVehicleParent = registerVehicleLoader.load();
-//
-//            RegisterVehicleController registerVehicleController = registerVehicleLoader.getController();
-//            registerVehicleController.init(stage, this);
-//            registerVehicleWrapper.getChildren().add(registerVehicleParent);
-//            AnchorPane.setTopAnchor(registerVehicleParent, 0d);
-//            AnchorPane.setBottomAnchor(registerVehicleParent, 0d);
-//            AnchorPane.setLeftAnchor(registerVehicleParent, 0d);
-//            AnchorPane.setRightAnchor(registerVehicleParent, 0d);
-//        } catch (IOException e) {
-//            log.error(e);
-//        }
-//    }
 
     public void viewRegisterVehicles() {
         try {
@@ -123,36 +107,20 @@ public class MyProfileController {
         try {
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/newMain.fxml"));
             Parent root = baseLoader.load();
-            Stage mainStage = new Stage();
-
             MainController baseController = baseLoader.getController();
-            baseController.init(mainStage, mainController.getCurrentUser(), selectedVehicle);
-
-            mainStage.setTitle("Journey");
-            Scene scene = new Scene(root, 600, 400);
-            mainStage.setScene(scene);
-
-            // set the min height and width so the window opens at the correct size
-            mainStage.setMinHeight(650);
-            mainStage.setMinWidth(900);
-            Screen screen = Screen.getPrimary();
-            Rectangle2D bounds = screen.getVisualBounds();
-            mainStage.setX(bounds.getMinX());
-            mainStage.setY(bounds.getMinY());
-            mainStage.setWidth(bounds.getWidth());
-            mainStage.setHeight(bounds.getHeight());
-            mainStage.setMaximized(true);
-            mainStage.show();
-            this.stage.close();
-            closeScene();
+            baseController.init(stage, mainController.getCurrentUser(), selectedVehicle);
+            mainPane.setCenter(root);
+            mainPane.toFront();
+            mainPane.setVisible(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void init(MainController mainController, Stage stage, String selectedVehicle) {
+    public void init(MainController mainController, Stage stage, String selectedVehicle, BorderPane mainPane) {
         this.mainController = mainController;
         this.stage = stage;
+        this.mainPane = mainPane;
         this.selectedVehicle = selectedVehicle;
         this.currentUser = mainController.getCurrentUser();
         viewProfile();

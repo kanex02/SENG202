@@ -204,7 +204,7 @@ public class Station {
     }
 
 
-    public Boolean getHasTouristAttraction() {
+    public boolean getHasTouristAttraction() {
         return hasTouristAttraction;
     }
 
@@ -276,6 +276,14 @@ public class Station {
         return String.format("%s, %s", name, address);
     }
 
+    public Boolean getHasCarParkCost() {
+        return hasCarParkCost;
+    }
+
+    public Boolean getHasChargingCost() {
+        return hasChargingCost;
+    }
+
     /**
      * Assembles a string of details about itself.
 
@@ -308,8 +316,7 @@ public class Station {
     }
 
     public String getReadableAddress() {
-        String desc = String.format("%s at %s", name, address);
-        return desc;
+        return String.format("%s at %s", name, address);
     }
 
 
