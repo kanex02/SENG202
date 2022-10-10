@@ -9,49 +9,54 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-
 <BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <center>
       <AnchorPane prefHeight="750.0" prefWidth="1200.0">
          <children>
             <BorderPane prefHeight="750.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <top>
-                  <GridPane maxHeight="55.0" prefHeight="55.0" style="-fx-background-color: #88B181;" BorderPane.alignment="CENTER">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="NEVER" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="885.0" />
-                        <ColumnConstraints hgrow="NEVER" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                      <ColumnConstraints hgrow="NEVER" maxWidth="95.0" minWidth="95.0" prefWidth="95.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                         <Button alignment="CENTER" mnemonicParsing="false" onAction="#helpButton" prefHeight="30.0" prefWidth="62.0" style="-fx-background-color: transparent;" text="Help" textFill="WHITE" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                             <font>
-                                 <Font name="Roboto" size="16.0" />
-                             </font>
-                         </Button>
-                        <Button mnemonicParsing="false" onAction="#myProfileButton" style="-fx-background-color: transparent;" text="My Profile" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-                           <font>
-                              <Font name="Roboto" size="16.0" />
-                           </font>
-                        </Button>
-                        <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="CENTER" />
-                        <ImageView fitHeight="40.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                           <image>
-                              <Image url="@../pictures/Journey_Logo.jpeg" />
-                           </image>
-                        </ImageView>
-                     </children>
-                     <effect>
-                        <DropShadow offsetY="4.0">
-                           <color>
-                              <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.24576270580291748" />
-                           </color>
-                        </DropShadow>
-                     </effect>
-                  </GridPane>
+                   <GridPane maxHeight="55.0" prefHeight="55.0" style="-fx-background-color: #88B181;" BorderPane.alignment="CENTER">
+                       <columnConstraints>
+                           <ColumnConstraints hgrow="NEVER" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
+                           <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="865.0" />
+                           <ColumnConstraints hgrow="NEVER" maxWidth="55.0" minWidth="55.0" prefWidth="55.0" />
+                           <ColumnConstraints hgrow="NEVER" maxWidth="66.0" minWidth="66.0" prefWidth="66.0" />
+                           <ColumnConstraints hgrow="NEVER" maxWidth="95.0" minWidth="95.0" prefWidth="95.0" />
+                       </columnConstraints>
+                       <rowConstraints>
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                       </rowConstraints>
+                       <children>
+                           <Button alignment="CENTER" mnemonicParsing="false" onAction="#helpButton" prefHeight="30.0" prefWidth="62.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="Help" textFill="WHITE" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                               <font>
+                                   <Font name="Roboto" size="16.0" />
+                               </font>
+                           </Button>
+                           <Button alignment="CENTER" mnemonicParsing="false" onAction="#myProfileButton" prefHeight="30.0" prefWidth="95.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="My Profile" textFill="WHITE" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                               <font>
+                                   <Font name="Roboto" size="16.0" />
+                               </font>
+                           </Button>
+                           <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="CENTER" />
+                           <ImageView fitHeight="40.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                               <image>
+                                   <Image url="@../pictures/Journey_Logo.jpeg" />
+                               </image>
+                           </ImageView>
+                           <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Home" textFill="#3b3b3b" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                               <font>
+                                   <Font name="Roboto" size="16.0" />
+                               </font>
+                           </Button>
+                       </children>
+                       <effect>
+                           <DropShadow offsetY="4.0">
+                               <color>
+                                   <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.24576270580291748" />
+                               </color>
+                           </DropShadow>
+                       </effect>
+                   </GridPane>
                </top>
                <center>
                   <TabPane fx:id="mainTabs" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" stylesheets="@../gui/tabs.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">

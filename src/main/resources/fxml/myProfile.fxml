@@ -15,8 +15,10 @@
             <GridPane maxHeight="55.0" prefHeight="55.0" style="-fx-background-color: #88B181;" BorderPane.alignment="CENTER">
                 <columnConstraints>
                     <ColumnConstraints hgrow="NEVER" maxWidth="144.0" minWidth="10.0" prefWidth="144.0" />
-                    <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="930.0" />
-                    <ColumnConstraints hgrow="NEVER" maxWidth="510.0" minWidth="0.0" prefWidth="81.0" />
+                    <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="873.0" />
+               <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="55.0" prefWidth="55.0" />
+                    <ColumnConstraints hgrow="NEVER" maxWidth="66.0" minWidth="66.0" prefWidth="66.0" />
+               <ColumnConstraints hgrow="NEVER" maxWidth="95.0" minWidth="95.0" prefWidth="95.0" />
                 </columnConstraints>
                 <rowConstraints>
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -28,12 +30,12 @@
                         </color>
                     </DropShadow>
                 </effect>
-                <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeButton" style="-fx-background-color: transparent;" text="Home" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                <Button fx:id="homeButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#homeButton" prefHeight="30.0" prefWidth="66.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="Home" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                     <font>
                         <Font name="Roboto" size="16.0" />
                     </font>
                <GridPane.margin>
-                  <Insets right="10.0" />
+                  <Insets />
                </GridPane.margin>
                 </Button>
                 <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="LEFT" GridPane.hgrow="NEVER">
@@ -48,6 +50,11 @@
                   <Insets left="10.0" />
                </GridPane.margin>
                 </ImageView>
+            <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="95.0" style="-fx-background-color: transparent;" text="My Profile" textFill="#3b3b3b" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <font>
+                  <Font name="Roboto" size="16.0" />
+               </font>
+            </Button>
             </GridPane>
         </top>
       <center>
