@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 import journey.Utils;
 import journey.business.SearchAutocomplete;
 import journey.data.Journey;
+import journey.data.Station;
 import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
@@ -39,15 +40,28 @@ public class CreateJourneyController {
     @FXML private VBox matchAddrEnd;
     @FXML private ScrollPane startAddrScroll;
     @FXML private ScrollPane endAddrScroll;
+    private Double startLat;
+    private Double startLng;
+    private Double endLat;
+    private Double endLng;
     private MainController mainController;
     private MapController mapViewController;
     private JourneyDAO journeyDAO;
     private StationDAO stationDAO;
     private VehicleDAO vehicleDAO;
+    private ArrayList<String> waypoints;
     private final ArrayList<Integer> journeyStations = new ArrayList<>();
 
     public void updateSelectedStation(int selectedStation) {
         selectedStationField.setText(stationDAO.queryStation(selectedStation).getAddress());
+    }
+
+    public void addRouteWaypoint(Double lat, Double lng, int position) {
+        if (position < waypoints.size()) {
+            waypoints.set(position, lat+"#"+lng);
+        } else {
+            waypoints.add(lat+"#"+lng);
+        }
     }
 
     /**
@@ -62,23 +76,6 @@ public class CreateJourneyController {
             vehicles.add(newString);
         }
         selectVehicleComboBox.setItems(vehicles);
-    }
-
-    /**
-     * Add station to a given journey.
-
-     * @param event "add" button pressed event
-     */
-    @FXML private void selectStation(Event event) {
-        int selectedStation = mainController.getSelectedStation();
-        if (selectedStation != -1 && (journeyStations.isEmpty()
-                || journeyStations.get(journeyStations.size() - 1) != selectedStation)) {
-            journeyStations.add(selectedStation);
-            ObservableList<String> visitedStations = visitedStationsList.getItems();
-            visitedStations.add(stationDAO.queryStation(selectedStation).getAddress());
-            visitedStationsList.setItems(visitedStations);
-        }
-        event.consume();
     }
 
     /**
@@ -143,8 +140,7 @@ public class CreateJourneyController {
     @FXML private void clickStart() {
         mainController.openMap();
         mapViewController.setCallback((lat, lng) -> {
-            String addr = Utils.latLngToAddr(lat, lng);
-            changeJourneyStart(addr);
+            changeJourneyStart(lat,lng);
             return true;
         }, "start");
     }
@@ -156,28 +152,46 @@ public class CreateJourneyController {
     @FXML private void clickEnd() {
         mainController.openMap();
         mapViewController.setCallback((lat, lng) -> {
-            String addr = Utils.latLngToAddr(lat, lng);
-            changeJourneyEnd(addr);
+            changeJourneyEnd(lat, lng);
             return true;
         }, "end");
     }
 
     public void changeJourneyStart(String addr) {
         startAddr.setText(addr);
+        String[] latLng = Utils.locToLatLng(addr).split("#");
+        startLat = Double.valueOf(latLng[0]);
+        endLat = Double.valueOf(latLng[1]);
+        updateJourney();
+    }
+
+    public void changeJourneyStart(Double lat, Double lng) {
+        startLat = lat;
+        startLng = lng;
+        startAddr.setText(Utils.latLngToAddr(lat, lng));
         updateJourney();
     }
 
     public void changeJourneyEnd(String addr) {
         endAddr.setText(addr);
+        String[] latLng = Utils.locToLatLng(addr).split("#");
+        endLng = Double.valueOf(latLng[0]);
+        endLng = Double.valueOf(latLng[1]);
+        updateJourney();
+    }
+
+    public void changeJourneyEnd(Double lat, Double lng) {
+        endLat = lat;
+        endLng = lng;
+        endAddr.setText(Utils.latLngToAddr(lat, lng));
         updateJourney();
     }
 
     private void updateJourney() {
         if (!startAddr.getText().isBlank() && !endAddr.getText().isBlank()) {
-            Journey journey = new Journey();
-            journey.setStart(startAddr.getText());
-            journey.setEnd(endAddr.getText());
-            mainController.mapJourney(journey);
+            mainController.clearStart();
+            mainController.clearEnd();
+            mainController.mapJourneyFromLatLng(new String[]{startLat+"#"+startLng, endLat+"#"+endLng});
         }
     }
 
@@ -244,26 +258,26 @@ public class CreateJourneyController {
         this.stationDAO = new StationDAO();
         this.vehicleDAO = new VehicleDAO();
 
-        // disable scroll pane at start
-        startAddrScroll.setVisible(false);
-        endAddrScroll.setVisible(false);
+//        // disable scroll pane at start
+//        startAddrScroll.setVisible(false);
+//        endAddrScroll.setVisible(false);
 
-        // Set up event listeners for text areas
-        startAddr.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ENTER) {
-                autoComplete(true);
-            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
-                startAddrScroll.setVisible(false);
-            }
-        });
-
-        endAddr.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ENTER) {
-                autoComplete(false);
-            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
-                endAddrScroll.setVisible(false);
-            }
-        });
+//        // Set up event listeners for text areas
+//        startAddr.setOnKeyPressed(keyEvent -> {
+//            if (keyEvent.getCode() == KeyCode.ENTER) {
+//                autoComplete(true);
+//            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
+//                startAddrScroll.setVisible(false);
+//            }
+//        });
+//
+//        endAddr.setOnKeyPressed(keyEvent -> {
+//            if (keyEvent.getCode() == KeyCode.ENTER) {
+//                utoComplete(false);
+//            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
+//                endAddrScroll.setVisible(false);
+//            }
+//        });
 
         populateVehicleDropdown();
     }

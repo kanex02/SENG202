@@ -41,7 +41,10 @@ public class MapController {
         stationDAO = new StationDAO();
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick,
                 this::getLatLongFromClick,
-                this::changeLatLong, this::setStartAddr, this::setEndAddr);
+                this::changeLatLong,
+                this::setStartAddr,
+                this::setEndAddr,
+                this::addRouteWaypoint);
         this.mainController = mainController;
         // set custom cell factory for list view
         initMap();
@@ -77,7 +80,6 @@ public class MapController {
     }
 
 
-
     /**
      * Maps a journey.
 
@@ -85,7 +87,6 @@ public class MapController {
      */
     public void mapJourney(Journey journey) {
         ArrayList<String> waypoints = new ArrayList<>();
-        System.out.println(journey.getStart());
         waypoints.add(Utils.locToLatLng(journey.getStart()));
         for (int stationID : journey.getStations()) {
             Station station = stationDAO.queryStation(stationID);
@@ -95,6 +96,12 @@ public class MapController {
         String waypointString =  Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
         javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2));
         routeDisplayed = true;
+    }
+
+
+    public void mapJourneyFromLatLng(String[] waypoints) {
+        String waypointString =  Utils.convertArrayToString(waypoints, "//");
+        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2));
     }
 
     /**
@@ -131,6 +138,14 @@ public class MapController {
         javaScriptConnector.call("clearMiscMarker", "search");
     }
 
+    public void clearStart() {
+        javaScriptConnector.call("clearMiscMarker", "start");
+    }
+
+    public void clearEnd() {
+        javaScriptConnector.call("clearMiscMarker", "end");
+    }
+
     /**
      * Add station to map.
 
@@ -163,6 +178,11 @@ public class MapController {
         return true;
     }
 
+    public boolean addRouteWaypoint(Double lat, Double lng, int position) {
+        mainController.addRouteWaypoint(lat, lng, position);
+        return true;
+    }
+
     /**
      * Gets the lat and long from clicking on the map.
      * To be called from {@link JavaScriptBridge} to get the relevant coordinates.
@@ -173,8 +193,8 @@ public class MapController {
      */
     public boolean getLatLongFromClick(double lat, double lng) {
         if (callback != null) {
-            callback.operation(lat, lng);
             javaScriptConnector.call("addMiscMarker", lat, lng, label);
+            callback.operation(lat, lng);
         }
         //Resets the callback so the previous function is no longer called.
         callback = null;

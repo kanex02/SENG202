@@ -65,15 +65,17 @@
     });
 
     const startIcon = new L.Icon({
-        iconUrl: '../images/Circle.svg',
+        iconUrl: '../images/Circle.png',
         iconSize: [18, 18],
         iconAnchor: [10, 10]
     });
 
     const endIcon = new L.Icon({
-        iconUrl: '../images/CircleWithDot.svg',
-        iconSize: [18, 18],
-        iconAnchor: [10, 10]
+        iconUrl: '../images/endMarker.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 50],
+        iconAnchor: [10, 42],
+        shadowSize: [41, 41]
     });
 
     /**
@@ -279,20 +281,31 @@
      */
     function addRoute() {
         if (previousRoute !== []) {
+            removeRoute();
             route = L.Routing.control({
                 waypoints: previousRoute,
                 // Specify UCs server for routing instead of the demonstration server used by default
                 serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
                 routeWhileDragging: true,
                 createMarker: function (i, waypoint, n) {
-                    const marker = L.marker(waypoint.latLng, {
+                    let marker = L.marker(waypoint.latLng, {
                         draggable: true,
                         icon: startIcon
                     });
+
+                    // Makes the destination marker different
+                    if (i === n-1) {
+                        marker = L.marker(waypoint.latLng, {
+                            draggable: true,
+                            icon: endIcon
+                        });
+                    }
                     marker._zIndex = 100000;
+                    javaScriptBridge.addRouteWaypoint(waypoint.latLng.lat, waypoint.latLng, i);
                     return marker;
                 }
-            }).addTo(map);
+            });
+            route.addTo(map);
         }
 
     }

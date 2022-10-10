@@ -211,6 +211,10 @@ public class MainController {
         mapViewController.mapJourney(journey);
     }
 
+    public void mapJourneyFromLatLng(String[] waypoints) {
+        mapViewController.mapJourneyFromLatLng(waypoints);
+    }
+
     /**
      * Brings up the profile popup window when the 'my profile' button is pressed.
 
@@ -244,6 +248,14 @@ public class MainController {
         } catch (IOException e) {
             log.error(e);
         }
+    }
+
+    public void clearStart() {
+        mapViewController.clearStart();
+    }
+
+    public void clearEnd() {
+        mapViewController.clearEnd();
     }
 
     public void setProfile(Stage profileStage) {
@@ -342,6 +354,10 @@ public class MainController {
 
     public void addMiscMarkerToMap(double lat, double lng, String label) {
         mapViewController.addMiscMarker(lat, lng, label);
+    }
+
+    public void addRouteWaypoint(Double lat, Double lng, int position) {
+        recordJourneyController.addRouteWaypoint(lat, lng, position);
     }
 
     /**
