@@ -1,6 +1,9 @@
 package journey.controller;
 
+import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.StringJoiner;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,14 +11,20 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import journey.Utils;
 import journey.business.SearchAutocomplete;
 import journey.data.Journey;
@@ -25,6 +34,9 @@ import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
 import journey.service.CreateJourneyService;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Class to handle creating a journey given a start, end and chargers along the way.
@@ -40,6 +52,8 @@ public class CreateJourneyController {
     @FXML private VBox matchAddrEnd;
     @FXML private ScrollPane startAddrScroll;
     @FXML private ScrollPane endAddrScroll;
+    @FXML private AnchorPane journeyPane;
+    @FXML private AnchorPane destination;
     private Double startLat;
     private Double startLng;
     private Double endLat;
@@ -50,7 +64,19 @@ public class CreateJourneyController {
     private StationDAO stationDAO;
     private VehicleDAO vehicleDAO;
     private ArrayList<String> waypoints;
+    private ArrayList<TextField> waypointAddresses;
     private final ArrayList<Integer> journeyStations = new ArrayList<>();
+    private final Image ellipses = new Image(new File("/images/dots.png").toURI().toString());
+    private final Image circle = new Image(new File("/images/Circle.png").toURI().toString());
+    private final String textCss = (new File(Objects.requireNonNull(
+            getClass().getClassLoader().getResource("gui/textFields.css"))
+            .getFile()))
+            .toURI().toString();
+    private final DropShadow dropShadow = new DropShadow() {{
+                setBlurType(BlurType.ONE_PASS_BOX);
+                setOffsetY(4);
+                setColor(new Color(0.23, 0.23, 0.23, 0.25));
+    }};
 
     public void updateSelectedStation(int selectedStation) {
         selectedStationField.setText(stationDAO.queryStation(selectedStation).getAddress());
@@ -58,10 +84,80 @@ public class CreateJourneyController {
 
     public void addRouteWaypoint(Double lat, Double lng, int position) {
         if (position < waypoints.size()) {
-            waypoints.set(position, lat+"#"+lng);
+            waypoints.set(position, lat + "#" + lng);
         } else {
-            waypoints.add(lat+"#"+lng);
+            waypoints.add(lat + "#" + lng);
+            if (position >= 2) {
+                journeyPane.getChildren().add(nthWaypoint(position));
+            }
         }
+        updateJourneyList();
+    }
+
+    private void updateJourneyList() {
+        int i = 0;
+        for (String waypoint : waypoints) {
+            String[] latLng = waypoint.split("#");
+            String address = Utils.latLngToAddr(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]));
+            waypointAddresses.get(i).setText(address);
+            i++;
+        }
+    }
+
+    private AnchorPane nthWaypoint(int i) {
+        AnchorPane root = new AnchorPane();
+        AnchorPane stationRow = new AnchorPane();
+        TextField address = new TextField();
+        Button clickMap = new Button();
+
+        stationRow.getChildren().add(address);
+        stationRow.getChildren().add(clickMap);
+
+        root.getChildren().add(stationRow);
+
+        AnchorPane.setLeftAnchor(root, 10d);
+        AnchorPane.setRightAnchor(root, 10d);
+        // Change distance from top
+        AnchorPane.setTopAnchor(root, 20d + 62 * i);
+        root.setPrefHeight(62);
+        root.setPrefWidth(290);
+
+        stationRow.setPrefHeight(32);
+        stationRow.setPrefWidth(290);
+        AnchorPane.setLeftAnchor(stationRow, 0d);
+        AnchorPane.setRightAnchor(stationRow, 0d);
+        AnchorPane.setTopAnchor(stationRow, 0d);
+
+        AnchorPane.setBottomAnchor(stationRow, 0d);
+        AnchorPane.setLeftAnchor(stationRow, 8d);
+        AnchorPane.setTopAnchor(stationRow, 0d);
+
+        address.setLayoutX(34);
+        address.setPrefHeight(24);
+        address.setPrefWidth(158);
+        address.getStylesheets().add(textCss);
+        waypointAddresses.add(address);
+
+
+        clickMap.setLayoutX(223);
+        clickMap.setLayoutY(-4);
+        clickMap.setMnemonicParsing(false);
+        clickMap.setOnAction((e) -> clickNth(i));
+        clickMap.setStyle("-fx-background-color: #FFFFFF;");
+        clickMap.setText("Click map");
+        clickMap.setPrefHeight(32);
+        AnchorPane.setRightAnchor(clickMap, 0d);
+        AnchorPane.setTopAnchor(clickMap, 0d);
+        clickMap.setEffect(dropShadow);
+
+        return root;
+    }
+
+    private void clickNth(int i) {
+        mapViewController.setCallback((lat, lng) -> {
+            addRouteWaypoint(lat, lng, i);
+            return true;
+        }, String.valueOf(i));
     }
 
     /**
@@ -140,7 +236,7 @@ public class CreateJourneyController {
     @FXML private void clickStart() {
         mainController.openMap();
         mapViewController.setCallback((lat, lng) -> {
-            changeJourneyStart(lat,lng);
+            changeJourneyStart(lat, lng);
             return true;
         }, "start");
     }
@@ -258,6 +354,10 @@ public class CreateJourneyController {
         this.stationDAO = new StationDAO();
         this.vehicleDAO = new VehicleDAO();
 
+        waypoints = new ArrayList<>();
+        waypointAddresses = new ArrayList<TextField>();
+        waypointAddresses.add(startAddr);
+        waypointAddresses.add(endAddr);
 //        // disable scroll pane at start
 //        startAddrScroll.setVisible(false);
 //        endAddrScroll.setVisible(false);

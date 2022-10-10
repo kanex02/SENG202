@@ -141,7 +141,9 @@ public class SearchController {
         timeSearch.setText("");
         attractionSearch.setValue("");
         distanceSearch.setText("50");
-        for (CheckMenuItem connector : connectors) { connector.setSelected(false); }
+        for (CheckMenuItem connector : connectors) {
+            connector.setSelected(false);
+        }
         connectorsMenu.setText("");
         mainController.clearSearch();
         warningLabel.setText("");

@@ -6,42 +6,45 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane maxWidth="-Infinity" minHeight="200.0" prefHeight="400.0" prefWidth="310.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.CreateJourneyController">
-    <AnchorPane layoutX="11.0" layoutY="22.0" prefHeight="32.0" prefWidth="290.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
-        <children>
-            <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="0.0">
+<AnchorPane fx:id="journeyPane" maxWidth="-Infinity" minHeight="200.0" prefHeight="400.0" prefWidth="310.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.CreateJourneyController">
+    <AnchorPane layoutX="10.0" layoutY="20.0" prefHeight="59.0" prefWidth="290.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
+        <AnchorPane prefHeight="32.0" prefWidth="290.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="0.0">
                 <ImageView fitHeight="17" fitWidth="17" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../images/Circle.png" />
                 </ImageView>
             </HBox>
             <TextField fx:id="startAddr" layoutX="42.0" prefHeight="24.0" prefWidth="158.0" promptText="Address" stylesheets="@../gui/textFields.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <Button layoutX="223.0" layoutY="-4.0" mnemonicParsing="false" onAction="#clickStart" style="-fx-background-color: #FFFFFF;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <effect>
-               <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
-                  <color>
-                     <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
-                  </color>
-               </DropShadow>
-            </effect></Button>
-        </children>
+                <effect>
+                    <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+                        <color>
+                            <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
+                        </color>
+                    </DropShadow>
+                </effect>
+            </Button>
+        </AnchorPane>
+        <ImageView fitHeight="32.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" smooth="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+            <Image url="@../images/dots.png" />
+        </ImageView>
     </AnchorPane>
-    <AnchorPane layoutX="10.0" layoutY="62.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
-        <children>
-            <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0">
-                <ImageView fitHeight="32" fitWidth="32" preserveRatio="true">
-                    <Image url="@../images/destination.png" />
-                </ImageView>
-            </HBox>
-            <TextField fx:id="endAddr" layoutX="42.0" prefHeight="24.0" prefWidth="158.0" promptText="Address" stylesheets="@../gui/textFields.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Button layoutX="223.0" layoutY="-4.0" mnemonicParsing="false" onAction="#clickEnd" style="-fx-background-color: #FFFFFF;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <effect>
-               <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
-                  <color>
-                     <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.25" />
-                  </color>
-               </DropShadow>
-            </effect></Button>
-        </children>
+    <AnchorPane layoutX="10.0" layoutY="62.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0">
+        <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fitHeight="32" fitWidth="32" preserveRatio="true" smooth="false">
+                <Image url="@../images/destination.png" />
+            </ImageView>
+        </HBox>
+        <TextField fx:id="endAddr" layoutX="42.0" prefHeight="24.0" prefWidth="158.0" promptText="Address" stylesheets="@../gui/textFields.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <Button layoutX="223.0" layoutY="-4.0" mnemonicParsing="false" onAction="#clickEnd" style="-fx-background-color: #FFFFFF;" text="Click map" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <effect>
+            <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+                <color>
+                    <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.25" />
+                </color>
+            </DropShadow>
+        </effect>
+        </Button>
     </AnchorPane>
     <Button alignment="CENTER" contentDisplay="CENTER" layoutX="53.0" layoutY="331.0" mnemonicParsing="false" onAction="#addJourney" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #FFFFFF;" text="Submit" textAlignment="CENTER" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="53.0">
       <effect>

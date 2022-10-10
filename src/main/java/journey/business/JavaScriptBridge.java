@@ -57,9 +57,13 @@ public class JavaScriptBridge {
         return getLatLongInterface.operation(lat, lng);
     }
 
-    public boolean fillStartAddressFromSearch(String address) { return setStartAddrInterface.operation(address); }
+    public boolean fillStartAddressFromSearch(String address) {
+        return setStartAddrInterface.operation(address);
+    }
 
-    public boolean fillEndAddressFromSearch(String address) { return setEndAddrInterface.operation(address); }
+    public boolean fillEndAddressFromSearch(String address) {
+        return setEndAddrInterface.operation(address);
+    }
 
     public boolean changeLatLongFromClick(double lat, double lng, String label) {
         return changeLatLongInterface.operation(lat, lng, label);
@@ -67,5 +71,9 @@ public class JavaScriptBridge {
 
     public boolean addRouteWaypoint(double lat, double lng, int position) {
         return addRouteWaypointInterface.operation(lat, lng, position);
+    }
+
+    public void log(String text) {
+        System.out.println(text);
     }
 }

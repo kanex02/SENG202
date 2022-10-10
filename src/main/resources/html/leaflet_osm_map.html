@@ -101,7 +101,6 @@
     function mapJourney(waypoints) {
         let waypointArray = waypoints.split("//");
         previousRoute = [];
-        removeRoute();
         let latlong;
         let m;
         for (let i = 0; i < waypointArray.length; i++) {
@@ -135,6 +134,10 @@
      * Adds the autocomplete address search bar to the map
      */
     function initMap() {
+
+        console.log = function(message) {
+            javaScriptBridge.log(message);
+        }
         let mapOptions = {
             center: [-43.522, 172.5794],
             zoom: 8
@@ -148,14 +151,6 @@
             var latlng = map.mouseEventToLatLng(e.originalEvent);
             javaScriptBridge.getLatLongFromClick(latlng.lat, latlng.lng);
         })
-
-        function setStart(address) {
-            javaScriptBridge.fillStartAddressFromSearch(address);
-        }
-
-        function setEnd(address) {
-            javaScriptBridge.fillEndAddressFromSearch(address)
-        }
 
 
         // Add autocomplete search bar to map
@@ -266,7 +261,11 @@
 
         // Add marker to map, and specify our own on click function which passes the id of the sale back to java,
         // so we can reference it
-        m.addTo(map).on('click', () => javaScriptBridge.getStationFromClick(id))
+        m.addTo(map).on('click', () => {
+            javaScriptBridge.getStationFromClick(id);
+            javaScriptBridge.getLatLongFromClick(lat, lng);
+        })
+
         markers.push(m)
     }
     /**
@@ -286,7 +285,7 @@
                 waypoints: previousRoute,
                 // Specify UCs server for routing instead of the demonstration server used by default
                 serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
-                routeWhileDragging: true,
+                routeWhileDragging: false,
                 createMarker: function (i, waypoint, n) {
                     let marker = L.marker(waypoint.latLng, {
                         draggable: true,
@@ -301,7 +300,7 @@
                         });
                     }
                     marker._zIndex = 100000;
-                    javaScriptBridge.addRouteWaypoint(waypoint.latLng.lat, waypoint.latLng, i);
+                    javaScriptBridge.addRouteWaypoint(waypoint.latLng.lat, waypoint.latLng.lng, i);
                     return marker;
                 }
             });
