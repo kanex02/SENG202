@@ -30,21 +30,20 @@ public class NotesController {
      */
     @FXML
     private void submitNotes(Event event) {
+
         Station currStation = stationDAO.queryStation(mainController.getSelectedStation());
         String stationNote = stationDetailTextArea.getText();
+        int rating = (int) stationRating.getRating();
+        boolean favourite = favouriteCheckBox.isSelected();
+
+        Note newNote = new Note(currStation, stationNote, rating, favourite);
 
         if (currStation != null) {
-            Note newNote = new Note(currStation, stationNote);
             // Set the note on the database
             noteDAO.setNote(newNote, mainController.getCurrentUser());
-
-            int rating = (int) stationRating.getRating();
-            boolean favourite = favouriteCheckBox.isSelected();
-
-            stationDAO.setRating(rating, currStation);
-            stationDAO.setFavourite(favourite, currStation);
         }
-        updateNoteText(currStation);
+
+        updateNoteText(newNote);
         event.consume();
     }
 
@@ -53,40 +52,41 @@ public class NotesController {
      */
     public void updateNote() {
         if (mainController.getSelectedStation() != -1) {
+
             Station currStation = stationDAO.queryStation(mainController.getSelectedStation());
-            updateNoteText(currStation);
             updateStationNoteAddr(currStation);
-            updateFavourite(currStation);
-            updateRatings(currStation);
+
+            Note note = noteDAO.getNoteFromStation(currStation, mainController.getCurrentUser());
+            updateNoteText(note);
+            updateFavourite(note);
+            updateRatings(note);
         }
     }
 
     /**
      * Updates the favourite checkbox for the current station
-     * @param currStation The current station
+     * @param note The note object to display
      */
-    public void updateFavourite(Station currStation) {
-        boolean favourite = currStation.getFavourite();
+    public void updateFavourite(Note note) {
+        boolean favourite = note.getFavourite();
         favouriteCheckBox.setSelected(favourite);
     }
 
     /**
      * Updates the ratings display for the current station
-     * @param currStation The current station
+     * @param note The not object to display
      */
-    public void updateRatings(Station currStation) {
-        int rating = currStation.getRating();
+    public void updateRatings(Note note) {
+        int rating = note.getRating();
         stationRating.setRating(rating);
     }
 
     /**
      * Sets Note text for a given charger based on the current station selected.
      */
-    public void updateNoteText(Station currStation) {
-        if (currStation != null) {
-            Note note = noteDAO.getNoteFromStation(currStation, mainController.getCurrentUser());
-            stationDetailTextArea.setText(note.getNote());
-        }
+    public void updateNoteText(Note note) {
+        String noteText = note.getNote();
+        stationDetailTextArea.setText(noteText);
     }
 
     /**

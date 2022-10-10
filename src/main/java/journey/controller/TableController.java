@@ -74,6 +74,7 @@ public class TableController {
                 new SimpleStringProperty(cellData.getValue().getFavourite()? "Yes" : "No"));
         Station[] data = mainController.getStations();
         ObservableList<Station> stations = FXCollections.observableArrayList(data);
+
         stationTable.setItems(stations);
     }
 

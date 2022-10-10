@@ -49,9 +49,7 @@ class StationTest {
                 "date",
                 2,
                 new String[]{""},
-                true,
-                3,
-                false
+                true
         );
 
         String modelAnswer = """
@@ -67,8 +65,6 @@ class StationTest {
                 Current Type: connector type
                 Number of Connectors: 2
                 Not free charging
-                Rating: 3
-                Not a favourite
                 """;
         assertEquals(modelAnswer, station.getLongDescription());
 
@@ -88,9 +84,7 @@ class StationTest {
                 "date",
                 2,
                 new String[]{""},
-                false,
-                5,
-                true
+                false
         );
 
         String modelAnswer2 = """
@@ -103,8 +97,6 @@ class StationTest {
                 Unlimited time limit
                 Current Type: connector type
                 Number of Connectors: 2
-                Rating: 5
-                Favourite station
                 """;
         assertEquals(modelAnswer2, station2.getLongDescription());
     }

@@ -53,8 +53,7 @@ public class StationDAO {
                     resultSet.getString("dateFirstOperational"),
                     resultSet.getInt("numberOfConnectors"),
                     (resultSet.getString("connectorsList")).split(":"),
-                    resultSet.getBoolean("hasChargingCost"),
-                    resultSet.getInt("rating"), resultSet.getBoolean("favourite"));
+                    resultSet.getBoolean("hasChargingCost"));
         } catch (SQLException e) {
             log.error(e);
         } finally {
@@ -62,53 +61,6 @@ public class StationDAO {
         }
         return null;
     }
-
-    /**
-     * Sets the station rating to the currStation in the Station database
-     * @param rating the rating to set
-     * @param currStation the current station
-     */
-    public void setRating(int rating, Station currStation) {
-        Connection conn = null;
-        int stationID = currStation.getOBJECTID();
-        try {
-            conn = databaseManager.connect();
-
-            String updateQuery = "UPDATE Stations SET rating = ? WHERE ID = ?";
-            PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
-            updateStatement.setInt(1, rating);
-            updateStatement.setInt(2, stationID);
-            updateStatement.execute();
-        } catch (SQLException e) {
-            log.error(e);
-        } finally {
-            Utils.closeConn(conn);
-        }
-    }
-
-    /**
-     * Sets the favourite parameter for the current station in the Station database
-     * @param favourite The boolean parameter to set
-     * @param currStation The current station
-     */
-    public void setFavourite(boolean favourite, Station currStation) {
-        Connection conn = null;
-        int stationID = currStation.getOBJECTID();
-        try {
-            conn = databaseManager.connect();
-
-            String updateQuery = "UPDATE Stations SET favourite = ? WHERE ID = ?";
-            PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
-            updateStatement.setBoolean(1, favourite);
-            updateStatement.setInt(2, stationID);
-            updateStatement.execute();
-        } catch (SQLException e) {
-            log.error(e);
-        } finally {
-            Utils.closeConn(conn);
-        }
-    }
-
 
     /**
      * Inserts all features of the station into the database.
@@ -136,13 +88,13 @@ public class StationDAO {
                               Boolean is24Hours, int carParkCount, Boolean hasCarparkCost, int maxTimeLimit,
                               Boolean hasTouristAttraction, double latitude, double longitude, String currentType,
                               String dateFirstOperational, int numberOfConnectors, String[] connectorsList,
-                              Boolean hasChargingCost, int rating, boolean favourite) {
+                              Boolean hasChargingCost) {
         //Creates new station in database.
         Connection conn = null;
 
         try {
             conn = databaseManager.connect();
-            String sqlQuery = "INSERT INTO Stations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sqlQuery = "INSERT INTO Stations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, id);
             ps.setString(2, name);
@@ -161,8 +113,6 @@ public class StationDAO {
             ps.setInt(15, numberOfConnectors);
             ps.setString(16, convertArrayToString(connectorsList, "//"));
             ps.setBoolean(17, hasChargingCost);
-            ps.setInt(18, rating);
-            ps.setBoolean(19, favourite);
             ps.execute();
         } catch (SQLException e) {
             log.error(e);
@@ -193,9 +143,7 @@ public class StationDAO {
                 station.getDateFirstOperational(),
                 station.getNumberOfConnectors(),
                 station.getConnectors(),
-                station.isHasChargingCost(),
-                station.getRating(),
-                station.getFavourite());
+                station.isHasChargingCost());
     }
 
     /**
@@ -209,7 +157,8 @@ public class StationDAO {
         try {
             conn = databaseManager.connect();
             Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM Stations");
+            ResultSet rs = statement.executeQuery("SELECT * FROM Stations " +
+                    "left outer join Notes on Stations.id = Notes.station_ID");
             Utils.insertRsIntoArray(rs, res);
         } catch (SQLException e) {
             log.error(e);
