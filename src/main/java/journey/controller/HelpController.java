@@ -31,32 +31,32 @@ public class HelpController {
         if (image.equals("Search and Filter")) {
             img = new Image(
                     new BufferedInputStream(
-                            getClass().getResourceAsStream("/pictures/Search.jpg")
+                            getClass().getResourceAsStream("/images/Search.jpg")
                     ));
             helpImage.setImage(img);
         } else if (image.equals("Record Notes")) {
             img = new Image(
                     new BufferedInputStream(
-                            getClass().getResourceAsStream("/pictures/Notes.jpg")
+                            getClass().getResourceAsStream("/images/Notes.jpg")
                     ));
 
             helpImage.setImage(img);
         } else if (image.equals("Plan a Journey")) {
             img = new Image(
                     new BufferedInputStream(
-                            getClass().getResourceAsStream("/pictures/PlanJourney.jpg")
+                            getClass().getResourceAsStream("/images/PlanJourney.jpg")
                     ));
             helpImage.setImage(img);
         } else if (image.equals("Planned Journeys")) {
             img = new Image(
                     new BufferedInputStream(
-                            getClass().getResourceAsStream("/pictures/Planned.jpg")
+                            getClass().getResourceAsStream("/images/Planned.jpg")
                     ));
             helpImage.setImage(img);
         } else if (image.equals("Register a Vehicle")){
             img = new Image(
                     new BufferedInputStream(
-                            getClass().getResourceAsStream("/pictures/RegisterVehicle.jpg")
+                            getClass().getResourceAsStream("/images/RegisterVehicle.jpg")
                     ));
             helpImage.setImage(img);
         }
@@ -68,7 +68,7 @@ public class HelpController {
         this.stage = helpStage;
         img = new Image(
                 new BufferedInputStream(
-                        getClass().getResourceAsStream("/pictures/Search.png")
+                        getClass().getResourceAsStream("/images/Search.png")
                 ));
         helpImage.setImage(img);
         helpImage.fitWidthProperty().bind(stage.widthProperty());

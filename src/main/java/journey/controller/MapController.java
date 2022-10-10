@@ -85,6 +85,7 @@ public class MapController {
      */
     public void mapJourney(Journey journey) {
         ArrayList<String> waypoints = new ArrayList<>();
+        System.out.println(journey.getStart());
         waypoints.add(Utils.locToLatLng(journey.getStart()));
         for (int stationID : journey.getStations()) {
             Station station = stationDAO.queryStation(stationID);

@@ -37,7 +37,7 @@
                     <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="CENTER" />
                     <ImageView fitHeight="40.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                         <image>
-                            <Image url="@../pictures/Journey_Logo.jpeg" />
+                            <Image url="@../images/Journey_Logo.jpeg" />
                         </image></ImageView>
                     <ChoiceBox fx:id="helpBoxSearch" layoutX="102.0" layoutY="162.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-color: #FFFFFF;" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                         <effect>

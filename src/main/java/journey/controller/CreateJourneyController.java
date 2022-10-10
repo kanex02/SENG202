@@ -144,7 +144,7 @@ public class CreateJourneyController {
         mainController.openMap();
         mapViewController.setCallback((lat, lng) -> {
             String addr = Utils.latLngToAddr(lat, lng);
-            startAddr.setText(addr);
+            changeJourneyStart(addr);
             return true;
         }, "start");
     }
@@ -157,17 +157,28 @@ public class CreateJourneyController {
         mainController.openMap();
         mapViewController.setCallback((lat, lng) -> {
             String addr = Utils.latLngToAddr(lat, lng);
-            endAddr.setText(addr);
+            changeJourneyEnd(addr);
             return true;
         }, "end");
     }
 
     public void changeJourneyStart(String addr) {
         startAddr.setText(addr);
+        updateJourney();
     }
 
     public void changeJourneyEnd(String addr) {
         endAddr.setText(addr);
+        updateJourney();
+    }
+
+    private void updateJourney() {
+        if (!startAddr.getText().isBlank() && !endAddr.getText().isBlank()) {
+            Journey journey = new Journey();
+            journey.setStart(startAddr.getText());
+            journey.setEnd(endAddr.getText());
+            mainController.mapJourney(journey);
+        }
     }
 
     /**
