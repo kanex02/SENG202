@@ -54,6 +54,7 @@ public class NotesController {
         }
 
         updateNoteText(newNote);
+        mainController.setSelectedStation(currStation.getOBJECTID());
         event.consume();
     }
 

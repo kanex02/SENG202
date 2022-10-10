@@ -51,5 +51,10 @@
     -fx-background-color: -fx-light-grey-color;
 }
 
+.table-view:focused {
+    -fx-faint-focus-color: transparent;
+    -fx-focus-color: transparent
+}
+
 
 

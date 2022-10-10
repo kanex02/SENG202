@@ -3,7 +3,9 @@ package journey.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import journey.data.Note;
 import journey.data.Station;
+import journey.repository.NoteDAO;
 import journey.repository.StationDAO;
 
 /**
@@ -24,6 +26,8 @@ public class SelectedStationController {
     @FXML private ListView<String> attractionsList;
 
     private StationDAO stationDAO = new StationDAO();
+    private NoteDAO noteDAO = new NoteDAO();
+    private MainController mainController;
     private Station selectedStation;
 
     /**
@@ -46,8 +50,14 @@ public class SelectedStationController {
         boolean chargeCost = selectedStation.getHasChargingCost();
         costField.setText(chargeCost ? "Yes":"No");
         boolean parkCost = selectedStation.getHasCarParkCost();
-        costField.setText(parkCost ? "Yes":"No");
-        //TODO: wait for tom for the userstations table in the database
+        parkingCostField.setText(parkCost ? "Yes":"No");
+        Note notes = noteDAO.getNoteFromStation(selectedStation, mainController.getCurrentUser());
+        favoritedField.setText(notes.getFavourite() ? "Yes":"No");
+        if (notes.getRating() != 0) {
+            ratingField.setText(Integer.toString(notes.getRating()));
+        } else {
+            ratingField.setText("Not yet rated");
+        }
     }
 
     /**
@@ -66,6 +76,7 @@ public class SelectedStationController {
      * @param mainController the main controller.
      */
     public void init(MainController mainController) {
+        this.mainController = mainController;
         if (selectedStation != null) {
             selectedStation = stationDAO.queryStation(mainController.getSelectedStation());
             fillFields();
