@@ -59,6 +59,7 @@ public class MainController {
     @FXML private TitledPane planJourneyPane;
     @FXML private TitledPane plannedJourneyPane;
     @FXML private Accordion accordionPane;
+    @FXML private BorderPane mainPane;
 
     @FXML private AnchorPane registerVehicleWrapper;
     @FXML private AnchorPane selectedStationWrapper;
@@ -231,34 +232,17 @@ public class MainController {
 
     /**
      * Brings up the profile popup window when the 'my profile' button is pressed.
-
-     * @param event Profile button clicked event
+     
      */
-    @FXML private void myProfileButton(Event event) {
+    @FXML private void myProfileButton() {
         try {
-            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/myProfile.fxml"));
-            Parent root = baseLoader.load();
-            Stage mainStage = new Stage();
-
-            MyProfileController baseController = baseLoader.getController();
-            baseController.init(this, stage, selectedVehicle);
-
-            mainStage.setTitle("Journey");
-            Scene scene = new Scene(root, 600, 400);
-            mainStage.setScene(scene);
-
-            // set the min height and width so the window opens at the correct size
-            mainStage.setMinHeight(650);
-            mainStage.setMinWidth(900);
-            Screen screen = Screen.getPrimary();
-            Rectangle2D bounds = screen.getVisualBounds();
-            mainStage.setX(bounds.getMinX());
-            mainStage.setY(bounds.getMinY());
-            mainStage.setWidth(bounds.getWidth());
-            mainStage.setHeight(bounds.getHeight());
-            mainStage.setMaximized(true);
-            mainStage.show();
-            this.stage.close();
+            FXMLLoader profileLoader = new FXMLLoader(getClass().getResource("/fxml/myProfile.fxml"));
+            Parent profileParent = profileLoader.load();
+            MyProfileController myProfileController = profileLoader.getController();
+            myProfileController.init(this, stage, selectedVehicle, mainPane);
+            mainPane.setCenter(profileParent);
+            mainPane.toFront();
+            mainPane.setVisible(true);
         } catch (IOException e) {
             log.error(e);
         }

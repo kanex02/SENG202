@@ -1,10 +1,10 @@
 * {
     -fx-primary-color: #c0d6bc;
-    -fx-secondary-color: #aed9a7;
-    -fx-accent-color: #88B181;
+    -fx-secondary-color: #88B181;
+    -fx-accent-color: #4e8046;
     -fx-darkest-green: #5c7a57;
     -fx-grey-color: #b9b9b9;
-    -fx-light-grey-color: #d1d1d1;
+    -fx-light-grey-color: #e4e4e4;
     -fx-lightest-grey-color: #F9F9FB;
 
     -fx-focus-color: -fx-secondary-color;
@@ -16,7 +16,7 @@
 }
 
 .table-view .column-header {
-    -fx-background-color: -fx-accent-color;
+    -fx-background-color: -fx-secondary-color;
 }
 .table-view .column-header .label{
     -fx-font-weight: bold;
@@ -46,4 +46,10 @@
 .table-row-cell:selected .text {
     -fx-fill: -fx-accent-color;
 }
+
+.table-row-cell:selected {
+    -fx-background-color: -fx-light-grey-color;
+}
+
+
 

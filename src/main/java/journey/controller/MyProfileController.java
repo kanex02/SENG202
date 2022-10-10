@@ -28,6 +28,7 @@ public class MyProfileController {
     private MainController mainController;
     private ProfileController profileController = null;
     private Stage stage;
+    private BorderPane mainPane;
     private User currentUser;
     private String selectedVehicle;
 
@@ -106,36 +107,20 @@ public class MyProfileController {
         try {
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/newMain.fxml"));
             Parent root = baseLoader.load();
-            Stage mainStage = new Stage();
-
             MainController baseController = baseLoader.getController();
-            baseController.init(mainStage, mainController.getCurrentUser(), selectedVehicle);
-
-            mainStage.setTitle("Journey");
-            Scene scene = new Scene(root, 600, 400);
-            mainStage.setScene(scene);
-
-            // set the min height and width so the window opens at the correct size
-            mainStage.setMinHeight(650);
-            mainStage.setMinWidth(900);
-            Screen screen = Screen.getPrimary();
-            Rectangle2D bounds = screen.getVisualBounds();
-            mainStage.setX(bounds.getMinX());
-            mainStage.setY(bounds.getMinY());
-            mainStage.setWidth(bounds.getWidth());
-            mainStage.setHeight(bounds.getHeight());
-            mainStage.setMaximized(true);
-            mainStage.show();
-            this.stage.close();
-            closeScene();
+            baseController.init(stage, mainController.getCurrentUser(), selectedVehicle);
+            mainPane.setCenter(root);
+            mainPane.toFront();
+            mainPane.setVisible(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void init(MainController mainController, Stage stage, String selectedVehicle) {
+    public void init(MainController mainController, Stage stage, String selectedVehicle, BorderPane mainPane) {
         this.mainController = mainController;
         this.stage = stage;
+        this.mainPane = mainPane;
         this.selectedVehicle = selectedVehicle;
         this.currentUser = mainController.getCurrentUser();
         viewProfile();
