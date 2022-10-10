@@ -32,9 +32,20 @@
                     <font>
                         <Font name="Roboto" size="16.0" />
                     </font>
-               <GridPane.margin>
-                  <Insets right="10.0" />
-               </GridPane.margin>
+                    <graphic>
+                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
+                            <children>
+                                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../pictures/home-svgrepo-com.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                    </graphic>
+                   <GridPane.margin>
+                      <Insets right="10.0" />
+                   </GridPane.margin>
                 </Button>
                 <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="LEFT" GridPane.hgrow="NEVER">
                <GridPane.margin>
