@@ -80,13 +80,13 @@ public class ReadCSV {
 
     public static void main(String[] args) throws FileNotFoundException {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
-//        try {
-//            databaseManager.setup();
-//            readStations();
-//        } catch (Exception e) {
-//            System.out.println("BAD");
-//            log.error(e);
-//        }
+        try {
+            databaseManager.setup();
+            readStations();
+        } catch (Exception e) {
+            System.out.println("BAD");
+            log.error(e);
+        }
     }
 
 

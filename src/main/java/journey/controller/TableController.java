@@ -55,6 +55,7 @@ public class TableController {
         favouriteCol.setCellValueFactory(new PropertyValueFactory<>("favourite"));
         Station[] data = mainController.getStations();
         ObservableList<Station> stations = FXCollections.observableArrayList(data);
+
         stationTable.setItems(stations);
     }
 
