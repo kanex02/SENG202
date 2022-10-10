@@ -12,6 +12,8 @@
 .option-tab > .title {
     -fx-background-color: white;
     -fx-border-color: rgba(59, 59, 59, 0.1);
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 
