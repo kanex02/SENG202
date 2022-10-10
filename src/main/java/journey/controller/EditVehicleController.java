@@ -85,7 +85,6 @@ public class EditVehicleController {
         yearTextBox.setText(Integer.toString(currentVehicle.getYear()));
         chargerBox.setValue(currentVehicle.getChargerType());
         connectorBox.setValue(currentVehicle.getConnectorType());
-        vehicleDAO.removeVehicle(reg, profileController.getMyProfileController().getCurrentUser().getId());
     }
 
     public boolean isValid() {
@@ -179,9 +178,8 @@ public class EditVehicleController {
      * values.
      */
     @FXML public void saveVehicle() {
+        vehicleDAO.removeVehicle(currentVehicle.getRegistration(), profileController.getMyProfileController().getCurrentUser().getId());
         if (isValid()) {
-            String currentVehicle = profileController.getMyProfileController().getSelectedVehicle();
-            vehicleDAO.removeVehicle(currentVehicle, profileController.getMyProfileController().getCurrentUser().getId());
             String reg = registrationTextBox.getText();
             String make = makeTextBox.getText();
             String model = modelTextBox.getText();
@@ -197,12 +195,19 @@ public class EditVehicleController {
             profileController.setVehicle();
             profileController.setVehicles();
             profileController.getMyProfileController().viewRegisterVehicles();
+        } else {
+            vehicleDAO.setVehicle(currentVehicle, profileController.getMyProfileController().getCurrentUser());
         }
     }
 
 
     @FXML public void revertChanges() {
-        profileController.getMyProfileController().viewRegisterVehicles();
+        registrationTextBox.setText(currentVehicle.getRegistration());
+        makeTextBox.setText(currentVehicle.getMake());
+        modelTextBox.setText(currentVehicle.getModel());
+        yearTextBox.setText(Integer.toString(currentVehicle.getYear()));
+        chargerBox.setValue(currentVehicle.getChargerType());
+        connectorBox.setValue(currentVehicle.getConnectorType());
     }
 
 
@@ -216,7 +221,8 @@ public class EditVehicleController {
         vehicleDAO = new VehicleDAO();
         chargerBox.setItems(chargerTypeOptions);
         connectorBox.setItems(connectorTypeOptions);
-        if (profileController.getMyProfileController().getSelectedVehicle() != null) {
+        this.currentVehicle = vehicleDAO.queryVehicle(profileController.getMyProfileController().getSelectedVehicle(), profileController.getMyProfileController().getCurrentUser().getId());
+        if (currentVehicle != null) {
             fillCurrentVehicle();
         }
     }

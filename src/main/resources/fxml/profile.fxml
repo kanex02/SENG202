@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="393.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
+<AnchorPane prefHeight="393.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
    <children>
       <GridPane prefHeight="399.0" prefWidth="629.0" style="-fx-background-color: white;">
         <columnConstraints>
@@ -36,14 +36,14 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                   <TableView fx:id="vehicleTable" layoutX="18.0" layoutY="159.0" prefHeight="227.0" prefWidth="600.0" stylesheets="@../gui/tableStyle.css" VBox.vgrow="ALWAYS">
+                   <TableView fx:id="vehicleTable" layoutX="18.0" layoutY="159.0" prefHeight="237.0" prefWidth="721.0" stylesheets="@../gui/tableStyle.css" VBox.vgrow="ALWAYS">
                        <columns>
                            <TableColumn fx:id="registrationCol" text="Registration" />
                            <TableColumn fx:id="makeCol" prefWidth="55.0" text="Make" />
                            <TableColumn fx:id="modelCol" prefWidth="89.0" text="Model" />
                            <TableColumn fx:id="yearCol" prefWidth="46.0" text="Year" />
                            <TableColumn fx:id="chargerTypeCol" prefWidth="103.0" text="Current" />
-                           <TableColumn fx:id="connectorTypeCol" prefWidth="72.0" text="Connector" />
+                           <TableColumn fx:id="connectorTypeCol" prefWidth="136.0" text="Connector" />
                        </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
