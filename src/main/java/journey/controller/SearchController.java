@@ -45,6 +45,10 @@ public class SearchController {
     private MainController mainController;
     private StationDAO stationDAO;
 
+    /**
+     * Gets users current vehicle from the database
+     * and inputs its current type and charger type into the search.
+     */
     @FXML public void myCar() {
         ArrayList<String> selectedConnectors = new ArrayList<>();
         String myCar = mainController.getSelectedVehicle();
@@ -64,6 +68,10 @@ public class SearchController {
         }
     }
 
+    /**
+     * Ensures multi-select for the connectors list behaves correctly.
+     * (No duplicate values are entered into arrayList).
+     */
     @FXML public void connectorsMultiSelect() {
         ArrayList<String> selectedConnectors = new ArrayList<>();
 
@@ -83,7 +91,11 @@ public class SearchController {
 
     }
 
+    /**
+     * Get a connectors list for querying the database.
 
+     * @return connectors to find from database.
+     */
     public String[] getConnectors() {
         String[] connectorsToFind = new String[connectorsList.size()];
         for (int i = 0; i < connectorsList.size(); i++) {
@@ -94,7 +106,6 @@ public class SearchController {
 
     /**
      * Searches for relevant stations based on users search inputs.
-     * TODO: reduce external API calls. Currently calling geolocation 3 times for each address search.
      */
     @FXML public void search() {
         // TODO: move out of Util

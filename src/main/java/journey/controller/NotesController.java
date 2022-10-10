@@ -49,7 +49,7 @@ public class NotesController {
             notesSuccess.setText("Added station feedback");
         } else if (currStation == null) {
             notesWarning.setText("No station selected");
-        } else if (!(stationNote!=null || rating != 0 || favourite)) {
+        } else {
             notesWarning.setText("No station feedback provided");
         }
 
@@ -74,7 +74,8 @@ public class NotesController {
     }
 
     /**
-     * Updates the favourite checkbox for the current station
+     * Updates the favourite checkbox for the current station.
+
      * @param note The note object to display
      */
     public void updateFavourite(Note note) {
@@ -83,7 +84,7 @@ public class NotesController {
     }
 
     /**
-     * Updates the ratings display for the current station
+     * Updates the ratings display for the current station.
 
      * @param note The note object to display
      */
@@ -102,7 +103,7 @@ public class NotesController {
 
     /**
      * Sets the address of station in the notes panel when clicked.
-     * Also resets notesSuccess/Warning
+     * Also resets notesSuccess/Warning.
      */
     public void updateStationNoteAddr(Station currStation) {
         if (currStation != null) {

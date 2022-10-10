@@ -17,6 +17,7 @@ import java.net.http.HttpResponse;
 
 /**
  * Class to handle requesting location from Nominatim Geolocation API
+
  * @author Morgan English
  */
 public class NominatimGeolocationManager {
@@ -24,7 +25,9 @@ public class NominatimGeolocationManager {
 
     /**
      * Runs a query with the address given and finds the most applicable lat, lng co-ordinates
-     * @param address address to find lat, lng for
+
+     * @param address address of lat, lng
+     * @return lat, lng of address for geolocation
      */
     public GeoLocationResult queryAddress(String address) {
         String logMessage = String.format("Requesting geolocation from Nominatim for address: %s", address);
@@ -53,8 +56,13 @@ public class NominatimGeolocationManager {
         }
         return new GeoLocationResult(0, 0);
     }
+
     /**
      * Runs a query with the lat, lng given and finds the most applicable address
+
+     * @param lat latitude of address
+     * @param lng longitude of address
+     * @return address of lat, lng for geolocation
      */
     public GeoCodeResult queryLatLng(double lat, double lng) {
         String logMessage = String.format("Requesting geolocation from Nominatim for lat, lng: %s, %s", lat, lng);

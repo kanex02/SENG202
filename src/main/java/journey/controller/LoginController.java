@@ -51,6 +51,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * Does Error checking on the initial log in screen.
+     */
     private void registerUser() {
         String name = nameTextBox.getText();
         warningLabel.setText("");
@@ -71,6 +74,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * Adds all users to the user drop down to be logged into.
+     */
     private void populateUserDropDown() {
         User[] data = userDAO.getUsers();
         ObservableList<String> users = FXCollections.observableArrayList();

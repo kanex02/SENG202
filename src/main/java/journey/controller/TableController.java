@@ -12,7 +12,7 @@ import journey.data.Station;
 
 
 /**
- * A service to load data into the table viewer. TODO: Figure out how to get expanding rows.
+ * A service to load data into the table viewer.
  */
 public class TableController {
 
@@ -40,6 +40,7 @@ public class TableController {
      * Imports the data.
      */
     public void getData() {
+        // Custom filtering for values of unlimited within the time limit column.
         timeLimitCol.setComparator((s, t1) -> {
             if (s.equals("Unlimited")) {
                 return 1;

@@ -88,7 +88,7 @@ public class MainController {
     }
 
     /**
-     * Sets the accordion pane to be expanded on the plan journeys tab
+     * Sets the accordion pane to be expanded on the plan journeys tab.
      */
     public void setViewPlanJourneys() {
         accordionPane.setExpandedPane(planJourneyPane);
@@ -159,7 +159,9 @@ public class MainController {
         }
     }
 
-
+    /**
+     * Inserts completed journeys table into an anchor pane.
+     */
     private void viewCompletedJourneysTable() {
         try {
             FXMLLoader completedJourneysViewLoader = new FXMLLoader(getClass().getResource("/fxml/completedJourneys.fxml"));
@@ -180,6 +182,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Inserts selected station/attraction view into an anchor pane.
+     */
     private void viewSelectedStation() {
         try {
             FXMLLoader selectedStationLoader = new FXMLLoader(getClass().getResource("/fxml/selectedStation.fxml"));
@@ -198,7 +203,6 @@ public class MainController {
             log.error(e);
         }
     }
-
 
     public void updatePlannedJourneys() {
         plannedJourneyController.setJourneys(stage);
@@ -251,6 +255,12 @@ public class MainController {
     public void setProfile(Stage profileStage) {
         this.profileStage = profileStage;
     }
+
+    /**
+     * Opens new stage if none exists of a help page upon help button press
+
+     * @param event help button pressed
+     */
     @FXML private void helpButton(Event event) {
         Parent root;
         try {

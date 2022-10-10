@@ -2,14 +2,10 @@ package journey.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +13,9 @@ import journey.data.User;
 
 import java.io.IOException;
 
+/**
+ * FXML controller class for the myProfile to be inserted in front of mainPane.
+ */
 public class MyProfileController {
 
     @FXML private BorderPane registerVehicleWrapper;
@@ -32,6 +31,9 @@ public class MyProfileController {
     private User currentUser;
     private String selectedVehicle;
 
+    /**
+     * Insert register vehicle FXML into the scene.
+     */
     public void viewRegisterVehicles() {
         try {
             FXMLLoader registerVehicleLoader = new FXMLLoader(getClass().getResource("/fxml/registerVehicle.fxml"));
@@ -46,6 +48,9 @@ public class MyProfileController {
         }
     }
 
+    /**
+     * Insert edit vehicle FXML into the scene.
+     */
     public void loadEditVehicle() {
         try {
             FXMLLoader editVehicleLoader = new FXMLLoader(getClass().getResource("/fxml/vehicleEdit.fxml"));
@@ -60,6 +65,9 @@ public class MyProfileController {
         }
     }
 
+    /**
+     * Insert view profile FXML into the scene.
+     */
     private void viewProfile() {
         try {
             FXMLLoader profileLoader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
@@ -98,11 +106,10 @@ public class MyProfileController {
         return currentUser;
     }
 
-    public void closeScene() {
-        Stage stage = (Stage) homeButton.getScene().getWindow();
-        stage.close();
-    }
 
+    /**
+     * Bring the main pane back to the front of the scene.
+     */
     @FXML private void homeButton() {
         try {
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/newMain.fxml"));
@@ -117,6 +124,14 @@ public class MyProfileController {
         }
     }
 
+    /**
+     * Initialise the myProfile controller.
+
+     * @param mainController main FXML's controller
+     * @param stage current stage
+     * @param selectedVehicle currently selected vehicle
+     * @param mainPane current main pane
+     */
     public void init(MainController mainController, Stage stage, String selectedVehicle, BorderPane mainPane) {
         this.mainController = mainController;
         this.stage = stage;

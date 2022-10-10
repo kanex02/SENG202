@@ -1,26 +1,22 @@
 package journey.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import journey.Utils;
-import journey.data.Vehicle;
-import journey.repository.VehicleDAO;
-
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import journey.Utils;
+import journey.data.Vehicle;
+import journey.repository.VehicleDAO;
 
 /**
  * Controller for editing existing vehicles.
  */
 public class EditVehicleController {
-    @FXML private Button closeButton;
     @FXML private ChoiceBox<String> chargerBox;
     @FXML private ChoiceBox<String> connectorBox;
     @FXML private TextField registrationTextBox;
@@ -87,6 +83,11 @@ public class EditVehicleController {
         connectorBox.setValue(currentVehicle.getConnectorType());
     }
 
+    /**
+     * Error checking for entering a vehicle
+
+     * @return whether result passed error checking or not (true/false)
+     */
     public boolean isValid() {
         boolean valid = true;
         String registration = registrationTextBox.getText();
@@ -127,7 +128,6 @@ public class EditVehicleController {
         }
 
         //model validation
-        Matcher modelHasDigit = digit.matcher(model);
         Matcher modelHasSpecial = special.matcher(model);
         if (modelHasSpecial.find()) {
             modelWarningLabel.setText("Cannot contain special characters");
@@ -141,7 +141,7 @@ public class EditVehicleController {
         }
 
         //year validation
-        int intYear = 0;
+        int intYear;
         if (year.equals("")) {
             yearWarningLabel.setText("Please enter a year");
             valid = false;
@@ -174,8 +174,8 @@ public class EditVehicleController {
     }
 
     /**
-     * Selete the old version of the vehicle and create a new vehicle in the database with the updated
-     * values.
+     * Delete the old version of the vehicle and create a new vehicle in the database with the updated
+     * values. If invalid enter old vehicle back into the database.
      */
     @FXML public void saveVehicle() {
         vehicleDAO.removeVehicle(currentVehicle.getRegistration(), profileController.getMyProfileController().getCurrentUser().getId());
@@ -200,7 +200,9 @@ public class EditVehicleController {
         }
     }
 
-
+    /**
+     * reverts changes to original vehicle.
+     */
     @FXML public void revertChanges() {
         registrationTextBox.setText(currentVehicle.getRegistration());
         makeTextBox.setText(currentVehicle.getMake());

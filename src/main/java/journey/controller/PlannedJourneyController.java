@@ -11,7 +11,7 @@ import journey.data.*;
 import journey.repository.JourneyDAO;
 
 /**
- * A service to load data into the table viewer. TODO: Figure out how to get expanding rows.
+ * A service to load data into the table viewer.
  */
 public class PlannedJourneyController {
 
@@ -41,6 +41,9 @@ public class PlannedJourneyController {
         journeyTable.setItems(journeys);
     }
 
+    /**
+     * Mark a journey as completed (move planned journey table to completed journey table).
+     */
     @FXML public void markCompletedButton() {
         int journeyID = selectedJourney.getJourneyID();
         journeyDAO.completeAJourney(journeyID, mainController.getCurrentUser().getId());

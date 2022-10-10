@@ -4,8 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import journey.data.Station;
-import journey.repository.StationDAO;;
+import journey.repository.StationDAO;
 
+/**
+ * Controller for selected station FXML.
+ */
 public class SelectedStationController {
     @FXML private Label addressField;
     @FXML private Label nameField;
@@ -20,10 +23,13 @@ public class SelectedStationController {
     @FXML private Label favoritedField;
     @FXML private ListView<String> attractionsList;
 
-    private MainController mainController;
     private StationDAO stationDAO = new StationDAO();
     private Station selectedStation;
 
+    /**
+     * Fills all fields with the selected station's information.
+     * (With readability changes e.g true->yes).
+     */
     public void fillFields() {
         addressField.setText(selectedStation.getAddress());
         nameField.setText(selectedStation.getName());
@@ -38,27 +44,28 @@ public class SelectedStationController {
             timeLimitField.setText(Integer.toString(time));
         }
         boolean chargeCost = selectedStation.getHasChargingCost();
-        if (chargeCost) {
-            costField.setText("Yes");
-        } else {
-            costField.setText("No");
-        }
+        costField.setText(chargeCost ? "Yes":"No");
         boolean parkCost = selectedStation.getHasCarParkCost();
-        if (parkCost) {
-            parkingCostField.setText("Yes");
-        } else {
-            parkingCostField.setText("No");
-        }
+        costField.setText(parkCost ? "Yes":"No");
         //TODO: wait for tom for the userstations table in the database
     }
 
+    /**
+     * update selected station upon change.
+
+     * @param selectedStation currently selected station.
+     */
     public void updateSelectedStation(int selectedStation) {
         this.selectedStation = stationDAO.queryStation(selectedStation);
         fillFields();
     }
 
+    /**
+     * Initialises Selected station controller.
+
+     * @param mainController the main controller.
+     */
     public void init(MainController mainController) {
-        this.mainController = mainController;
         if (selectedStation != null) {
             selectedStation = stationDAO.queryStation(mainController.getSelectedStation());
             fillFields();

@@ -2,12 +2,10 @@ package journey.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import journey.Utils;
 import journey.data.Vehicle;
 import journey.repository.VehicleDAO;
@@ -56,6 +54,11 @@ public class RegisterVehicleController {
     Pattern digit = Pattern.compile("[0-9]");
     Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 
+    /**
+     * Error checking for entering a vehicle
+
+     * @return whether result passed error checking or not (true/false)
+     */
     public boolean isValid() {
         boolean valid = true;
         String registration = registrationTextBox.getText();
@@ -109,7 +112,7 @@ public class RegisterVehicleController {
         }
 
         //year validation
-        int intYear = 0;
+        int intYear;
         if (year.equals("")) {
             yearWarningLabel.setText("Please enter a year");
             valid = false;
@@ -192,11 +195,19 @@ public class RegisterVehicleController {
         chargerTypeChoice = chargerBox.getValue();
     }
 
-
+    /**
+     * Function run when charger combo box choice is changed.
+     * Used to set the value that is stored.
+     */
     @FXML private void connectorTypeChoice() {
         connectorTypeChoice = connectorBox.getValue();
     }
 
+    /**
+     * Register vehicle controller initialiser.
+
+     * @param myProfileController parent controller
+     */
     public void init(MyProfileController myProfileController) {
         this.myProfileController = myProfileController;
         vehicleDAO = new VehicleDAO();

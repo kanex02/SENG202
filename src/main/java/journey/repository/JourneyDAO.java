@@ -3,7 +3,6 @@ package journey.repository;
 import journey.data.Journey;
 import journey.data.User;
 import journey.Utils;
-import journey.data.Vehicle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -84,7 +83,12 @@ public class JourneyDAO {
         return res.toArray(Journey[]::new);
     }
 
+    /**
+     * Inserts journey into the database.
 
+     * @param journeyID journey's ID.
+     * @param currentUser the current user.
+     */
     public void completeAJourney(int journeyID, int currentUser) {
         Connection conn = null;
         Journey journey = queryJourney(journeyID, currentUser);
@@ -116,7 +120,12 @@ public class JourneyDAO {
         }
     }
 
+    /**
+     * Get a list of all completed journeys from a specific user.
 
+     * @param user the current user.
+     * @return list of all completed journeys.
+     */
     public Journey[] getCompletedJourneys(User user) {
         Connection conn = null;
         ArrayList<Journey> res = new ArrayList<>();
@@ -184,6 +193,13 @@ public class JourneyDAO {
         }
     }
 
+    /**
+     * Gets a Journey from the database to be displayed on the map view.
+
+     * @param journeyID journey ID of required journey.
+     * @param currentUser The current user.
+     * @return Journey from database
+     */
     public Journey queryJourney(int journeyID, int currentUser) {
         Connection conn = null;
         try {

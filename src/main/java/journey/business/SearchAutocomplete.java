@@ -62,7 +62,6 @@ public class SearchAutocomplete {
         } catch (Exception iie) {
             log.error("Error when loading", iie);
         }
-
         return new ArrayList<>();
     }
 }

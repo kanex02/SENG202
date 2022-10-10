@@ -28,7 +28,6 @@ public class VehicleDAO {
      * Adds vehicle to Vehicle
 
      * @param v username entered in login page
-
      */
     public void setVehicle(Vehicle v, User user) {
         Connection conn = null;
@@ -118,6 +117,12 @@ public class VehicleDAO {
         return null;
     }
 
+    /**
+     * Removes a vehicle from the database.
+
+     * @param reg registration of vehicle to be removed.
+     * @param userID User ID of owner of the vehicle.
+     */
     public void removeVehicle(String reg, int userID) {
         Connection conn = null;
         try {

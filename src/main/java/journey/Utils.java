@@ -11,7 +11,6 @@ import journey.business.NominatimGeolocationManager;
 import journey.data.GeoCodeResult;
 import journey.data.GeoLocationResult;
 import journey.data.Station;
-import journey.repository.DatabaseManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -73,8 +72,8 @@ public class Utils {
     /**
      * Converts station result set into a station arraylist.
 
-     * @param rs result set to be converted
-     * @param res resultant ArrayList being passed into
+     * @param rs result set to be converted.
+     * @param res resultant ArrayList being passed into.
      */
 
     public static void insertRsIntoArray(ResultSet rs, ArrayList<Station> res) {
@@ -98,7 +97,7 @@ public class Utils {
     /**
      * gets current date from system.
 
-     * @return current date
+     * @return current date.
      */
     public static String getDate() {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -109,8 +108,8 @@ public class Utils {
     /**
      * Checks if input can be converted to integer.
 
-     * @param str input to be checked
-     * @return boolean is/isn't integer
+     * @param str input to be checked.
+     * @return boolean is/isn't integer.
      */
     public static boolean isInt(String str) {
         try {
@@ -124,8 +123,8 @@ public class Utils {
     /**
      * gets lat and lng from location.
 
-     * @param loc location
-     * @return lat#lng string
+     * @param loc location.
+     * @return lat#lng string.
      */
     public static String locToLatLng(String loc) {
         NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
@@ -136,9 +135,9 @@ public class Utils {
     /**
      * gets address from lat and lng.
 
-     * @param lat latitude
-     * @param lng longitude
-     * @return address String
+     * @param lat latitude.
+     * @param lng longitude.
+     * @return address String.
      */
     public static String latLngToAddr(double lat, double lng) {
         NominatimGeolocationManager nomMan = new NominatimGeolocationManager();

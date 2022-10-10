@@ -28,7 +28,7 @@ public class NoteDAO {
      * If no note for the given station and user exists
      * it creates a new entry. Otherwise, updates the current note.
 
-     * @param note The note to send to the database
+     * @param note The note to send to the database.
      */
     public void setNote(Note note, User user) {
         Connection conn = null;
@@ -85,9 +85,10 @@ public class NoteDAO {
 
 
     /**
-     * Gets not from give station
-     * @param station station to get notes from
-     * @return note from station
+     * Gets not from give station.
+     *
+     * @param station station to get notes from.
+     * @return note from station.
      */
     public Note getNoteFromStation(Station station, User user) {
         Connection conn = null;

@@ -49,7 +49,6 @@ public class CreateJourneyController {
 
     /**
      * Provides all the users vehicles to choose from for a journey.
-
      */
     public void populateVehicleDropdown() {
         Vehicle[] data = vehicleDAO.getVehicles(mainController.getCurrentUser());

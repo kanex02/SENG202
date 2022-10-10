@@ -24,8 +24,9 @@ public class UserDAO {
     }
 
     /**
-     * Sets the current user given a username
-     * @param username username entered in login page
+     * Sets the current user given a username.
+
+     * @param username username entered in login page.
      */
     public User setCurrentUser(String username) {
         // Update the currentUser variable and User database if necessary
@@ -60,6 +61,7 @@ public class UserDAO {
 
     /**
      * Updates the current user to one specified.
+
      * @param name name of the user to update to.
      */
     public User updateUser(String name) {
@@ -90,6 +92,10 @@ public class UserDAO {
         return currentUser;
     }
 
+    /**
+     * Gets all the users in the database.
+     * @return List of users.
+     */
     public User[] getUsers() {
         Connection conn = null;
         ArrayList<User> res = new ArrayList<>();
@@ -108,7 +114,12 @@ public class UserDAO {
         return res.toArray(User[]::new);
     }
 
+    /**
+     * Check if the name already exists in the Users database.
 
+     * @param name name to check.
+     * @return if the name is in the database of Users.
+     */
     public boolean nameInDB(String name) {
         Connection conn = null;
         boolean inDB = false;

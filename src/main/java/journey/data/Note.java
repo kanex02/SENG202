@@ -13,6 +13,7 @@ public class Note {
 
     /**
      * initialises stations private variables
+
      * @param station a station that a note is being added to/removed from
      * @param note the note for the station
      * @param rating the rating of the station

@@ -11,7 +11,7 @@ import journey.data.*;
 import journey.repository.JourneyDAO;
 
 /**
- * A service to load data into the table viewer. TODO: Figure out how to get expanding rows.
+ * A service to load data into the table viewer.
  */
 public class CompletedJourneysController {
 
@@ -53,9 +53,7 @@ public class CompletedJourneysController {
         journeyTable.maxWidthProperty().bind(completedJourneysParent.widthProperty());
         journeyTable.maxHeightProperty().bind(completedJourneysParent.heightProperty());
 
-        journeyTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldJourney, newJourney) -> {
-                    mainController.mapJourney(newJourney);
-                }
+        journeyTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldJourney, newJourney) -> mainController.mapJourney(newJourney)
         );
     }
 }

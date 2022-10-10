@@ -21,7 +21,7 @@ import java.util.Objects;
 /**
  * Controller for displaying Open Street Maps through JavaFX webview.
 
- * @author Morgan English with slight changes/additions from Daniel Neal
+ * @author Morgan English with changes/additions from Daniel Neal
  */
 public class MapController {
     @FXML private WebView webView;

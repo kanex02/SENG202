@@ -4,31 +4,20 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import journey.data.Vehicle;
 import journey.repository.VehicleDAO;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
 
 /**
  * Controller for the profile popup
  */
 public class ProfileController {
-    private static final Logger log = LogManager.getLogger();
     private MyProfileController profileController;
     private VehicleDAO vehicleDAO;
-    private Stage stage = null;
     @FXML private Label name;
     @FXML private Label vehicle;
     @FXML private Label warningLabel;
@@ -44,15 +33,7 @@ public class ProfileController {
     @FXML private TableColumn<Vehicle, String> connectorTypeCol;
 
     @FXML private TableView<Vehicle> vehicleTable;
-    private String editFXML = "/fxml/vehicleEdit.fxml";
 
-    public Stage getProfileStage() {
-        return stage;
-    }
-
-    public ProfileController getProfileController() {
-        return this;
-    }
 
     public MyProfileController getMyProfileController() {
         return profileController;
@@ -77,6 +58,10 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Check there is a currently selected vehicle then sets that
+     * into the register vehicle text boxes.
+     */
     @FXML private void editCurrentVehicle() {
         if (profileController.getSelectedVehicle() == null) {
             warningLabel.setText("You haven't selected a vehicle");
@@ -86,7 +71,7 @@ public class ProfileController {
     }
 
     /**
-     * delete the currently selected vehicle from the database.
+     * Delete the currently selected vehicle from the database.
      */
     @FXML public void deleteCurrentVehicle() {
         String reg = profileController.getSelectedVehicle();
@@ -97,7 +82,7 @@ public class ProfileController {
 
 
     /**
-     *Retrieves the vehicles from the database and puts their information into the table
+     * Retrieves the vehicles from the database and puts their information into the table.
      */
     public void setVehicles() {
         registrationCol.setCellValueFactory(new PropertyValueFactory<>("Registration"));
@@ -113,12 +98,12 @@ public class ProfileController {
 
     /**
      * Initialises the profile popup with User's registered vehicles in a table view.
+
      * @param stage current stage
      */
     public void init(Stage stage, MyProfileController profileController) {
         this.profileController = profileController;
         vehicleDAO = new VehicleDAO();
-        this.stage = stage;
         setName();
         setVehicles();
         setVehicle();
