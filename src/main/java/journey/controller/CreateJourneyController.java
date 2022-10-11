@@ -129,29 +129,29 @@ public class CreateJourneyController {
     }
 
     private void addIcon(int i) {
-        // TODO: NEED FIX
-        destination.setLayoutY(destination.getLayoutY() + 60);
-        ImageView circleView = new ImageView();
-        circleView.setFitHeight(17);
-        circleView.setFitWidth(17);
-        circleView.setLayoutX(8);
-        circleView.setLayoutY(21d + 60 * (i - 1));
-        circleView.setPickOnBounds(true);
-        circleView.setPreserveRatio(true);
-        circleView.setImage(circle);
-
-        ImageView ellipsesView = new ImageView();
-        ellipsesView.setFitHeight(32);
-        ellipsesView.setFitWidth(200);
-        ellipsesView.setLayoutX(8);
-        ellipsesView.setLayoutY(38d + 60 * (i - 1));
-        ellipsesView.setPickOnBounds(true);
-        ellipsesView.setPreserveRatio(true);
-        ellipsesView.setImage(ellipses);
-
-        iconPane.getChildren().add(circleView);
-        iconPane.getChildren().add(ellipsesView);
-        System.out.println(iconPane.getChildren().size());
+//        // TODO: NEED FIX
+//        destination.setLayoutY(destination.getLayoutY() + 60);
+//        ImageView circleView = new ImageView();
+//        circleView.setFitHeight(17);
+//        circleView.setFitWidth(17);
+//        circleView.setLayoutX(8);
+//        circleView.setLayoutY(21d + 60 * (i - 1));
+//        circleView.setPickOnBounds(true);
+//        circleView.setPreserveRatio(true);
+//        circleView.setImage(circle);
+//
+//        ImageView ellipsesView = new ImageView();
+//        ellipsesView.setFitHeight(32);
+//        ellipsesView.setFitWidth(200);
+//        ellipsesView.setLayoutX(8);
+//        ellipsesView.setLayoutY(38d + 60 * (i - 1));
+//        ellipsesView.setPickOnBounds(true);
+//        ellipsesView.setPreserveRatio(true);
+//        ellipsesView.setImage(ellipses);
+//
+//        iconPane.getChildren().add(circleView);
+//        iconPane.getChildren().add(ellipsesView);
+//        System.out.println(iconPane.getChildren().size());
     }
 
     private AnchorPane nthWaypoint(int i) {
