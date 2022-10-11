@@ -36,7 +36,8 @@ public class LoginController {
     @FXML private AnchorPane wholeScene;
     @FXML private TextField nameTextBox;
     @FXML private ChoiceBox<String> nameChoiceBox;
-    @FXML private Label warningLabel;
+    @FXML private Label loginWarningLabel;
+    @FXML private Label registerWarningLabel;
 //    @FXML private ImageView loadingIcon;
 
     /**
@@ -45,34 +46,11 @@ public class LoginController {
      */
     @FXML private void setRunLater() {
         if ((nameChoiceBox.getValue() == null || nameChoiceBox.getValue().equals("")) && nameTextBox.getText().equals("")) {
-            warningLabel.setText("Please select or enter Username");
+            loginWarningLabel.setText("Please select or enter Username");
         } else if (nameChoiceBox.getValue() == null || nameChoiceBox.getValue().equals("")) {
-            Platform.runLater(this::registerUser);
+            Platform.runLater(this::register);
         } else {
-            Platform.runLater(this::setUser);
-        }
-    }
-
-    /**
-     * Does Error checking on the initial log in screen.
-     */
-    private void registerUser() {
-        String name = nameTextBox.getText();
-        warningLabel.setText("");
-        Boolean valid = LoginService.checkUser(name);
-
-        if (!valid) {
-            warningLabel.setText("Your name cannot contain any digits or special characters!");
-        } else if (name.equals("")) {
-            warningLabel.setText("Please enter a name or select from dropdown");
-        } else if (userDAO.nameInDB(name)) {
-            warningLabel.setText("A user with that name already exists!");
-        } else if (name.length() > 15) {
-            warningLabel.setText("Your name cannot be longer than 15 characters");
-        } else {
-            user = userDAO.setCurrentUser(name);
-            // Switch stages to main window
-            switchToMain();
+            Platform.runLater(this::login);
         }
     }
 
@@ -90,15 +68,32 @@ public class LoginController {
         nameChoiceBox.setItems(users);
     }
 
-    private void setUser() {
-        String name = nameChoiceBox.getValue();
-        user = userDAO.setCurrentUser(name);
-        switchToMain();
+    @FXML public void register() {
+        String name = nameTextBox.getText();
+        registerWarningLabel.setText("");
+        Boolean valid = LoginService.checkUser(name);
+        if (!valid) {
+            registerWarningLabel.setText("Your name cannot contain any digits or special characters!");
+        } else if (name.equals("")) {
+            registerWarningLabel.setText("Please enter a name or select from dropdown");
+        } else if (userDAO.nameInDB(name)) {
+            registerWarningLabel.setText("A user with that name already exists!");
+        } else if (name.length() > 15) {
+            registerWarningLabel.setText("Your name cannot be longer than 15 characters");
+        } else {
+            user = userDAO.setCurrentUser(name);
+            switchToMain();
+        }
     }
 
-    private String getNameTextBox() {
-        return nameTextBox.getText();
+    @FXML public void login() {
+        if (!(nameChoiceBox.getValue() == null || nameChoiceBox.getValue().equals(""))) {
+            String name = nameChoiceBox.getValue();
+            user = userDAO.setCurrentUser(name);
+            switchToMain();
+        }
     }
+
 
     /**
      * Switches the current screen to the main screen.
@@ -147,7 +142,7 @@ public class LoginController {
                 setRunLater();
             }
         });
-        warningLabel.setText("");
+        loginWarningLabel.setText("");
         populateUserDropDown();
     }
 

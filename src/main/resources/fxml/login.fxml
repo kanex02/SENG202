@@ -38,6 +38,7 @@
                      </font>
                   </Label>
                   <ImageView fx:id="loadingIcon" fitHeight="150.0" fitWidth="200.0" layoutX="95.0" layoutY="-65.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="registerWarningLabel" layoutX="85.0" layoutY="121.0" prefHeight="16.0" prefWidth="215.0" textAlignment="CENTER" textFill="#dd0000" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
@@ -61,6 +62,7 @@
                <children>
                   <ChoiceBox fx:id="nameChoiceBox" layoutX="82.0" layoutY="25.0" prefHeight="35.0" prefWidth="215.0" style="-fx-background-color: #f8fcf7;" styleClass="drop-down" stylesheets="@../gui/dropdowns.css" />
                   <Button layoutX="82.0" layoutY="76.0" mnemonicParsing="false" onAction="#login" prefHeight="35.0" prefWidth="215.0" style="-fx-background-color: #88B181;" stylesheets="@../gui/buttons.css" text="LOGIN" />
+                  <Label fx:id="loginWarningLabel" layoutX="82.0" layoutY="121.0" prefHeight="16.0" prefWidth="215.0" textAlignment="CENTER" textFill="#dd0000" />
                </children></AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="3" />
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
