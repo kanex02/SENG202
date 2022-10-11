@@ -11,7 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -21,9 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import journey.Utils;
 import journey.business.SearchAutocomplete;
@@ -105,55 +105,52 @@ public class CreateJourneyController {
     }
 
     private AnchorPane nthWaypoint(int i) {
-        AnchorPane root = new AnchorPane();
         AnchorPane stationRow = new AnchorPane();
+        HBox row = new HBox();
         TextField address = new TextField();
-        Button clickMap = new Button();
+        Button removeWaypoint = new Button();
 
-        stationRow.getChildren().add(address);
-        stationRow.getChildren().add(clickMap);
-
-        root.getChildren().add(stationRow);
-
-        AnchorPane.setLeftAnchor(root, 10d);
-        AnchorPane.setRightAnchor(root, 10d);
-        // Change distance from top
-        AnchorPane.setTopAnchor(root, 20d + 62 * i);
-        root.setPrefHeight(62);
-        root.setPrefWidth(290);
+        row.getChildren().add(address);
+        row.getChildren().add(removeWaypoint);
+        stationRow.getChildren().add(row);
 
         stationRow.setPrefHeight(32);
-        stationRow.setPrefWidth(290);
+        stationRow.setPrefWidth(270);
+        stationRow.setLayoutY(10d + 60*i);
+        AnchorPane.setRightAnchor(stationRow, 10d);
         AnchorPane.setLeftAnchor(stationRow, 0d);
-        AnchorPane.setRightAnchor(stationRow, 0d);
-        AnchorPane.setTopAnchor(stationRow, 0d);
 
-        AnchorPane.setBottomAnchor(stationRow, 0d);
-        AnchorPane.setLeftAnchor(stationRow, 8d);
-        AnchorPane.setTopAnchor(stationRow, 0d);
+        AnchorPane.setLeftAnchor(row, 0d);
+        AnchorPane.setRightAnchor(row, 0d);
+        AnchorPane.setTopAnchor(row, 0d);
+        AnchorPane.setBottomAnchor(row, 0d);
 
-        address.setLayoutX(34);
-        address.setPrefHeight(24);
-        address.setPrefWidth(158);
+        address.setPrefHeight(32);
+        address.setPrefWidth(138);
         address.getStylesheets().add(textCss);
+        address.setPromptText("Click map or type address");
         waypointAddresses.add(address);
+        AnchorPane.setRightAnchor(address, 0d);
+        AnchorPane.setTopAnchor(address, 0d);
+        HBox.setHgrow(address, Priority.ALWAYS);
+        HBox.setMargin(address, new Insets(0, 10, 0, 0));
 
+        removeWaypoint.setPrefHeight(32);
+        removeWaypoint.setPrefWidth(32);
+        removeWaypoint.setStyle("-fx-background-color: #FFFFFF;");
+        removeWaypoint.setText("X");
+        removeWaypoint.setSnapToPixel(true);
+        removeWaypoint.setEffect(dropShadow);
+        AnchorPane.setRightAnchor(removeWaypoint, 0d);
+        AnchorPane.setTopAnchor(removeWaypoint, 0d);
+        AnchorPane.setBottomAnchor(removeWaypoint, 0d);
+        HBox.setHgrow(removeWaypoint, Priority.NEVER);
 
-        clickMap.setLayoutX(223);
-        clickMap.setLayoutY(-4);
-        clickMap.setMnemonicParsing(false);
-        clickMap.setOnAction((e) -> clickNth(i));
-        clickMap.setStyle("-fx-background-color: #FFFFFF;");
-        clickMap.setText("Click map");
-        clickMap.setPrefHeight(32);
-        AnchorPane.setRightAnchor(clickMap, 0d);
-        AnchorPane.setTopAnchor(clickMap, 0d);
-        clickMap.setEffect(dropShadow);
-
-        return root;
+        return stationRow;
     }
 
-    private void clickNth(int i) {
+    @FXML private void clickNth(Event event) {
+        int i = (((Node) event.getSource()).getId()).toCharArray()[0] - 'a';
         mapViewController.setCallback((lat, lng) -> {
             addRouteWaypoint(lat, lng, i);
             return true;
