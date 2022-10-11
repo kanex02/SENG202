@@ -77,9 +77,6 @@ public class MapController {
                 });
     }
 
-    public WebView getWebView() {
-        return webView;
-    }
 
     /**
      * Maps a journey.

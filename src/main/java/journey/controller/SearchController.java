@@ -37,6 +37,7 @@ public class SearchController {
     @FXML private MenuButton connectorsMenu;
     @FXML private Button placeMarkerButton;
     @FXML private ImageView placeMarkerImage;
+    @FXML private Button removeMarkerButton;
     final ArrayList<CheckMenuItem> connectors = new ArrayList<>();
     ArrayList<String> connectorsList = new ArrayList<>();
 
@@ -49,7 +50,7 @@ public class SearchController {
 
     private MainController mainController;
     private StationDAO stationDAO;
-    private String addressLatLng = "0.0#0.0";
+    private String addressLatLng = "";
 
     @FXML public void myCar() {
         ArrayList<String> selectedConnectors = new ArrayList<>();
@@ -170,12 +171,30 @@ public class SearchController {
         mainController.getMapViewController().setCallback((lat, lng) -> {
             addressLatLng = lat+"#"+lng;
             search();
+            removeMarkerButton.setDisable(false);
             return true;
         }, "search");
 
     }
 
 
+    /**
+     * Called to remove the range marker from the map.
+     * Only called if a range marker is on the map
+     */
+    @FXML private void removeRangeMarker() {
+
+        addressLatLng = "";
+        mainController.clearSearchMarkerFromMap();
+        removeMarkerButton.setDisable(true);
+        search();
+    }
+
+    /**
+     * Changes the lat and long in the search controller
+     * @param lat the latitude
+     * @param lng the longitude
+     */
     public void changeSearchLatLong(double lat, double lng) {
         addressLatLng = lat+"#"+lng;
     }

@@ -9,7 +9,16 @@
 
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="350.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
     <Label layoutX="14.0" layoutY="45.0" text="Place Range Marker:" />
-   <Button fx:id="placeMarkerButton" layoutX="305.0" layoutY="41.0" mnemonicParsing="false" onAction="#clickToPlaceMarker" prefHeight="18.0" prefWidth="16.0" style="-fx-background-color: #FFFFFF;">
+   <Button fx:id="placeMarkerButton" layoutX="201.0" layoutY="41.0" mnemonicParsing="false" onAction="#clickToPlaceMarker" prefHeight="18.0" prefWidth="16.0" style="-fx-background-color: #FFFFFF;">
+      <effect>
+         <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+            <color>
+               <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
+            </color>
+         </DropShadow>
+      </effect>
+   </Button>
+   <Button fx:id="removeMarkerButton" disable="true" layoutX="233.0" layoutY="41.0" mnemonicParsing="false" onAction="#removeRangeMarker" style="-fx-background-color: #FFFFFF;" text="Remove Marker">
       <effect>
          <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
             <color>
@@ -103,7 +112,7 @@
              </GridPane.margin>
          </Button>
      </GridPane>
-   <ImageView fx:id="placeMarkerImage" fitHeight="18.0" fitWidth="16.0" layoutX="308.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+   <ImageView fx:id="placeMarkerImage" fitHeight="18.0" fitWidth="16.0" layoutX="204.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../pictures/green-marker.png" />
       </image>
