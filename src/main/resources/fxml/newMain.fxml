@@ -102,12 +102,9 @@
                <left>
                   <VBox minWidth="300.0" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #efefef;" BorderPane.alignment="CENTER">
                      <children>
-                        <Accordion fx:id="accordionPane" minHeight="650.0" prefHeight="900.0" prefWidth="350.0" stylesheets="@../gui/style.css">
+                        <Accordion fx:id="accordionPane" minHeight="650.0" prefHeight="900.0" prefWidth="350.0" style="-fx-background-color: #efefef;" stylesheets="@../gui/style.css">
                           <panes>
                             <TitledPane animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Search and Filter">
-                              <content>
-                                <AnchorPane fx:id="searchWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                              </content>
                                  <graphic>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                        <children>
@@ -115,11 +112,15 @@
                                        </children>
                                     </HBox>
                                  </graphic>
+                                 <content>
+                                    <ScrollPane fx:id="searchWrapper" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                      </content>
+                                    </ScrollPane>
+                                 </content>
                             </TitledPane>
                               <TitledPane animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Record Notes about Station">
-                                <content>
-                                  <AnchorPane fx:id="notesWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                                </content>
                                   <graphic>
                                       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                           <children>
@@ -127,11 +128,15 @@
                                           </children>
                                       </HBox>
                                   </graphic>
+                                 <content>
+                                    <ScrollPane fx:id="notesWrapper" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                      </content>
+                                    </ScrollPane>
+                                 </content>
                               </TitledPane>
                             <TitledPane fx:id="planJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Plan a Journey">
-                              <content>
-                                <AnchorPane fx:id="recordJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                              </content>
                                 <graphic>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                         <children>
@@ -139,11 +144,11 @@
                                         </children>
                                     </HBox>
                                 </graphic>
+                                 <content>
+                                    <ScrollPane fx:id="recordJourneyWrapper" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                                 </content>
                             </TitledPane>
                             <TitledPane fx:id="plannedJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">
-                              <content>
-                                <AnchorPane fx:id="plannedJourneysWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                              </content>
                                 <graphic>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                         <children>
@@ -151,11 +156,15 @@
                                         </children>
                                     </HBox>
                                 </graphic>
+                                 <content>
+                                    <ScrollPane fx:id="plannedJourneysWrapper" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                      </content>
+                                    </ScrollPane>
+                                 </content>
                             </TitledPane>
                               <TitledPane animated="false" layoutX="30.0" layoutY="108.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="Completed Journeys">
-                                 <content>
-                                    <AnchorPane fx:id="completeJourneyWrapper" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                                 </content>
                                   <graphic>
                                       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                           <children>
@@ -163,6 +172,9 @@
                                           </children>
                                       </HBox>
                                   </graphic>
+                                 <content>
+                                    <ScrollPane fx:id="completeJourneyWrapper" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                                 </content>
                               </TitledPane>
                               <TitledPane fx:id="selectedStationTitledPane" animated="false" layoutX="30.0" layoutY="134.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="More Information about Selected Station">
                                   <graphic>
@@ -173,7 +185,7 @@
                                       </HBox>
                                   </graphic>
                                  <content>
-                                    <ScrollPane prefHeight="200.0" prefWidth="200.0" />
+                                    <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                                  </content>
                               </TitledPane>
                           </panes>

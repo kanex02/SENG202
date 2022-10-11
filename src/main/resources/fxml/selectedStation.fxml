@@ -4,88 +4,74 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="150.0" minWidth="0.0" prefHeight="470.0" prefWidth="310.0" style="-fx-background-color: #efefef;"
-            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="journey.controller.SelectedStationController">
+<AnchorPane minHeight="150.0" minWidth="0.0" prefHeight="470.0" prefWidth="350.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SelectedStationController">
     <children>
-        <Label layoutX="18.0" layoutY="15.0" text="Address:"/>
-        <Label layoutX="20.0" layoutY="73.0" text="Name: "/>
-        <Label layoutX="20.0" layoutY="100.0" text="Operator:"/>
-        <Label layoutX="20.0" layoutY="127.0" text="Current:"/>
-        <Label layoutX="20.0" layoutY="154.0" text="Number of Connectors:"/>
-        <Label layoutX="20.0" layoutY="181.0" text="Number of Carparks:"/>
-        <Label layoutX="20.0" layoutY="208.0" text="Carpark Time Limit:"/>
-        <Label layoutX="20.0" layoutY="235.0" text="Attractions nearby:"/>
-        <Label layoutX="20.0" layoutY="358.0" text="Has free charging: "/>
-        <Label layoutX="20.0" layoutY="385.0" text="Has free parking:"/>
-        <Label layoutX="20.0" layoutY="412.0" text="Rating:"/>
-        <Label layoutX="20.0" layoutY="439.0" text="Favourited:"/>
-        <ListView fx:id="attractionsList" layoutX="16.0" layoutY="258.0" prefHeight="93.0" prefWidth="285.0"/>
-        <Label fx:id="addressField" layoutX="86.0" layoutY="12.0" prefHeight="53.0" prefWidth="213.0"
-               style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css"
-               textOverrun="CLIP" wrapText="true">
+        <Label layoutX="18.0" layoutY="15.0" text="Address:" />
+        <Label layoutX="20.0" layoutY="73.0" text="Name: " />
+        <Label layoutX="20.0" layoutY="100.0" text="Operator:" />
+        <Label layoutX="20.0" layoutY="127.0" text="Current:" />
+        <Label layoutX="20.0" layoutY="154.0" text="Number of Connectors:" />
+        <Label layoutX="20.0" layoutY="181.0" text="Number of Carparks:" />
+        <Label layoutX="20.0" layoutY="208.0" text="Carpark Time Limit:" />
+        <Label layoutX="20.0" layoutY="235.0" text="Attractions nearby:" />
+        <Label layoutX="20.0" layoutY="358.0" text="Has free charging: " />
+        <Label layoutX="20.0" layoutY="385.0" text="Has free parking:" />
+        <Label layoutX="20.0" layoutY="412.0" text="Rating:" />
+        <Label layoutX="20.0" layoutY="439.0" text="Favourited:" />
+        <ListView fx:id="attractionsList" layoutX="16.0" layoutY="258.0" prefHeight="93.0" prefWidth="320.0" />
+        <Label fx:id="addressField" layoutX="86.0" layoutY="12.0" prefHeight="53.0" prefWidth="252.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css" textOverrun="CLIP" wrapText="true">
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </Label>
-        <Label fx:id="nameField" layoutX="74.0" layoutY="70.0" prefHeight="22.0" prefWidth="227.0"
-               style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
+        <Label fx:id="nameField" layoutX="74.0" layoutY="70.0" prefHeight="22.0" prefWidth="264.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </Label>
-        <Label fx:id="operatorField" layoutX="94.0" layoutY="97.0" prefHeight="22.0" prefWidth="207.0"
-               style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
+        <Label fx:id="operatorField" layoutX="94.0" layoutY="97.0" prefHeight="22.0" prefWidth="242.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </Label>
-        <Label fx:id="currentField" layoutX="80.0" layoutY="124.0" prefHeight="22.0" prefWidth="221.0"
-               style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
+        <Label fx:id="currentField" layoutX="80.0" layoutY="124.0" prefHeight="22.0" prefWidth="258.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </Label>
-        <Label fx:id="connectorField" layoutX="176.0" layoutY="151.0" prefHeight="22.0" prefWidth="125.0"
-               style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
+        <Label fx:id="connectorField" layoutX="176.0" layoutY="151.0" prefHeight="22.0" prefWidth="163.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </Label>
-        <Label fx:id="carparkField" layoutX="165.0" layoutY="178.0" prefHeight="22.0" prefWidth="136.0"
-               style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
+        <Label fx:id="carparkField" layoutX="165.0" layoutY="178.0" prefHeight="22.0" prefWidth="171.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </Label>
-        <Label fx:id="costField" layoutX="149.0" layoutY="355.0" prefHeight="22.0" prefWidth="152.0"
-               style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
+        <Label fx:id="costField" layoutX="149.0" layoutY="355.0" prefHeight="22.0" prefWidth="190.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </Label>
-        <Label fx:id="parkingCostField" layoutX="140.0" layoutY="382.0" prefHeight="22.0" prefWidth="163.0"
-               style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
+        <Label fx:id="parkingCostField" layoutX="140.0" layoutY="382.0" prefHeight="22.0" prefWidth="198.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </Label>
-        <Label fx:id="ratingField" layoutX="78.0" layoutY="409.0" prefHeight="22.0" prefWidth="227.0"
-               style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
+        <Label fx:id="ratingField" layoutX="78.0" layoutY="409.0" prefHeight="22.0" prefWidth="258.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </Label>
-        <Label fx:id="timeLimitField" layoutX="154.0" layoutY="205.0" prefHeight="22.0" prefWidth="147.0"
-               style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
+        <Label fx:id="timeLimitField" layoutX="154.0" layoutY="205.0" prefHeight="22.0" prefWidth="183.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </Label>
-        <Label fx:id="favoritedField" layoutX="97.0" layoutY="436.0" prefHeight="22.0" prefWidth="207.0"
-               style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
+        <Label fx:id="favoritedField" layoutX="97.0" layoutY="436.0" prefHeight="22.0" prefWidth="242.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </Label>
     </children>
