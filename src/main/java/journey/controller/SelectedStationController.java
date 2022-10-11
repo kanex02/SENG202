@@ -3,6 +3,8 @@ package journey.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.StackPane;
 import journey.data.Note;
 import journey.data.Station;
 import journey.repository.NoteDAO;
@@ -23,6 +25,7 @@ public class SelectedStationController {
     @FXML private Label parkingCostField;
     @FXML private Label ratingField;
     @FXML private Label favoritedField;
+    @FXML private ScrollPane scrollPane;
     @FXML private ListView<String> attractionsList;
 
     private StationDAO stationDAO = new StationDAO();
