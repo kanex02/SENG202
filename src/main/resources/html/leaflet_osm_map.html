@@ -195,15 +195,17 @@
 
     function addMiscMarker(lat, lng, label) {
 
-        let popupText = '<html>\n<body>\n<p style="text-align:center;">Range Marker</p>\n</body>\n' +
+        let searchPopupText = '<html>\n<body>\n<p style="text-align:center;">Range Marker</p>\n</body>\n' +
             '</html>'
 
         if (miscMarkers[label] !== undefined) {
             miscMarkers[label].remove(map);
         }
         let m = new L.Marker(L.latLng(lat, lng), {icon: greenIcon, draggable: true});
-        m.bindPopup(popupText).openPopup();
 
+        if (label == "search") {
+            m.bindPopup(searchPopupText).openPopup();
+        }
         miscMarkers[label] = m;
         m.on('dragend', function(event) {
             var latlng = event.target.getLatLng();

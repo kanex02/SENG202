@@ -8,7 +8,7 @@
 <?import javafx.scene.paint.*?>
 
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="350.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
-    <Label layoutX="14.0" layoutY="45.0" text="Place Maker:" />
+    <Label layoutX="14.0" layoutY="45.0" text="Place Range Marker:" />
    <Button fx:id="placeMarkerButton" layoutX="305.0" layoutY="41.0" mnemonicParsing="false" onAction="#clickToPlaceMarker" prefHeight="18.0" prefWidth="16.0" style="-fx-background-color: #FFFFFF;">
       <effect>
          <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">

@@ -6,6 +6,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
@@ -299,6 +300,7 @@ public class MainController {
             AnchorPane.setRightAnchor(searchParent, 0d);
 
         } catch (IOException e) {
+            e.printStackTrace();
             log.error(e);
         }
     }

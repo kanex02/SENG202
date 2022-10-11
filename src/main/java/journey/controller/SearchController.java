@@ -4,7 +4,9 @@ import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.ImageCursor;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import journey.Utils;
@@ -170,6 +172,7 @@ public class SearchController {
             search();
             return true;
         }, "search");
+
     }
 
 
