@@ -9,10 +9,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -68,9 +65,9 @@ public class MainController {
     @FXML private TitledPane plannedJourneyPane;
     @FXML private Accordion accordionPane;
     @FXML private BorderPane mainPane;
+    @FXML private TitledPane selectedStationTitledPane;
 
     @FXML private AnchorPane registerVehicleWrapper;
-    @FXML private AnchorPane selectedStationWrapper;
     @FXML private Label noteStationAddr;
     @FXML private Pane notificationPane;
 
@@ -219,11 +216,8 @@ public class MainController {
             SelectedStationController selectedStationController = selectedStationLoader.getController();
             selectedStationController.init(this);
             this.selectedStationController = selectedStationController;
-            selectedStationWrapper.getChildren().add(selectedStationParent);
-            AnchorPane.setTopAnchor(selectedStationParent, 0d);
-            AnchorPane.setBottomAnchor(selectedStationParent, 0d);
-            AnchorPane.setLeftAnchor(selectedStationParent, 0d);
-            AnchorPane.setRightAnchor(selectedStationParent, 0d);
+            // You may want to access this component by id instead of accessing and casting from its parent
+            ((ScrollPane) selectedStationTitledPane.getContent()).setContent(selectedStationParent);
 
         } catch (IOException e) {
             log.error(e);
