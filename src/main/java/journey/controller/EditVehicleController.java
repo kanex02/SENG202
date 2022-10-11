@@ -1,8 +1,5 @@
 package journey.controller;
 
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +9,10 @@ import javafx.scene.control.TextField;
 import journey.Utils;
 import journey.data.Vehicle;
 import journey.repository.VehicleDAO;
+
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Controller for editing existing vehicles.

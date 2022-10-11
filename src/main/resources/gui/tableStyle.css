@@ -49,6 +49,7 @@
 
 .table-row-cell:selected {
     -fx-background-color: -fx-light-grey-color;
+    -fx-table-cell-border-color: transparent;
 }
 
 .table-view:focused {
