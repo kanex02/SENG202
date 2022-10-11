@@ -19,6 +19,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import journey.Utils;
@@ -46,6 +47,8 @@ public class CreateJourneyController {
     @FXML private AnchorPane journeyPane;
     @FXML private AnchorPane row1;
     @FXML private AnchorPane row2;
+    @FXML private ImageView destination;
+    @FXML private Pane iconPane;
     private Double startLat;
     private Double startLng;
     private Double endLat;
@@ -125,7 +128,34 @@ public class CreateJourneyController {
         waypointAddresses.get(position).setText(address);
     }
 
+    private void addIcon(int i) {
+        // TODO: NEED FIX
+        destination.setLayoutY(destination.getLayoutY() + 60);
+        ImageView circleView = new ImageView();
+        circleView.setFitHeight(17);
+        circleView.setFitWidth(17);
+        circleView.setLayoutX(8);
+        circleView.setLayoutY(21d + 60 * (i - 1));
+        circleView.setPickOnBounds(true);
+        circleView.setPreserveRatio(true);
+        circleView.setImage(circle);
+
+        ImageView ellipsesView = new ImageView();
+        ellipsesView.setFitHeight(32);
+        ellipsesView.setFitWidth(200);
+        ellipsesView.setLayoutX(8);
+        ellipsesView.setLayoutY(38d + 60 * (i - 1));
+        ellipsesView.setPickOnBounds(true);
+        ellipsesView.setPreserveRatio(true);
+        ellipsesView.setImage(ellipses);
+
+        iconPane.getChildren().add(circleView);
+        iconPane.getChildren().add(ellipsesView);
+        System.out.println(iconPane.getChildren().size());
+    }
+
     private AnchorPane nthWaypoint(int i) {
+        addIcon(i);
         AnchorPane stationRow = new AnchorPane();
         HBox row = new HBox();
         TextField address = new TextField();
@@ -192,6 +222,7 @@ public class CreateJourneyController {
             waypoints.remove(index);
             waypointAddresses.get(index).setText("");
             mainController.clearWaypoint(index);
+            // TODO: map stuff
             return;
         }
 
@@ -205,6 +236,7 @@ public class CreateJourneyController {
         waypointAddresses.remove(waypointAddresses.size() - 1);
         journeyPane.getChildren().remove(waypointRows.get(waypointRows.size() - 1));
         waypointRows.remove(waypointRows.size() - 1);
+        updateJourney();
     }
 
     /**
