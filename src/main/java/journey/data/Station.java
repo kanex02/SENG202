@@ -204,7 +204,7 @@ public class Station {
     }
 
 
-    public boolean getHasTouristAttraction() {
+    public Boolean getHasTouristAttraction() {
         return hasTouristAttraction;
     }
 

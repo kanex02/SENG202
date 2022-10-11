@@ -87,7 +87,7 @@ public class Utils {
                         rs.getBoolean("hasTouristAttraction"), rs.getFloat("latitude"),
                         rs.getFloat("longitude"), rs.getString("currentType"), rs.getString("dateFirstOperational"),
                         rs.getInt("numberOfConnectors"), (rs.getString("connectorsList")).split(":"),
-                        rs.getBoolean("hasChargingCost")));
+                        rs.getBoolean("hasChargingCost"), rs.getInt("rating"), rs.getBoolean("favourited")));
             }
         } catch (SQLException e) {
             log.error(e);

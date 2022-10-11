@@ -23,7 +23,7 @@
          <Font name="Roboto" size="18.0" />
       </font>
    </Label>
-   <Label fx:id="noteStationAddr" alignment="TOP_CENTER" layoutX="9.0" layoutY="48.0" prefHeight="66.0" prefWidth="290.0" text="No Station Selected" wrapText="true">
+   <Label fx:id="noteStationAddr" alignment="TOP_CENTER" layoutX="9.0" layoutY="48.0" prefHeight="65.0" prefWidth="290.0" text="No Station Selected" wrapText="true">
       <font>
          <Font name="System Italic" size="14.0" />
       </font>

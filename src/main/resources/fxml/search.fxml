@@ -3,13 +3,42 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="350.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
-    <Label layoutX="14.0" layoutY="45.0" text="Address:" />
-    <TextField fx:id="nameSearch" layoutX="102.0" layoutY="133.0" prefHeight="24.0" prefWidth="230.0" stylesheets="@../gui/textFields.css" />
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="350.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
+    <Label layoutX="14.0" layoutY="45.0" text="Place Range Marker:" />
+   <Button fx:id="placeMarkerButton" layoutX="201.0" layoutY="41.0" mnemonicParsing="false" onAction="#clickToPlaceMarker" prefHeight="18.0" prefWidth="16.0" style="-fx-background-color: #FFFFFF;">
+      <effect>
+         <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+            <color>
+               <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
+            </color>
+         </DropShadow>
+      </effect>
+   </Button>
+   <Button fx:id="removeMarkerButton" disable="true" layoutX="233.0" layoutY="41.0" mnemonicParsing="false" onAction="#removeRangeMarker" style="-fx-background-color: #FFFFFF;" text="Remove Marker">
+      <effect>
+         <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+            <color>
+               <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
+            </color>
+         </DropShadow>
+      </effect>
+   </Button>
+    <TextField fx:id="addressSearch" layoutX="104.0" layoutY="41.0" prefHeight="24.0" prefWidth="143.0" promptText="Address" stylesheets="@../gui/textFields.css" visible="false" />
+    <Button layoutX="251.0" layoutY="41.0" mnemonicParsing="false" onAction="#clickSearch" prefHeight="24.0" prefWidth="85.0" style="-fx-background-color: #FFFFFF;" text="Click Map" visible="false">
+        <effect>
+            <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+                <color>
+                    <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
+                </color>
+            </DropShadow>
+        </effect>
+    </Button>
     <Label layoutX="14.0" layoutY="141.0" text="Name:" />
+    <TextField fx:id="nameSearch" layoutX="102.0" layoutY="133.0" prefHeight="24.0" prefWidth="230.0" stylesheets="@../gui/textFields.css" />
     <Label layoutX="14.0" layoutY="181.0" text="Operator:" />
     <TextField fx:id="operatorSearch" layoutX="102.0" layoutY="177.0" prefHeight="24.0" prefWidth="230.0" stylesheets="@../gui/textFields.css" />
     <Label layoutX="14.0" layoutY="227.0" text="Current:" />
@@ -57,21 +86,11 @@
             <Insets left="10.0" />
         </padding>
     </Label>
-    <TextField fx:id="addressSearch" layoutX="104.0" layoutY="41.0" prefHeight="24.0" prefWidth="143.0" promptText="Address" stylesheets="@../gui/textFields.css" />
     <AnchorPane layoutX="3.0" layoutY="378.0" prefHeight="64.0" prefWidth="310.0">
       <children>
           <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#myCar" stylesheets="@../gui/buttons.css" text="Filter for my vehicle" />
       </children>
     </AnchorPane>
-    <Button layoutX="251.0" layoutY="41.0" mnemonicParsing="false" onAction="#clickSearch" prefHeight="24.0" prefWidth="85.0" style="-fx-background-color: #FFFFFF;" text="Click Map">
-        <effect>
-            <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
-                <color>
-                    <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
-                </color>
-            </DropShadow>
-        </effect>
-    </Button>
     <Label fx:id="warningLabel" layoutX="140.0" layoutY="402.0" textFill="RED" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
      <GridPane layoutY="418.0" prefHeight="82.0" prefWidth="350.0">
          <columnConstraints>
@@ -93,4 +112,9 @@
              </GridPane.margin>
          </Button>
      </GridPane>
+   <ImageView fx:id="placeMarkerImage" fitHeight="18.0" fitWidth="16.0" layoutX="204.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../pictures/green-marker.png" />
+      </image>
+   </ImageView>
 </AnchorPane>

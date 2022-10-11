@@ -6,6 +6,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
@@ -15,6 +16,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import journey.data.Journey;
@@ -56,7 +58,6 @@ public class MainController {
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
     @FXML private AnchorPane prevJourneysPane;
-//    @FXML private Text stationDescription;
     @FXML private TabPane journeyTab;
     @FXML private AnchorPane searchWrapper;
     @FXML private AnchorPane notesWrapper;
@@ -71,6 +72,7 @@ public class MainController {
     @FXML private AnchorPane registerVehicleWrapper;
     @FXML private AnchorPane selectedStationWrapper;
     @FXML private Label noteStationAddr;
+    @FXML private Pane notificationPane;
 
     @FXML private javafx.scene.image.ImageView helpIcon;
     @FXML private javafx.scene.image.ImageView homeIcon;
@@ -332,6 +334,7 @@ public class MainController {
             AnchorPane.setRightAnchor(searchParent, 0d);
 
         } catch (IOException e) {
+            e.printStackTrace();
             log.error(e);
         }
     }
@@ -378,6 +381,10 @@ public class MainController {
 
     public void addMiscMarkerToMap(double lat, double lng, String label) {
         mapViewController.addMiscMarker(lat, lng, label);
+    }
+
+    public void clearSearchMarkerFromMap() {
+        mapViewController.clearSearch();
     }
 
     /**
@@ -430,8 +437,8 @@ public class MainController {
         return selectedVehicle;
     }
 
-    public void changeSearchLatLong(String addr) {
-        searchController.changeSearchLatLong(addr);
+    public void changeSearchLatLong(double lat, double lng) {
+        searchController.changeSearchLatLong(lat, lng);
     }
 
     public void changeJourneyStart(String addr) {

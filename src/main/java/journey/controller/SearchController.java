@@ -4,7 +4,10 @@ import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.ImageCursor;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import journey.Utils;
 import journey.data.QueryStation;
@@ -32,6 +35,9 @@ public class SearchController {
     @FXML private TextField distanceSearch;
     @FXML private Label warningLabel;
     @FXML private MenuButton connectorsMenu;
+    @FXML private Button placeMarkerButton;
+    @FXML private ImageView placeMarkerImage;
+    @FXML private Button removeMarkerButton;
     final ArrayList<CheckMenuItem> connectors = new ArrayList<>();
     ArrayList<String> connectorsList = new ArrayList<>();
 
@@ -44,6 +50,7 @@ public class SearchController {
 
     private MainController mainController;
     private StationDAO stationDAO;
+    private String addressLatLng = "";
 
     /**
      * Gets users current vehicle from the database
@@ -109,11 +116,6 @@ public class SearchController {
      */
     @FXML public void search() {
         // TODO: move out of Util
-        String address = addressSearch.getText();
-        String addressLatLng = "";
-        if (!address.isBlank()) {
-            addressLatLng = Utils.locToLatLng(address);
-        }
         String name = nameSearch.getText();
         String operator = operatorSearch.getText();
         String timeLimit = timeSearch.getText();
@@ -122,8 +124,8 @@ public class SearchController {
 
 
         if (errors.isBlank()) {
-            String[] latLng = Utils.locToLatLng(addressSearch.getText()).split("#");
-            mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]), "search");
+            //mainController.clearSearchMarkerFromMap();
+            //mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]), "search");
             warningLabel.setText("");
             QueryStation queryStation = StationsService.createQueryStation(nameSearch.getText(),
                     operator,
@@ -172,9 +174,40 @@ public class SearchController {
         }, "search");
     }
 
+    /**
+     * Function to place a marker on the map when the "Place marker" button selected on the search
+     */
+    @FXML private void clickToPlaceMarker() {
+        mainController.openMap();
+        mainController.getMapViewController().setCallback((lat, lng) -> {
+            addressLatLng = lat+"#"+lng;
+            search();
+            removeMarkerButton.setDisable(false);
+            return true;
+        }, "search");
 
-    public void changeSearchLatLong(String addr) {
-        addressSearch.setText(addr);
+    }
+
+
+    /**
+     * Called to remove the range marker from the map.
+     * Only called if a range marker is on the map
+     */
+    @FXML private void removeRangeMarker() {
+
+        addressLatLng = "";
+        mainController.clearSearchMarkerFromMap();
+        removeMarkerButton.setDisable(true);
+        search();
+    }
+
+    /**
+     * Changes the lat and long in the search controller
+     * @param lat the latitude
+     * @param lng the longitude
+     */
+    public void changeSearchLatLong(double lat, double lng) {
+        addressLatLng = lat+"#"+lng;
     }
 
     /**
@@ -244,6 +277,9 @@ public class SearchController {
         }
         connectorsMenu.getItems().addAll(connectors);
         connectorsMultiSelect();
+
+        placeMarkerButton.setGraphic(placeMarkerImage);
+        placeMarkerButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 
         addListeners();
     }

@@ -78,7 +78,6 @@ public class MapController {
     }
 
 
-
     /**
      * Maps a journey.
 
@@ -235,7 +234,7 @@ public class MapController {
         GeoCodeResult addr = nomMan.queryLatLng(lat, lng);
         switch (label) {
             case ("search") -> {
-                mainController.changeSearchLatLong(addr.getAddress());
+                mainController.changeSearchLatLong(lat, lng);
                 mainController.refreshSearch();
             }
             case ("start") -> mainController.changeJourneyStart(addr.getAddress());
