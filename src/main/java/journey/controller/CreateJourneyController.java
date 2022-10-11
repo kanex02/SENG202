@@ -42,18 +42,16 @@ import javafx.scene.image.ImageView;
  * Class to handle creating a journey given a start, end and chargers along the way.
  */
 public class CreateJourneyController {
-    @FXML private TextField startAddr;
-    @FXML private TextField endAddr;
+    @FXML private TextField a;
+    @FXML private TextField b;
     @FXML private TextField selectedStationField;
     @FXML private ListView<String> visitedStationsList;
     @FXML private ComboBox<String> selectVehicleComboBox;
     @FXML private Label journeyWarningLabel;
     @FXML private VBox matchAddrStart;
     @FXML private VBox matchAddrEnd;
-    @FXML private ScrollPane startAddrScroll;
-    @FXML private ScrollPane endAddrScroll;
+    @FXML private ScrollPane journeyScrollPane;
     @FXML private AnchorPane journeyPane;
-    @FXML private AnchorPane destination;
     private Double startLat;
     private Double startLng;
     private Double endLat;
@@ -82,26 +80,51 @@ public class CreateJourneyController {
         selectedStationField.setText(stationDAO.queryStation(selectedStation).getAddress());
     }
 
+    /**
+     * To be called from the map, similar to addWaypointToJourney except the
+     * journey is not redrawn.
+
+     * @param lat lat of waypoint
+     * @param lng long of waypoint
+     * @param position number in route
+     */
     public void addRouteWaypoint(Double lat, Double lng, int position) {
-        if (position < waypoints.size()) {
-            waypoints.set(position, lat + "#" + lng);
-        } else {
-            waypoints.add(lat + "#" + lng);
-            if (position >= 2) {
-                journeyPane.getChildren().add(nthWaypoint(position));
-            }
+        if (position >= 2 && position >= waypoints.size()) {
+            journeyPane.getChildren().add(nthWaypoint(position));
         }
-        updateJourneyList();
+
+        for (int i = waypoints.size(); i <= position; i++) {
+            waypoints.add("");
+        }
+
+        waypoints.set(position, lat + "#" + lng);
+
+        updateJourneyList(position);
     }
 
-    private void updateJourneyList() {
-        int i = 0;
-        for (String waypoint : waypoints) {
-            String[] latLng = waypoint.split("#");
-            String address = Utils.latLngToAddr(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]));
-            waypointAddresses.get(i).setText(address);
-            i++;
+    private void addWaypointToJourney(Double lat, Double lng, int position) {
+        if (position >= 2 && position >= waypoints.size()) {
+            journeyPane.getChildren().add(nthWaypoint(position));
         }
+
+        for (int i = waypoints.size(); i <= position; i++) {
+            waypoints.add("");
+        }
+
+        waypoints.set(position, lat + "#" + lng);
+        updateJourney();
+        updateJourneyList(position);
+    }
+
+    public void appendWaypoint(double lat, double lng) {
+        addWaypointToJourney(lat, lng, waypoints.size());
+    }
+
+    private void updateJourneyList(int position) {
+        String waypoint = waypoints.get(position);
+        String[] latLng = waypoint.split("#");
+        String address = Utils.latLngToAddr(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]));
+        waypointAddresses.get(position).setText(address);
     }
 
     private AnchorPane nthWaypoint(int i) {
@@ -116,7 +139,7 @@ public class CreateJourneyController {
 
         stationRow.setPrefHeight(32);
         stationRow.setPrefWidth(270);
-        stationRow.setLayoutY(10d + 60*i);
+        stationRow.setLayoutY(10d + 60 * i);
         AnchorPane.setRightAnchor(stationRow, 10d);
         AnchorPane.setLeftAnchor(stationRow, 0d);
 
@@ -129,6 +152,8 @@ public class CreateJourneyController {
         address.setPrefWidth(138);
         address.getStylesheets().add(textCss);
         address.setPromptText("Click map or type address");
+        address.setId(Character.toString('a' + i));
+        address.setOnMouseClicked(this::clickNth);
         waypointAddresses.add(address);
         AnchorPane.setRightAnchor(address, 0d);
         AnchorPane.setTopAnchor(address, 0d);
@@ -150,10 +175,13 @@ public class CreateJourneyController {
     }
 
     @FXML private void clickNth(Event event) {
+        System.out.println("clicked");
         //Gets the position of the station in the route from its id
         int i = (((Node) event.getSource()).getId()).toCharArray()[0] - 'a';
         mapViewController.setCallback((lat, lng) -> {
-            addRouteWaypoint(lat, lng, i);
+            System.out.println(i);
+            addWaypointToJourney(lat, lng, i);
+            System.out.println("DONE?");
             return true;
         }, String.valueOf(i));
     }
@@ -178,165 +206,60 @@ public class CreateJourneyController {
      * @param event addJourney button pressed
      */
     @FXML private void addJourney(Event event) {
-        String vehicleChoice = selectVehicleComboBox.getValue();
-        String start = startAddr.getText();
-        String end = endAddr.getText();
-        int userID = mainController.getCurrentUser().getId();
-
-        // Check if the inputs are valid
-        Boolean[] valid = CreateJourneyService.checkJourney(vehicleChoice, start, end);
-
-        StringJoiner errors = new StringJoiner("\n");
-
-        if (!valid[0]) {
-            errors.add("Please select a vehicle");
-        }
-
-        if (!valid[1]) {
-            errors.add("Start location invalid");
-        }
-
-        if (!valid[2]) {
-            errors.add("End location invalid");
-        }
-
-        journeyWarningLabel.setText(errors.toString());
-
-        boolean validJourney = true;
-        for (Boolean bool : valid) {
-            if (!bool) {
-                validJourney = false;
-                break;
-            }
-        }
-
-        if (validJourney) {
-            journeyWarningLabel.setText("");
-            selectVehicleComboBox.setValue("");
-            startAddr.setText("");
-            endAddr.setText("");
-            selectedStationField.setText("");
-            visitedStationsList.setItems(FXCollections.observableArrayList());
-            String[] vehicle = vehicleChoice.split(": ");
-            String date = Utils.getDate();
-            Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);
-            journeyDAO.addJourney(journey);
-            mapViewController.clearJourneyMarkers();
-            mainController.updatePlannedJourneys();
-            event.consume();
-        }
-    }
-
-    /**
-     * Gets the coordinates of the next click on the map. A callback function is passed in,
-     * so when the map is clicked the journey start lat and long is updated.
-     */
-    @FXML private void clickStart() {
-        mainController.openMap();
-        mapViewController.setCallback((lat, lng) -> {
-            changeJourneyStart(lat, lng);
-            return true;
-        }, "start");
-    }
-
-    /**
-     * Gets the coordinates of the next click on the map. A callback function is passed in,
-     * so when the map is clicked the journey end lat and long is updated.
-     */
-    @FXML private void clickEnd() {
-        mainController.openMap();
-        mapViewController.setCallback((lat, lng) -> {
-            changeJourneyEnd(lat, lng);
-            return true;
-        }, "end");
-    }
-
-    public void changeJourneyStart(String addr) {
-        startAddr.setText(addr);
-        String[] latLng = Utils.locToLatLng(addr).split("#");
-        startLat = Double.valueOf(latLng[0]);
-        endLat = Double.valueOf(latLng[1]);
-        updateJourney();
-    }
-
-    public void changeJourneyStart(Double lat, Double lng) {
-        startLat = lat;
-        startLng = lng;
-        startAddr.setText(Utils.latLngToAddr(lat, lng));
-        updateJourney();
-    }
-
-    public void changeJourneyEnd(String addr) {
-        endAddr.setText(addr);
-        String[] latLng = Utils.locToLatLng(addr).split("#");
-        endLng = Double.valueOf(latLng[0]);
-        endLng = Double.valueOf(latLng[1]);
-        updateJourney();
-    }
-
-    public void changeJourneyEnd(Double lat, Double lng) {
-        endLat = lat;
-        endLng = lng;
-        endAddr.setText(Utils.latLngToAddr(lat, lng));
-        updateJourney();
+//        String vehicleChoice = selectVehicleComboBox.getValue();
+//        String start = startAddr.getText();
+//        String end = endAddr.getText();
+//        int userID = mainController.getCurrentUser().getId();
+//
+//        // Check if the inputs are valid
+//        Boolean[] valid = CreateJourneyService.checkJourney(vehicleChoice, start, end);
+//
+//        StringJoiner errors = new StringJoiner("\n");
+//
+//        if (!valid[0]) {
+//            errors.add("Please select a vehicle");
+//        }
+//
+//        if (!valid[1]) {
+//            errors.add("Start location invalid");
+//        }
+//
+//        if (!valid[2]) {
+//            errors.add("End location invalid");
+//        }
+//
+//        journeyWarningLabel.setText(errors.toString());
+//
+//        boolean validJourney = true;
+//        for (Boolean bool : valid) {
+//            if (!bool) {
+//                validJourney = false;
+//                break;
+//            }
+//        }
+//
+//        if (validJourney) {
+//            journeyWarningLabel.setText("");
+//            selectVehicleComboBox.setValue("");
+//            startAddr.setText("");
+//            endAddr.setText("");
+//            selectedStationField.setText("");
+//            visitedStationsList.setItems(FXCollections.observableArrayList());
+//            String[] vehicle = vehicleChoice.split(": ");
+//            String date = Utils.getDate();
+//            Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);
+//            journeyDAO.addJourney(journey);
+//            mapViewController.clearJourneyMarkers();
+//            mainController.updatePlannedJourneys();
+//            event.consume();
+//        }
     }
 
     private void updateJourney() {
-        if (!startAddr.getText().isBlank() && !endAddr.getText().isBlank()) {
-            mainController.clearStart();
-            mainController.clearEnd();
-            mainController.mapJourneyFromLatLng(new String[]{startLat+"#"+startLng, endLat+"#"+endLng});
+        if (waypoints.stream().filter(x -> !x.isBlank()).count() >= 2) {
+            mainController.clearWaypoints();
+            mainController.mapJourneyFromLatLng(waypoints.toArray(new String[0]));
         }
-    }
-
-    /**
-     * Function to control the autocomplete for the start search box.
-
-     * @param start true if the autocomplete is for the start address,
-     *              false for the end address
-     */
-    public void autoComplete(boolean start) {
-
-        //determine if editing start or end
-        TextField addrTextField;
-        VBox matchAddr;
-        ScrollPane addrScroll;
-        if (start) {
-            addrTextField = startAddr;
-            matchAddr = matchAddrStart;
-            addrScroll = startAddrScroll;
-        } else {
-            addrTextField = endAddr;
-            matchAddr = matchAddrEnd;
-            addrScroll = endAddrScroll;
-        }
-        ArrayList<Button> buttonList = new ArrayList<>();
-        String address = addrTextField.getText();
-        SearchAutocomplete search = new SearchAutocomplete();
-        ArrayList<String> results = search.getMatchingAddresses(address);
-
-        // Event handler for each button - should update the text in the field
-        EventHandler<ActionEvent> event = actionEvent -> {
-            String addr = ((Button) actionEvent.getSource()).getText();
-            changeJourneyStart(addr);
-            // clear vbox after clicking button
-            matchAddr.getChildren().clear();
-            // Close the scroll pane
-            addrScroll.setVisible(false);
-        };
-
-        // Fill buttons on VBox
-        for (String addr : results) {
-            Button newButton = new Button(addr);
-            newButton.setOnAction(event);
-            buttonList.add(newButton);
-        }
-
-        matchAddr.getChildren().clear(); //remove all Buttons that are currently in the container
-        matchAddr.getChildren().addAll(buttonList); //then add all Buttons just created
-
-        // Once buttons are populated, show list
-        addrScroll.setVisible(true);
     }
 
 
@@ -354,8 +277,9 @@ public class CreateJourneyController {
 
         waypoints = new ArrayList<>();
         waypointAddresses = new ArrayList<TextField>();
-        waypointAddresses.add(startAddr);
-        waypointAddresses.add(endAddr);
+        waypointAddresses.add(a);
+        waypointAddresses.add(b);
+
 //        // disable scroll pane at start
 //        startAddrScroll.setVisible(false);
 //        endAddrScroll.setVisible(false);

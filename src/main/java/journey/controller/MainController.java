@@ -72,15 +72,6 @@ public class MainController {
 
 
 
-    public void setStartAddr(String addr) {
-        recordJourneyController.changeJourneyStart(addr);
-    }
-
-    public void setEndAddr(String addr) {
-        recordJourneyController.changeJourneyEnd(addr);
-    }
-
-
     /**
      * Loads the OpenLayers map view into the tab pane component of main view.
      */
@@ -250,14 +241,9 @@ public class MainController {
         }
     }
 
-    public void clearStart() {
-        mapViewController.clearStart();
+    public void clearWaypoints() {
+        mapViewController.clearWaypoints();
     }
-
-    public void clearEnd() {
-        mapViewController.clearEnd();
-    }
-
     public void setProfile(Stage profileStage) {
         this.profileStage = profileStage;
     }
@@ -394,20 +380,16 @@ public class MainController {
         this.selectedVehicle = selectedVehicle;
     }
 
+    public void appendWaypoint(double lat, double lng) {
+        recordJourneyController.appendWaypoint(lat, lng);
+    }
+
     public String getSelectedVehicle() {
         return selectedVehicle;
     }
 
     public void changeSearchLatLong(String addr) {
         searchController.changeSearchLatLong(addr);
-    }
-
-    public void changeJourneyStart(String addr) {
-        recordJourneyController.changeJourneyStart(addr);
-    }
-
-    public void changeJourneyEnd(String addr) {
-        recordJourneyController.changeJourneyEnd(addr);
     }
 
     public void refreshSearch() {

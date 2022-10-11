@@ -15,8 +15,7 @@ public class JavaScriptBridge {
     private final GetStationInterface getStationInterface;
     private final GetLatLongInterface getLatLongInterface;
     private final ChangeLatLongInterface changeLatLongInterface;
-    private final SetStartAddrInterface setStartAddrInterface;
-    private final SetEndAddrInterface setEndAddrInterface;
+    private final AddToRouteInterface addToRouteInterface;
     private final AddRouteWaypointInterface addRouteWaypointInterface;
 
     /**
@@ -26,14 +25,12 @@ public class JavaScriptBridge {
     public JavaScriptBridge(GetStationInterface getStationLambda,
                             GetLatLongInterface getLatLongLambda,
                             ChangeLatLongInterface changeLatLongLambda,
-                            SetStartAddrInterface setStartAddrLambda,
-                            SetEndAddrInterface setEndAddrLambda,
+                            AddToRouteInterface addToRouteLambda,
                             AddRouteWaypointInterface addRouteWaypointLambda) {
         getStationInterface = getStationLambda;
         getLatLongInterface = getLatLongLambda;
         changeLatLongInterface = changeLatLongLambda;
-        setStartAddrInterface = setStartAddrLambda;
-        setEndAddrInterface = setEndAddrLambda;
+        addToRouteInterface = addToRouteLambda;
         addRouteWaypointInterface = addRouteWaypointLambda;
     }
 
@@ -57,12 +54,8 @@ public class JavaScriptBridge {
         return getLatLongInterface.operation(lat, lng);
     }
 
-    public boolean fillStartAddressFromSearch(String address) {
-        return setStartAddrInterface.operation(address);
-    }
-
-    public boolean fillEndAddressFromSearch(String address) {
-        return setEndAddrInterface.operation(address);
+    public boolean addToRoute(double lat, double lng) {
+        return addToRouteInterface.operation(lat, lng);
     }
 
     public boolean changeLatLongFromClick(double lat, double lng, String label) {

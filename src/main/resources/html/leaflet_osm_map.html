@@ -90,6 +90,7 @@
         addMiscMarker: addMiscMarker,
         clearMiscMarker: clearMiscMarker,
         clearMap: clearMap,
+        clearWaypoints: clearWaypoints
     };
 
     function clearMap() {
@@ -120,8 +121,7 @@
             '</head>' +
             '<body class="popupBody">\n' +
             '<p>'+text+'</p>\n' +
-            '<button name="submit" class="setStart" type="submit" value="Set Start" >Set Start</button>\n' +
-            '<button name="submit" class="setEnd" type="submit" value="Set End" >Set End</button>\n' +
+            '<button name="submit" class="addToRoute" type="submit" value="Add to Route" >Add to Route</button>\n' +
             '</body>\n' +
             '</html>\n';
 
@@ -181,11 +181,8 @@
                 m.bindPopup(buttonDialog).on("popupopen", (a) => {
                     var popUp = a.target.getPopup();
 
-                    popUp.getElement().querySelector(".setStart").addEventListener("click", e =>
-                    {javaScriptBridge.fillStartAddressFromSearch(address);});
-
-                    popUp.getElement().querySelector(".setEnd").addEventListener("click", e =>
-                    {javaScriptBridge.fillEndAddressFromSearch(address);});
+                    popUp.getElement().querySelector(".addToRoute").addEventListener("click", e =>
+                    {javaScriptBridge.addToRoute(lat, lng);});
 
                 });
 
@@ -218,6 +215,9 @@
                 break;
             default:
                 icon = greenIcon;
+                if (Number.isInteger(Number(label))) {
+                    icon = startIcon;
+                }
         }
         m = new L.Marker(L.latLng(lat, lng), {icon: icon, draggable: true});
         miscMarkers[label] = m;
@@ -225,6 +225,15 @@
             var latlng = event.target.getLatLng();
             javaScriptBridge.changeLatLongFromClick(latlng.lat, latlng.lng, label);
         }).addTo(map);
+    }
+
+    function clearWaypoints() {
+        for (const [key, value] of Object.entries(miscMarkers)) {
+            if (Number.isInteger(Number(key))) {
+                value.remove(map);
+                delete miscMarkers[key];
+            }
+        }
     }
 
     function clearMiscMarker(label) {
@@ -251,11 +260,8 @@
         m.bindPopup(buttonDialog).on("popupopen", (a) => {
             var popUp = a.target.getPopup();
 
-            popUp.getElement().querySelector(".setStart").addEventListener("click", e =>
-            {javaScriptBridge.fillStartAddressFromSearch(title);});
-
-            popUp.getElement().querySelector(".setEnd").addEventListener("click", e =>
-            {javaScriptBridge.fillEndAddressFromSearch(title);});
+            popUp.getElement().querySelector(".addToRoute").addEventListener("click", e =>
+            {javaScriptBridge.addToRoute(lat, lng);});
 
         });
 
@@ -285,7 +291,7 @@
                 waypoints: previousRoute,
                 // Specify UCs server for routing instead of the demonstration server used by default
                 serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
-                routeWhileDragging: false,
+                routeWhileDragging: true,
                 createMarker: function (i, waypoint, n) {
                     let marker = L.marker(waypoint.latLng, {
                         draggable: true,
@@ -300,13 +306,27 @@
                         });
                     }
                     marker._zIndex = 100000;
-                    javaScriptBridge.addRouteWaypoint(waypoint.latLng.lat, waypoint.latLng.lng, i);
+                    marker.on("dragend", () => insertMarker(marker, waypoint.latLng.lat, waypoint.latLng.lng, i));
                     return marker;
                 }
             });
             route.addTo(map);
         }
 
+    }
+
+    /**
+     * function to be called the first time a journey marker is dragged (on creation)
+     * @param marker
+     * @param lat
+     * @param lng
+     * @param position
+     */
+    function insertMarker(marker, lat, lng, position) {
+        //TODO: write insert waypoint functions
+        javaScriptBridge.insertWaypoint(lat, lng, position);
+        marker.off("dragend");
+        marker.on("dragend", () => javaScriptBridge.addRouteWaypoint(waypoint.latLng.lat, waypoint.latLng.lng, i));
     }
 
     /**

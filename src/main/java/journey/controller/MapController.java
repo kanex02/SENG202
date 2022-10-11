@@ -4,6 +4,7 @@ import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import jdk.jshell.execution.Util;
 import journey.Utils;
 import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
@@ -42,8 +43,7 @@ public class MapController {
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick,
                 this::getLatLongFromClick,
                 this::changeLatLong,
-                this::setStartAddr,
-                this::setEndAddr,
+                this::addToRoute,
                 this::addRouteWaypoint);
         this.mainController = mainController;
         // set custom cell factory for list view
@@ -77,6 +77,11 @@ public class MapController {
                         addStationsOnMap();
                     }
                 });
+    }
+
+    public boolean addToRoute(double lat, double lng) {
+
+        return true;
     }
 
 
@@ -138,13 +143,10 @@ public class MapController {
         javaScriptConnector.call("clearMiscMarker", "search");
     }
 
-    public void clearStart() {
-        javaScriptConnector.call("clearMiscMarker", "start");
+    public void clearWaypoints() {
+        javaScriptConnector.call("clearWaypoints");
     }
 
-    public void clearEnd() {
-        javaScriptConnector.call("clearMiscMarker", "end");
-    }
 
     /**
      * Add station to map.
@@ -165,16 +167,6 @@ public class MapController {
     public boolean getStationFromClick(int id) {
         mainController.setSelectedStation(id);
         mainController.updateNote();
-        return true;
-    }
-
-    public boolean setStartAddr(String addr) {
-        mainController.setStartAddr(addr);
-        return true;
-    }
-
-    public boolean setEndAddr(String addr) {
-        mainController.setEndAddr(addr);
         return true;
     }
 
@@ -228,14 +220,12 @@ public class MapController {
     public boolean changeLatLong(double lat, double lng, String label) {
         NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
         GeoCodeResult addr = nomMan.queryLatLng(lat, lng);
-        switch (label) {
-            case ("search") -> {
-                mainController.changeSearchLatLong(addr.getAddress());
-                mainController.refreshSearch();
-            }
-            case ("start") -> mainController.changeJourneyStart(addr.getAddress());
-            case ("end") -> mainController.changeJourneyEnd(addr.getAddress());
-            default -> { }
+
+        if ("search".equals(label)) {
+            mainController.changeSearchLatLong(addr.getAddress());
+            mainController.refreshSearch();
+        } else if (Utils.isInt(label)) {
+            mainController.appendWaypoint(lat, lng);
         }
         return true;
     }
