@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SelectedStationController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="330.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SelectedStationController">
    <content>
       <AnchorPane minHeight="150.0" minWidth="0.0" prefHeight="470.0" prefWidth="310.0" style="-fx-background-color: #efefef;">
          <children>
@@ -61,7 +61,7 @@
                <padding>
                   <Insets left="5.0" right="5.0" />
                </padding>
-            </Label>
+                </Label>
             <Label fx:id="ratingField" layoutX="78.0" layoutY="409.0" prefHeight="22.0" prefWidth="227.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../gui/style.css">
                <padding>
                   <Insets left="5.0" right="5.0" />
