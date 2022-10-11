@@ -56,18 +56,21 @@ public class MainController {
     @FXML private AnchorPane tablePane;
     @FXML private AnchorPane prevJourneysPane;
     @FXML private TabPane journeyTab;
-    @FXML private AnchorPane searchWrapper;
-    @FXML private AnchorPane notesWrapper;
-    @FXML private AnchorPane recordJourneyWrapper;
-    @FXML private AnchorPane plannedJourneysWrapper;
-    @FXML private AnchorPane completeJourneyWrapper;
+    @FXML private ScrollPane searchWrapper;
+    @FXML private ScrollPane notesWrapper;
+    @FXML private ScrollPane recordJourneyWrapper;
+    @FXML private ScrollPane plannedJourneysWrapper;
+    @FXML private ScrollPane completeJourneyWrapper;
     @FXML private TitledPane planJourneyPane;
     @FXML private TitledPane plannedJourneyPane;
+    @FXML private TitledPane selectedStationTitledPane;
+    @FXML private TitledPane completedJourneysPane;
+    @FXML private TitledPane searchPane;
+    @FXML private TitledPane notesPane;
+
     @FXML private Accordion accordionPane;
     @FXML private BorderPane mainPane;
-    @FXML private TitledPane selectedStationTitledPane;
 
-    @FXML private AnchorPane registerVehicleWrapper;
     @FXML private Label noteStationAddr;
     @FXML private Pane notificationPane;
 
@@ -171,11 +174,7 @@ public class MainController {
             PlannedJourneyController plannedJourneyController = plannedJourneysLoader.getController();
             this.plannedJourneyController = plannedJourneyController;
             plannedJourneyController.init(stage, this);
-            plannedJourneysWrapper.getChildren().add(plannedJourneysViewParent);
-            AnchorPane.setTopAnchor(plannedJourneysViewParent, 0d);
-            AnchorPane.setBottomAnchor(plannedJourneysViewParent, 0d);
-            AnchorPane.setLeftAnchor(plannedJourneysViewParent, 0d);
-            AnchorPane.setRightAnchor(plannedJourneysViewParent, 0d);
+            ((ScrollPane) plannedJourneyPane.getContent()).setContent(plannedJourneysViewParent);
 
         } catch (IOException e) {
             log.error(e);
@@ -193,11 +192,7 @@ public class MainController {
             CompletedJourneysController completedJourneyViewController = completedJourneysViewLoader.getController();
             completedJourneyViewController.init(stage, this);
             completedJourneysController = completedJourneyViewController;
-            completeJourneyWrapper.getChildren().add(completedJourneysViewParent);
-            AnchorPane.setTopAnchor(completedJourneysViewParent, 0d);
-            AnchorPane.setBottomAnchor(completedJourneysViewParent, 0d);
-            AnchorPane.setLeftAnchor(completedJourneysViewParent, 0d);
-            AnchorPane.setRightAnchor(completedJourneysViewParent, 0d);
+            ((ScrollPane) completedJourneysPane.getContent()).setContent(completedJourneysViewParent);
 //            prevJourneysPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
         } catch (IOException e) {
@@ -321,11 +316,7 @@ public class MainController {
 
             searchController = searchLoader.getController();
             searchController.init(this);
-            searchWrapper.getChildren().add(searchParent);
-            AnchorPane.setTopAnchor(searchParent, 0d);
-            AnchorPane.setBottomAnchor(searchParent, 0d);
-            AnchorPane.setLeftAnchor(searchParent, 0d);
-            AnchorPane.setRightAnchor(searchParent, 0d);
+            ((ScrollPane) searchPane.getContent()).setContent(searchParent);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -362,11 +353,7 @@ public class MainController {
 
             recordJourneyController = recorderLoader.getController();
             recordJourneyController.init(this);
-            recordJourneyWrapper.getChildren().add(recorderParent);
-            AnchorPane.setTopAnchor(recorderParent, 0d);
-            AnchorPane.setBottomAnchor(recorderParent, 0d);
-            AnchorPane.setLeftAnchor(recorderParent, 0d);
-            AnchorPane.setRightAnchor(recorderParent, 0d);
+            ((ScrollPane) planJourneyPane.getContent()).setContent(recorderParent);
 
         } catch (IOException e) {
             log.error(e);
@@ -391,11 +378,7 @@ public class MainController {
 
             notesController = notesLoader.getController();
             notesController.init(this);
-            notesWrapper.getChildren().add(notesParent);
-            AnchorPane.setTopAnchor(notesParent, 0d);
-            AnchorPane.setBottomAnchor(notesParent, 0d);
-            AnchorPane.setLeftAnchor(notesParent, 0d);
-            AnchorPane.setRightAnchor(notesParent, 0d);
+            ((ScrollPane) notesPane.getContent()).setContent(notesParent);
         } catch (IOException e) {
             log.error(e);
         }

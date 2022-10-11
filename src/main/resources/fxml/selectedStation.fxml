@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="150.0" minWidth="0.0" prefHeight="470.0" prefWidth="350.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SelectedStationController">
+<AnchorPane minHeight="150.0" minWidth="0.0" prefHeight="470.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SelectedStationController">
     <children>
         <Label layoutX="18.0" layoutY="15.0" text="Address:" />
         <Label layoutX="20.0" layoutY="73.0" text="Name: " />
