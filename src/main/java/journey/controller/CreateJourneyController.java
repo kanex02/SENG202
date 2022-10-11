@@ -1,18 +1,15 @@
 package journey.controller;
 
-import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.StringJoiner;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -22,29 +19,24 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import journey.Utils;
-import journey.business.SearchAutocomplete;
-import journey.data.Journey;
-import journey.data.Station;
 import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
-import journey.service.CreateJourneyService;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 /**
  * Class to handle creating a journey given a start, end and chargers along the way.
  */
 public class CreateJourneyController {
-    @FXML private TextField a;
-    @FXML private TextField b;
+    @FXML private TextField address0;
+    @FXML private TextField address1;
     @FXML private TextField selectedStationField;
+
     @FXML private ListView<String> visitedStationsList;
     @FXML private ComboBox<String> selectVehicleComboBox;
     @FXML private Label journeyWarningLabel;
@@ -52,6 +44,8 @@ public class CreateJourneyController {
     @FXML private VBox matchAddrEnd;
     @FXML private ScrollPane journeyScrollPane;
     @FXML private AnchorPane journeyPane;
+    @FXML private AnchorPane row1;
+    @FXML private AnchorPane row2;
     private Double startLat;
     private Double startLng;
     private Double endLat;
@@ -62,8 +56,8 @@ public class CreateJourneyController {
     private StationDAO stationDAO;
     private VehicleDAO vehicleDAO;
     private ArrayList<String> waypoints;
-    private ArrayList<TextField> waypointAddresses;
-    private final ArrayList<Integer> journeyStations = new ArrayList<>();
+    private final ArrayList<TextField> waypointAddresses = new ArrayList<>();
+    private final ArrayList<AnchorPane> waypointRows = new ArrayList<>();
     private final Image ellipses = new Image(new File("/images/dots.png").toURI().toString());
     private final Image circle = new Image(new File("/images/Circle.png").toURI().toString());
     private final String textCss = (new File(Objects.requireNonNull(
@@ -80,6 +74,19 @@ public class CreateJourneyController {
         selectedStationField.setText(stationDAO.queryStation(selectedStation).getAddress());
     }
 
+    public void insertWaypoint(double lat, double lng, int position) {
+        // Add one more row and move the addresses over
+        journeyPane.getChildren().add(nthWaypoint(waypoints.size()));
+
+        for (int i = waypoints.size(); i > position; i--) {
+            waypointAddresses.get(i).setText(waypointAddresses.get(i - 1).getText());
+        }
+
+        // Insert
+        waypoints.add(position, lat + "#" + lng);
+        updateJourneyList(position);
+    }
+
     /**
      * To be called from the map, similar to addWaypointToJourney except the
      * journey is not redrawn.
@@ -88,17 +95,8 @@ public class CreateJourneyController {
      * @param lng long of waypoint
      * @param position number in route
      */
-    public void addRouteWaypoint(Double lat, Double lng, int position) {
-        if (position >= 2 && position >= waypoints.size()) {
-            journeyPane.getChildren().add(nthWaypoint(position));
-        }
-
-        for (int i = waypoints.size(); i <= position; i++) {
-            waypoints.add("");
-        }
-
+    public void editWaypoint(Double lat, Double lng, int position) {
         waypoints.set(position, lat + "#" + lng);
-
         updateJourneyList(position);
     }
 
@@ -133,15 +131,16 @@ public class CreateJourneyController {
         TextField address = new TextField();
         Button removeWaypoint = new Button();
 
-        row.getChildren().add(address);
-        row.getChildren().add(removeWaypoint);
-        stationRow.getChildren().add(row);
-
+        stationRow.setId("row" + i);
         stationRow.setPrefHeight(32);
         stationRow.setPrefWidth(270);
         stationRow.setLayoutY(10d + 60 * i);
         AnchorPane.setRightAnchor(stationRow, 10d);
         AnchorPane.setLeftAnchor(stationRow, 0d);
+
+        row.getChildren().add(address);
+        row.getChildren().add(removeWaypoint);
+        stationRow.getChildren().add(row);
 
         AnchorPane.setLeftAnchor(row, 0d);
         AnchorPane.setRightAnchor(row, 0d);
@@ -152,7 +151,7 @@ public class CreateJourneyController {
         address.setPrefWidth(138);
         address.getStylesheets().add(textCss);
         address.setPromptText("Click map or type address");
-        address.setId(Character.toString('a' + i));
+        address.setId("address" + i);
         address.setOnMouseClicked(this::clickNth);
         waypointAddresses.add(address);
         AnchorPane.setRightAnchor(address, 0d);
@@ -166,24 +165,46 @@ public class CreateJourneyController {
         removeWaypoint.setText("X");
         removeWaypoint.setSnapToPixel(true);
         removeWaypoint.setEffect(dropShadow);
+        removeWaypoint.setUserData(String.valueOf(i));
+        removeWaypoint.setOnAction(this::removeNth);
         AnchorPane.setRightAnchor(removeWaypoint, 0d);
         AnchorPane.setTopAnchor(removeWaypoint, 0d);
         AnchorPane.setBottomAnchor(removeWaypoint, 0d);
         HBox.setHgrow(removeWaypoint, Priority.NEVER);
 
+        waypointRows.add(stationRow);
         return stationRow;
     }
 
     @FXML private void clickNth(Event event) {
-        System.out.println("clicked");
         //Gets the position of the station in the route from its id
-        int i = (((Node) event.getSource()).getId()).toCharArray()[0] - 'a';
+        int i = Integer.parseInt(((Node) event.getSource()).getId().substring(7));
         mapViewController.setCallback((lat, lng) -> {
-            System.out.println(i);
             addWaypointToJourney(lat, lng, i);
-            System.out.println("DONE?");
             return true;
         }, String.valueOf(i));
+    }
+
+    @FXML private void removeNth(ActionEvent event) {
+        int index = Integer.parseInt((String) ((Node) event.getSource()).getUserData());
+
+        if (waypoints.size() <= 2) {
+            waypoints.remove(index);
+            waypointAddresses.get(index).setText("");
+            mainController.clearWaypoint(index);
+            return;
+        }
+
+        waypoints.remove(index);
+
+        // Shuffle addresses back down
+        for (int i = index; i < waypoints.size(); i++) {
+            waypointAddresses.get(i).setText(waypointAddresses.get(i + 1).getText());
+        }
+
+        waypointAddresses.remove(waypointAddresses.size() - 1);
+        journeyPane.getChildren().remove(waypointRows.get(waypointRows.size() - 1));
+        waypointRows.remove(waypointRows.size() - 1);
     }
 
     /**
@@ -276,9 +297,12 @@ public class CreateJourneyController {
         this.vehicleDAO = new VehicleDAO();
 
         waypoints = new ArrayList<>();
-        waypointAddresses = new ArrayList<TextField>();
-        waypointAddresses.add(a);
-        waypointAddresses.add(b);
+        waypointAddresses.add(address0);
+        waypointAddresses.add(address1);
+
+        waypointRows.add(row1);
+        waypointRows.add(row2);
+
 
 //        // disable scroll pane at start
 //        startAddrScroll.setVisible(false);

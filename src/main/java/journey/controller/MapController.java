@@ -4,7 +4,6 @@ import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import jdk.jshell.execution.Util;
 import journey.Utils;
 import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
@@ -38,16 +37,25 @@ public class MapController {
      * Initialise map class.
      */
     void init(MainController mainController) {
-        // Database db = new Database();
         stationDAO = new StationDAO();
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick,
                 this::getLatLongFromClick,
                 this::changeLatLong,
                 this::addToRoute,
-                this::addRouteWaypoint);
+                this::editWaypoint,
+                this::insertWaypoint);
         this.mainController = mainController;
         // set custom cell factory for list view
         initMap();
+    }
+
+    private boolean insertWaypoint(double lat, double lng, int position) {
+        mainController.insertWaypoint(lat, lng, position);
+        return true;
+    }
+
+    public void clearWaypoint(int i) {
+        javaScriptConnector.call("clearMiscMarker", i);
     }
 
     /**
@@ -80,7 +88,6 @@ public class MapController {
     }
 
     public boolean addToRoute(double lat, double lng) {
-
         return true;
     }
 
@@ -170,8 +177,8 @@ public class MapController {
         return true;
     }
 
-    public boolean addRouteWaypoint(Double lat, Double lng, int position) {
-        mainController.addRouteWaypoint(lat, lng, position);
+    public boolean editWaypoint(Double lat, Double lng, int position) {
+        mainController.editWaypoint(lat, lng, position);
         return true;
     }
 

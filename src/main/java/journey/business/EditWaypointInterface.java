@@ -1,5 +1,5 @@
 package journey.business;
 
-public interface AddRouteWaypointInterface {
+public interface EditWaypointInterface {
     boolean operation(double lat, double lng, int position);
 }

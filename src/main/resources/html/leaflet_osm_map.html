@@ -32,6 +32,8 @@
     let endMarker;
     let previousRoute = [];
     let miscMarkers = {};
+    let previousN = 2;
+    let prevWaypoints = [];
 
     //var searchAPIKey = "8bbefdb85c2f4671aeada47ff2930302";
 
@@ -291,7 +293,7 @@
                 waypoints: previousRoute,
                 // Specify UCs server for routing instead of the demonstration server used by default
                 serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
-                routeWhileDragging: true,
+                routeWhileDragging: false,
                 createMarker: function (i, waypoint, n) {
                     let marker = L.marker(waypoint.latLng, {
                         draggable: true,
@@ -306,27 +308,42 @@
                         });
                     }
                     marker._zIndex = 100000;
-                    marker.on("dragend", () => insertMarker(marker, waypoint.latLng.lat, waypoint.latLng.lng, i));
                     return marker;
                 }
             });
+            prevWaypoints = getLatLngs(route.getWaypoints());
+            route.on("routesfound", () => {
+                insertMarker(route.getWaypoints());
+            })
             route.addTo(map);
         }
-
     }
 
-    /**
-     * function to be called the first time a journey marker is dragged (on creation)
-     * @param marker
-     * @param lat
-     * @param lng
-     * @param position
-     */
-    function insertMarker(marker, lat, lng, position) {
-        //TODO: write insert waypoint functions
-        javaScriptBridge.insertWaypoint(lat, lng, position);
-        marker.off("dragend");
-        marker.on("dragend", () => javaScriptBridge.addRouteWaypoint(waypoint.latLng.lat, waypoint.latLng.lng, i));
+    function insertMarker(currWaypoints) {
+        for (let i = 0; i < currWaypoints.length; i++) {
+            if (!(currWaypoints[i].latLng.lat === prevWaypoints[i].lat &&
+                currWaypoints[i].latLng.lng === prevWaypoints[i].lng)) {
+                let waypoint = currWaypoints[i];
+                if (currWaypoints.length !== prevWaypoints.length) {
+                    javaScriptBridge.insertWaypoint(waypoint.latLng.lat, waypoint.latLng.lng, i);
+                } else {
+                    javaScriptBridge.editWaypoint(waypoint.latLng.lat, waypoint.latLng.lng, i);
+                }
+                prevWaypoints = getLatLngs(route.getWaypoints());
+                break;
+            }
+        }
+    }
+
+    function getLatLngs(wps) {
+        arrayOut = [];
+        for (let i = 0; i < wps.length; i++) {
+            let newLatLng = {};
+            newLatLng.lat = wps[i].latLng.lat;
+            newLatLng.lng = wps[i].latLng.lng;
+            arrayOut.push(newLatLng);
+        }
+        return arrayOut;
     }
 
     /**

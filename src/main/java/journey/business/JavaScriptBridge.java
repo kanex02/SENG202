@@ -16,7 +16,8 @@ public class JavaScriptBridge {
     private final GetLatLongInterface getLatLongInterface;
     private final ChangeLatLongInterface changeLatLongInterface;
     private final AddToRouteInterface addToRouteInterface;
-    private final AddRouteWaypointInterface addRouteWaypointInterface;
+    private final EditWaypointInterface editWaypointInterface;
+    private final InsertWaypointInterface insertWaypointInterface;
 
     /**
      * Creates a javascript bridge object with a 'callback' lambda function for displaying the station on the map after creation
@@ -26,17 +27,24 @@ public class JavaScriptBridge {
                             GetLatLongInterface getLatLongLambda,
                             ChangeLatLongInterface changeLatLongLambda,
                             AddToRouteInterface addToRouteLambda,
-                            AddRouteWaypointInterface addRouteWaypointLambda) {
+                            EditWaypointInterface editWaypointLambda,
+                            InsertWaypointInterface insertWaypointLambda) {
         getStationInterface = getStationLambda;
         getLatLongInterface = getLatLongLambda;
         changeLatLongInterface = changeLatLongLambda;
         addToRouteInterface = addToRouteLambda;
-        addRouteWaypointInterface = addRouteWaypointLambda;
+        editWaypointInterface = editWaypointLambda;
+        insertWaypointInterface = insertWaypointLambda;
+    }
+
+    public boolean insertWaypoint(double lat, double lng, int position) {
+        return insertWaypointInterface.operation(lat, lng, position);
     }
 
     /**
-     * Takes the id of a sale and passes this to the getSaleInterface implementation
-     * Currently this takes the ID and adds it to a list within the {@link MapController}
+     * Takes the id of a sale and passes this to the getSaleInterface implementation.
+     * Currently, this takes the ID and adds it to a list within the {@link MapController}
+
      * @param id id of station
      * @return true if the underlying operation succeeded
      */
@@ -62,8 +70,8 @@ public class JavaScriptBridge {
         return changeLatLongInterface.operation(lat, lng, label);
     }
 
-    public boolean addRouteWaypoint(double lat, double lng, int position) {
-        return addRouteWaypointInterface.operation(lat, lng, position);
+    public boolean editWaypoint(double lat, double lng, int position) {
+        return editWaypointInterface.operation(lat, lng, position);
     }
 
     public void log(String text) {

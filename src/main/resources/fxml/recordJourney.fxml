@@ -7,68 +7,52 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane maxWidth="-Infinity" minHeight="200.0" prefHeight="400.0" prefWidth="310.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.CreateJourneyController">
-    <ScrollPane hbarPolicy="NEVER" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0"
-                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" fx:id="journeyScrollPane">
+<AnchorPane maxWidth="-Infinity" minHeight="200.0" prefHeight="400.0" prefWidth="310.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.CreateJourneyController">
+    <ScrollPane fx:id="journeyScrollPane" hbarPolicy="NEVER" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <AnchorPane>
-            <HBox prefHeight="102.0" prefWidth="310.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox prefHeight="102.0" prefWidth="310.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <Pane prefWidth="40.0" HBox.hgrow="NEVER">
-                    <ImageView fitHeight="17" fitWidth="17" layoutX="8.0" layoutY="21.0" pickOnBounds="true"
-                               preserveRatio="true">
-                        <Image url="@../images/Circle.png"/>
+                    <ImageView fitHeight="17" fitWidth="17" layoutX="8.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/Circle.png" />
                     </ImageView>
-                    <ImageView fitHeight="32.0" fitWidth="200.0" layoutY="38.0" pickOnBounds="true"
-                               preserveRatio="true" smooth="false">
-                        <Image url="@../images/dots.png"/>
+                    <ImageView fitHeight="32.0" fitWidth="200.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                        <Image url="@../images/dots.png" />
                     </ImageView>
                     <ImageView fitHeight="32" fitWidth="32" layoutY="70.0" preserveRatio="true" smooth="false">
-                        <Image url="@../images/destination.png"/>
+                        <Image url="@../images/destination.png" />
                     </ImageView>
                 </Pane>
                 <AnchorPane fx:id="journeyPane" HBox.hgrow="ALWAYS">
-                    <AnchorPane layoutY="10.0" prefHeight="32.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0"
-                                AnchorPane.rightAnchor="10.0">
-                        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                              AnchorPane.topAnchor="0.0">
-                            <TextField fx:id="a" onMouseClicked="#clickNth" prefHeight="32.0" prefWidth="0.0"
-                                       promptText="Click map or type address" stylesheets="@../gui/textFields.css"
-                                       HBox.hgrow="ALWAYS">
+                    <AnchorPane fx:id="row1" layoutY="10.0" prefHeight="32.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0">
+                        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <TextField fx:id="address0" onMouseClicked="#clickNth" prefHeight="32.0" prefWidth="0.0" promptText="Click map or type address" stylesheets="@../gui/textFields.css" HBox.hgrow="ALWAYS">
                                 <HBox.margin>
-                                    <Insets right="10.0"/>
+                                    <Insets right="10.0" />
                                 </HBox.margin>
                             </TextField>
-                            <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0"
-                                    style="-fx-background-color: #FFFFFF;" text="X" HBox.hgrow="NEVER">
+                            <Button mnemonicParsing="false" onAction="#removeNth" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #FFFFFF;" text="X" HBox.hgrow="NEVER" userData="0">
                                 <effect>
                                     <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
                                         <color>
-                                            <Color red="0.23000000417232513" green="0.23000000417232513"
-                                                   blue="0.23000000417232513" opacity="0.2542372941970825"/>
+                                            <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
                                         </color>
                                     </DropShadow>
                                 </effect>
                             </Button>
                         </HBox>
                     </AnchorPane>
-                    <AnchorPane layoutY="70.0" prefHeight="32.0" AnchorPane.leftAnchor="0.0"
-                                AnchorPane.rightAnchor="10.0">
-                        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                              AnchorPane.topAnchor="0.0">
-                            <TextField fx:id="b" onMouseClicked="#clickNth" prefHeight="32.0" prefWidth="0.0"
-                                       promptText="Click map or type address" stylesheets="@../gui/textFields.css"
-                                       HBox.hgrow="ALWAYS">
+                    <AnchorPane fx:id="row2" layoutY="70.0" prefHeight="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0">
+                        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <TextField fx:id="address1" onMouseClicked="#clickNth" prefHeight="32.0" prefWidth="0.0" promptText="Click map or type address" stylesheets="@../gui/textFields.css" HBox.hgrow="ALWAYS">
                                 <HBox.margin>
-                                    <Insets right="10.0"/>
+                                    <Insets right="10.0" />
                                 </HBox.margin>
                             </TextField>
-                            <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0"
-                                    style="-fx-background-color: #FFFFFF;" text="X" HBox.hgrow="NEVER">
+                            <Button mnemonicParsing="false" onAction="#removeNth" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #FFFFFF;" text="X" HBox.hgrow="NEVER" userData="1">
                                 <effect>
                                     <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
                                         <color>
-                                            <Color red="0.23000000417232513" green="0.23000000417232513"
-                                                   blue="0.23000000417232513" opacity="0.2542372941970825"/>
+                                            <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
                                         </color>
                                     </DropShadow>
                                 </effect>
@@ -78,6 +62,9 @@
                 </AnchorPane>
             </HBox>
         </AnchorPane>
+      <padding>
+         <Insets bottom="10.0" />
+      </padding>
     </ScrollPane>
     <Button alignment="CENTER" contentDisplay="CENTER" layoutX="53.0" layoutY="331.0" mnemonicParsing="false" onAction="#addJourney" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #FFFFFF;" text="Submit" textAlignment="CENTER" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="53.0">
       <effect>

@@ -241,9 +241,18 @@ public class MainController {
         }
     }
 
+    public void insertWaypoint(double lat, double lng, int position) {
+        recordJourneyController.insertWaypoint(lat, lng, position);
+    }
+
     public void clearWaypoints() {
         mapViewController.clearWaypoints();
     }
+
+    public void clearWaypoint(int i) {
+        mapViewController.clearWaypoint(i);
+    }
+
     public void setProfile(Stage profileStage) {
         this.profileStage = profileStage;
     }
@@ -342,8 +351,8 @@ public class MainController {
         mapViewController.addMiscMarker(lat, lng, label);
     }
 
-    public void addRouteWaypoint(Double lat, Double lng, int position) {
-        recordJourneyController.addRouteWaypoint(lat, lng, position);
+    public void editWaypoint(Double lat, Double lng, int position) {
+        recordJourneyController.editWaypoint(lat, lng, position);
     }
 
     /**
