@@ -12,6 +12,9 @@ import journey.repository.VehicleDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.swing.text.html.ImageView;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,10 +52,13 @@ public class RegisterVehicleController {
     @FXML private TextField makeTextBox;
     @FXML private TextField modelTextBox;
 
+
+
     private String chargerTypeChoice;
     private String connectorTypeChoice;
     private VehicleDAO vehicleDAO;
     private MyProfileController myProfileController;
+
     Pattern digit = Pattern.compile("[0-9]");
     Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 

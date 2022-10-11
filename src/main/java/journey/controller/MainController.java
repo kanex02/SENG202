@@ -12,6 +12,7 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
@@ -23,8 +24,14 @@ import journey.repository.StationDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
+
+import static java.util.Arrays.asList;
+import static java.util.Arrays.copyOfRange;
 
 /**
  * FXML controller class for the main window.
@@ -65,6 +72,16 @@ public class MainController {
     @FXML private AnchorPane selectedStationWrapper;
     @FXML private Label noteStationAddr;
 
+    @FXML private javafx.scene.image.ImageView helpIcon;
+    @FXML private javafx.scene.image.ImageView homeIcon;
+    @FXML private javafx.scene.image.ImageView profileIcon;
+    @FXML private javafx.scene.image.ImageView journeyIcon;
+    @FXML private javafx.scene.image.ImageView searchIcon;
+    @FXML private javafx.scene.image.ImageView notesIcon;
+    @FXML private javafx.scene.image.ImageView planIcon;
+    @FXML private javafx.scene.image.ImageView plannedIcon;
+    @FXML private javafx.scene.image.ImageView tickIcon;
+    @FXML private javafx.scene.image.ImageView chargerIcon;
 
     private NotesController notesController;
     private SearchController searchController;
@@ -77,6 +94,13 @@ public class MainController {
     private Stage profileStage = null;
     private Stage helpStage = null;
 
+    private ArrayList<javafx.scene.image.ImageView> icons = new ArrayList<>();
+
+    private final ArrayList<String> paths = new ArrayList<>(asList("/pictures/question 1.png",
+            "/pictures/home-svgrepo-com.png", "/pictures/user 1.png", "/pictures/Journey_Logo.jpeg",
+            "/pictures/search-svgrepo-com.png", "/pictures/notes-svgrepo-com.png",
+            "/pictures/destination.png", "/pictures/task.png","/pictures/check-mark.png",
+            "/pictures/charging-station.png"));
 
 
     public void setStartAddr(String addr) {
@@ -376,6 +400,18 @@ public class MainController {
         }
     }
 
+    private void initImages() {
+        for (int index = 0; index < icons.size(); index++) {
+            Image img = new Image(
+                    new BufferedInputStream(
+                            Objects.requireNonNull(getClass().getResourceAsStream(paths.get(index)))
+                    ));
+            System.out.println(icons.size());
+            System.out.println(icons.get(index));
+            (icons.get(index)).setImage(img);
+        }
+    }
+
     public void clearSearch() {
         setCurrentStations(stationDAO.getAll());
         mapViewController.clearSearch();
@@ -430,10 +466,13 @@ public class MainController {
         Station[] stations = stationDAO.getAll();
         ObservableList<String> stationList = FXCollections.observableArrayList();
         for (Station station : stations) {
-            String newString = Arrays.toString(Arrays.copyOfRange(station.getAddress().split(","), 0, 2));
+            String newString = Arrays.toString(copyOfRange(station.getAddress().split(","), 0, 2));
             newString = newString.substring(1, newString.length() - 1);
             stationList.add(newString);
         }
+        icons = new ArrayList<>(asList(helpIcon, homeIcon, profileIcon, journeyIcon,
+                searchIcon, notesIcon, planIcon, plannedIcon, tickIcon, chargerIcon));
+        initImages();
         viewMap();
         viewTable();
         viewPrevJourneysTable();
@@ -448,4 +487,5 @@ public class MainController {
 //                (observableValue, oldVal, newVal) -> mapViewController.clearRoute()
 //        );
     }
+
 }

@@ -34,11 +34,7 @@
                                <graphic>
                                    <HBox alignment="CENTER" prefHeight="30.0" prefWidth="30.0">
                                        <children>
-                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                               <image>
-                                                   <Image url="@../pictures/question 1.png" />
-                                               </image>
-                                           </ImageView>
+                                           <ImageView fx:id="helpIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                    </HBox>
                                </graphic>
@@ -50,21 +46,13 @@
                                <graphic>
                                    <HBox alignment="CENTER" prefHeight="30.0" prefWidth="30.0">
                                        <children>
-                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                               <image>
-                                                   <Image url="@../pictures/user 1.png" />
-                                               </image>
-                                           </ImageView>
+                                           <ImageView fx:id="profileIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                    </HBox>
                                </graphic>
                            </Button>
                            <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="CENTER" />
-                           <ImageView fitHeight="40.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                               <image>
-                                   <Image url="@../pictures/Journey_Logo.jpeg" />
-                               </image>
-                           </ImageView>
+                           <ImageView fx:id="journeyIcon" fitHeight="40.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
                            <Button alignment="CENTER" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: transparent;" text="Home" textFill="#3b3b3b" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                <font>
                                    <Font name="Roboto" size="16.0" />
@@ -72,11 +60,7 @@
                                <graphic>
                                    <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="30.0">
                                        <children>
-                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                               <image>
-                                                   <Image url="@../pictures/home-svgrepo-com.png" />
-                                               </image>
-                                           </ImageView>
+                                           <ImageView fx:id="homeIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                    </HBox>
                                </graphic>
@@ -127,11 +111,7 @@
                                  <graphic>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                        <children>
-                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../pictures/search-svgrepo-com.png" />
-                                             </image>
-                                          </ImageView>
+                                          <ImageView fx:id="searchIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </HBox>
                                  </graphic>
@@ -143,11 +123,7 @@
                                   <graphic>
                                       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                           <children>
-                                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                                  <image>
-                                                      <Image url="@../pictures/notes-svgrepo-com.png" />
-                                                  </image>
-                                              </ImageView>
+                                              <ImageView fx:id="notesIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                           </children>
                                       </HBox>
                                   </graphic>
@@ -159,11 +135,7 @@
                                 <graphic>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                         <children>
-                                            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                                <image>
-                                                    <Image url="@../pictures/destination.png" />
-                                                </image>
-                                            </ImageView>
+                                            <ImageView fx:id="planIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                         </children>
                                     </HBox>
                                 </graphic>
@@ -175,11 +147,7 @@
                                 <graphic>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                         <children>
-                                            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                                <image>
-                                                    <Image url="@../pictures/task.png" />
-                                                </image>
-                                            </ImageView>
+                                            <ImageView fx:id="plannedIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                         </children>
                                     </HBox>
                                 </graphic>
@@ -191,11 +159,7 @@
                                   <graphic>
                                       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                           <children>
-                                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                                  <image>
-                                                      <Image url="@../pictures/check-mark.png" />
-                                                  </image>
-                                              </ImageView>
+                                              <ImageView fx:id="tickIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                           </children>
                                       </HBox>
                                   </graphic>
@@ -207,11 +171,7 @@
                                   <graphic>
                                       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                           <children>
-                                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                                  <image>
-                                                      <Image url="@../pictures/charging-station.png" />
-                                                  </image>
-                                              </ImageView>
+                                              <ImageView fx:id="chargerIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                           </children>
                                       </HBox>
                                   </graphic>
