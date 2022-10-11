@@ -33,9 +33,9 @@
             <Pane maxWidth="200.0" prefHeight="204.0" prefWidth="154.0" HBox.hgrow="NEVER">
                 <ChoiceBox fx:id="chargerBox" layoutX="7.0" layoutY="245.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="250.0" styleClass="drop-down" stylesheets="@../gui/style.css" />
                 <TextField fx:id="registrationTextBox" layoutX="7.0" layoutY="25.0" prefHeight="26.0" prefWidth="250.0" stylesheets="@../gui/textFields.css" />
+                <TextField fx:id="makeTextBox" layoutX="7.0" layoutY="80.0" prefHeight="26.0" prefWidth="250.0" stylesheets="@../gui/textFields.css" />
                 <TextField fx:id="modelTextBox" layoutX="7.0" layoutY="135.0" prefHeight="26.0" prefWidth="250.0" stylesheets="@../gui/textFields.css" />
                 <TextField fx:id="yearTextBox" layoutX="7.0" layoutY="190.0" prefHeight="26.0" prefWidth="250.0" stylesheets="@../gui/textFields.css" />
-                <TextField fx:id="makeTextBox" layoutX="7.0" layoutY="80.0" prefHeight="26.0" prefWidth="250.0" stylesheets="@../gui/textFields.css" />
                 <ChoiceBox fx:id="connectorBox" layoutX="7.0" layoutY="300.0" onMouseClicked="#connectorTypeChoice" prefHeight="25.0" prefWidth="250.0" styleClass="drop-down" stylesheets="@../gui/style.css" />
             <Label fx:id="regWarningLabel" layoutX="-118.0" layoutY="57.0" prefHeight="14.0" prefWidth="375.0" textFill="#cd0000">
                <font>

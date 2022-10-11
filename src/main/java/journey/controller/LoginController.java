@@ -1,6 +1,5 @@
 package journey.controller;
 
-import java.io.IOException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,9 +17,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import journey.data.User;
 import journey.repository.UserDAO;
+import journey.service.LoginService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import journey.service.LoginService;
+
+import java.io.IOException;
 
 
 /**
@@ -36,6 +37,7 @@ public class LoginController {
     @FXML private TextField nameTextBox;
     @FXML private ChoiceBox<String> nameChoiceBox;
     @FXML private Label warningLabel;
+//    @FXML private ImageView loadingIcon;
 
     /**
      * Register a user and add them to the user database
