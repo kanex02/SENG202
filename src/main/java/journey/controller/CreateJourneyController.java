@@ -150,6 +150,7 @@ public class CreateJourneyController {
     }
 
     @FXML private void clickNth(Event event) {
+        //Gets the position of the station in the route from its id
         int i = (((Node) event.getSource()).getId()).toCharArray()[0] - 'a';
         mapViewController.setCallback((lat, lng) -> {
             addRouteWaypoint(lat, lng, i);
