@@ -40,7 +40,7 @@ public class StationsService {
         if (maxTime.matches("\\d+")) {
             searchStation.setMaxTime(Integer.parseInt(maxTime));
         }
-        if (addressLatLng != null && !addressLatLng.isBlank()) {
+        if (addressLatLng != null && !addressLatLng.isBlank() && !range.isBlank()) {
             String[] latLng = addressLatLng.split("#");
             searchStation.setLatitude(Double.parseDouble(latLng[0]));
             searchStation.setLongitude(Double.parseDouble(latLng[1]));

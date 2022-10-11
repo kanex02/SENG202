@@ -14,6 +14,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import journey.data.Journey;
@@ -49,7 +50,6 @@ public class MainController {
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
     @FXML private AnchorPane prevJourneysPane;
-//    @FXML private Text stationDescription;
     @FXML private TabPane journeyTab;
     @FXML private AnchorPane searchWrapper;
     @FXML private AnchorPane notesWrapper;
@@ -64,6 +64,7 @@ public class MainController {
     @FXML private AnchorPane registerVehicleWrapper;
     @FXML private AnchorPane selectedStationWrapper;
     @FXML private Label noteStationAddr;
+    @FXML private Pane notificationPane;
 
 
     private NotesController notesController;
@@ -346,6 +347,10 @@ public class MainController {
         mapViewController.addMiscMarker(lat, lng, label);
     }
 
+    public void clearSearchMarkerFromMap() {
+        mapViewController.clearSearch();
+    }
+
     /**
      * Inserts the viewNotes fxml component into an anchor pane in the main controller.
      */
@@ -384,8 +389,8 @@ public class MainController {
         return selectedVehicle;
     }
 
-    public void changeSearchLatLong(String addr) {
-        searchController.changeSearchLatLong(addr);
+    public void changeSearchLatLong(double lat, double lng) {
+        searchController.changeSearchLatLong(lat, lng);
     }
 
     public void changeJourneyStart(String addr) {
