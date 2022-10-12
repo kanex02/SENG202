@@ -26,6 +26,8 @@ public class NotesController {
     @FXML private Label notesSuccess;
 
     @FXML private Label notesWarning;
+    private Station currStation;
+    private double stationRatingValue;
 
     /**
      * Submits notes and adds them the database for the current user.
@@ -36,9 +38,8 @@ public class NotesController {
     private void submitNotes(Event event) {
         notesSuccess.setText("");
         notesWarning.setText("");
-        Station currStation = stationDAO.queryStation(mainController.getSelectedStation());
         String stationNote = stationDetailTextArea.getText();
-        int rating = (int) stationRating.getRating();
+        int rating = (int) stationRatingValue;
         boolean favourite = favouriteCheckBox.isSelected();
 
         Note newNote = new Note(currStation, stationNote, rating, favourite);
@@ -54,7 +55,7 @@ public class NotesController {
         }
 
         updateNoteText(newNote);
-        mainController.setSelectedStation(currStation.getOBJECTID());
+//        mainController.setSelectedStation(currStation.getOBJECTID());
 
         /* Also need to update the stations if the favourite check box was clicked
            so that the marker icon will update.
@@ -123,6 +124,20 @@ public class NotesController {
         }
     }
 
+    public void updateSelectedStation(int selectedStation) {
+        this.currStation = stationDAO.queryStation(selectedStation);
+        updateStationNoteAddr(currStation);
+        updateNote();
+    }
+
+    @FXML private void updateRating() {
+        stationRatingValue = stationRating.getRating();
+    }
+
+    @FXML private void mouseEscaped() {
+        stationRating.setRating(stationRatingValue);
+    }
+
 
     /**
      * Initialises the notes panel.
@@ -133,8 +148,6 @@ public class NotesController {
         stationDAO = new StationDAO();
         noteDAO = new NoteDAO();
         this.mainController = mainController;
-        stationRating.setUpdateOnHover(true);
-
     }
 
 }

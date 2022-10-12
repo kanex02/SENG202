@@ -88,10 +88,6 @@ public class CreateJourneyController {
                 setColor(new Color(0.23, 0.23, 0.23, 0.25));
     }};
 
-    public void updateSelectedStation(int selectedStation) {
-        selectedStationField.setText(stationDAO.queryStation(selectedStation).getAddress());
-    }
-
     public void insertWaypoint(double lat, double lng, int position) {
         // Add one more row and move the addresses over
         journeyPane.getChildren().add(nthWaypoint(waypoints.size()));

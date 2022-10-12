@@ -74,18 +74,18 @@ public class SelectedStationController {
         } else {
             ratingField.setText("Not yet rated");
         }
-        ArrayList<Feature> features = null;
-        try {
-            features = attractionsService.getAttractions(selectedStation.getLatitude(), selectedStation.getLongitude(), 2000);
-        } catch (IOException e) {
-            log.error(e);
-        }
-        ObservableList<String> attractions = FXCollections.observableArrayList();
-        for (Feature feature : features) {
-            System.out.println("here");
-            attractions.add(feature.getFormattedName());
-        }
-        attractionsList.setItems(attractions);
+//        ArrayList<Feature> features = null;
+//        try {
+//            features = attractionsService.getAttractions(selectedStation.getLatitude(), selectedStation.getLongitude(), 2000);
+//        } catch (IOException e) {
+//            log.error(e);
+//        }
+//        ObservableList<String> attractions = FXCollections.observableArrayList();
+//        for (Feature feature : features) {
+//            System.out.println("here");
+//            attractions.add(feature.getFormattedName());
+//        }
+//        attractionsList.setItems(attractions);
     }
 
     /**

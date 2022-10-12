@@ -18,7 +18,7 @@
          </DropShadow>
       </effect>
    </Button>
-   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="97.0" layoutY="14.0" prefHeight="24.0" prefWidth="156.0" text="Selected Station:" textAlignment="CENTER">
+   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="98.0" layoutY="14.0" prefHeight="24.0" prefWidth="156.0" text="Selected Station:" textAlignment="CENTER">
       <font>
          <Font name="Roboto" size="18.0" />
       </font>
@@ -30,12 +30,12 @@
    </Label>
    <Label layoutX="63.0" layoutY="128.0" text="Favourite Station" />
    <CheckBox fx:id="favouriteCheckBox" layoutX="280.0" layoutY="127.0" mnemonicParsing="false" />
-   <Rating fx:id="stationRating" layoutX="66.0" layoutY="193.0" rating="0.0" />
-   <Label fx:id="notesWarning" alignment="CENTER" contentDisplay="CENTER" layoutX="22.0" layoutY="328.0" lineSpacing="1.0" prefHeight="26.0" prefWidth="266.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0">
+   <Rating fx:id="stationRating" layoutX="88.0" layoutY="193.0" onMouseClicked="#updateRating" onMouseExited="#mouseEscaped" prefHeight="32.0" prefWidth="234.0" rating="0.0" updateOnHover="true" />
+   <Label fx:id="notesWarning" alignment="CENTER" contentDisplay="CENTER" layoutX="22.0" layoutY="225.0" lineSpacing="1.0" prefHeight="26.0" prefWidth="266.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" AnchorPane.bottomAnchor="149.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0">
       <font>
          <Font size="11.0" />
       </font></Label>
-   <Label fx:id="notesSuccess" alignment="CENTER" contentDisplay="CENTER" layoutX="22.0" layoutY="328.0" lineSpacing="1.0" prefHeight="26.0" prefWidth="266.0" textAlignment="CENTER" textFill="GREEN" textOverrun="CLIP" wrapText="true" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0">
+   <Label fx:id="notesSuccess" alignment="CENTER" contentDisplay="CENTER" layoutX="23.0" layoutY="225.0" lineSpacing="1.0" prefHeight="26.0" prefWidth="266.0" textAlignment="CENTER" textFill="GREEN" textOverrun="CLIP" wrapText="true" AnchorPane.bottomAnchor="149.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0">
       <font>
          <Font size="11.0" />
       </font></Label>

@@ -145,7 +145,7 @@
                                     </HBox>
                                 </graphic>
                                  <content>
-                                    <ScrollPane fx:id="recordJourneyWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                                    <ScrollPane fx:id="recordJourneyWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" vbarPolicy="NEVER" />
                                  </content>
                             </TitledPane>
                             <TitledPane fx:id="plannedJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">

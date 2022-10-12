@@ -119,6 +119,7 @@ public class ProfileController {
         String reg = profileController.getSelectedVehicle();
         vehicleDAO.removeVehicle(reg, profileController.getCurrentUser().getId());
         profileController.setSelectedVehicle(null);
+        setVehicles();
     }
 
 

@@ -242,18 +242,14 @@ public class MainController {
         completedJourneysController.setJourneys(stage);
     }
 
-    public void updateNote() {
-        notesController.updateNote();
-    }
-
     public int getSelectedStation() {
         return selectedStation;
     }
 
     public void setSelectedStation(int selectedStation) {
-        recordJourneyController.updateSelectedStation(selectedStation);
-        selectedStationController.updateSelectedStation(selectedStation);
         this.selectedStation = selectedStation;
+        selectedStationController.updateSelectedStation(selectedStation);
+        notesController.updateSelectedStation(selectedStation);
     }
 
     public Station[] getStations() {
@@ -380,6 +376,8 @@ public class MainController {
         try {
             FXMLLoader recorderLoader = new FXMLLoader(getClass().getResource("/fxml/recordJourney.fxml"));
             Parent recorderParent = recorderLoader.load();
+
+            ((AnchorPane) recorderParent).prefHeightProperty().bind(recordJourneyWrapper.heightProperty());
 
             recordJourneyController = recorderLoader.getController();
             recordJourneyController.init(this);

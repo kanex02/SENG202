@@ -108,7 +108,7 @@ public class LoginController {
      */
     private void switchToMain() {
         try {
-            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/newMain.fxml"));
+            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
             Parent root = baseLoader.load();
             Stage mainStage = new Stage();
 

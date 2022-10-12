@@ -118,7 +118,7 @@ public class MyProfileController {
      */
     @FXML private void homeButton() {
         try {
-            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/newMain.fxml"));
+            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
             Parent root = baseLoader.load();
             MainController baseController = baseLoader.getController();
             baseController.init(stage, mainController.getCurrentUser(), selectedVehicle);

@@ -253,7 +253,6 @@ public class MapController {
      */
     public boolean getStationFromClick(int id) {
         mainController.setSelectedStation(id);
-        mainController.updateNote();
         return true;
     }
 
