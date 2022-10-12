@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
     <Label layoutX="14.0" layoutY="25.0" text="Place Range Marker:" />
    <Button fx:id="placeMarkerButton" layoutX="172.0" layoutY="21.0" mnemonicParsing="false" onAction="#clickToPlaceMarker" prefHeight="18.0" prefWidth="16.0" style="-fx-background-color: #FFFFFF;">
       <effect>
@@ -27,6 +27,12 @@
          </DropShadow>
       </effect>
    </Button>
+   <ImageView fx:id="rangeHelpImage" fitHeight="20.0" fitWidth="20.0" layoutX="313.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../pictures/question.png" />
+      </image>
+   </ImageView>
+   <Label fx:id="rangeHelpLabel" layoutX="309.0" layoutY="26.0" />
     <TextField fx:id="addressSearch" layoutX="104.0" layoutY="41.0" prefHeight="24.0" prefWidth="143.0" promptText="Address" stylesheets="@../gui/textFields.css" visible="false" />
     <Button layoutX="251.0" layoutY="41.0" mnemonicParsing="false" onAction="#clickSearch" prefHeight="24.0" prefWidth="85.0" style="-fx-background-color: #FFFFFF;" text="Click Map" visible="false">
         <effect>

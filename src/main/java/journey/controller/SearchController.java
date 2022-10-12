@@ -38,6 +38,8 @@ public class SearchController {
     @FXML private ImageView placeMarkerImage;
     @FXML private Button removeMarkerButton;
     @FXML private CheckBox favouritedCheckMark;
+    @FXML private ImageView rangeHelpImage;
+    @FXML private Label rangeHelpLabel;
     final ArrayList<CheckMenuItem> connectors = new ArrayList<>();
     ArrayList<String> connectorsList = new ArrayList<>();
 
@@ -304,6 +306,12 @@ public class SearchController {
 
         attractionSearch.setItems(yesNoMaybeSo);
 
+        rangeHelpLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        rangeHelpLabel.setGraphic(rangeHelpImage);
+
+        Tooltip rangeHelpTooltip = new Tooltip("Click the map to place a marker after clicking on the green marker button.");
+
+        rangeHelpLabel.setTooltip(rangeHelpTooltip);
 
         List<String> connectorsAvailable = new ArrayList<>();
         connectorsAvailable.add("Type 2 Socketed");
