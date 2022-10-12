@@ -8,8 +8,8 @@
 <?import javafx.scene.paint.*?>
 
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
-    <Label layoutX="14.0" layoutY="45.0" text="Place Range Marker:" />
-   <Button fx:id="placeMarkerButton" layoutX="172.0" layoutY="41.0" mnemonicParsing="false" onAction="#clickToPlaceMarker" prefHeight="18.0" prefWidth="16.0" style="-fx-background-color: #FFFFFF;">
+    <Label layoutX="14.0" layoutY="25.0" text="Place Range Marker:" />
+   <Button fx:id="placeMarkerButton" layoutX="172.0" layoutY="21.0" mnemonicParsing="false" onAction="#clickToPlaceMarker" prefHeight="18.0" prefWidth="16.0" style="-fx-background-color: #FFFFFF;">
       <effect>
          <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
             <color>
@@ -18,7 +18,7 @@
          </DropShadow>
       </effect>
    </Button>
-   <Button fx:id="removeMarkerButton" disable="true" layoutX="204.0" layoutY="41.0" mnemonicParsing="false" onAction="#removeRangeMarker" style="-fx-background-color: #FFFFFF;" text="Remove Marker">
+   <Button fx:id="removeMarkerButton" disable="true" layoutX="204.0" layoutY="21.0" mnemonicParsing="false" onAction="#removeRangeMarker" style="-fx-background-color: #FFFFFF;" text="Remove Marker">
       <effect>
          <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
             <color>
@@ -79,9 +79,9 @@
             </DropShadow>
         </effect>
     </ChoiceBox>
-    <Label layoutX="14.0" layoutY="94.0" text="Range:" />
-    <TextField fx:id="distanceSearch" layoutX="102.0" layoutY="90.0" prefHeight="24.0" prefWidth="40.0" stylesheets="@../gui/textFields.css" text="50" />
-    <Label layoutX="141.0" layoutY="94.0" text="km ">
+    <Label layoutX="14.0" layoutY="58.0" text="Range:" />
+    <TextField fx:id="distanceSearch" layoutX="102.0" layoutY="54.0" prefHeight="24.0" prefWidth="40.0" stylesheets="@../gui/textFields.css" text="50" />
+    <Label layoutX="141.0" layoutY="58.0" text="km ">
         <padding>
             <Insets left="10.0" />
         </padding>
@@ -112,9 +112,11 @@
              </GridPane.margin>
          </Button>
      </GridPane>
-   <ImageView fx:id="placeMarkerImage" fitHeight="18.0" fitWidth="16.0" layoutX="175.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+   <ImageView fx:id="placeMarkerImage" fitHeight="18.0" fitWidth="16.0" layoutX="175.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../pictures/green-marker.png" />
       </image>
    </ImageView>
+   <CheckBox fx:id="favouritedCheckMark" layoutX="100.0" layoutY="96.0" mnemonicParsing="false" />
+   <Label layoutX="13.0" layoutY="97.0" text="Favourited:" />
 </AnchorPane>
