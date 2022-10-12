@@ -157,8 +157,8 @@ public class StationDAO {
         try {
             conn = databaseManager.connect();
             Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM Stations " +
-                    "left outer join Notes on Stations.id = Notes.station_ID");
+            ResultSet rs = statement.executeQuery("SELECT * FROM Stations "
+                    + "left outer join Notes on Stations.id = Notes.station_ID");
             Utils.insertRsIntoArray(rs, res);
         } catch (SQLException e) {
             log.error(e);

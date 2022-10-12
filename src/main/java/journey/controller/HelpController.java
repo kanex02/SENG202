@@ -75,7 +75,7 @@ public class HelpController {
      */
     void init(Stage helpStage) {
         this.stage = helpStage;
-        setHelpImage("/pictures/Search.jpg");
+        setHelpImage("/images/Search.jpg");
         fillHelp();
     }
 

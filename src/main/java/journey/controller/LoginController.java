@@ -140,12 +140,12 @@ public class LoginController {
     void initImages() {
         Image img = new Image(
                 new BufferedInputStream(
-                        Objects.requireNonNull(getClass().getResourceAsStream("/pictures/Journey_Logo.jpeg"))
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/Journey_Logo.jpeg"))
                 ));
         journeyIcon.setImage(img);
         Image image = new Image(
                 new BufferedInputStream(
-                        Objects.requireNonNull(getClass().getResourceAsStream("/pictures/loading-buffering.gif"))
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/loading-buffering.gif"))
                 ));
         loadingIcon.setImage(image);
         loadingIcon.setVisible(false);

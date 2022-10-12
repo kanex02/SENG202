@@ -100,11 +100,11 @@ public class MainController {
 
     private ArrayList<javafx.scene.image.ImageView> icons = new ArrayList<>();
 
-    private final ArrayList<String> paths = new ArrayList<>(asList("/pictures/question 1.png",
-            "/pictures/home-svgrepo-com.png", "/pictures/user 1.png", "/pictures/Journey_Logo.jpeg",
-            "/pictures/search-svgrepo-com.png", "/pictures/notes-svgrepo-com.png",
-            "/pictures/destination.png", "/pictures/task.png","/pictures/check-mark.png",
-            "/pictures/charging-station.png"));
+    private final ArrayList<String> paths = new ArrayList<>(asList("/images/question 1.png",
+            "/images/home-svgrepo-com.png", "/images/user 1.png", "/images/Journey_Logo.jpeg",
+            "/images/search-svgrepo-com.png", "/images/notes-svgrepo-com.png",
+            "/images/destination.png", "/images/task.png","/images/check-mark.png",
+            "/images/charging-station.png"));
 
 
     public void addRangeIndicator(double lat, double lng) {
