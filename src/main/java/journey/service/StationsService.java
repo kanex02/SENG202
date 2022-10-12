@@ -20,6 +20,10 @@ public class StationsService {
         allStations = stations;
     }
 
+    public Station[] getAllStations() {
+        return allStations;
+    }
+
     public static QueryStation createQueryStation(String name,
                                                   String operator,
                                                   String currentType,

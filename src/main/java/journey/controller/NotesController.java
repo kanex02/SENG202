@@ -55,6 +55,14 @@ public class NotesController {
 
         updateNoteText(newNote);
         mainController.setSelectedStation(currStation.getOBJECTID());
+
+        /* Also need to update the stations if the favourite check box was clicked
+           so that the marker icon will update.
+        */
+
+        mainController.updateFavourite(currStation, favourite);
+        mainController.refreshSearch();
+
         event.consume();
     }
 

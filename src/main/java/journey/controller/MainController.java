@@ -20,6 +20,7 @@ import journey.data.Journey;
 import journey.data.Station;
 import journey.data.User;
 import journey.repository.StationDAO;
+import journey.service.StationsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -93,6 +94,7 @@ public class MainController {
     private CompletedJourneysController completedJourneysController;
     private SelectedStationController selectedStationController;
     private PlannedJourneyController plannedJourneyController;
+    private StationsService stationsService;
     private Stage profileStage = null;
     private Stage helpStage = null;
 
@@ -120,6 +122,9 @@ public class MainController {
         accordionPane.setExpandedPane(planJourneyPane);
     }
 
+    public StationsService getStationsService() {
+        return stationsService;
+    }
 
     /**
      * Loads the OpenLayers map view into the tab pane component of main view.
@@ -136,6 +141,16 @@ public class MainController {
 
         } catch (IOException e) {
             log.error(e);
+        }
+    }
+
+    public void updateFavourite(Station station, boolean favourite) {
+        int stationID = station.getOBJECTID();
+        Station[] allStations = stationsService.getAllStations();
+        for(Station s : allStations) {
+            if(s.getOBJECTID() == stationID) {
+                s.setFavourite(favourite);
+            }
         }
     }
 
@@ -444,6 +459,9 @@ public class MainController {
         currentUser = user;
         this.selectedVehicle = vehicle;
         currentStations = stationDAO.getAll();
+
+        stationsService = new StationsService();
+
         // Fill the combo boxes
         this.stage = stage;
 

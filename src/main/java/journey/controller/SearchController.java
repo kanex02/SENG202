@@ -24,7 +24,6 @@ import java.util.List;
  */
 public class SearchController {
     private final VehicleDAO vehicleDAO = new VehicleDAO();
-    private final StationsService stationsService = new StationsService();
 
     @FXML private TextField addressSearch;
     @FXML private TextField nameSearch;
@@ -41,7 +40,6 @@ public class SearchController {
     final ArrayList<CheckMenuItem> connectors = new ArrayList<>();
     ArrayList<String> connectorsList = new ArrayList<>();
 
-
     private static final ObservableList<String> chargerTypeSearchOptions =
             FXCollections.observableArrayList("", "Mixed", "AC", "DC");
 
@@ -51,6 +49,8 @@ public class SearchController {
     private MainController mainController;
     private StationDAO stationDAO;
     private String addressLatLng = "";
+
+    private StationsService stationsService;
 
     /**
      * Gets users current vehicle from the database
@@ -124,8 +124,6 @@ public class SearchController {
 
 
         if (errors.isBlank()) {
-            //mainController.clearSearchMarkerFromMap();
-            //mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]), "search");
             warningLabel.setText("");
             QueryStation queryStation = StationsService.createQueryStation(nameSearch.getText(),
                     operator,
@@ -257,6 +255,8 @@ public class SearchController {
      */
     public void init(MainController mainController) {
         this.mainController = mainController;
+        this.stationsService = mainController.getStationsService();
+
         stationDAO = new StationDAO();
 
         currentSearch.setItems(chargerTypeSearchOptions);

@@ -160,7 +160,7 @@ public class MapController {
      */
     private void addStationMark(Station station) {
         javaScriptConnector.call("addMarker", station.getOBJECTID(),
-                station.getShortDescription(), station.getLatitude(), station.getLongitude());
+                station.getShortDescription(), station.getLatitude(), station.getLongitude(), station.getFavourite());
     }
 
     /**
