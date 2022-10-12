@@ -38,6 +38,8 @@ public class SearchController {
     @FXML private ImageView placeMarkerImage;
     @FXML private Button removeMarkerButton;
     @FXML private CheckBox favouritedCheckMark;
+    @FXML private ImageView rangeHelpImage;
+    @FXML private Label rangeHelpLabel;
     final ArrayList<CheckMenuItem> connectors = new ArrayList<>();
     ArrayList<String> connectorsList = new ArrayList<>();
 
@@ -112,6 +114,37 @@ public class SearchController {
     }
 
     /**
+     * Called on update of range field in FXML
+     * Used to update the range circle
+     */
+    public void updateRange() {
+        String[] latLng = addressLatLng.split("#");
+        double lat = Double.parseDouble(latLng[0]);
+        double lng = Double.parseDouble(latLng[1]);
+
+        removeRangeIndicator();
+        addRangeIndicator(lat, lng);
+
+        search();
+
+    }
+
+    /**
+     * Adds a circle at the lat and lng to indicate the range of the search
+     */
+    public void addRangeIndicator(double lat, double lng) {
+        String range = distanceSearch.getText();
+        if(!range.isBlank()) {
+            int radius = Integer.parseInt(range);
+            mainController.getMapViewController().addRangeIndicator(lat, lng, radius);
+        }
+    }
+
+    public void removeRangeIndicator() {
+        mainController.getMapViewController().removeRangeIndicator();
+    }
+
+    /**
      * Searches for relevant stations based on users search inputs.
      */
     @FXML public void search() {
@@ -180,6 +213,7 @@ public class SearchController {
     @FXML private void clickToPlaceMarker() {
         mainController.openMap();
         mainController.getMapViewController().setCallback((lat, lng) -> {
+            addRangeIndicator(lat, lng);
             addressLatLng = lat+"#"+lng;
             search();
             removeMarkerButton.setDisable(false);
@@ -198,6 +232,7 @@ public class SearchController {
         addressLatLng = "";
         mainController.clearSearchMarkerFromMap();
         removeMarkerButton.setDisable(true);
+        removeRangeIndicator();
         search();
     }
 
@@ -244,7 +279,7 @@ public class SearchController {
         attractionSearch.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> search()));
 
         distanceSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            pause.setOnFinished(event -> search());
+            pause.setOnFinished(event -> updateRange());
             pause.playFromStart();
         });
 
@@ -271,6 +306,12 @@ public class SearchController {
 
         attractionSearch.setItems(yesNoMaybeSo);
 
+        rangeHelpLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        rangeHelpLabel.setGraphic(rangeHelpImage);
+
+        Tooltip rangeHelpTooltip = new Tooltip("Click the map to place a marker after clicking on the green marker button.");
+
+        rangeHelpLabel.setTooltip(rangeHelpTooltip);
 
         List<String> connectorsAvailable = new ArrayList<>();
         connectorsAvailable.add("Type 2 Socketed");

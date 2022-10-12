@@ -40,6 +40,7 @@ public class MainWindow extends Application {
             primaryStage.setMaxHeight(500);
             primaryStage.setMaxWidth(800);
             primaryStage.setMaximized(false);
+            primaryStage.setResizable(false);
             primaryStage.show();
             // set the min height and width so the window opens at the correct size
             Screen screen = Screen.getPrimary();

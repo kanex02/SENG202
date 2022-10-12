@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
@@ -21,7 +23,9 @@ import journey.service.LoginService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 
 /**
@@ -38,7 +42,8 @@ public class LoginController {
     @FXML private ChoiceBox<String> nameChoiceBox;
     @FXML private Label loginWarningLabel;
     @FXML private Label registerWarningLabel;
-//    @FXML private ImageView loadingIcon;
+    @FXML private ImageView loadingIcon;
+    @FXML private ImageView journeyIcon;
 
     /**
      * Register a user and add them to the user database
@@ -69,6 +74,7 @@ public class LoginController {
     }
 
     @FXML public void register() {
+
         String name = nameTextBox.getText();
         registerWarningLabel.setText("");
         Boolean valid = LoginService.checkUser(name);
@@ -82,7 +88,8 @@ public class LoginController {
             registerWarningLabel.setText("Your name cannot be longer than 15 characters");
         } else {
             user = userDAO.setCurrentUser(name);
-            switchToMain();
+            loadingIcon.setVisible(true);
+            Platform.runLater(this::switchToMain);
         }
     }
 
@@ -90,7 +97,8 @@ public class LoginController {
         if (!(nameChoiceBox.getValue() == null || nameChoiceBox.getValue().equals(""))) {
             String name = nameChoiceBox.getValue();
             user = userDAO.setCurrentUser(name);
-            switchToMain();
+            loadingIcon.setVisible(true);
+            Platform.runLater(this::switchToMain);
         }
     }
 
@@ -128,6 +136,20 @@ public class LoginController {
         }
 
     }
+
+    void initImages() {
+        Image img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/pictures/Journey_Logo.jpeg"))
+                ));
+        journeyIcon.setImage(img);
+        Image image = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/pictures/loading-buffering.gif"))
+                ));
+        loadingIcon.setImage(image);
+        loadingIcon.setVisible(false);
+    }
     /**
      * initialises the login window.
 
@@ -143,6 +165,7 @@ public class LoginController {
             }
         });
         loginWarningLabel.setText("");
+        initImages();
         populateUserDropDown();
     }
 

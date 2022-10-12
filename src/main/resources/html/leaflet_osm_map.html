@@ -30,6 +30,7 @@
     let route;
     let previousRoute = [];
     let miscMarkers = {};
+    let rangeIndicator;
 
     //var searchAPIKey = "8bbefdb85c2f4671aeada47ff2930302";
 
@@ -74,6 +75,8 @@
         addMiscMarker: addMiscMarker,
         clearMiscMarker: clearMiscMarker,
         clearMap: clearMap,
+        addRangeIndicator: addRangeIndicator,
+        removeRangeIndicator: removeRangeIndicator,
     };
 
     function clearMap() {
@@ -132,7 +135,7 @@
             var latlng = map.mouseEventToLatLng(e.originalEvent);
             javaScriptBridge.getLatLongFromClick(latlng.lat, latlng.lng);
         })
-
+        map.attributionControl.setPrefix(false);
         function setStart(address) {
             javaScriptBridge.fillStartAddressFromSearch(address);
         }
@@ -221,6 +224,42 @@
     }
 
     /**
+     * Adds a circle to indicate the range of search from the lat and lng.
+     * @param lat latitude to place center of circle at
+     * @param lng longitude to place center of circle at
+     * @param radius radius of the circle
+     */
+    function addRangeIndicator(lat, lng, radius) {
+
+        if(radius != 0) {
+            // Colour comes from the green marker used for indicating search.
+            //let colourCode = "#24AD22";
+            let c = new L.circle([ lat, lng ], {
+                color : "#24AD22",
+                stroke : false,
+                fillColor : "#24AD22",
+                fillOpacity : 0.2,
+                radius: radius*1000
+            })
+
+            rangeIndicator = c;
+
+            rangeIndicator.addTo(map);
+        }
+    }
+
+    /**
+     * Clears the range indicator circle from the map
+     */
+    function removeRangeIndicator() {
+
+        if (rangeIndicator != null) {
+            rangeIndicator.remove(map);
+            rangeIndicator = null;
+        }
+    }
+
+    /**
      * Adds a marker to the map and stores it in the markers array for later use (e.g. removal)
      * @param id id of marker
      * @param title tooltip to display on hover
@@ -255,12 +294,6 @@
         // so we can reference it
         m.addTo(map).on('click', () => javaScriptBridge.getStationFromClick(id))
         markers.push(m)
-    }
-    /**
-     * removes the last marker from the markers array
-     */
-    function removeLastMarker() {
-        map.removeLayer(markers[markers.length - 1]);
     }
 
     /**
