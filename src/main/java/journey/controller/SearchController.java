@@ -1,5 +1,6 @@
 package journey.controller;
 
+
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -239,6 +240,13 @@ public class SearchController {
         search();
     }
 
+    @FXML private void clickToolTip() {
+        final Tooltip customTooltip = new Tooltip("Click the map to place a marker after clicking on the green marker button.");
+        rangeHelpLabel.setTooltip(customTooltip);
+        customTooltip.setAutoHide(true);
+
+    }
+
     /**
      * Changes the lat and long in the search controller.
      * @param lat the latitude
@@ -313,8 +321,9 @@ public class SearchController {
         rangeHelpLabel.setGraphic(rangeHelpImage);
 
         Tooltip rangeHelpTooltip = new Tooltip("Click the map to place a marker after clicking on the green marker button.");
-
+        rangeHelpTooltip.setShowDelay(new Duration(0.0));
         rangeHelpLabel.setTooltip(rangeHelpTooltip);
+
 
         List<String> connectorsAvailable = new ArrayList<>();
         connectorsAvailable.add("Type 2 Socketed");
