@@ -107,14 +107,6 @@ public class MainController {
             "/pictures/charging-station.png"));
 
 
-    public void setStartAddr(String addr) {
-        recordJourneyController.changeJourneyStart(addr);
-    }
-
-    public void setEndAddr(String addr) {
-        recordJourneyController.changeJourneyEnd(addr);
-    }
-
     public void addRangeIndicator(double lat, double lng) {
         searchController.addRangeIndicator(lat, lng);
     }
@@ -272,6 +264,10 @@ public class MainController {
         mapViewController.mapJourney(journey);
     }
 
+    public void mapJourneyFromLatLng(String[] waypoints) {
+        mapViewController.mapJourneyFromLatLng(waypoints);
+    }
+
     /**
      * Brings up the profile popup window when the 'my profile' button is pressed.
 
@@ -288,6 +284,18 @@ public class MainController {
         } catch (IOException e) {
             log.error(e);
         }
+    }
+
+    public void insertWaypoint(double lat, double lng, int position) {
+        recordJourneyController.insertWaypoint(lat, lng, position);
+    }
+
+    public void clearWaypoints() {
+        mapViewController.clearWaypoints();
+    }
+
+    public void clearWaypoint(int i) {
+        mapViewController.clearWaypoint(i);
     }
 
     public void setProfile(Stage profileStage) {
@@ -342,7 +350,6 @@ public class MainController {
             ((ScrollPane) searchPane.getContent()).setContent(searchParent);
 
         } catch (IOException e) {
-            e.printStackTrace();
             log.error(e);
         }
     }
@@ -385,6 +392,10 @@ public class MainController {
 
     public void addMiscMarkerToMap(double lat, double lng, String label) {
         mapViewController.addMiscMarker(lat, lng, label);
+    }
+
+    public void editWaypoint(Double lat, Double lng, int position) {
+        recordJourneyController.editWaypoint(lat, lng, position);
     }
 
     public void clearSearchMarkerFromMap() {
@@ -439,20 +450,16 @@ public class MainController {
         searchController.changeSearchLatLong(lat, lng);
     }
 
-    public void changeJourneyStart(String addr) {
-        recordJourneyController.changeJourneyStart(addr);
-    }
-
-    public void changeJourneyEnd(String addr) {
-        recordJourneyController.changeJourneyEnd(addr);
-    }
-
     public void refreshSearch() {
         searchController.search();
     }
 
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public void clearRoute() {
+        mapViewController.clearRoute();
     }
 
     /**

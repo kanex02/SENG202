@@ -28,8 +28,13 @@
     let markers = [];
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let route;
+    let routeMapped = false;
+    let startMarker;
+    let endMarker;
     let previousRoute = [];
     let miscMarkers = {};
+    let previousN = 2;
+    let prevWaypoints = [];
     let rangeIndicator;
 
     //var searchAPIKey = "8bbefdb85c2f4671aeada47ff2930302";
@@ -63,6 +68,20 @@
         shadowSize: [41, 41]
     });
 
+    const startIcon = new L.Icon({
+        iconUrl: '../images/Circle.png',
+        iconSize: [18, 18],
+        iconAnchor: [10, 10]
+    });
+
+    const endIcon = new L.Icon({
+        iconUrl: '../images/endMarker.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 50],
+        iconAnchor: [10, 42],
+        shadowSize: [41, 41]
+    });
+
     /**
      * This object can be returned to our java code, where we can call the functions we define inside it
      */
@@ -77,6 +96,7 @@
         clearMap: clearMap,
         addRangeIndicator: addRangeIndicator,
         removeRangeIndicator: removeRangeIndicator,
+        clearWaypoints: clearWaypoints
     };
 
     function clearMap() {
@@ -88,7 +108,6 @@
     function mapJourney(waypoints) {
         let waypointArray = waypoints.split("//");
         previousRoute = [];
-        removeRoute();
         let latlong;
         let m;
         for (let i = 0; i < waypointArray.length; i++) {
@@ -108,8 +127,7 @@
             '</head>' +
             '<body class="popupBody">\n' +
             '<p>'+text+'</p>\n' +
-            '<button name="submit" class="setStart" type="submit" value="Set Start" >Set Start</button>\n' +
-            '<button name="submit" class="setEnd" type="submit" value="Set End" >Set End</button>\n' +
+            '<button name="submit" class="addToRoute" type="submit" value="Add to Route" >Add to Route</button>\n' +
             '</body>\n' +
             '</html>\n';
 
@@ -127,6 +145,11 @@
         var bounds = L.latLngBounds(corner1, corner2);
 
         var mapOptions = {
+
+        console.log = function(message) {
+            javaScriptBridge.log(message);
+        }
+        let mapOptions = {
             center: [-43.522, 172.5794],
             maxBounds: bounds,
             zoom: 8,
@@ -143,14 +166,6 @@
         })
         map.attributionControl.setPrefix(false);
 
-
-        function setStart(address) {
-            javaScriptBridge.fillStartAddressFromSearch(address);
-        }
-
-        function setEnd(address) {
-            javaScriptBridge.fillEndAddressFromSearch(address)
-        }
 
 
         // Add autocomplete search bar to map
@@ -180,11 +195,8 @@
                 m.bindPopup(buttonDialog).on("popupopen", (a) => {
                     var popUp = a.target.getPopup();
 
-                    popUp.getElement().querySelector(".setStart").addEventListener("click", e =>
-                    {javaScriptBridge.fillStartAddressFromSearch(address);});
-
-                    popUp.getElement().querySelector(".setEnd").addEventListener("click", e =>
-                    {javaScriptBridge.fillEndAddressFromSearch(address);});
+                    popUp.getElement().querySelector(".addToRoute").addEventListener("click", e =>
+                    {javaScriptBridge.addToRoute(lat, lng);});
 
                 });
 
@@ -203,7 +215,6 @@
             .addTo(map);
 
     }
-
     function addMiscMarker(lat, lng, label) {
 
         let searchPopupText = '<html>\n<body>\n<p style="text-align:center;">Range Marker</p>\n</body>\n' +
@@ -217,11 +228,38 @@
         if (label == "search") {
             m.bindPopup(searchPopupText).openPopup();
         }
+        let icon;
+        switch (label) {
+            case 'start':
+                icon = startIcon;
+                break;
+            case 'end':
+                icon = endIcon;
+                break;
+            default:
+                icon = greenIcon;
+                if (Number.isInteger(Number(label))) {
+                    if (!routeMapped && Number(label) === 1) {
+                        icon = endIcon;
+                    } else
+                    icon = startIcon;
+                }
+        }
+        m = new L.Marker(L.latLng(lat, lng), {icon: icon, draggable: true});
         miscMarkers[label] = m;
         m.on('dragend', function(event) {
             var latlng = event.target.getLatLng();
             javaScriptBridge.changeLatLongFromClick(latlng.lat, latlng.lng, label);
         }).addTo(map);
+    }
+
+    function clearWaypoints() {
+        for (const [key, value] of Object.entries(miscMarkers)) {
+            if (Number.isInteger(Number(key))) {
+                value.remove(map);
+                delete miscMarkers[key];
+            }
+        }
     }
 
     function clearMiscMarker(label) {
@@ -290,17 +328,18 @@
         m.bindPopup(buttonDialog).on("popupopen", (a) => {
             var popUp = a.target.getPopup();
 
-            popUp.getElement().querySelector(".setStart").addEventListener("click", e =>
-            {javaScriptBridge.fillStartAddressFromSearch(title);});
-
-            popUp.getElement().querySelector(".setEnd").addEventListener("click", e =>
-            {javaScriptBridge.fillEndAddressFromSearch(title);});
+            popUp.getElement().querySelector(".addToRoute").addEventListener("click", e =>
+            {javaScriptBridge.addToRoute(lat, lng);});
 
         });
 
         // Add marker to map, and specify our own on click function which passes the id of the sale back to java,
         // so we can reference it
-        m.addTo(map).on('click', () => javaScriptBridge.getStationFromClick(id))
+        m.addTo(map).on('click', () => {
+            javaScriptBridge.getStationFromClick(id);
+            javaScriptBridge.getLatLongFromClick(lat, lng);
+        })
+
         markers.push(m)
     }
 
@@ -309,14 +348,63 @@
      */
     function addRoute() {
         if (previousRoute !== []) {
+            removeRoute();
             route = L.Routing.control({
                 waypoints: previousRoute,
                 // Specify UCs server for routing instead of the demonstration server used by default
                 serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
-                routeWhileDragging: true
-            }).addTo(map);
-        }
+                routeWhileDragging: false,
+                createMarker: function (i, waypoint, n) {
+                    let marker = L.marker(waypoint.latLng, {
+                        draggable: true,
+                        icon: startIcon
+                    });
 
+                    // Makes the destination marker different
+                    if (i === n-1) {
+                        marker = L.marker(waypoint.latLng, {
+                            draggable: true,
+                            icon: endIcon
+                        });
+                    }
+                    marker._zIndex = 100000;
+                    return marker;
+                }
+            });
+            prevWaypoints = getLatLngs(route.getWaypoints());
+            route.on("routesfound", () => {
+                insertMarker(route.getWaypoints());
+            })
+            route.addTo(map);
+            routeMapped = true;
+        }
+    }
+
+    function insertMarker(currWaypoints) {
+        for (let i = 0; i < currWaypoints.length; i++) {
+            if (!(currWaypoints[i].latLng.lat === prevWaypoints[i].lat &&
+                currWaypoints[i].latLng.lng === prevWaypoints[i].lng)) {
+                let waypoint = currWaypoints[i];
+                if (currWaypoints.length !== prevWaypoints.length) {
+                    javaScriptBridge.insertWaypoint(waypoint.latLng.lat, waypoint.latLng.lng, i);
+                } else {
+                    javaScriptBridge.editWaypoint(waypoint.latLng.lat, waypoint.latLng.lng, i);
+                }
+                prevWaypoints = getLatLngs(route.getWaypoints());
+                break;
+            }
+        }
+    }
+
+    function getLatLngs(wps) {
+        arrayOut = [];
+        for (let i = 0; i < wps.length; i++) {
+            let newLatLng = {};
+            newLatLng.lat = wps[i].latLng.lat;
+            newLatLng.lng = wps[i].latLng.lng;
+            arrayOut.push(newLatLng);
+        }
+        return arrayOut;
     }
 
     /**
@@ -324,8 +412,9 @@
      */
     function removeRoute() {
         if (route) {
-            route.remove();
+            route.remove(map);
         }
+        routeMapped = false;
     }
 
 </script>

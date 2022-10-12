@@ -78,16 +78,27 @@ public class MapController {
      * Initialise map class.
      */
     void init(MainController mainController) {
-        // Database db = new Database();
         stationDAO = new StationDAO();
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick,
                 this::getLatLongFromClick,
-                this::changeLatLong, this::setStartAddr, this::setEndAddr);
+                this::changeLatLong,
+                this::addToRoute,
+                this::editWaypoint,
+                this::insertWaypoint);
         this.mainController = mainController;
         // set custom cell factory for list view
         setToggle(false);
         initMap();
         viewLegend();
+    }
+
+    private boolean insertWaypoint(double lat, double lng, int position) {
+        mainController.insertWaypoint(lat, lng, position);
+        return true;
+    }
+
+    public void clearWaypoint(int i) {
+        javaScriptConnector.call("clearMiscMarker", i);
     }
 
     /**
@@ -117,6 +128,9 @@ public class MapController {
                 });
     }
 
+    public boolean addToRoute(double lat, double lng) {
+        return true;
+    }
 
     /**
      * Maps a journey.
@@ -135,6 +149,12 @@ public class MapController {
         javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2));
         routeDisplayed = true;
         setToggle(true);
+    }
+
+
+    public void mapJourneyFromLatLng(String[] waypoints) {
+        String waypointString =  Utils.convertArrayToString(waypoints, "//");
+        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2));
     }
 
     /**
@@ -210,6 +230,11 @@ public class MapController {
         javaScriptConnector.call("clearMiscMarker", "search");
     }
 
+    public void clearWaypoints() {
+        javaScriptConnector.call("clearWaypoints");
+    }
+
+
     /**
      * Add station to map.
 
@@ -232,15 +257,8 @@ public class MapController {
         return true;
     }
 
-    public boolean setStartAddr(String addr) {
-        mainController.setStartAddr(addr);
-        mainController.setViewPlanJourneys();
-        return true;
-    }
-
-    public boolean setEndAddr(String addr) {
-        mainController.setEndAddr(addr);
-        mainController.setViewPlanJourneys();
+    public boolean editWaypoint(Double lat, Double lng, int position) {
+        mainController.editWaypoint(lat, lng, position);
         return true;
     }
 
@@ -254,8 +272,8 @@ public class MapController {
      */
     public boolean getLatLongFromClick(double lat, double lng) {
         if (callback != null) {
-            callback.operation(lat, lng);
             javaScriptConnector.call("addMiscMarker", lat, lng, label);
+            callback.operation(lat, lng);
         }
         //Resets the callback so the previous function is no longer called.
         callback = null;
@@ -289,21 +307,19 @@ public class MapController {
     public boolean changeLatLong(double lat, double lng, String label) {
         NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
         GeoCodeResult addr = nomMan.queryLatLng(lat, lng);
-        switch (label) {
-            case ("search") -> {
-                mainController.changeSearchLatLong(lat, lng);
-                removeRangeIndicator();
-                mainController.addRangeIndicator(lat, lng);
-                mainController.refreshSearch();
-            }
-            case ("start") -> mainController.changeJourneyStart(addr.getAddress());
-            case ("end") -> mainController.changeJourneyEnd(addr.getAddress());
-            default -> { }
+
+        if ("search".equals(label)) {
+            mainController.changeSearchLatLong(lat, lng);
+            removeRangeIndicator();
+            mainController.addRangeIndicator(lat, lng);
+            mainController.refreshSearch();
+        } else if (Utils.isInt(label)) {
+            mainController.editWaypoint(lat, lng, Integer.parseInt(label));
         }
         return true;
     }
 
     public void clearRoute() {
-        javaScriptConnector.call("clearRoute");
+        javaScriptConnector.call("removeRoute");
     }
 }
