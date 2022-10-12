@@ -3,6 +3,10 @@ package journey.data;
 import journey.Utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -27,6 +31,27 @@ public class UtilsTest {
         String[] arr = {"We", "are", "the", "Journey", "development", "team"};
         String str = Utils.convertArrayToString(arr, " ");
         Assertions.assertEquals(str, "We are the Journey development team ");
+    }
+    @Test
+    void emptyArrToString() {
+        String[] arr = {};
+        String str = Utils.convertArrayToString(arr, " ");
+        Assertions.assertEquals(str, "");
+    }
+
+
+    @Test
+    void convertArrayListToString() {
+        ArrayList arr = new ArrayList<>(asList("We", "are", "the", "Journey", "development", "team"));
+        String str = Utils.convertArrayListToString(arr, " ");
+        Assertions.assertEquals(str, "We are the Journey development team");
+    }
+    @Test
+    void convertEmptyArrayListToString() {
+        ArrayList arr = new ArrayList<>();
+        String str = Utils.convertArrayListToString(arr, " ");
+        Assertions.assertEquals(str, "");
+
     }
     @Test
     void locToLatLng() {

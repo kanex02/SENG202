@@ -1,5 +1,12 @@
 package journey;
 
+import journey.business.NominatimGeolocationManager;
+import journey.data.GeoCodeResult;
+import journey.data.GeoLocationResult;
+import journey.data.Station;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,12 +14,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import journey.business.NominatimGeolocationManager;
-import journey.data.GeoCodeResult;
-import journey.data.GeoLocationResult;
-import journey.data.Station;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Provides useful functions for the database.
@@ -63,7 +64,7 @@ public class Utils {
         }
         //return str.substring(0, delimiter.length()-1);
         if (str.length() > 2) {
-            return str.substring(0, str.length() - 2);
+            return str.substring(0, str.length() - 1);
         } else {
             return "";
         }
