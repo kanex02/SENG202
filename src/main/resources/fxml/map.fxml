@@ -3,13 +3,30 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.web.*?>
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MapController">
     <center>
         <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <WebView fx:id="webView" prefHeight="200.0" prefWidth="645.0" />
-            <Button fx:id="toggleRouteButton" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#toggleRoute" text="Hide Route" StackPane.alignment="TOP_CENTER" stylesheets="@../gui/buttons.css"/>
+            <Button fx:id="toggleRouteButton" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#toggleRoute" stylesheets="@../gui/buttons.css" text="Hide Route" StackPane.alignment="TOP_CENTER">
+            <StackPane.margin>
+               <Insets top="5.0" />
+            </StackPane.margin></Button>
+         <Button fx:id="legendButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#legendButton" stylesheets="@../gui/buttons.css" text="Hide Legend" StackPane.alignment="BOTTOM_LEFT">
+            <StackPane.margin>
+               <Insets bottom="5.0" left="5.0" />
+            </StackPane.margin>
+            <font>
+               <Font name="Roboto" size="13.0" />
+            </font>
+         </Button>
+         <AnchorPane fx:id="legendWrapper" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="170.0" StackPane.alignment="BOTTOM_LEFT">
+            <StackPane.margin>
+               <Insets bottom="35.0" left="5.0" />
+            </StackPane.margin>
+         </AnchorPane>
             <StackPane.margin>
                <Insets right="5.0" top="5.0" />
             </StackPane.margin>

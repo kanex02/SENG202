@@ -2,7 +2,10 @@ package journey.controller;
 
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import journey.Utils;
@@ -14,7 +17,10 @@ import journey.data.Journey;
 import journey.data.Station;
 import journey.repository.StationDAO;
 import netscape.javascript.JSObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -26,6 +32,8 @@ import java.util.Objects;
 public class MapController {
     @FXML private WebView webView;
     @FXML private Button toggleRouteButton;
+    @FXML private AnchorPane legendWrapper;
+    @FXML private Button legendButton;
     private WebEngine webEngine;
     private JavaScriptBridge javaScriptBridge;
     private JSObject javaScriptConnector;
@@ -34,6 +42,37 @@ public class MapController {
     private GetLatLongInterface callback;
     private StationDAO stationDAO;
     private String label;
+    private boolean showLegend;
+    private static final Logger log = LogManager.getLogger();
+
+    @FXML public void legendButton() {
+        if (showLegend) {
+            legendWrapper.setVisible(false);
+            legendButton.setText("Show Legend");
+            showLegend = false;
+        } else {
+            legendWrapper.setVisible(true);
+            legendButton.setText("Hide Legend");
+            showLegend = true;
+        }
+    }
+
+    public void viewLegend() {
+        try {
+            FXMLLoader legendLoader = new FXMLLoader(getClass().getResource("/fxml/legend.fxml"));
+            Parent plannedJourneysViewParent = legendLoader.load();
+            legendWrapper.getChildren().add(plannedJourneysViewParent);
+            AnchorPane.setTopAnchor(plannedJourneysViewParent, 0d);
+            AnchorPane.setBottomAnchor(plannedJourneysViewParent, 0d);
+            AnchorPane.setLeftAnchor(plannedJourneysViewParent, 0d);
+            AnchorPane.setRightAnchor(plannedJourneysViewParent, 0d);
+            legendButton.setText("Hide Legend");
+            showLegend = true;
+        } catch (IOException e) {
+            log.error(e);
+        }
+
+    }
 
     /**
      * Initialise map class.
@@ -48,6 +87,7 @@ public class MapController {
         // set custom cell factory for list view
         setToggle(false);
         initMap();
+        viewLegend();
     }
 
     /**
