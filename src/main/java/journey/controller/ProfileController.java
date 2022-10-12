@@ -73,6 +73,8 @@ public class ProfileController {
                 nameWarning.setText("Name cannot contain digits or special characters");
             } else if (userDAO.nameInDB(newName) && !newName.equals(profileController.getCurrentUser().getName())) {
                 nameWarning.setText("This name is already in use, please pick another!");
+            } else if (newName.length() > 20) {
+                nameWarning.setText("Name is too long, must be less than 20 characters");
             } else {
                 editNameButton.setText("Edit");
                 revertNameChanges.setVisible(false);
@@ -82,6 +84,7 @@ public class ProfileController {
                 }
                 profileController.setCurrentUser(userDAO.getUser(id));
                 setName();
+                nameWarning.setText("");
                 editing = false;
             }
         } else { //edit the current name
