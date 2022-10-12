@@ -89,9 +89,7 @@ public class TableController {
         stationTable.maxHeightProperty().bind(tableParent.heightProperty());
 
         stationTable.getSelectionModel().selectedItemProperty().addListener(
-                (observableValue, oldStation, newStation) -> {
-                    mainController.setSelectedStation(newStation.getOBJECTID());
-            }
+                (observableValue, oldStation, newStation) -> mainController.setSelectedStation(newStation.getOBJECTID())
         );
     }
 }

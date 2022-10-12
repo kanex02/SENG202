@@ -53,17 +53,12 @@ public class NotesController {
         } else {
             notesWarning.setText("No station feedback provided");
         }
-
         updateNoteText(newNote);
-//        mainController.setSelectedStation(currStation.getOBJECTID());
-
         /* Also need to update the stations if the favourite check box was clicked
            so that the marker icon will update.
         */
-
         mainController.updateFavourite(currStation, favourite);
         mainController.refreshSearch();
-
         event.consume();
     }
 
@@ -72,10 +67,8 @@ public class NotesController {
      */
     public void updateNote() {
         if (mainController.getSelectedStation() != -1) {
-
             Station currStation = stationDAO.queryStation(mainController.getSelectedStation());
             updateStationNoteAddr(currStation);
-
             Note note = noteDAO.getNoteFromStation(currStation, mainController.getCurrentUser());
             updateNoteText(note);
             updateFavourite(note);
@@ -124,16 +117,26 @@ public class NotesController {
         }
     }
 
+    /**
+     * Updates the currently selected station.
+     * @param selectedStation current station to be displayed within the notes pane.
+     */
     public void updateSelectedStation(int selectedStation) {
         this.currStation = stationDAO.queryStation(selectedStation);
         updateStationNoteAddr(currStation);
         updateNote();
     }
 
+    /**
+     * updates station rating based on user input.
+     */
     @FXML private void updateRating() {
         stationRatingValue = stationRating.getRating();
     }
 
+    /**
+     * Ensures rating does not "Lock in" on hover
+     */
     @FXML private void mouseEscaped() {
         stationRating.setRating(stationRatingValue);
     }

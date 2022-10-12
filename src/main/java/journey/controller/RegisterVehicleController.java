@@ -12,9 +12,6 @@ import journey.repository.VehicleDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.swing.text.html.ImageView;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,9 +60,9 @@ public class RegisterVehicleController {
     Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
 
     /**
-     * Error checking for entering a vehicle
+     * Error checking for entering a vehicle.
 
-     * @return whether result passed error checking or not (true/false)
+     * @return whether result passed error checking or not (true/false).
      */
     public boolean isValid() {
         boolean valid = true;

@@ -16,10 +16,6 @@ public class StationsService {
         allStations = stationDAO.getAll();
     }
 
-    public StationsService(Station[] stations) {
-        allStations = stations;
-    }
-
     public Station[] getAllStations() {
         return allStations;
     }

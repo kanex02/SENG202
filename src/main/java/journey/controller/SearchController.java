@@ -4,9 +4,7 @@ import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.ImageCursor;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import journey.Utils;
@@ -114,8 +112,8 @@ public class SearchController {
     }
 
     /**
-     * Called on update of range field in FXML
-     * Used to update the range circle
+     * Called on update of range field in FXML.
+     * Used to update the range circle.
      */
     public void updateRange() {
         String[] latLng = addressLatLng.split("#");
@@ -130,7 +128,7 @@ public class SearchController {
     }
 
     /**
-     * Adds a circle at the lat and lng to indicate the range of the search
+     * Adds a circle at the lat and lng to indicate the range of the search.
      */
     public void addRangeIndicator(double lat, double lng) {
         String range = distanceSearch.getText();
@@ -213,7 +211,7 @@ public class SearchController {
     }
 
     /**
-     * Function to place a marker on the map when the "Place marker" button selected on the search
+     * Function to place a marker on the map when the "Place marker" button selected on the search.
      */
     @FXML private void clickToPlaceMarker() {
         mainController.openMap();
@@ -230,7 +228,7 @@ public class SearchController {
 
     /**
      * Called to remove the range marker from the map.
-     * Only called if a range marker is on the map
+     * Only called if a range marker is on the map.
      */
     @FXML private void removeRangeMarker() {
 
@@ -242,7 +240,7 @@ public class SearchController {
     }
 
     /**
-     * Changes the lat and long in the search controller
+     * Changes the lat and long in the search controller.
      * @param lat the latitude
      * @param lng the longitude
      */

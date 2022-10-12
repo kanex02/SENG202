@@ -6,14 +6,12 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import journey.data.Journey;
@@ -55,26 +53,15 @@ public class MainController {
     @FXML private BorderPane mapPane;
     @FXML private TabPane mainTabs;
     @FXML private AnchorPane tablePane;
-    @FXML private AnchorPane prevJourneysPane;
-    @FXML private TabPane journeyTab;
-    @FXML private ScrollPane searchWrapper;
-    @FXML private ScrollPane notesWrapper;
     @FXML private ScrollPane recordJourneyWrapper;
-    @FXML private ScrollPane plannedJourneysWrapper;
-    @FXML private ScrollPane completeJourneyWrapper;
     @FXML private TitledPane planJourneyPane;
     @FXML private TitledPane plannedJourneyPane;
     @FXML private TitledPane selectedStationTitledPane;
     @FXML private TitledPane completedJourneysPane;
     @FXML private TitledPane searchPane;
     @FXML private TitledPane notesPane;
-
     @FXML private Accordion accordionPane;
     @FXML private BorderPane mainPane;
-
-    @FXML private Label noteStationAddr;
-    @FXML private Pane notificationPane;
-
     @FXML private javafx.scene.image.ImageView helpIcon;
     @FXML private javafx.scene.image.ImageView homeIcon;
     @FXML private javafx.scene.image.ImageView profileIcon;
@@ -89,13 +76,12 @@ public class MainController {
     private NotesController notesController;
     private SearchController searchController;
     private TableController tableController;
-    private CreateJourneyController recordJourneyController;
+    private CreateJourneyController createJourneyController;
     private MapController mapViewController;
     private CompletedJourneysController completedJourneysController;
     private SelectedStationController selectedStationController;
     private PlannedJourneyController plannedJourneyController;
     private StationsService stationsService;
-    private Stage profileStage = null;
     private Stage helpStage = null;
 
     private ArrayList<javafx.scene.image.ImageView> icons = new ArrayList<>();
@@ -144,6 +130,13 @@ public class MainController {
         }
     }
 
+    /**
+     * Finds the favourite station within the list of all stations
+     * and sets it to favourite/not favourite.
+
+     * @param station Station to favourite (or unfavourite).
+     * @param favourite t/f if favourite or not.
+     */
     public void updateFavourite(Station station, boolean favourite) {
         int stationID = station.getOBJECTID();
         Station[] allStations = stationsService.getAllStations();
@@ -188,7 +181,7 @@ public class MainController {
 
             PlannedJourneyController plannedJourneyController = plannedJourneysLoader.getController();
             this.plannedJourneyController = plannedJourneyController;
-            plannedJourneyController.init(stage, this);
+            plannedJourneyController.init(this);
             ((ScrollPane) plannedJourneyPane.getContent()).setContent(plannedJourneysViewParent);
 
         } catch (IOException e) {
@@ -205,10 +198,9 @@ public class MainController {
             Parent completedJourneysViewParent = completedJourneysViewLoader.load();
 
             CompletedJourneysController completedJourneyViewController = completedJourneysViewLoader.getController();
-            completedJourneyViewController.init(stage, this);
+            completedJourneyViewController.init(this);
             completedJourneysController = completedJourneyViewController;
             ((ScrollPane) completedJourneysPane.getContent()).setContent(completedJourneysViewParent);
-//            prevJourneysPane.prefWidthProperty().bind(mainTabs.widthProperty());
 
         } catch (IOException e) {
             log.error(e);
@@ -235,11 +227,11 @@ public class MainController {
     }
 
     public void updatePlannedJourneys() {
-        plannedJourneyController.setJourneys(stage);
+        plannedJourneyController.setJourneys();
     }
 
     public void updateCompletedJourneys() {
-        completedJourneysController.setJourneys(stage);
+        completedJourneysController.setJourneys();
     }
 
     public int getSelectedStation() {
@@ -283,7 +275,7 @@ public class MainController {
     }
 
     public void insertWaypoint(double lat, double lng, int position) {
-        recordJourneyController.insertWaypoint(lat, lng, position);
+        createJourneyController.insertWaypoint(lat, lng, position);
     }
 
     public void clearWaypoints() {
@@ -292,10 +284,6 @@ public class MainController {
 
     public void clearWaypoint(int i) {
         mapViewController.clearWaypoint(i);
-    }
-
-    public void setProfile(Stage profileStage) {
-        this.profileStage = profileStage;
     }
 
     /**
@@ -379,8 +367,8 @@ public class MainController {
 
             ((AnchorPane) recorderParent).prefHeightProperty().bind(recordJourneyWrapper.heightProperty());
 
-            recordJourneyController = recorderLoader.getController();
-            recordJourneyController.init(this);
+            createJourneyController = recorderLoader.getController();
+            createJourneyController.init(this);
             ((ScrollPane) planJourneyPane.getContent()).setContent(recorderParent);
 
         } catch (IOException e) {
@@ -393,7 +381,7 @@ public class MainController {
     }
 
     public void editWaypoint(Double lat, Double lng, int position) {
-        recordJourneyController.editWaypoint(lat, lng, position);
+        createJourneyController.editWaypoint(lat, lng, position);
     }
 
     public void clearSearchMarkerFromMap() {
@@ -495,10 +483,6 @@ public class MainController {
         setSelectedVehicle(selectedVehicle);
         viewCompletedJourneysTable();
         viewSelectedStation();
-
-//        journeyTab.getSelectionModel().selectedItemProperty().addListener(
-//                (observableValue, oldVal, newVal) -> mapViewController.clearRoute()
-//        );
     }
 
 }

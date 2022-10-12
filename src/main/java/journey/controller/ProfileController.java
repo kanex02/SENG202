@@ -6,13 +6,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-import journey.Utils;
 import journey.data.Vehicle;
 import journey.repository.UserDAO;
 import journey.repository.VehicleDAO;
 import journey.service.LoginService;
-import org.apache.logging.log4j.core.util.JsonUtils;
 
 /**
  * Controller for the profile popup
@@ -39,7 +36,7 @@ public class ProfileController {
 
     @FXML private TableView<Vehicle> vehicleTable;
     private boolean editing = false;
-    private UserDAO userDAO = new UserDAO();
+    private final UserDAO userDAO = new UserDAO();
 
     public MyProfileController getMyProfileController() {
         return profileController;
@@ -64,6 +61,10 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Allows user to edit their name.
+     * (Checks name meets standards through login service).
+     */
     @FXML private void editName() {
         if (editing) { //save the new name
             String newName = editName.getText();
@@ -96,6 +97,9 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Resets name changes back to before they had been changed.
+     */
     @FXML private void revertNameChanges() {
         editName.setText(profileController.getCurrentUser().getName());
     }
@@ -141,10 +145,8 @@ public class ProfileController {
 
     /**
      * Initialises the profile popup with User's registered vehicles in a table view.
-
-     * @param stage current stage
      */
-    public void init(Stage stage, MyProfileController profileController) {
+    public void init(MyProfileController profileController) {
         this.profileController = profileController;
         vehicleDAO = new VehicleDAO();
         editName.setVisible(false);

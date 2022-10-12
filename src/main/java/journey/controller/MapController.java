@@ -11,8 +11,6 @@ import javafx.scene.web.WebView;
 import journey.Utils;
 import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
-import journey.business.NominatimGeolocationManager;
-import journey.data.GeoCodeResult;
 import journey.data.Journey;
 import journey.data.Station;
 import journey.repository.StationDAO;
@@ -172,6 +170,7 @@ public class MapController {
 
     /**
      * Function to call to add the range indicator circle on the map
+
      * @param lat The latitude of the circle
      * @param lng The longitude of the circle
      * @param radius The radius of the circle
@@ -189,6 +188,7 @@ public class MapController {
 
     /**
      * Sets the toggle button to be visible/not visible.
+
      * @param toggleOn visible/not visible.
      */
     void setToggle(boolean toggleOn) {
@@ -289,6 +289,9 @@ public class MapController {
         this.label = label;
     }
 
+    /**
+     * Clears the start and end of the journey.
+     */
     public void clearJourneyMarkers() {
         javaScriptConnector.call("clearMiscMarker", "start");
         javaScriptConnector.call("clearMiscMarker", "end");
@@ -304,9 +307,6 @@ public class MapController {
      * @return whether the operation was successful
      */
     public boolean changeLatLong(double lat, double lng, String label) {
-        NominatimGeolocationManager nomMan = new NominatimGeolocationManager();
-        GeoCodeResult addr = nomMan.queryLatLng(lat, lng);
-
         if ("search".equals(label)) {
             mainController.changeSearchLatLong(lat, lng);
             removeRangeIndicator();
@@ -318,6 +318,9 @@ public class MapController {
         return true;
     }
 
+    /**
+     * Calls remove route in the javascript class
+     */
     public void clearRoute() {
         javaScriptConnector.call("removeRoute");
     }

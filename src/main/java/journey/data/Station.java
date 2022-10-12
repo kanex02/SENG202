@@ -61,23 +61,23 @@ public class Station {
     /**
      * Initialises a new station.
 
-     * @param id id according to the database
-     * @param name name
-     * @param operator operator
-     * @param owner owner
-     * @param address location of station
-     * @param is24Hours whether the station is open 24 hours
-     * @param carParkCount number of car parks
-     * @param hasCarParkCost whether parking costs money
-     * @param maxTimeLimit maximum time allowed to stay
-     * @param hasTouristAttraction whether there is an attraction nearby
-     * @param latitude latitude
-     * @param longitude longitude
-     * @param currentType type of current provided (AC/DC/Mixed)
-     * @param dateFirstOperational date first online
-     * @param numberOfConnectors number of connectors
-     * @param connectorsList information about connectors
-     * @param hasChargingCost whether charging costs money
+     * @param id id according to the database.
+     * @param name name.
+     * @param operator operator.
+     * @param owner owner.
+     * @param address location of station.
+     * @param is24Hours whether the station is open 24 hours.
+     * @param carParkCount number of car parks.
+     * @param hasCarParkCost whether parking costs money.
+     * @param maxTimeLimit maximum time allowed to stay.
+     * @param hasTouristAttraction whether there is an attraction nearby.
+     * @param latitude latitude.
+     * @param longitude longitude.
+     * @param currentType type of current provided (AC/DC/Mixed).
+     * @param dateFirstOperational date first online.
+     * @param numberOfConnectors number of connectors.
+     * @param connectorsList information about connectors.
+     * @param hasChargingCost whether charging costs money.
      */
     public Station(int id, String name, String operator, String owner, String address,
                    Boolean is24Hours, int carParkCount, Boolean hasCarParkCost,
@@ -105,6 +105,29 @@ public class Station {
         favourite = false;
     }
 
+    /**
+     * Initialises new Station with rating and favourite
+
+     * @param id id according to the database.
+     * @param name name.
+     * @param operator operator.
+     * @param owner owner.
+     * @param address location of station.
+     * @param is24Hours whether the station is open 24 hours.
+     * @param carParkCount number of car parks.
+     * @param hasCarParkCost whether parking costs money.
+     * @param maxTimeLimit maximum time allowed to stay.
+     * @param hasTouristAttraction whether there is an attraction nearby.
+     * @param latitude latitude.
+     * @param longitude longitude.
+     * @param currentType type of current provided (AC/DC/Mixed).
+     * @param dateFirstOperational date first online.
+     * @param numberOfConnectors number of connectors.
+     * @param connectorsList information about connectors.
+     * @param hasChargingCost whether charging costs money.
+     * @param rating chargers rating.
+     * @param favourite whether the station has been favourited or not.
+     */
     public Station(int id, String name, String operator, String owner, String address,
                    Boolean is24Hours, int carParkCount, Boolean hasCarParkCost,
                    int maxTimeLimit, Boolean hasTouristAttraction, float latitude,

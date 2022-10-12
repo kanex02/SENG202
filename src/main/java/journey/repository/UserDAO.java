@@ -2,7 +2,6 @@ package journey.repository;
 
 import journey.Utils;
 import journey.data.User;
-import journey.data.Vehicle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -95,6 +94,7 @@ public class UserDAO {
 
     /**
      * Gets all the users in the database.
+
      * @return List of users.
      */
     public User[] getUsers() {
@@ -140,11 +140,16 @@ public class UserDAO {
         return inDB;
     }
 
+    /**
+     * Puts new Username into the database.
+
+     * @param id username ID.
+     * @param newName updated name.
+     */
     public void updateUserName(int id, String newName) {
         Connection conn = null;
         try {
             conn = databaseManager.connect();
-            System.out.println(id);
             String sqlQuery = "UPDATE Users SET name = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setString(1, newName);
@@ -156,6 +161,11 @@ public class UserDAO {
         Utils.closeConn(conn);
     }
 
+    /**
+     * get User from database.
+     * @param id User ID
+     * @return User Object
+     */
     public User getUser(int id) {
         Connection conn = null;
         try {

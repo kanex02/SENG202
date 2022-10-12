@@ -42,7 +42,6 @@ public class LoginController {
     @FXML private ChoiceBox<String> nameChoiceBox;
     @FXML private Label loginWarningLabel;
     @FXML private Label registerWarningLabel;
-    @FXML private ImageView loadingIcon;
     @FXML private ImageView journeyIcon;
 
     /**
@@ -60,7 +59,7 @@ public class LoginController {
     }
 
     /**
-     * Adds all users to the user drop down to be logged into.
+     * Adds all users to the user drop-down to be logged into.
      */
     private void populateUserDropDown() {
         User[] data = userDAO.getUsers();
@@ -73,6 +72,11 @@ public class LoginController {
         nameChoiceBox.setItems(users);
     }
 
+    /**
+     * Switch from the login page to the main page,
+     * if register button is clicked and nameTextBox field is valid.
+     * Sets warning label if not valid.
+     */
     @FXML public void register() {
 
         String name = nameTextBox.getText();
@@ -88,16 +92,19 @@ public class LoginController {
             registerWarningLabel.setText("Your name cannot be longer than 15 characters");
         } else {
             user = userDAO.setCurrentUser(name);
-            loadingIcon.setVisible(true);
+            stage.setTitle("Loading...");
             Platform.runLater(this::switchToMain);
         }
     }
 
+    /**
+     * Logs in user and switch to main page if a user is selected
+     */
     @FXML public void login() {
         if (!(nameChoiceBox.getValue() == null || nameChoiceBox.getValue().equals(""))) {
             String name = nameChoiceBox.getValue();
             user = userDAO.setCurrentUser(name);
-            loadingIcon.setVisible(true);
+            stage.setTitle("Loading...");
             Platform.runLater(this::switchToMain);
         }
     }
@@ -143,12 +150,6 @@ public class LoginController {
                         Objects.requireNonNull(getClass().getResourceAsStream("/images/Journey_Logo.jpeg"))
                 ));
         journeyIcon.setImage(img);
-        Image image = new Image(
-                new BufferedInputStream(
-                        Objects.requireNonNull(getClass().getResourceAsStream("/images/loading-buffering.gif"))
-                ));
-        loadingIcon.setImage(image);
-        loadingIcon.setVisible(false);
     }
     /**
      * initialises the login window.

@@ -3,13 +3,12 @@ package journey.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import journey.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import journey.data.User;
 
 import java.io.IOException;
 
@@ -20,7 +19,6 @@ public class MyProfileController {
 
     @FXML private BorderPane registerVehicleWrapper;
     @FXML private AnchorPane profileWrapper;
-    @FXML private Button homeButton;
 
     private static final Logger log = LogManager.getLogger();
 
@@ -75,7 +73,7 @@ public class MyProfileController {
 
             ProfileController profileController = profileLoader.getController();
             this.profileController = profileController;
-            profileController.init(stage, this);
+            profileController.init(this);
             profileWrapper.getChildren().add(profileParent);
             AnchorPane.setTopAnchor(profileParent, 0d);
             AnchorPane.setBottomAnchor(profileParent, 0d);
@@ -97,6 +95,9 @@ public class MyProfileController {
         return this.mainController;
     }
 
+    /**
+     * set all vehicles within the profile controller
+     */
     public void populateVehicleTable() {
         profileController.setVehicles();
     }
@@ -126,7 +127,7 @@ public class MyProfileController {
             mainPane.toFront();
             mainPane.setVisible(true);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 
