@@ -5,10 +5,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -21,8 +23,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import journey.Utils;
 import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
@@ -68,6 +73,9 @@ public class CreateJourneyController {
     private final ArrayList<AnchorPane> waypointRows = new ArrayList<>();
     private final ArrayList<ImageView> circleIcons = new ArrayList<>();
     private final ArrayList<ImageView> ellipsesIcons = new ArrayList<>();
+    // Search after 0.5 seconds
+    PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+
     private Image ellipses;
     private Image circle;
     private final String textCss = (new File(Objects.requireNonNull(
@@ -203,6 +211,11 @@ public class CreateJourneyController {
         AnchorPane.setTopAnchor(address, 0d);
         HBox.setHgrow(address, Priority.ALWAYS);
         HBox.setMargin(address, new Insets(0, 10, 0, 0));
+        address.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if ((int) keyEvent.getCharacter().charAt(0) == 13) {
+                typeNth(i);
+            }
+        });
 
         removeWaypoint.setPrefHeight(32);
         removeWaypoint.setPrefWidth(32);
@@ -228,6 +241,21 @@ public class CreateJourneyController {
             addWaypointToJourney(lat, lng, i);
             return true;
         }, String.valueOf(i));
+    }
+
+    private void typeNth(int i) {
+        String address = waypointAddresses.get(i).getText();
+        pause.setOnFinished(event -> {
+            String latLngString = Utils.locToLatLng(address);
+
+            if (!latLngString.equals("0.0#0.0")) {
+                String[] latLng = latLngString.split("#");
+                mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]),
+                        Double.parseDouble(latLng[1]), String.valueOf(i));
+                addWaypointToJourney(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]), i);
+            }
+        });
+        pause.playFromStart();
     }
 
     @FXML private void removeNth(ActionEvent event) {
@@ -357,6 +385,19 @@ public class CreateJourneyController {
         waypoints = new ArrayList<>();
         waypointAddresses.add(address0);
         waypointAddresses.add(address1);
+
+        address0.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
+            // The keyCode is UNDEFINED and comparing strings doesn't work
+            if ((int) keyEvent.getCharacter().charAt(0) == 13) {
+                typeNth(0);
+                keyEvent.consume();
+            }
+        });
+        address1.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
+            if ((int) keyEvent.getCharacter().charAt(0) == 13) {
+                typeNth(1);
+            }
+        });
 
         waypointRows.add(row1);
         waypointRows.add(row2);
