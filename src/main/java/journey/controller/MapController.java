@@ -111,6 +111,23 @@ public class MapController {
     }
 
     /**
+     * Function to call to add the range indicator circle on the map
+     * @param lat The latitude of the circle
+     * @param lng The longitude of the circle
+     * @param radius The radius of the circle
+     */
+    public void addRangeIndicator(double lat, double lng, int radius) {
+        javaScriptConnector.call("addRangeIndicator", lat, lng, radius);
+    }
+
+    /**
+     * Removes the range indicator marker from the map
+     */
+    public void removeRangeIndicator() {
+        javaScriptConnector.call("removeRangeIndicator");
+    }
+
+    /**
      * Sets the toggle button to be visible/not visible.
      * @param toggleOn visible/not visible.
      */
@@ -235,6 +252,8 @@ public class MapController {
         switch (label) {
             case ("search") -> {
                 mainController.changeSearchLatLong(lat, lng);
+                removeRangeIndicator();
+                mainController.addRangeIndicator(lat, lng);
                 mainController.refreshSearch();
             }
             case ("start") -> mainController.changeJourneyStart(addr.getAddress());

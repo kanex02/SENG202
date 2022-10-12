@@ -115,6 +115,10 @@ public class MainController {
         recordJourneyController.changeJourneyEnd(addr);
     }
 
+    public void addRangeIndicator(double lat, double lng) {
+        searchController.addRangeIndicator(lat, lng);
+    }
+
     /**
      * Sets the accordion pane to be expanded on the plan journeys tab.
      */
