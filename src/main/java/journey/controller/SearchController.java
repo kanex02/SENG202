@@ -38,6 +38,7 @@ public class SearchController {
     @FXML private Button placeMarkerButton;
     @FXML private ImageView placeMarkerImage;
     @FXML private Button removeMarkerButton;
+    @FXML private CheckBox favouritedCheckMark;
     final ArrayList<CheckMenuItem> connectors = new ArrayList<>();
     ArrayList<String> connectorsList = new ArrayList<>();
 
@@ -95,7 +96,6 @@ public class SearchController {
             }));
         }
         connectorsList = selectedConnectors;
-
     }
 
     /**
@@ -121,6 +121,7 @@ public class SearchController {
         String timeLimit = timeSearch.getText();
         String range = distanceSearch.getText();
         String errors = StationsService.errorCheck(addressLatLng, name, operator, timeLimit, range);
+        boolean favourited = favouritedCheckMark.isSelected();
 
 
         if (errors.isBlank()) {
@@ -134,7 +135,8 @@ public class SearchController {
                     attractionSearch.getValue(),
                     timeLimit,
                     addressLatLng,
-                    range);
+                    range,
+                    favourited);
             mainController.setCurrentStations(stationsService.filterBy(queryStation));
         } else {
             warningLabel.setText(errors);
@@ -244,6 +246,11 @@ public class SearchController {
         attractionSearch.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> search()));
 
         distanceSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            pause.setOnFinished(event -> search());
+            pause.playFromStart();
+        });
+
+        favouritedCheckMark.selectedProperty().addListener((observable, oldValue, newValue) -> {
             pause.setOnFinished(event -> search());
             pause.playFromStart();
         });
