@@ -191,6 +191,9 @@ public class SearchController {
         connectorsMenu.setText("");
         mainController.clearSearch();
         warningLabel.setText("");
+        removeRangeIndicator();
+        removeMarkerButton.setDisable(true);
+
     }
 
     /**
