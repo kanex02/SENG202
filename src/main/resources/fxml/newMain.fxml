@@ -113,7 +113,7 @@
                                     </HBox>
                                  </graphic>
                                  <content>
-                                    <ScrollPane fx:id="searchWrapper" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                    <ScrollPane fx:id="searchWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
                                       <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                                       </content>
@@ -129,7 +129,7 @@
                                       </HBox>
                                   </graphic>
                                  <content>
-                                    <ScrollPane fx:id="notesWrapper" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                    <ScrollPane fx:id="notesWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
                                       <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                                       </content>
@@ -145,7 +145,7 @@
                                     </HBox>
                                 </graphic>
                                  <content>
-                                    <ScrollPane fx:id="recordJourneyWrapper" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                                    <ScrollPane fx:id="recordJourneyWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                                  </content>
                             </TitledPane>
                             <TitledPane fx:id="plannedJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">
@@ -157,7 +157,7 @@
                                     </HBox>
                                 </graphic>
                                  <content>
-                                    <ScrollPane fx:id="plannedJourneysWrapper" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                    <ScrollPane fx:id="plannedJourneysWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
                                       <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                                       </content>
@@ -173,7 +173,7 @@
                                       </HBox>
                                   </graphic>
                                  <content>
-                                    <ScrollPane fx:id="completeJourneyWrapper" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                                    <ScrollPane fx:id="completeJourneyWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                                  </content>
                               </TitledPane>
                               <TitledPane fx:id="selectedStationTitledPane" animated="false" layoutX="30.0" layoutY="134.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="More Information about Selected Station">
@@ -185,7 +185,7 @@
                                       </HBox>
                                   </graphic>
                                  <content>
-                                    <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
+                                    <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                                  </content>
                               </TitledPane>
                           </panes>
