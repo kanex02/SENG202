@@ -135,7 +135,7 @@
             var latlng = map.mouseEventToLatLng(e.originalEvent);
             javaScriptBridge.getLatLongFromClick(latlng.lat, latlng.lng);
         })
-
+        map.attributionControl.setPrefix(false);
         function setStart(address) {
             javaScriptBridge.fillStartAddressFromSearch(address);
         }
