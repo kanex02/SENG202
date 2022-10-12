@@ -405,8 +405,6 @@ public class MainController {
                     new BufferedInputStream(
                             Objects.requireNonNull(getClass().getResourceAsStream(paths.get(index)))
                     ));
-            System.out.println(icons.size());
-            System.out.println(icons.get(index));
             (icons.get(index)).setImage(img);
         }
     }

@@ -31,12 +31,14 @@ public class StationsService {
                                                   String attractions,
                                                   String maxTime,
                                                   String addressLatLng,
-                                                  String range) {
+                                                  String range,
+                                                  boolean favourited) {
         QueryStation searchStation = new QueryStation();
         searchStation.setName(name);
         searchStation.setOperator(operator);
         searchStation.setCurrentType(currentType);
         searchStation.setConnectors(connectors);
+        searchStation.setFavourite(favourited);
         if (attractions != null && !attractions.isBlank()) {
             boolean hasAttraction = (attractions.equals("Yes"));
             searchStation.setHasTouristAttraction(hasAttraction);
@@ -106,6 +108,10 @@ public class StationsService {
         if (!Objects.equals(currentType, "") && currentType != null) {
             result.removeIf(station -> !Objects.equals(station.getCurrentType(), queryStation.getCurrentType())
                     && !Objects.equals(station.getCurrentType(), "Mixed"));
+        }
+        boolean favourite = queryStation.getFavourite();
+        if (favourite) {
+            result.removeIf(station -> !(station.getFavourite()));
         }
         String[] connectors = queryStation.getConnectors();
         if (connectors != null && connectors.length > 0) {
