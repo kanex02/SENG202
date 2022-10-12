@@ -1,19 +1,31 @@
 package journey.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.StackPane;
+import journey.business.Feature;
 import journey.data.Note;
 import journey.data.Station;
 import journey.repository.NoteDAO;
 import journey.repository.StationDAO;
+import journey.service.AttractionsService;
+import org.apache.commons.collections.iterators.ArrayListIterator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Controller for selected station FXML.
  */
 public class SelectedStationController {
+    private static final Logger log = LogManager.getLogger();
+
     @FXML private Label addressField;
     @FXML private Label nameField;
     @FXML private Label operatorField;
@@ -30,6 +42,7 @@ public class SelectedStationController {
 
     private StationDAO stationDAO = new StationDAO();
     private NoteDAO noteDAO = new NoteDAO();
+    private AttractionsService attractionsService = new AttractionsService();
     private MainController mainController;
     private Station selectedStation;
 
@@ -61,6 +74,18 @@ public class SelectedStationController {
         } else {
             ratingField.setText("Not yet rated");
         }
+        ArrayList<Feature> features = null;
+        try {
+            features = attractionsService.getAttractions(selectedStation.getLatitude(), selectedStation.getLongitude(), 2000);
+        } catch (IOException e) {
+            log.error(e);
+        }
+        ObservableList<String> attractions = FXCollections.observableArrayList();
+        for (Feature feature : features) {
+            System.out.println("here");
+            attractions.add(feature.getFormattedName());
+        }
+        attractionsList.setItems(attractions);
     }
 
     /**

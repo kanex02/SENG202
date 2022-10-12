@@ -93,6 +93,9 @@ public class MyProfileController {
     public String getSelectedVehicle() {
         return selectedVehicle;
     }
+    public MainController getMainController() {
+        return this.mainController;
+    }
 
     public void populateVehicleTable() {
         profileController.setVehicles();
@@ -104,6 +107,9 @@ public class MyProfileController {
 
     public User getCurrentUser() {
         return currentUser;
+    }
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
     }
 
 

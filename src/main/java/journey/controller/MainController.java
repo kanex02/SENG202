@@ -115,6 +115,10 @@ public class MainController {
         recordJourneyController.changeJourneyEnd(addr);
     }
 
+    public void setUser(User user) {
+        currentUser = user;
+    }
+
     /**
      * Sets the accordion pane to be expanded on the plan journeys tab.
      */

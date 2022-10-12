@@ -4,13 +4,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import journey.Utils;
 import journey.data.Vehicle;
+import journey.repository.UserDAO;
 import journey.repository.VehicleDAO;
+import journey.service.LoginService;
+import org.apache.logging.log4j.core.util.JsonUtils;
 
 /**
  * Controller for the profile popup
@@ -21,8 +23,11 @@ public class ProfileController {
     @FXML private Label name;
     @FXML private Label vehicle;
     @FXML private Label warningLabel;
+    @FXML private TextField editName;
+    @FXML private Button editNameButton;
+    @FXML private Button revertNameChanges;
     @FXML private TableColumn<Vehicle, String> registrationCol;
-
+    @FXML private Label nameWarning;
     @FXML private TableColumn<Vehicle, String> makeCol;
 
     @FXML private TableColumn<Vehicle, String> modelCol;
@@ -33,7 +38,8 @@ public class ProfileController {
     @FXML private TableColumn<Vehicle, String> connectorTypeCol;
 
     @FXML private TableView<Vehicle> vehicleTable;
-
+    private boolean editing = false;
+    private UserDAO userDAO = new UserDAO();
 
     public MyProfileController getMyProfileController() {
         return profileController;
@@ -56,6 +62,39 @@ public class ProfileController {
         } else {
             vehicle.setText(profileController.getSelectedVehicle());
         }
+    }
+
+    @FXML private void editName() {
+        if (editing) { //save the new name
+            String newName = editName.getText();
+            int id = profileController.getCurrentUser().getId();
+
+            if (!LoginService.checkUser(newName)) {
+                nameWarning.setText("Name cannot contain digits or special characters");
+            } else if (userDAO.nameInDB(newName) && !newName.equals(profileController.getCurrentUser().getName())) {
+                nameWarning.setText("This name is already in use, please pick another!");
+            } else {
+                editNameButton.setText("Edit");
+                revertNameChanges.setVisible(false);
+                editName.setVisible(false);
+                if (!newName.equals(profileController.getCurrentUser().getName())) {
+                    userDAO.updateUserName(id, newName);
+                }
+                profileController.setCurrentUser(userDAO.getUser(id));
+                setName();
+                editing = false;
+            }
+        } else { //edit the current name
+            editName.setText(profileController.getCurrentUser().getName());
+            editNameButton.setText("Save");
+            revertNameChanges.setVisible(true);
+            editName.setVisible(true);
+            editing = true;
+        }
+    }
+
+    @FXML private void revertNameChanges() {
+        editName.setText(profileController.getCurrentUser().getName());
     }
 
     /**
@@ -104,6 +143,8 @@ public class ProfileController {
     public void init(Stage stage, MyProfileController profileController) {
         this.profileController = profileController;
         vehicleDAO = new VehicleDAO();
+        editName.setVisible(false);
+        revertNameChanges.setVisible(false);
         setName();
         setVehicles();
         setVehicle();

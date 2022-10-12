@@ -2,6 +2,7 @@ package journey.repository;
 
 import journey.Utils;
 import journey.data.User;
+import journey.data.Vehicle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -125,7 +126,7 @@ public class UserDAO {
         boolean inDB = false;
         try {
             conn = databaseManager.connect();
-            String sqlQuery = "SELECT name FROM Users where name = ?";
+            String sqlQuery = "SELECT name FROM Users where name = ? ";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
@@ -137,6 +138,42 @@ public class UserDAO {
         }
         Utils.closeConn(conn);
         return inDB;
+    }
+
+    public void updateUserName(int id, String newName) {
+        Connection conn = null;
+        try {
+            conn = databaseManager.connect();
+            System.out.println(id);
+            String sqlQuery = "UPDATE Users SET name = ? WHERE id = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setString(1, newName);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        Utils.closeConn(conn);
+    }
+
+    public User getUser(int id) {
+        Connection conn = null;
+        try {
+            conn = databaseManager.connect();
+            String sqlQuery = "SELECT * FROM Users WHERE id = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+
+            User user = new User(resultSet.getString("name"));
+            user.setId(id);
+            return user;
+            // Create a new station object.
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        Utils.closeConn(conn);
+        return null;
     }
 }
 
