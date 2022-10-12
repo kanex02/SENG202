@@ -27,7 +27,7 @@
          </DropShadow>
       </effect>
    </Button>
-   <ImageView fx:id="rangeHelpImage" fitHeight="20.0" fitWidth="20.0" layoutX="311.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+   <ImageView fx:id="rangeHelpImage" fitHeight="20.0" fitWidth="20.0" layoutX="311.0" layoutY="25.0" onMouseClicked="#clickToolTip" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../images/question.png" />
       </image>
