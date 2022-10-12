@@ -7,17 +7,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane maxWidth="-Infinity" minHeight="200.0" prefHeight="400.0" prefWidth="310.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.CreateJourneyController">
+<AnchorPane maxWidth="-Infinity" minHeight="200.0" prefHeight="400.0" prefWidth="310.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.CreateJourneyController">
     <ScrollPane fx:id="journeyScrollPane" fitToWidth="true" hbarPolicy="NEVER" maxWidth="310.0" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <AnchorPane prefHeight="102.0" prefWidth="297.0">
-             <Pane prefWidth="40.0" AnchorPane.leftAnchor="0.0" fx:id="iconPane">
-                 <ImageView fitHeight="17" fitWidth="17" layoutX="8.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+             <Pane fx:id="iconPane" prefWidth="40.0" AnchorPane.leftAnchor="0.0">
+                 <ImageView fx:id="firstCircle" fitHeight="17" fitWidth="17" layoutX="8.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
                      <Image url="@../images/Circle.png" />
                  </ImageView>
-                 <ImageView fitHeight="32.0" fitWidth="200.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                 <ImageView fx:id="firstEllipses" fitHeight="32.0" fitWidth="32.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" smooth="false">
                      <Image url="@../images/dots.png" />
                  </ImageView>
-                 <ImageView fitHeight="32" fitWidth="32" layoutY="70.0" preserveRatio="true" smooth="false" fx:id="destination">
+                 <ImageView fx:id="destination" fitHeight="32" fitWidth="32" layoutY="70.0" preserveRatio="true" smooth="false">
                      <Image url="@../images/destination.png" />
                  </ImageView>
              </Pane>

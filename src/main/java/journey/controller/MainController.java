@@ -389,10 +389,6 @@ public class MainController {
         this.selectedVehicle = selectedVehicle;
     }
 
-    public void appendWaypoint(double lat, double lng) {
-        recordJourneyController.appendWaypoint(lat, lng);
-    }
-
     public String getSelectedVehicle() {
         return selectedVehicle;
     }
@@ -407,6 +403,10 @@ public class MainController {
 
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public void clearRoute() {
+        mapViewController.clearRoute();
     }
 
     /**

@@ -28,6 +28,7 @@
     let markers = [];
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let route;
+    let routeMapped = false;
     let startMarker;
     let endMarker;
     let previousRoute = [];
@@ -218,6 +219,9 @@
             default:
                 icon = greenIcon;
                 if (Number.isInteger(Number(label))) {
+                    if (!routeMapped && Number(label) === 1) {
+                        icon = endIcon;
+                    } else
                     icon = startIcon;
                 }
         }
@@ -316,6 +320,7 @@
                 insertMarker(route.getWaypoints());
             })
             route.addTo(map);
+            routeMapped = true;
         }
     }
 
@@ -346,13 +351,11 @@
         return arrayOut;
     }
 
-    /**
-     * Removes the current route from the map, but keeps the instance, so it can be re-added without another api call
-     */
     function removeRoute() {
         if (route) {
-            route.remove();
+            route.remove(map);
         }
+        routeMapped = false;
     }
 
 </script>

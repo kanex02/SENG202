@@ -232,12 +232,12 @@ public class MapController {
             mainController.changeSearchLatLong(addr.getAddress());
             mainController.refreshSearch();
         } else if (Utils.isInt(label)) {
-            mainController.appendWaypoint(lat, lng);
+            mainController.editWaypoint(lat, lng, Integer.parseInt(label));
         }
         return true;
     }
 
     public void clearRoute() {
-        javaScriptConnector.call("clearRoute");
+        javaScriptConnector.call("removeRoute");
     }
 }
