@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <style>
@@ -23,9 +25,11 @@
 <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 <script>
     let map;
-    let markers = [];
+    // let markers = [];
+    var markers = L.markerClusterGroup();
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let route;
     let routeMapped = false;
@@ -100,9 +104,7 @@
     };
 
     function clearMap() {
-        for (i=0; i<markers.length; i++) {
-            markers[i].remove(map)
-        }
+        markers.clearLayers();
     }
 
     function mapJourney(waypoints) {
@@ -202,8 +204,7 @@
                     map.removeLayer(e.target);
                 });
 
-                m.addTo(map);
-                markers.push(m)
+                markers.addLayer(m);
 
                 // Zoom to marker bounds
                 var markerBounds = e.geocode.bbox;
@@ -211,6 +212,8 @@
 
             })
             .addTo(map);
+
+        map.addLayer(markers);
 
     }
     function addMiscMarker(lat, lng, label) {
@@ -221,11 +224,7 @@
         if (miscMarkers[label] !== undefined) {
             miscMarkers[label].remove(map);
         }
-        let m = new L.Marker(L.latLng(lat, lng), {icon: greenIcon, draggable: true});
 
-        if (label == "search") {
-            m.bindPopup(searchPopupText).openPopup();
-        }
         let icon;
         switch (label) {
             case 'start':
@@ -243,12 +242,22 @@
                     icon = startIcon;
                 }
         }
-        m = new L.Marker(L.latLng(lat, lng), {icon: icon, draggable: true});
+
+        let m = new L.Marker(L.latLng(lat, lng), {icon: icon, draggable: true});
+
         miscMarkers[label] = m;
+
+
         m.on('dragend', function(event) {
             var latlng = event.target.getLatLng();
             javaScriptBridge.changeLatLongFromClick(latlng.lat, latlng.lng, label);
-        }).addTo(map);
+        });
+
+        if (label == "search") {
+            m.bindPopup(searchPopupText).openPopup();
+        }
+
+        m.addTo(map);
     }
 
     function clearWaypoints() {
@@ -332,13 +341,13 @@
         });
 
         // Add marker to map, and specify our own on click function
-        m.addTo(map).on('click', e => {
+        m.on('click', e => {
             javaScriptBridge.getStationFromClick(id);
             javaScriptBridge.getLatLongFromClick(lat, lng);
 
         })
 
-        markers.push(m)
+        markers.addLayer(m);
     }
 
     /**
