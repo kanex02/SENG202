@@ -22,7 +22,7 @@
                <Font name="Roboto" size="13.0" />
             </font>
          </Button>
-         <AnchorPane fx:id="legendWrapper" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="170.0" style="-fx-background-color: transparent;" StackPane.alignment="BOTTOM_LEFT">
+         <AnchorPane fx:id="legendWrapper" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="178.0" prefWidth="172.0" style="-fx-background-color: transparent;" StackPane.alignment="BOTTOM_LEFT">
             <StackPane.margin>
                <Insets bottom="35.0" left="5.0" />
             </StackPane.margin>
