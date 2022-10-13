@@ -41,6 +41,8 @@
     let prevWaypoints = [];
     let rangeIndicator;
     let selectedMarker;
+    let selectedMarkerId = -1;
+    let prevMarkerFavourite = false;
 
     //var searchAPIKey = "8bbefdb85c2f4671aeada47ff2930302";
 
@@ -348,6 +350,10 @@
             options = {icon: goldIcon};
         }
 
+        if (selectedMarkerId == id) {
+            options = {icon: selectedIcon};
+        }
+
         let m = new L.Marker([lat, lng], options);
         m.bindPopup(buttonDialog);
 
@@ -366,7 +372,12 @@
             if(selectedMarker !== e.target)
             {
                 if (selectedMarker != null) {
-                    selectedMarker.setIcon(blueIcon);
+                    if (prevMarkerFavourite) {
+                        selectedMarker.setIcon(goldIcon);
+                        prevMarkerFavourite = false;
+                    } else {
+                        selectedMarker.setIcon(blueIcon);
+                    }
                     selectedMarker.remove(map);
                     markers.addLayer(selectedMarker);
                 }
@@ -376,8 +387,13 @@
                 e.target.addTo(map);
 
                 selectedMarker = e.target;
+                selectedMarkerId = id;
 
                 e.target.openPopup();
+
+                if(favourited) {
+                    prevMarkerFavourite = true;
+                }
             }
 
         })
