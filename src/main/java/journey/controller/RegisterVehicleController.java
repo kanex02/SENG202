@@ -74,7 +74,7 @@ public class RegisterVehicleController {
         if (Objects.equals(registration, "")) {
             regWarningLabel.setText("Please enter a registration");
             valid = false;
-        } else if (registration.matches(Utils.getCharacterDigit())) {
+        } else if (!registration.matches(Utils.getCharacterDigit())) {
             regWarningLabel.setText("Cannot contain special characters");
             valid = false;
         } else if (registration.length() > 6) {
@@ -86,7 +86,7 @@ public class RegisterVehicleController {
         }
 
         //make validation
-        if (make.matches(Utils.getCharacterOnly())) {
+        if (!make.matches(Utils.getCharacterOnly())) {
             makeWarningLabel.setText("Cannot contain digits or special characters");
             valid = false;
         } else if (make.equals("")) {
@@ -98,7 +98,7 @@ public class RegisterVehicleController {
         }
 
         //model validation
-        if (model.matches(Utils.getCharacterDigit())) {
+        if (!model.matches(Utils.getCharacterDigit())) {
             modelWarningLabel.setText("Cannot contain special characters");
             valid = false;
         } else if (model.equals("")) {
@@ -132,11 +132,13 @@ public class RegisterVehicleController {
         //current validation
         if (chargerTypeChoice == null || chargerTypeChoice.equals("")) {
             currentWarningLabel.setText("Please select a current type");
+            valid = false;
         }
 
         //connector validation
         if (connectorTypeChoice == null || connectorTypeChoice.equals("")) {
             connectorWarningLabel.setText("Please select a connector type");
+            valid = false;
         }
         successLabel.setText("");
         return valid;

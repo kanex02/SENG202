@@ -99,7 +99,7 @@ public class EditVehicleController {
         if (Objects.equals(registration, "")) {
             regWarningLabel.setText("Please enter a registration");
             valid = false;
-        } else if (registration.matches(Utils.getCharacterDigit())) {
+        } else if (!registration.matches(Utils.getCharacterDigit())) {
             regWarningLabel.setText("Cannot contain special characters");
             valid = false;
         } else if (registration.length() > 6) {
@@ -123,7 +123,7 @@ public class EditVehicleController {
         }
 
         //model validation
-        if (model.matches(Utils.getCharacterDigit())) {
+        if (!model.matches(Utils.getCharacterDigit())) {
             modelWarningLabel.setText("Cannot contain special characters");
             valid = false;
         } else if (model.equals("")) {
@@ -157,11 +157,13 @@ public class EditVehicleController {
         //current validation
         if (chargerTypeChoice == null || chargerTypeChoice.equals("")) {
             currentWarningLabel.setText("Please select a current type");
+            valid = false;
         }
 
         //connector validation
         if (connectorTypeChoice == null || connectorTypeChoice.equals("")) {
             connectorWarningLabel.setText("Please select a connector type");
+            valid = false;
         }
 
         return valid;
@@ -172,6 +174,12 @@ public class EditVehicleController {
      * values. If invalid enter old vehicle back into the database.
      */
     @FXML public void saveVehicle() {
+        regWarningLabel.setText("");
+        makeWarningLabel.setText("");
+        modelWarningLabel.setText("");
+        yearWarningLabel.setText("");
+        currentWarningLabel.setText("");
+        connectorWarningLabel.setText("");
         vehicleDAO.removeVehicle(currentVehicle.getRegistration(), profileController.getMyProfileController().getCurrentUser().getId());
         if (isValid()) {
             String reg = registrationTextBox.getText();

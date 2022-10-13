@@ -151,7 +151,7 @@ public class Utils {
     }
 
     public static String getCharacterDigit() {
-        return "[a-z|A-Z|0-9]+";
+        return "[a-z|A-Z|0-9| ]+";
     }
 
     public static String getCharacterOnly() {
