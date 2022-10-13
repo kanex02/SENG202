@@ -79,6 +79,16 @@ public class CreateJourneyController {
                 setColor(new Color(0.23, 0.23, 0.23, 0.25));
     }};
 
+    public void addNewWaypoint(double lat, double lng) {
+        int position = (int) waypoints.stream().filter(waypoint -> !waypoint.isBlank()).count();
+
+        // make sure a waypoint isn't added twice in a row
+        if (position == 0 || !waypoints.get(position - 1).equals(lat + "#" + lng)) {
+            // inserts a waypoint at the end of the list
+            addWaypointToJourney(lat, lng, position);
+        }
+    }
+
 
     public void insertWaypoint(double lat, double lng, int position) {
         // Add one more row and move the addresses over
@@ -412,37 +422,21 @@ public class CreateJourneyController {
         );
 
         ImageView cancel1 = new ImageView(xImage);
-        ImageView cancel2 = new ImageView(xImage);
         cancel1.setFitHeight(24);
         cancel1.setFitWidth(24);
         cancel1.setPreserveRatio(true);
+        ImageView cancel2 = new ImageView(xImage);
         cancel2.setFitHeight(24);
         cancel2.setFitWidth(24);
         cancel2.setPreserveRatio(true);
-        ((Button)((HBox)row1.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel1);
-        ((Button)((HBox)row2.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel2);
+        ((Button) ((HBox) row1.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel1);
+        ((Button) ((HBox) row2.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel2);
         waypointRows.add(row1);
         waypointRows.add(row2);
-       // disable scroll pane at start
-//        startAddrScroll.setVisible(false);
-//        endAddrScroll.setVisible(false);
 
-//        // Set up event listeners for text areas
-//        startAddr.setOnKeyPressed(keyEvent -> {
-//            if (keyEvent.getCode() == KeyCode.ENTER) {
-//                autoComplete(true);
-//            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
-//                startAddrScroll.setVisible(false);
-//            }
-//        });
-//
-//        endAddr.setOnKeyPressed(keyEvent -> {
-//            if (keyEvent.getCode() == KeyCode.ENTER) {
-//                utoComplete(false);
-//            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
-//                endAddrScroll.setVisible(false);
-//            }
-//        });
+        selectVehicleComboBox.getSelectionModel().select(
+                vehicleDAO.getSelectedVehicle(mainController.getCurrentUser()).getStringRepresentation()
+        );
 
         populateVehicleDropdown();
     }

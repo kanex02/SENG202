@@ -364,7 +364,7 @@ public class MainController {
      */
     private void viewRecordJourney() {
         try {
-            FXMLLoader recorderLoader = new FXMLLoader(getClass().getResource("/fxml/recordJourney.fxml"));
+            FXMLLoader recorderLoader = new FXMLLoader(getClass().getResource("/fxml/planJourney.fxml"));
             Parent recorderParent = recorderLoader.load();
 
             ((AnchorPane) recorderParent).prefHeightProperty().bind(recordJourneyWrapper.heightProperty());
@@ -384,6 +384,11 @@ public class MainController {
 
     public void editWaypoint(Double lat, Double lng, int position) {
         createJourneyController.editWaypoint(lat, lng, position);
+    }
+
+    public void addNewWaypoint(double lat, double lng) {
+        accordionPane.setExpandedPane(planJourneyPane);
+        createJourneyController.addNewWaypoint(lat, lng);
     }
 
     public void clearSearchMarkerFromMap() {

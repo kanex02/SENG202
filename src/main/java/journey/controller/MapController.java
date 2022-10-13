@@ -127,6 +127,7 @@ public class MapController {
     }
 
     public boolean addToRoute(double lat, double lng) {
+        mainController.addNewWaypoint(lat, lng);
         return true;
     }
 
