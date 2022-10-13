@@ -41,6 +41,7 @@
     let prevWaypoints = [];
     let rangeIndicator;
     let selectedMarker;
+    let selectedMarkerId = -1;
 
     //var searchAPIKey = "8bbefdb85c2f4671aeada47ff2930302";
 
@@ -348,6 +349,10 @@
             options = {icon: goldIcon};
         }
 
+        if (selectedMarkerId == id) {
+            options = {icon: selectedIcon};
+        }
+
         let m = new L.Marker([lat, lng], options);
         m.bindPopup(buttonDialog);
 
@@ -366,7 +371,11 @@
             if(selectedMarker !== e.target)
             {
                 if (selectedMarker != null) {
-                    selectedMarker.setIcon(blueIcon);
+                    if (favourited) {
+                        selectedMarker.setIcon(favourited);
+                    } else {
+                        selectedMarker.setIcon(blueIcon);
+                    }
                     selectedMarker.remove(map);
                     markers.addLayer(selectedMarker);
                 }
@@ -376,6 +385,7 @@
                 e.target.addTo(map);
 
                 selectedMarker = e.target;
+                selectedMarkerId = id;
 
                 e.target.openPopup();
             }
