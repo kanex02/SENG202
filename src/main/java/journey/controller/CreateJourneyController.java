@@ -360,37 +360,10 @@ public class CreateJourneyController {
         }
     }
 
-
     /**
-     * initialises the CreateJourneyController, and scroll pane for autocomplete.
-
-     * @param mainController Main Controller to be inserted into.
+     * initialise all the images and insert close buttons into the buttons.
      */
-    public void init(MainController mainController) {
-        this.mainController = mainController;
-        this.mapViewController = mainController.getMapViewController();
-        this.journeyDAO = new JourneyDAO();
-        this.stationDAO = new StationDAO();
-        this.vehicleDAO = new VehicleDAO();
-
-        waypoints = new ArrayList<>();
-        waypointAddresses.add(address0);
-        waypointAddresses.add(address1);
-
-        address0.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            // The keyCode is UNDEFINED and comparing strings doesn't work
-            if ((int) keyEvent.getCharacter().charAt(0) == 13) {
-                typeNth(0);
-                keyEvent.consume();
-            }
-        });
-        address1.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            if ((int) keyEvent.getCharacter().charAt(0) == 13) {
-                typeNth(1);
-            }
-        });
-
-
+    private void init_images() {
         circleIcons.add(firstCircle);
         ellipsesIcons.add(firstEllipses);
 
@@ -421,6 +394,38 @@ public class CreateJourneyController {
         cancel2.setPreserveRatio(true);
         ((Button)((HBox)row1.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel1);
         ((Button)((HBox)row2.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel2);
+    }
+
+
+    /**
+     * initialises the CreateJourneyController, and scroll pane for autocomplete.
+
+     * @param mainController Main Controller to be inserted into.
+     */
+    public void init(MainController mainController) {
+        this.mainController = mainController;
+        this.mapViewController = mainController.getMapViewController();
+        this.journeyDAO = new JourneyDAO();
+        this.stationDAO = new StationDAO();
+        this.vehicleDAO = new VehicleDAO();
+
+        waypoints = new ArrayList<>();
+        waypointAddresses.add(address0);
+        waypointAddresses.add(address1);
+
+        address0.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
+            // The keyCode is UNDEFINED and comparing strings doesn't work
+            if ((int) keyEvent.getCharacter().charAt(0) == 13) {
+                typeNth(0);
+                keyEvent.consume();
+            }
+        });
+        address1.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
+            if ((int) keyEvent.getCharacter().charAt(0) == 13) {
+                typeNth(1);
+            }
+        });
+        init_images();
         waypointRows.add(row1);
         waypointRows.add(row2);
        // disable scroll pane at start
