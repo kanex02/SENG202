@@ -42,6 +42,7 @@
     let rangeIndicator;
     let selectedMarker;
     let selectedMarkerId = -1;
+    let prevMarkerFavourite = false;
 
     //var searchAPIKey = "8bbefdb85c2f4671aeada47ff2930302";
 
@@ -371,8 +372,9 @@
             if(selectedMarker !== e.target)
             {
                 if (selectedMarker != null) {
-                    if (favourited) {
-                        selectedMarker.setIcon(favourited);
+                    if (prevMarkerFavourite) {
+                        selectedMarker.setIcon(goldIcon);
+                        prevMarkerFavourite = false;
                     } else {
                         selectedMarker.setIcon(blueIcon);
                     }
@@ -388,6 +390,10 @@
                 selectedMarkerId = id;
 
                 e.target.openPopup();
+
+                if(favourited) {
+                    prevMarkerFavourite = true;
+                }
             }
 
         })
