@@ -3,6 +3,7 @@ package journey.repository;
 import journey.Utils;
 import journey.data.QueryStation;
 import journey.data.Station;
+import journey.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -151,11 +152,19 @@ public class StationDAO {
     public Station[] getAll() {
         Connection conn = null;
         ArrayList<Station> res = new ArrayList<>();
+
+        UserDAO userDAO = new UserDAO();
+        User currUser = userDAO.getCurrentUser();
+
         try {
             conn = databaseManager.connect();
             Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM Stations "
-                    + "left outer join Notes on Stations.id = Notes.station_ID");
+
+            String stationQuery = "SELECT * FROM Stations " +
+                    "left outer join (select * from Notes where user_ID = ?) on Stations.id = station_ID";
+            PreparedStatement ps = conn.prepareStatement(stationQuery);
+            ps.setInt(1, currUser.getId());
+            ResultSet rs = ps.executeQuery();
             Utils.insertRsIntoArray(rs, res);
         } catch (SQLException e) {
             log.error(e);

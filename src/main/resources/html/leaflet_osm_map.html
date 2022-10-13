@@ -275,7 +275,7 @@
      */
     function addRangeIndicator(lat, lng, radius) {
 
-        if(radius != 0) {
+        if(radius != 0 && miscMarkers["search"] !== undefined) {
             // Colour comes from the green marker used for indicating search.
             //let colourCode = "#24AD22";
             let c = new L.circle([ lat, lng ], {
@@ -331,11 +331,11 @@
 
         });
 
-        // Add marker to map, and specify our own on click function which passes the id of the sale back to java,
-        // so we can reference it
-        m.addTo(map).on('click', () => {
+        // Add marker to map, and specify our own on click function
+        m.addTo(map).on('click', e => {
             javaScriptBridge.getStationFromClick(id);
             javaScriptBridge.getLatLongFromClick(lat, lng);
+
         })
 
         markers.push(m)

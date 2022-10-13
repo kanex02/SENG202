@@ -117,15 +117,17 @@ public class SearchController {
      * Used to update the range circle.
      */
     public void updateRange() {
-        String[] latLng = addressLatLng.split("#");
-        double lat = Double.parseDouble(latLng[0]);
-        double lng = Double.parseDouble(latLng[1]);
 
-        removeRangeIndicator();
-        addRangeIndicator(lat, lng);
+        if(addressLatLng != "") {
+            String[] latLng = addressLatLng.split("#");
+            double lat = Double.parseDouble(latLng[0]);
+            double lng = Double.parseDouble(latLng[1]);
 
-        search();
+            removeRangeIndicator();
+            addRangeIndicator(lat, lng);
 
+            search();
+        }
     }
 
     /**
@@ -190,11 +192,11 @@ public class SearchController {
             connector.setSelected(false);
         }
         connectorsMenu.setText("");
-        mainController.clearSearch();
         warningLabel.setText("");
-        removeRangeIndicator();
-        removeMarkerButton.setDisable(true);
 
+        removeRangeMarker();
+
+        mainController.clearSearch();
     }
 
     /**
