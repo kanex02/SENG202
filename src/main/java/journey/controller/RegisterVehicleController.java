@@ -160,6 +160,12 @@ public class RegisterVehicleController {
      */
     @FXML private void registerVehicle() {
         //get information about the vehicles and reset to null values
+        regWarningLabel.setText("");
+        makeWarningLabel.setText("");
+        modelWarningLabel.setText("");
+        yearWarningLabel.setText("");
+        currentWarningLabel.setText("");
+        connectorWarningLabel.setText("");
         boolean valid = isValid();
 
         if (valid) {
