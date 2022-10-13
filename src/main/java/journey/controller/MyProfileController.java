@@ -2,9 +2,12 @@ package journey.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import journey.data.User;
 import org.apache.logging.log4j.LogManager;
@@ -62,6 +65,32 @@ public class MyProfileController {
             registerVehicleWrapper.setCenter(editVehicleParent);
             registerVehicleWrapper.toFront();
             registerVehicleWrapper.setVisible(true);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    @FXML private void logoutButton() {
+        try {
+            FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+            Parent root = loginLoader.load();
+            LoginController loginController = loginLoader.getController();
+            Stage loginStage = new Stage();
+            loginController.init(loginStage);
+            loginStage.setTitle("Journey");
+            Scene scene = new Scene(root, 800, 500);
+            loginStage.setScene(scene);
+            loginStage.setMaxHeight(500);
+            loginStage.setMaxWidth(800);
+            loginStage.setMaximized(false);
+            loginStage.setResizable(false);
+            loginStage.show();
+            // set the min height and width so the window opens at the correct size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            loginStage.setX((bounds.getWidth() - loginStage.getWidth())*1.0f/2);
+            loginStage.setY((bounds.getHeight() - loginStage.getHeight())*1.0f/3);
+            this.stage.close();
         } catch (IOException e) {
             log.error(e);
         }

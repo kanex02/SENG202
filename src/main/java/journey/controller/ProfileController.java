@@ -125,8 +125,6 @@ public class ProfileController {
         makeButtonsInvisible();
     }
 
-
-
     /**
      * Retrieves the vehicles from the database and puts their information into the table.
      */
