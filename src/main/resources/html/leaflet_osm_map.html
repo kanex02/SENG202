@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <style>
@@ -23,9 +25,11 @@
 <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 <script>
     let map;
-    let markers = [];
+    // let markers = [];
+    var markers = L.markerClusterGroup();
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let route;
     let routeMapped = false;
@@ -36,10 +40,29 @@
     let previousN = 2;
     let prevWaypoints = [];
     let rangeIndicator;
+    let selectedMarker;
 
     //var searchAPIKey = "8bbefdb85c2f4671aeada47ff2930302";
 
     //const addressSearchControl = L.control.addressSearch(searchAPIKey, { });
+
+    const selectedIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    const blueIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 
     const goldIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
@@ -100,9 +123,7 @@
     };
 
     function clearMap() {
-        for (i=0; i<markers.length; i++) {
-            markers[i].remove(map)
-        }
+        markers.clearLayers();
     }
 
     function mapJourney(waypoints) {
@@ -202,8 +223,7 @@
                     map.removeLayer(e.target);
                 });
 
-                m.addTo(map);
-                markers.push(m)
+                markers.addLayer(m);
 
                 // Zoom to marker bounds
                 var markerBounds = e.geocode.bbox;
@@ -211,6 +231,8 @@
 
             })
             .addTo(map);
+
+        map.addLayer(markers);
 
     }
     function addMiscMarker(lat, lng, label) {
@@ -221,11 +243,7 @@
         if (miscMarkers[label] !== undefined) {
             miscMarkers[label].remove(map);
         }
-        let m = new L.Marker(L.latLng(lat, lng), {icon: greenIcon, draggable: true});
 
-        if (label == "search") {
-            m.bindPopup(searchPopupText).openPopup();
-        }
         let icon;
         switch (label) {
             case 'start':
@@ -243,12 +261,22 @@
                     icon = startIcon;
                 }
         }
-        m = new L.Marker(L.latLng(lat, lng), {icon: icon, draggable: true});
+
+        let m = new L.Marker(L.latLng(lat, lng), {icon: icon, draggable: true});
+
         miscMarkers[label] = m;
+
+
         m.on('dragend', function(event) {
             var latlng = event.target.getLatLng();
             javaScriptBridge.changeLatLongFromClick(latlng.lat, latlng.lng, label);
-        }).addTo(map);
+        });
+
+        if (label == "search") {
+            m.bindPopup(searchPopupText).openPopup();
+        }
+
+        m.addTo(map);
     }
 
     function clearWaypoints() {
@@ -275,7 +303,7 @@
      */
     function addRangeIndicator(lat, lng, radius) {
 
-        if(radius != 0) {
+        if(radius != 0 && miscMarkers["search"] !== undefined) {
             // Colour comes from the green marker used for indicating search.
             //let colourCode = "#24AD22";
             let c = new L.circle([ lat, lng ], {
@@ -320,10 +348,10 @@
             options = {icon: goldIcon};
         }
 
-        let m = new L.Marker([lat, lng], options)
-        m.bindPopup(buttonDialog).openPopup()
+        let m = new L.Marker([lat, lng], options);
+        m.bindPopup(buttonDialog);
 
-        m.bindPopup(buttonDialog).on("popupopen", (a) => {
+        m.on("popupopen", (a) => {
             var popUp = a.target.getPopup();
 
             popUp.getElement().querySelector(".addToRoute").addEventListener("click", e =>
@@ -331,14 +359,30 @@
 
         });
 
-        // Add marker to map, and specify our own on click function which passes the id of the sale back to java,
-        // so we can reference it
-        m.addTo(map).on('click', () => {
+        // Add marker to map, and specify our own on click function
+        m.on('click', e => {
             javaScriptBridge.getStationFromClick(id);
             javaScriptBridge.getLatLongFromClick(lat, lng);
+            if(selectedMarker !== e.target)
+            {
+                if (selectedMarker != null) {
+                    selectedMarker.setIcon(blueIcon);
+                    selectedMarker.remove(map);
+                    markers.addLayer(selectedMarker);
+                }
+
+                e.target.setIcon(selectedIcon);
+                markers.removeLayer(e.target);
+                e.target.addTo(map);
+
+                selectedMarker = e.target;
+
+                e.target.openPopup();
+            }
+
         })
 
-        markers.push(m)
+        markers.addLayer(m);
     }
 
     /**
