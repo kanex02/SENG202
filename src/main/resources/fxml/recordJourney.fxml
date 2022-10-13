@@ -29,7 +29,7 @@
                                  <Insets right="10.0" />
                              </HBox.margin>
                          </TextField>
-                         <Button mnemonicParsing="false" onAction="#removeNth" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #FFFFFF;" text="X" userData="0" HBox.hgrow="NEVER">
+                         <Button mnemonicParsing="false" onAction="#removeNth" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #FFFFFF;" userData="0" HBox.hgrow="NEVER">
                              <effect>
                                  <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
                                      <color>
@@ -47,7 +47,7 @@
                                  <Insets right="10.0" />
                              </HBox.margin>
                          </TextField>
-                         <Button mnemonicParsing="false" onAction="#removeNth" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #FFFFFF;" text="X" userData="1" HBox.hgrow="NEVER">
+                         <Button mnemonicParsing="false" onAction="#removeNth" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #FFFFFF;" userData="1" HBox.hgrow="NEVER">
                                 <effect>
                                  <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
                                      <color>

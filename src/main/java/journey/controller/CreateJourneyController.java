@@ -49,6 +49,7 @@ public class CreateJourneyController {
     @FXML private Pane iconPane;
     @FXML private ImageView firstCircle;
     @FXML private ImageView firstEllipses;
+    private Image xImage;
     private Double startLat;
     private Double startLng;
     private Double endLat;
@@ -77,6 +78,7 @@ public class CreateJourneyController {
                 setOffsetY(4);
                 setColor(new Color(0.23, 0.23, 0.23, 0.25));
     }};
+
 
     public void insertWaypoint(double lat, double lng, int position) {
         // Add one more row and move the addresses over
@@ -169,7 +171,10 @@ public class CreateJourneyController {
         HBox row = new HBox();
         TextField address = new TextField();
         Button removeWaypoint = new Button();
-
+        ImageView cancel1 = new ImageView(xImage);
+        cancel1.setFitHeight(24);
+        cancel1.setFitWidth(24);
+        cancel1.setPreserveRatio(true);
         stationRow.setId("row" + i);
         stationRow.setPrefHeight(32);
         stationRow.setPrefWidth(270);
@@ -206,7 +211,7 @@ public class CreateJourneyController {
         removeWaypoint.setPrefHeight(32);
         removeWaypoint.setPrefWidth(32);
         removeWaypoint.setStyle("-fx-background-color: #FFFFFF;");
-        removeWaypoint.setText("X");
+        removeWaypoint.setGraphic(cancel1);
         removeWaypoint.setSnapToPixel(true);
         removeWaypoint.setEffect(dropShadow);
         removeWaypoint.setUserData(String.valueOf(i));
@@ -385,8 +390,6 @@ public class CreateJourneyController {
             }
         });
 
-        waypointRows.add(row1);
-        waypointRows.add(row2);
 
         circleIcons.add(firstCircle);
         ellipsesIcons.add(firstEllipses);
@@ -402,7 +405,24 @@ public class CreateJourneyController {
                         Objects.requireNonNull(getClass().getResourceAsStream("/images/dots.png"))
                 )
         );
+        xImage = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/cancel.png"))
+                )
+        );
 
+        ImageView cancel1 = new ImageView(xImage);
+        ImageView cancel2 = new ImageView(xImage);
+        cancel1.setFitHeight(24);
+        cancel1.setFitWidth(24);
+        cancel1.setPreserveRatio(true);
+        cancel2.setFitHeight(24);
+        cancel2.setFitWidth(24);
+        cancel2.setPreserveRatio(true);
+        ((Button)((HBox)row1.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel1);
+        ((Button)((HBox)row2.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel2);
+        waypointRows.add(row1);
+        waypointRows.add(row2);
        // disable scroll pane at start
 //        startAddrScroll.setVisible(false);
 //        endAddrScroll.setVisible(false);
