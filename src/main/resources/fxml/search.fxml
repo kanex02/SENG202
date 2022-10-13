@@ -97,7 +97,7 @@
           <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#myCar" stylesheets="@../gui/buttons.css" text="Filter for my vehicle" />
       </children>
     </AnchorPane>
-    <Label fx:id="warningLabel" layoutX="140.0" layoutY="402.0" textFill="RED" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+    <Label fx:id="warningLabel" alignment="CENTER" layoutX="140.0" layoutY="402.0" textAlignment="CENTER" textFill="RED" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
      <GridPane layoutY="418.0" prefHeight="82.0" prefWidth="350.0">
          <columnConstraints>
              <ColumnConstraints hgrow="ALWAYS" minWidth="85.0" prefWidth="157.0" />

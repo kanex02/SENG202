@@ -2,8 +2,10 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.paint.*?>
 
 <AnchorPane prefHeight="625.0" prefWidth="475.0" style="-fx-background-color: #efefef;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.EditVehicleController">
     <GridPane prefHeight="624.0" prefWidth="510.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="0.0">
@@ -31,12 +33,31 @@
                 <Label layoutX="8.0" layoutY="300.0" text="Connector Type:" />
             </Pane>
             <Pane maxWidth="200.0" prefHeight="204.0" prefWidth="154.0" HBox.hgrow="NEVER">
-                <ChoiceBox fx:id="chargerBox" layoutX="7.0" layoutY="245.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="250.0" styleClass="drop-down" stylesheets="@../gui/style.css" />
+
                 <TextField fx:id="registrationTextBox" layoutX="7.0" layoutY="25.0" prefHeight="26.0" prefWidth="250.0" stylesheets="@../gui/textFields.css" />
                 <TextField fx:id="modelTextBox" layoutX="7.0" layoutY="135.0" prefHeight="26.0" prefWidth="250.0" stylesheets="@../gui/textFields.css" />
                 <TextField fx:id="yearTextBox" layoutX="7.0" layoutY="190.0" prefHeight="26.0" prefWidth="250.0" stylesheets="@../gui/textFields.css" />
                 <TextField fx:id="makeTextBox" layoutX="7.0" layoutY="80.0" prefHeight="26.0" prefWidth="250.0" stylesheets="@../gui/textFields.css" />
-                <ChoiceBox fx:id="connectorBox" layoutX="7.0" layoutY="300.0" onMouseClicked="#connectorTypeChoice" prefHeight="25.0" prefWidth="250.0" styleClass="drop-down" stylesheets="@../gui/style.css" />
+                <ChoiceBox fx:id="connectorBox" layoutX="7.0" layoutY="300.0" onMouseClicked="#connectorTypeChoice" prefHeight="25.0" prefWidth="250.0" style="-fx-background-color: #FFFFFF;">
+                    <effect>
+                        <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+                            <color>
+                                <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
+                            </color>
+                        </DropShadow>
+                    </effect>
+                </ChoiceBox>
+
+                <ChoiceBox fx:id="chargerBox" layoutX="7.0" layoutY="245.0" onMouseClicked="#chargerTypeChoice" prefHeight="25.0" prefWidth="250.0" style="-fx-background-color: #FFFFFF;">
+                    <effect>
+                        <DropShadow blurType="ONE_PASS_BOX" offsetY="4.0">
+                            <color>
+                                <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.2542372941970825" />
+                            </color>
+                        </DropShadow>
+                    </effect>
+                </ChoiceBox>
+
             <Label fx:id="regWarningLabel" layoutX="-118.0" layoutY="57.0" prefHeight="14.0" prefWidth="380.0" textFill="#cd0000">
                <font>
                   <Font size="11.0" />
