@@ -117,14 +117,16 @@ public class SearchController {
      * Used to update the range circle.
      */
     public void updateRange() {
-        String[] latLng = addressLatLng.split("#");
-        double lat = Double.parseDouble(latLng[0]);
-        double lng = Double.parseDouble(latLng[1]);
+        if (!addressLatLng.isEmpty()) {
+            String[] latLng = addressLatLng.split("#");
+            double lat = Double.parseDouble(latLng[0]);
+            double lng = Double.parseDouble(latLng[1]);
 
-        removeRangeIndicator();
-        addRangeIndicator(lat, lng);
+            removeRangeIndicator();
+            addRangeIndicator(lat, lng);
 
-        search();
+            search();
+        }
 
     }
 
@@ -133,9 +135,12 @@ public class SearchController {
      */
     public void addRangeIndicator(double lat, double lng) {
         String range = distanceSearch.getText();
-        if(!range.isBlank()) {
-            int radius = Integer.parseInt(range);
-            mainController.getMapViewController().addRangeIndicator(lat, lng, radius);
+        if(!range.isBlank() ) {
+            if (Utils.isInt(range) && !(Integer.parseInt(range) < 0 || Integer.parseInt(range) > 1600)) {
+                int radius = Integer.parseInt(range);
+                mainController.getMapViewController().addRangeIndicator(lat, lng, radius);
+            }
+
         }
     }
 
