@@ -1,0 +1,12 @@
+* {
+    -fx-primary-color: #88B181;
+    -fx-secondary-color: #4B6EAF;
+    -fx-grey-color: #b9b9b9;
+}
+
+.label {
+    -fx-accent: -fx-primary-color;
+    -fx-background-color: -fx-grey-color, #efefef;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-background-radius: 0;
+}

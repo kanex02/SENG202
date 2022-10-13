@@ -89,7 +89,7 @@ public class LoginController {
         } else if (userDAO.nameInDB(name)) {
             registerWarningLabel.setText("A user with that name already exists!");
         } else if (name.length() > 15) {
-            registerWarningLabel.setText("Your name cannot be longer than 15 characters");
+            registerWarningLabel.setText("Your name cannot be longer than 15 characters!");
         } else {
             user = userDAO.setCurrentUser(name);
             stage.setTitle("Loading...");
@@ -98,7 +98,20 @@ public class LoginController {
     }
 
     /**
-     * Logs in user and switch to main page if a user is selected
+     * Resets the warning labels if nameTextBox or nameChoiceBox is clicked
+     */
+    @FXML public void resetLoginWarnings() {
+        if (!(loginWarningLabel.getText().equals(""))) {
+            loginWarningLabel.setText("");
+        }
+        if (!(registerWarningLabel.getText().equals(""))) {
+            registerWarningLabel.setText("");
+        }
+    }
+
+    /**
+     * Logs in user and switch to main page if a user is selected.
+     * Sets warning label if user not selected and login button pressed.
      */
     @FXML public void login() {
         if (!(nameChoiceBox.getValue() == null || nameChoiceBox.getValue().equals(""))) {
@@ -106,6 +119,8 @@ public class LoginController {
             user = userDAO.setCurrentUser(name);
             stage.setTitle("Loading...");
             Platform.runLater(this::switchToMain);
+        } else {
+            loginWarningLabel.setText("Please select from dropdown or register new user");
         }
     }
 
