@@ -122,6 +122,7 @@ public class ProfileController {
         vehicleDAO.removeVehicle(reg, profileController.getCurrentUser().getId());
         setVehicles();
         setVehicle();
+        makeButtonsInvisible();
     }
 
 
@@ -146,6 +147,11 @@ public class ProfileController {
         deleteCurrentVehicle.setVisible(true);
     }
 
+    public void makeButtonsInvisible() {
+        editCurrentVehicle.setVisible(false);
+        deleteCurrentVehicle.setVisible(false);
+    }
+
     /**
      * Initialises the profile popup with User's registered vehicles in a table view.
      */
@@ -158,15 +164,21 @@ public class ProfileController {
         setVehicles();
         setVehicle();
         if (vehicleDAO.getSelectedVehicle(profileController.getCurrentUser()) == null) {
-            editCurrentVehicle.setVisible(false);
-            deleteCurrentVehicle.setVisible(false);
+            makeButtonsInvisible();
         }
 
         vehicleTable.getSelectionModel().selectedItemProperty().addListener(((ObservableValue<? extends Vehicle> observable, Vehicle oldVehicle, Vehicle newVehicle) -> {
             if (newVehicle != null) {
-                if (!newVehicle.getRegistration().equals(vehicleDAO.getSelectedVehicle(profileController.getCurrentUser()).getRegistration())) {
+                Vehicle old = vehicleDAO.getSelectedVehicle(profileController.getCurrentUser());
+                if (old != null) {
+                    if (!newVehicle.getRegistration().equals(vehicleDAO.getSelectedVehicle(profileController.getCurrentUser()).getRegistration())) {
+                        vehicleDAO.changeSelectedVehicle(profileController.getCurrentUser(), newVehicle.getRegistration());
+                        setVehicle();
+                    }
+                }  else {
                     vehicleDAO.changeSelectedVehicle(profileController.getCurrentUser(), newVehicle.getRegistration());
                     setVehicle();
+                    makeButtonsVisible();
                 }
             }
         }));

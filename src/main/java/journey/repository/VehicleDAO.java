@@ -103,9 +103,11 @@ public class VehicleDAO {
             ps.setInt(1, user.getId());
             ps.setBoolean(2, true);
             ResultSet rs = ps.executeQuery();
-            v = new Vehicle(rs.getInt("Year"), rs.getString("Make"),
-                    rs.getString("Model"), rs.getString("ChargerType"),
-                    rs.getString("Registration"), rs.getString("ConnectorType"));
+            while (rs.next()) {
+                v = new Vehicle(rs.getInt("Year"), rs.getString("Make"),
+                        rs.getString("Model"), rs.getString("ChargerType"),
+                        rs.getString("Registration"), rs.getString("ConnectorType"));
+            }
         } catch (SQLException e) {
             log.error(e);
         }
@@ -148,6 +150,7 @@ public class VehicleDAO {
         if (registration == null || registration.isBlank()) {
             return null;
         }
+        Vehicle vehicle = null;
         Connection conn = null;
         try {
             String sqlQuery = "SELECT * FROM Vehicles WHERE registration = ? and user_ID = ?";
@@ -157,15 +160,17 @@ public class VehicleDAO {
             ps.setInt(2, currentUser);
             ResultSet resultSet = ps.executeQuery();
             // Create a new station object.
-            return new Vehicle(resultSet.getInt("year"), resultSet.getString("make"),
-                    resultSet.getString("model"), resultSet.getString("chargerType"),
-                    resultSet.getString("registration"), resultSet.getString("connectorType"));
+            while (resultSet.next()) {
+                vehicle = new Vehicle(resultSet.getInt("year"), resultSet.getString("make"),
+                        resultSet.getString("model"), resultSet.getString("chargerType"),
+                        resultSet.getString("registration"), resultSet.getString("connectorType"));
+            }
         } catch (SQLException e) {
             log.error(e);
         } finally {
             Utils.closeConn(conn);
         }
-        return null;
+        return vehicle;
     }
 
     /**

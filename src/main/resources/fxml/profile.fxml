@@ -5,81 +5,70 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="393.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
+<AnchorPane prefHeight="540.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
    <children>
-      <GridPane prefHeight="399.0" prefWidth="629.0" style="-fx-background-color: white;">
-        <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="399.0" minHeight="10.0" prefHeight="399.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="281.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0" prefWidth="767.0" style="-fx-background-color: white;">
          <children>
-            <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="635.0" style="-fx-background-color: white;">
-               <children>
-                  <Label layoutX="20.0" layoutY="20.0" text="Name:">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="19.0" layoutY="128.0" text="Vehicles:">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="name" layoutX="100.0" layoutY="12.0" prefHeight="36.0" prefWidth="294.0" style="-fx-background-color: transparent;" text="">
-                     <padding>
-                        <Insets bottom="2.0" left="10.0" right="2.0" top="2.0" />
-                     </padding>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                   <TableView fx:id="vehicleTable" layoutX="18.0" layoutY="159.0" prefHeight="237.0" prefWidth="721.0" stylesheets="@../gui/tableStyle.css" VBox.vgrow="ALWAYS">
-                       <columns>
-                           <TableColumn fx:id="registrationCol" text="Registration" />
-                           <TableColumn fx:id="makeCol" prefWidth="55.0" text="Make" />
-                           <TableColumn fx:id="modelCol" prefWidth="89.0" text="Model" />
-                           <TableColumn fx:id="yearCol" prefWidth="46.0" text="Year" />
-                           <TableColumn fx:id="chargerTypeCol" prefWidth="103.0" text="Current" />
-                           <TableColumn fx:id="connectorTypeCol" prefWidth="136.0" text="Connector" />
-                       </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                   </TableView>
-                  <Label layoutX="19.0" layoutY="74.0" prefHeight="19.0" prefWidth="130.0" text="Current Vehicle:">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="vehicle" layoutX="165.0" layoutY="66.0" prefHeight="36.0" prefWidth="231.0">
-                     <padding>
-                        <Insets bottom="2.0" left="10.0" right="2.0" top="2.0" />
-                     </padding>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="editCurrentVehicle" layoutX="419.0" layoutY="72.0" mnemonicParsing="false" onAction="#editCurrentVehicle" stylesheets="@../gui/buttons.css" text="Edit" />
-                  <Button fx:id="deleteCurrentVehicle" layoutX="472.0" layoutY="72.0" mnemonicParsing="false" onAction="#deleteCurrentVehicle" stylesheets="@../gui/buttons.css" text="Delete" />
-                  <Label fx:id="warningLabel" layoutX="533.0" layoutY="85.0" textFill="#da0303">
-                     <font>
-                        <Font size="12.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="editNameButton" layoutX="419.0" layoutY="18.0" mnemonicParsing="false" onAction="#editName" stylesheets="@../gui/buttons.css" text="Edit" />
-                  <TextField fx:id="editName" layoutX="91.0" layoutY="18.0" prefHeight="24.0" prefWidth="294.0" />
-                  <Button fx:id="revertNameChanges" layoutX="472.0" layoutY="19.0" mnemonicParsing="false" onAction="#revertNameChanges" stylesheets="@../gui/buttons.css" text="Revert" />
-                  <Label fx:id="nameWarning" layoutX="88.0" layoutY="48.0" prefHeight="16.0" prefWidth="444.0" textFill="#d70000">
-                     <font>
-                        <Font size="11.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
+            <Label layoutX="-1.0" layoutY="13.0" text="Name:">
+               <font>
+                  <Font name="Roboto Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="1.0" layoutY="205.0" text="Vehicles:">
+               <font>
+                  <Font name="Roboto Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="name" layoutX="100.0" layoutY="12.0" prefHeight="36.0" prefWidth="294.0" style="-fx-background-color: transparent;" text="">
+               <padding>
+                  <Insets bottom="2.0" left="10.0" right="2.0" top="2.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+             <TableView fx:id="vehicleTable" layoutX="23.0" layoutY="252.0" prefHeight="269.0" prefWidth="721.0" stylesheets="@../gui/tableStyle.css" VBox.vgrow="ALWAYS">
+                 <columns>
+                     <TableColumn fx:id="registrationCol" text="Registration" />
+                     <TableColumn fx:id="makeCol" prefWidth="55.0" text="Make" />
+                     <TableColumn fx:id="modelCol" prefWidth="89.0" text="Model" />
+                     <TableColumn fx:id="yearCol" prefWidth="46.0" text="Year" />
+                     <TableColumn fx:id="chargerTypeCol" prefWidth="103.0" text="Current" />
+                     <TableColumn fx:id="connectorTypeCol" prefWidth="136.0" text="Connector" />
+                 </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+             </TableView>
+            <Label layoutY="113.0" prefHeight="28.0" prefWidth="169.0" text="Current Vehicle:">
+               <font>
+                  <Font name="Roboto Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="vehicle" layoutX="174.0" layoutY="109.0" prefHeight="36.0" prefWidth="220.0">
+               <padding>
+                  <Insets bottom="2.0" left="10.0" right="2.0" top="2.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Button fx:id="editCurrentVehicle" layoutX="419.0" layoutY="115.0" mnemonicParsing="false" onAction="#editCurrentVehicle" stylesheets="@../gui/buttons.css" text="Edit" />
+            <Button fx:id="deleteCurrentVehicle" layoutX="472.0" layoutY="115.0" mnemonicParsing="false" onAction="#deleteCurrentVehicle" stylesheets="@../gui/buttons.css" text="Delete" />
+            <Label fx:id="warningLabel" layoutX="88.0" layoutY="155.0" prefHeight="15.0" prefWidth="497.0" textFill="#da0303">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="editNameButton" layoutX="419.0" layoutY="18.0" mnemonicParsing="false" onAction="#editName" stylesheets="@../gui/buttons.css" text="Edit" />
+            <TextField fx:id="editName" layoutX="91.0" layoutY="18.0" prefHeight="24.0" prefWidth="294.0" />
+            <Button fx:id="revertNameChanges" layoutX="472.0" layoutY="18.0" mnemonicParsing="false" onAction="#revertNameChanges" stylesheets="@../gui/buttons.css" text="Revert" />
+            <Label fx:id="nameWarning" layoutX="88.0" layoutY="48.0" prefHeight="16.0" prefWidth="444.0" textFill="#d70000">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
          </children>
-      </GridPane>
+      </Pane>
    </children>
 </AnchorPane>
