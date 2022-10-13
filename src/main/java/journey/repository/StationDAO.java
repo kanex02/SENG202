@@ -1,5 +1,7 @@
 package journey.repository;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import journey.Utils;
 import journey.data.QueryStation;
 import journey.data.Station;
@@ -162,6 +164,24 @@ public class StationDAO {
         }
         Utils.closeConn(conn);
         return res.toArray(Station[]::new);
+    }
+
+    public ObservableList<String> getAllOperators() {
+        Connection conn = null;
+        ObservableList<String> operators =
+                FXCollections.observableArrayList("");
+        try {
+            conn = databaseManager.connect();
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT DISTINCT operator FROM Stations");
+            while (rs.next()) {
+                operators.add(rs.getString("operator"));
+            }
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        Utils.closeConn(conn);
+        return operators;
     }
 
     /**
