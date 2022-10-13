@@ -98,6 +98,18 @@ public class LoginController {
     }
 
     /**
+     * Resets the warning labels if nameTextBox or nameChoiceBox is clicked
+     */
+    @FXML public void resetLoginWarnings() {
+        if (!(loginWarningLabel.getText().equals(""))) {
+            loginWarningLabel.setText("");
+        }
+        if (!(registerWarningLabel.getText().equals(""))) {
+            registerWarningLabel.setText("");
+        }
+    }
+
+    /**
      * Logs in user and switch to main page if a user is selected.
      * Sets warning label if user not selected and login button pressed.
      */
