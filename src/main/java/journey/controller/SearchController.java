@@ -26,8 +26,8 @@ public class SearchController {
 
     @FXML private TextField addressSearch;
     @FXML private TextField nameSearch;
-    @FXML private TextField operatorSearch;
     @FXML private TextField timeSearch;
+    @FXML private ChoiceBox<String> operatorSearch;
     @FXML private ChoiceBox<String> currentSearch;
     @FXML private ChoiceBox<String> attractionSearch;
     @FXML private TextField distanceSearch;
@@ -48,9 +48,12 @@ public class SearchController {
     private static final ObservableList<String> yesNoMaybeSo =
             FXCollections.observableArrayList("", "Yes", "No");
 
+
     private MainController mainController;
     private StationDAO stationDAO;
     private String addressLatLng = "";
+    private static ObservableList<String> operators =
+            FXCollections.observableArrayList();
 
     private StationsService stationsService;
 
@@ -117,8 +120,7 @@ public class SearchController {
      * Used to update the range circle.
      */
     public void updateRange() {
-
-        if(addressLatLng != "") {
+        if (!addressLatLng.isEmpty()) {
             String[] latLng = addressLatLng.split("#");
             double lat = Double.parseDouble(latLng[0]);
             double lng = Double.parseDouble(latLng[1]);
@@ -128,6 +130,7 @@ public class SearchController {
 
             search();
         }
+
     }
 
     /**
@@ -135,9 +138,12 @@ public class SearchController {
      */
     public void addRangeIndicator(double lat, double lng) {
         String range = distanceSearch.getText();
-        if(!range.isBlank()) {
-            int radius = Integer.parseInt(range);
-            mainController.getMapViewController().addRangeIndicator(lat, lng, radius);
+        if(!range.isBlank() ) {
+            if (Utils.isInt(range) && !(Integer.parseInt(range) < 0 || Integer.parseInt(range) > 1600)) {
+                int radius = Integer.parseInt(range);
+                mainController.getMapViewController().addRangeIndicator(lat, lng, radius);
+            }
+
         }
     }
 
@@ -151,17 +157,16 @@ public class SearchController {
     @FXML public void search() {
         // TODO: move out of Util
         String name = nameSearch.getText();
-        String operator = operatorSearch.getText();
         String timeLimit = timeSearch.getText();
         String range = distanceSearch.getText();
-        String errors = StationsService.errorCheck(addressLatLng, name, operator, timeLimit, range);
+        String errors = StationsService.errorCheck(addressLatLng, name, timeLimit, range);
         boolean favourited = favouritedCheckMark.isSelected();
 
 
         if (errors.isBlank()) {
             warningLabel.setText("");
             QueryStation queryStation = StationsService.createQueryStation(nameSearch.getText(),
-                    operator,
+                    operatorSearch.getValue(),
                     currentSearch.getValue(),
                     getConnectors(),
                     attractionSearch.getValue(),
@@ -183,7 +188,7 @@ public class SearchController {
     @FXML private void clearSearch() {
         addressSearch.setText("");
         nameSearch.setText("");
-        operatorSearch.setText("");
+        operatorSearch.setValue("");
         currentSearch.setValue("");
         timeSearch.setText("");
         attractionSearch.setValue("");
@@ -275,12 +280,8 @@ public class SearchController {
             pause.playFromStart();
         });
 
-        operatorSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            pause.setOnFinished(event -> search());
-            pause.playFromStart();
-        });
-
         currentSearch.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> search()));
+        operatorSearch.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> search()));
 
         // the listeners for connectors are set in connectorsMultiSelect
 
@@ -302,6 +303,18 @@ public class SearchController {
         });
     }
 
+    /**
+     * Initialises choice boxes and their options.
+     */
+    void choiceBox_init() {
+        currentSearch.setItems(chargerTypeSearchOptions);
+        currentSearch.setValue("");
+
+        operators = (stationDAO.getAllOperators());
+        operatorSearch.setItems(operators);
+
+        attractionSearch.setItems(yesNoMaybeSo);
+    }
 
     /**
      * Initialises the search pane.
@@ -313,11 +326,8 @@ public class SearchController {
         this.stationsService = mainController.getStationsService();
 
         stationDAO = new StationDAO();
+        choiceBox_init();
 
-        currentSearch.setItems(chargerTypeSearchOptions);
-        currentSearch.setValue("");
-
-        attractionSearch.setItems(yesNoMaybeSo);
 
         rangeHelpLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         rangeHelpLabel.setGraphic(rangeHelpImage);
@@ -339,6 +349,7 @@ public class SearchController {
         }
         connectorsMenu.getItems().addAll(connectors);
         connectorsMultiSelect();
+
 
         placeMarkerButton.setGraphic(placeMarkerImage);
         placeMarkerButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);

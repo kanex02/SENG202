@@ -56,7 +56,7 @@ public class StationsService {
 
      * @return A string of errors
      */
-    public static String errorCheck(String addressLatLng, String name, String operator, String timeLimit, String range) {
+    public static String errorCheck(String addressLatLng, String name, String timeLimit, String range) {
         StringBuilder errors = new StringBuilder();
 
         //name check
@@ -64,10 +64,6 @@ public class StationsService {
             errors.append("Name cannot have special characters or integers\n");
         }
 
-        //operator check
-        if (!operator.matches("[a-zA-Z ]*")) {
-            errors.append("Operator cannot have special characters or integers\n");
-        }
         //time limit check
         if (!Utils.isInt(timeLimit) && !timeLimit.equals("")) {
             errors.append("Time limit must be an integer!\n");
@@ -76,6 +72,8 @@ public class StationsService {
         //range check
         if (!Utils.isInt(range) && !range.equals("")) {
             errors.append("Range needs to be an integer!\n");
+        } else if (Integer.parseInt(range) < 0 || Integer.parseInt(range) > 1600) {
+            errors.append("Range must be within 1 - 1599!\n");
         }
 
         // range address check
