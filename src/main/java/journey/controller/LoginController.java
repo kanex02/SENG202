@@ -135,7 +135,7 @@ public class LoginController {
             Stage mainStage = new Stage();
 
             MainController baseController = baseLoader.getController();
-            baseController.init(mainStage, user, null);
+            baseController.init(mainStage, user);
 
             mainStage.setTitle("Journey");
             Scene scene = new Scene(root, 600, 400);

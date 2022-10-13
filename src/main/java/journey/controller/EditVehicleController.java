@@ -71,9 +71,7 @@ public class EditVehicleController {
      * Fill the popup with the details of the currently selected vehicle.
      */
     public void fillCurrentVehicle() {
-        String reg = profileController.getMyProfileController().getSelectedVehicle();
-        currentVehicle = vehicleDAO.queryVehicle(reg, profileController.getMyProfileController().getCurrentUser().getId());
-        registrationTextBox.setText(reg);
+        registrationTextBox.setText(currentVehicle.getRegistration());
         makeTextBox.setText(currentVehicle.getMake());
         modelTextBox.setText(currentVehicle.getModel());
         yearTextBox.setText(Integer.toString(currentVehicle.getYear()));
@@ -193,7 +191,6 @@ public class EditVehicleController {
             String connector = connectorTypeChoice;
             Vehicle newVehicle = new Vehicle(intYear, make, model, current, reg, connector);
             vehicleDAO.setVehicle(newVehicle, profileController.getMyProfileController().getCurrentUser());
-            profileController.getMyProfileController().setSelectedVehicle(reg);
             profileController.setVehicle();
             profileController.setVehicles();
             profileController.getMyProfileController().viewRegisterVehicles();
@@ -206,7 +203,6 @@ public class EditVehicleController {
      * Cancels changes made to vehicle and returns to register vehicle screen.
      */
     @FXML public void cancelChanges() {
-        profileController.getMyProfileController().setSelectedVehicle(currentVehicle.getRegistration());
         profileController.getMyProfileController().viewRegisterVehicles();
     }
 
@@ -221,7 +217,7 @@ public class EditVehicleController {
         vehicleDAO = new VehicleDAO();
         chargerBox.setItems(chargerTypeOptions);
         connectorBox.setItems(connectorTypeOptions);
-        this.currentVehicle = vehicleDAO.queryVehicle(profileController.getMyProfileController().getSelectedVehicle(), profileController.getMyProfileController().getCurrentUser().getId());
+        this.currentVehicle = vehicleDAO.getSelectedVehicle(profileController.getMyProfileController().getCurrentUser());
         if (currentVehicle != null) {
             fillCurrentVehicle();
         }

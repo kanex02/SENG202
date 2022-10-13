@@ -185,6 +185,8 @@ public class RegisterVehicleController {
             // Send vehicle to database
             try {
                 vehicleDAO.setVehicle(newVehicle, myProfileController.getCurrentUser());
+                myProfileController.setVehicle();
+                myProfileController.getProfileController().makeButtonsVisible();
                 myProfileController.populateVehicleTable();
             } catch (Exception e) {
                 log.error(e);

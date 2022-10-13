@@ -328,7 +328,6 @@ public class SearchController {
         stationDAO = new StationDAO();
         choiceBox_init();
 
-
         rangeHelpLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         rangeHelpLabel.setGraphic(rangeHelpImage);
 

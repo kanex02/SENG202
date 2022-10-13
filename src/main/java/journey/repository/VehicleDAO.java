@@ -31,6 +31,11 @@ public class VehicleDAO {
      */
     public void setVehicle(Vehicle v, User user) {
         Connection conn = null;
+        boolean selected = false;
+        if (getSelectedVehicle(user) == null) {
+            selected = true;
+        }
+        System.out.println(selected);
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Vehicles WHERE user_ID = ? AND Registration = ?";
@@ -41,7 +46,7 @@ public class VehicleDAO {
 
             // If there is no item in result set we disconnect first and return an empty note
             if(!resultSet.isBeforeFirst()) {
-                String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?,?)";
+                String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?,?,?)";
                 PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
                 insertStatement.setString(1, v.getRegistration());
                 insertStatement.setInt(2, user.getId());
@@ -50,6 +55,7 @@ public class VehicleDAO {
                 insertStatement.setString(5, v.getModel());
                 insertStatement.setString(6, v.getChargerType());
                 insertStatement.setString(7, v.getConnectorType());
+                insertStatement.setBoolean(8, selected);
                 insertStatement.execute();
                 // Insert into list of vehicles for current user
                 user.newVehicle(v);
@@ -85,6 +91,51 @@ public class VehicleDAO {
         }
         Utils.closeConn(conn);
         return res.toArray(Vehicle[]::new);
+    }
+
+    public Vehicle getSelectedVehicle(User user) {
+        Connection conn = null;
+        Vehicle v = null;
+        try {
+            conn = databaseManager.connect();
+            String sqlQuery = "SELECT * FROM Vehicles WHERE User_ID = ? and selected = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, user.getId());
+            ps.setBoolean(2, true);
+            ResultSet rs = ps.executeQuery();
+            v = new Vehicle(rs.getInt("Year"), rs.getString("Make"),
+                    rs.getString("Model"), rs.getString("ChargerType"),
+                    rs.getString("Registration"), rs.getString("ConnectorType"));
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        Utils.closeConn(conn);
+        return v;
+    }
+
+    public void changeSelectedVehicle(User user, String newSelection) {
+        Connection conn = null;
+        Vehicle oldSelection = getSelectedVehicle(user);
+        try {
+            conn = databaseManager.connect();
+            String sqlQuery = "UPDATE Vehicles SET selected = ? WHERE User_ID = ? and registration = ?";
+            PreparedStatement ps1 = conn.prepareStatement(sqlQuery);
+            ps1.setBoolean(1, true);
+            ps1.setInt(2, user.getId());
+            ps1.setString(3, newSelection);
+            ps1.executeUpdate();
+
+            if (oldSelection != null) {
+                PreparedStatement ps2 = conn.prepareStatement(sqlQuery);
+                ps2.setBoolean(1, false);
+                ps2.setInt(2, user.getId());
+                ps2.setString(3, oldSelection.getRegistration());
+                ps2.executeUpdate();
+            }
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        Utils.closeConn(conn);
     }
 
     /**

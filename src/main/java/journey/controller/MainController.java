@@ -18,6 +18,7 @@ import journey.data.Journey;
 import journey.data.Station;
 import journey.data.User;
 import journey.repository.StationDAO;
+import journey.repository.VehicleDAO;
 import journey.service.StationsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,6 +43,7 @@ public class MainController {
     private static final Logger log = LogManager.getLogger();
 
     private StationDAO stationDAO;
+    private VehicleDAO vehicleDAO;
     private Stage stage;
     private int selectedStation = -1;
     private User currentUser;
@@ -265,7 +267,7 @@ public class MainController {
             FXMLLoader profileLoader = new FXMLLoader(getClass().getResource("/fxml/myProfile.fxml"));
             Parent profileParent = profileLoader.load();
             MyProfileController myProfileController = profileLoader.getController();
-            myProfileController.init(this, stage, selectedVehicle, mainPane);
+            myProfileController.init(this, stage, mainPane);
             mainPane.setCenter(profileParent);
             mainPane.toFront();
             mainPane.setVisible(true);
@@ -452,10 +454,15 @@ public class MainController {
 
      * @param stage Top level container for this window
      */
-    public void init(Stage stage, User user, String vehicle) {
+    public void init(Stage stage, User user) {
         stationDAO = new StationDAO();
         currentUser = user;
-        this.selectedVehicle = vehicle;
+        vehicleDAO = new VehicleDAO();
+        if (vehicleDAO.getSelectedVehicle(user) == null) {
+            this.selectedVehicle = null;
+        } else {
+            this.selectedVehicle = vehicleDAO.getSelectedVehicle(user).getRegistration();
+        }
         currentStations = stationDAO.getAll();
 
         stationsService = new StationsService();

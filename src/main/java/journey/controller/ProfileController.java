@@ -22,6 +22,8 @@ public class ProfileController {
     @FXML private Label warningLabel;
     @FXML private TextField editName;
     @FXML private Button editNameButton;
+    @FXML private Button editCurrentVehicle;
+    @FXML private Button deleteCurrentVehicle;
     @FXML private Button revertNameChanges;
     @FXML private TableColumn<Vehicle, String> registrationCol;
     @FXML private Label nameWarning;
@@ -53,11 +55,11 @@ public class ProfileController {
      * Sets the text field to the registration of the currently used vehicle
      */
     public void setVehicle() {
-        String reg = profileController.getSelectedVehicle();
-        if (reg == null) {
+        Vehicle v = vehicleDAO.getSelectedVehicle(profileController.getCurrentUser());
+        if (v == null) {
             vehicle.setText("");
         } else {
-            vehicle.setText(profileController.getSelectedVehicle());
+            vehicle.setText(v.getRegistration());
         }
     }
 
@@ -109,21 +111,17 @@ public class ProfileController {
      * into the register vehicle text boxes.
      */
     @FXML private void editCurrentVehicle() {
-        if (profileController.getSelectedVehicle() == null) {
-            warningLabel.setText("You haven't selected a vehicle");
-        } else {
-            profileController.loadEditVehicle();
-        }
+        profileController.loadEditVehicle();
     }
 
     /**
      * Delete the currently selected vehicle from the database.
      */
     @FXML public void deleteCurrentVehicle() {
-        String reg = profileController.getSelectedVehicle();
+        String reg = vehicleDAO.getSelectedVehicle(profileController.getCurrentUser()).getRegistration();
         vehicleDAO.removeVehicle(reg, profileController.getCurrentUser().getId());
-        profileController.setSelectedVehicle(null);
         setVehicles();
+        setVehicle();
     }
 
 
@@ -143,6 +141,11 @@ public class ProfileController {
         vehicleTable.setItems(vehicles);
     }
 
+    public void makeButtonsVisible() {
+        editCurrentVehicle.setVisible(true);
+        deleteCurrentVehicle.setVisible(true);
+    }
+
     /**
      * Initialises the profile popup with User's registered vehicles in a table view.
      */
@@ -154,11 +157,17 @@ public class ProfileController {
         setName();
         setVehicles();
         setVehicle();
+        if (vehicleDAO.getSelectedVehicle(profileController.getCurrentUser()) == null) {
+            editCurrentVehicle.setVisible(false);
+            deleteCurrentVehicle.setVisible(false);
+        }
 
         vehicleTable.getSelectionModel().selectedItemProperty().addListener(((ObservableValue<? extends Vehicle> observable, Vehicle oldVehicle, Vehicle newVehicle) -> {
             if (newVehicle != null) {
-                profileController.setSelectedVehicle(newVehicle.getRegistration());
-                setVehicle();
+                if (!newVehicle.getRegistration().equals(vehicleDAO.getSelectedVehicle(profileController.getCurrentUser()).getRegistration())) {
+                    vehicleDAO.changeSelectedVehicle(profileController.getCurrentUser(), newVehicle.getRegistration());
+                    setVehicle();
+                }
             }
         }));
     }

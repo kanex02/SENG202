@@ -27,7 +27,6 @@ public class MyProfileController {
     private Stage stage;
     private BorderPane mainPane;
     private User currentUser;
-    private String selectedVehicle;
 
     /**
      * Insert register vehicle FXML into the scene.
@@ -44,6 +43,11 @@ public class MyProfileController {
         } catch (IOException e) {
             log.error(e);
         }
+    }
+
+    public void setVehicle() {
+        profileController.setVehicle();
+        profileController.setVehicles();
     }
 
     /**
@@ -84,13 +88,6 @@ public class MyProfileController {
         }
     }
 
-    public void setSelectedVehicle(String selectedVehicle) {
-        this.selectedVehicle = selectedVehicle;
-    }
-
-    public String getSelectedVehicle() {
-        return selectedVehicle;
-    }
     public MainController getMainController() {
         return this.mainController;
     }
@@ -122,7 +119,7 @@ public class MyProfileController {
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
             Parent root = baseLoader.load();
             MainController baseController = baseLoader.getController();
-            baseController.init(stage, mainController.getCurrentUser(), selectedVehicle);
+            baseController.init(stage, mainController.getCurrentUser());
             mainPane.setCenter(root);
             mainPane.toFront();
             mainPane.setVisible(true);
@@ -136,14 +133,12 @@ public class MyProfileController {
 
      * @param mainController main FXML's controller
      * @param stage current stage
-     * @param selectedVehicle currently selected vehicle
      * @param mainPane current main pane
      */
-    public void init(MainController mainController, Stage stage, String selectedVehicle, BorderPane mainPane) {
+    public void init(MainController mainController, Stage stage, BorderPane mainPane) {
         this.mainController = mainController;
         this.stage = stage;
         this.mainPane = mainPane;
-        this.selectedVehicle = selectedVehicle;
         this.currentUser = mainController.getCurrentUser();
         viewProfile();
         viewRegisterVehicles();

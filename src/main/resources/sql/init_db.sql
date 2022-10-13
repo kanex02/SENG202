@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS Vehicles (
     model TEXT,
     chargerType TEXT,
     connectorType TEXT,
+    selected BOOLEAN,
     PRIMARY KEY ( registration, user_ID )
 );
 --Break

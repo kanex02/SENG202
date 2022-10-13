@@ -62,8 +62,8 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Button layoutX="419.0" layoutY="72.0" mnemonicParsing="false" onAction="#editCurrentVehicle" stylesheets="@../gui/buttons.css" text="Edit" />
-                  <Button layoutX="472.0" layoutY="72.0" mnemonicParsing="false" onAction="#deleteCurrentVehicle" stylesheets="@../gui/buttons.css" text="Delete" />
+                  <Button fx:id="editCurrentVehicle" layoutX="419.0" layoutY="72.0" mnemonicParsing="false" onAction="#editCurrentVehicle" stylesheets="@../gui/buttons.css" text="Edit" />
+                  <Button fx:id="deleteCurrentVehicle" layoutX="472.0" layoutY="72.0" mnemonicParsing="false" onAction="#deleteCurrentVehicle" stylesheets="@../gui/buttons.css" text="Delete" />
                   <Label fx:id="warningLabel" layoutX="533.0" layoutY="85.0" textFill="#da0303">
                      <font>
                         <Font size="12.0" />
