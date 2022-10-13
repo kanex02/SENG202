@@ -50,7 +50,7 @@ public class TableController {
             }
             int firstIntegerValue = Integer.parseInt(s);
             int secondIntegerValue = Integer.parseInt(t1);
-            return firstIntegerValue- secondIntegerValue;
+            return firstIntegerValue - secondIntegerValue;
         });
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
         attractionCol.setCellValueFactory(cellData ->
@@ -72,7 +72,7 @@ public class TableController {
         });
         ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
         favouriteCol.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getFavourite()? "Yes" : "No"));
+                new SimpleStringProperty(cellData.getValue().getFavourite() ? "Yes" : "No"));
         Station[] data = mainController.getStations();
         ObservableList<Station> stations = FXCollections.observableArrayList(data);
 

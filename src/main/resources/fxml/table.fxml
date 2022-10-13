@@ -7,19 +7,21 @@
    <TableView fx:id="stationTable" minWidth="0.0" prefHeight="308.0" prefWidth="2733.0" stylesheets="@../gui/tableStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <columns>
          <TableColumn fx:id="addressCol" prefWidth="467.0" text="Address" />
-         <TableColumn fx:id="nameCol" prefWidth="404.0" text="Name" />
-         <TableColumn fx:id="operatorCol" prefWidth="225.0" text="Operator" />
+         <TableColumn fx:id="favouriteCol" prefWidth="155.0" text="Favourite" />
+         <TableColumn fx:id="ratingCol" prefWidth="130.0" text="Rating" />
          <TableColumn fx:id="currentTypeCol" prefWidth="133.0" text="Current" />
          <TableColumn fx:id="connectorsCol" prefWidth="157.0" text="Connectors" />
-         <TableColumn fx:id="carparksCol" minWidth="0.0" prefWidth="137.0" text="Carparks" />
          <TableColumn fx:id="timeLimitCol" prefWidth="144.0" text="Time Limit" />
+         <TableColumn fx:id="carparksCol" minWidth="0.0" prefWidth="137.0" text="Carparks" />
+         <TableColumn fx:id="isFreeCharge" prefWidth="169.0" text="Free Charging" />
+         <TableColumn fx:id="isFreePark" prefWidth="145.0" text="Free Parking" />
+         <TableColumn fx:id="nameCol" prefWidth="404.0" text="Name" />
+         <TableColumn fx:id="operatorCol" prefWidth="225.0" text="Operator" />
          <TableColumn fx:id="attractionCol" prefWidth="166.0" text="Has Attraction" />
          <TableColumn fx:id="latCol" prefWidth="151.0" text="Latitude" />
          <TableColumn fx:id="longCol" prefWidth="149.0" text="Longitude" />
-         <TableColumn fx:id="isFreeCharge" prefWidth="169.0" text="Free Charging" />
-         <TableColumn fx:id="isFreePark" prefWidth="145.0" text="Free Parking" />
-         <TableColumn fx:id="ratingCol" prefWidth="130.0" text="Rating" />
-         <TableColumn fx:id="favouriteCol" prefWidth="155.0" text="Favourite" />
+
+
       </columns>
    </TableView>
 </AnchorPane>
