@@ -3,11 +3,11 @@ package journey.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import journey.data.*;
+import journey.data.Journey;
 import journey.repository.JourneyDAO;
 
 /**
@@ -28,10 +28,8 @@ public class PlannedJourneyController {
 
     /**
      * Imports the data.
-
-     * @param stage The stage to import into.
      */
-    public void setJourneys(Stage stage) {
+    public void setJourneys() {
         dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicle_ID"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
@@ -57,13 +55,13 @@ public class PlannedJourneyController {
     /**
      * Initialises the table.
 
-     * @param stage The stage to init.
+     * @param mainController Main Controller to be inserted into.
      */
-    public void init(Stage stage, MainController mainController) {
+    public void init(MainController mainController) {
         this.mainController = mainController;
         journeyDAO = new JourneyDAO();
 
-        setJourneys(stage);
+        setJourneys();
         journeyTable.maxWidthProperty().bind(tableParent.widthProperty());
         journeyTable.maxHeightProperty().bind(tableParent.heightProperty());
 

@@ -16,10 +16,6 @@ public class StationsService {
         allStations = stationDAO.getAll();
     }
 
-    public StationsService(Station[] stations) {
-        allStations = stations;
-    }
-
     public Station[] getAllStations() {
         return allStations;
     }
@@ -80,6 +76,8 @@ public class StationsService {
         //range check
         if (!Utils.isInt(range) && !range.equals("")) {
             errors.append("Range needs to be an integer!\n");
+        } else if (Integer.parseInt(range) < 0 || Integer.parseInt(range) > 1600) {
+            errors.append("Range must be within 1 - 1599!\n");
         }
 
         // range address check

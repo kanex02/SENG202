@@ -1,20 +1,17 @@
 package journey.repository;
 
-import static journey.Utils.convertArrayToString;
+import journey.Utils;
+import journey.data.QueryStation;
+import journey.data.Station;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.StringJoiner;
-import journey.data.QueryStation;
-import journey.data.Station;
-import journey.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import static journey.Utils.convertArrayToString;
 
 
 /**
@@ -213,15 +210,14 @@ public class StationDAO {
             }
         }
         ArrayList<Station> res = new ArrayList<>();
-        Connection conn;
+        Connection conn = null;
         try {
             conn = databaseManager.connect();
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(queryString.toString());
             Utils.insertRsIntoArray(rs, res);
         } catch (SQLException e) {
-            System.out.println(queryString);
-            throw new RuntimeException(e);
+            log.error(e);
         }
         res.removeIf(station -> searchStation.getRange() > 0
                 && searchStation.distanceTo(station) > searchStation.getRange());

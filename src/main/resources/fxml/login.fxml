@@ -23,7 +23,7 @@
          <children>
             <AnchorPane prefHeight="202.0" prefWidth="383.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <TextField fx:id="nameTextBox" layoutX="82.0" layoutY="25.0" prefHeight="35.0" prefWidth="215.0" promptText="NAME..." style="-fx-background-color: #FFFFFF;">
+                  <TextField fx:id="nameTextBox" layoutX="82.0" layoutY="25.0" onMouseClicked="#resetLoginWarnings" prefHeight="35.0" prefWidth="215.0" promptText="NAME..." style="-fx-background-color: #FFFFFF;">
                      <effect>
                         <InnerShadow blurType="ONE_PASS_BOX" choke="0.4" offsetY="2.0">
                            <color>
@@ -32,12 +32,7 @@
                         </InnerShadow>
                      </effect></TextField>
                   <Button layoutX="82.0" layoutY="76.0" mnemonicParsing="false" onAction="#register" prefHeight="35.0" prefWidth="215.0" stylesheets="@../gui/buttons.css" text="CREATE ACCOUNT" />
-                  <Label fx:id="warningLabel" layoutX="13.0" layoutY="93.0" prefHeight="16.0" prefWidth="373.0" textAlignment="CENTER" textFill="RED">
-                     <font>
-                        <Font size="11.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="registerWarningLabel" layoutX="85.0" layoutY="121.0" prefHeight="16.0" prefWidth="215.0" textAlignment="CENTER" textFill="#dd0000" />
+                  <Label fx:id="registerWarningLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="121.0" prefHeight="16.0" prefWidth="385.0" textAlignment="CENTER" textFill="#dd0000" textOverrun="CLIP" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
@@ -55,9 +50,9 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="2">
                <children>
-                  <ChoiceBox fx:id="nameChoiceBox" layoutX="82.0" layoutY="25.0" prefHeight="35.0" prefWidth="215.0" style="-fx-background-color: #f8fcf7;" styleClass="drop-down" stylesheets="@../gui/dropdowns.css" />
+                  <ChoiceBox fx:id="nameChoiceBox" layoutX="82.0" layoutY="25.0" onMouseClicked="#resetLoginWarnings" prefHeight="35.0" prefWidth="215.0" style="-fx-background-color: #f8fcf7;" styleClass="drop-down" stylesheets="@../gui/dropdowns.css" />
                   <Button layoutX="82.0" layoutY="76.0" mnemonicParsing="false" onAction="#login" prefHeight="35.0" prefWidth="215.0" style="-fx-background-color: #88B181;" stylesheets="@../gui/buttons.css" text="LOGIN" />
-                  <Label fx:id="loginWarningLabel" layoutX="82.0" layoutY="121.0" prefHeight="16.0" prefWidth="215.0" textAlignment="CENTER" textFill="#dd0000" />
+                  <Label fx:id="loginWarningLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="22.0" layoutY="121.0" prefHeight="16.0" prefWidth="357.0" textAlignment="CENTER" textFill="#dd0000" />
                </children></AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="3" />
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -75,6 +70,5 @@
                </children></AnchorPane>
          </children>
       </GridPane>
-      <ImageView fx:id="loadingIcon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" x="325.0" y="175.0" />
    </children>
 </AnchorPane>

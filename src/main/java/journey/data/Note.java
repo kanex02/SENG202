@@ -12,12 +12,12 @@ public class Note {
     public Note() {}
 
     /**
-     * initialises stations private variables
+     * Initialises stations private variables.
 
-     * @param station a station that a note is being added to/removed from
-     * @param note the note for the station
-     * @param rating the rating of the station
-     * @param favourite whether the station has been favourited or not
+     * @param station a station that a note is being added to/removed from.
+     * @param note the note for the station.
+     * @param rating the rating of the station.
+     * @param favourite whether the station has been favourited or not.
      */
     public Note(Station station, String note, int rating, boolean favourite) {
         this.station = station;

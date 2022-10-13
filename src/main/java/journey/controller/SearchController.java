@@ -1,12 +1,11 @@
 package journey.controller;
 
+
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.ImageCursor;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import journey.Utils;
@@ -114,29 +113,34 @@ public class SearchController {
     }
 
     /**
-     * Called on update of range field in FXML
-     * Used to update the range circle
+     * Called on update of range field in FXML.
+     * Used to update the range circle.
      */
     public void updateRange() {
-        String[] latLng = addressLatLng.split("#");
-        double lat = Double.parseDouble(latLng[0]);
-        double lng = Double.parseDouble(latLng[1]);
+        if (!addressLatLng.isEmpty()) {
+            String[] latLng = addressLatLng.split("#");
+            double lat = Double.parseDouble(latLng[0]);
+            double lng = Double.parseDouble(latLng[1]);
 
-        removeRangeIndicator();
-        addRangeIndicator(lat, lng);
+            removeRangeIndicator();
+            addRangeIndicator(lat, lng);
 
-        search();
+            search();
+        }
 
     }
 
     /**
-     * Adds a circle at the lat and lng to indicate the range of the search
+     * Adds a circle at the lat and lng to indicate the range of the search.
      */
     public void addRangeIndicator(double lat, double lng) {
         String range = distanceSearch.getText();
-        if(!range.isBlank()) {
-            int radius = Integer.parseInt(range);
-            mainController.getMapViewController().addRangeIndicator(lat, lng, radius);
+        if(!range.isBlank() ) {
+            if (Utils.isInt(range) && !(Integer.parseInt(range) < 0 || Integer.parseInt(range) > 1600)) {
+                int radius = Integer.parseInt(range);
+                mainController.getMapViewController().addRangeIndicator(lat, lng, radius);
+            }
+
         }
     }
 
@@ -213,7 +217,7 @@ public class SearchController {
     }
 
     /**
-     * Function to place a marker on the map when the "Place marker" button selected on the search
+     * Function to place a marker on the map when the "Place marker" button selected on the search.
      */
     @FXML private void clickToPlaceMarker() {
         mainController.openMap();
@@ -230,7 +234,7 @@ public class SearchController {
 
     /**
      * Called to remove the range marker from the map.
-     * Only called if a range marker is on the map
+     * Only called if a range marker is on the map.
      */
     @FXML private void removeRangeMarker() {
 
@@ -241,8 +245,15 @@ public class SearchController {
         search();
     }
 
+    @FXML private void clickToolTip() {
+        final Tooltip customTooltip = new Tooltip("Click the map to place a marker after clicking on the green marker button.");
+        rangeHelpLabel.setTooltip(customTooltip);
+        customTooltip.setAutoHide(true);
+
+    }
+
     /**
-     * Changes the lat and long in the search controller
+     * Changes the lat and long in the search controller.
      * @param lat the latitude
      * @param lng the longitude
      */
@@ -315,8 +326,9 @@ public class SearchController {
         rangeHelpLabel.setGraphic(rangeHelpImage);
 
         Tooltip rangeHelpTooltip = new Tooltip("Click the map to place a marker after clicking on the green marker button.");
-
+        rangeHelpTooltip.setShowDelay(new Duration(0.0));
         rangeHelpLabel.setTooltip(rangeHelpTooltip);
+
 
         List<String> connectorsAvailable = new ArrayList<>();
         connectorsAvailable.add("Type 2 Socketed");

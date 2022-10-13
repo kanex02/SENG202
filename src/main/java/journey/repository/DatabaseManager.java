@@ -1,24 +1,20 @@
 package journey.repository;
 
+import journey.ReadCSV;
+import journey.Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import journey.ReadCSV;
-import journey.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.sql.*;
 
 /**
  * Static utility class to make queries to the database.
- * TODO: Exception handler for fatal exceptions
  */
 public final class DatabaseManager {
     private final String databasePath;
@@ -113,7 +109,7 @@ public final class DatabaseManager {
             log.info("DatabaseManager setup.");
         } catch (Exception e) {
             log.error(e);
-            e.printStackTrace();
+
             throw e;
         } finally {
             Utils.closeConn(conn);

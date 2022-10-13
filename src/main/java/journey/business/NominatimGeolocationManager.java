@@ -18,7 +18,7 @@ import java.net.http.HttpResponse;
 /**
  * Class to handle requesting location from Nominatim Geolocation API
 
- * @author Morgan English
+ * @author Morgan English and Daniel Neal
  */
 public class NominatimGeolocationManager {
     private static final Logger log = LogManager.getLogger();

@@ -1,6 +1,7 @@
 package journey.business;
 
 import journey.controller.MapController;
+import journey.controller.CreateJourneyController;
 
 /**
  * Simple example class showing the ability to 'bridge' from javascript to java
@@ -9,7 +10,7 @@ import journey.controller.MapController;
  * Note: This is a very basic example you can use any java code, though you may need to be careful when working
  * with objects
 
- * @author Morgan English
+ * @author Morgan English with changes from the Journey development team
  */
 public class JavaScriptBridge {
 
@@ -39,13 +40,21 @@ public class JavaScriptBridge {
         insertWaypointInterface = insertWaypointLambda;
     }
 
+    /**
+     * Insert waypoint into the javascript references: {@link MapController}, {@link CreateJourneyController}.
+
+     * @param lat latitude of waypoint.
+     * @param lng longitude of waypoint.
+     * @param position position.
+     * @return true if the underlying operation succeeded
+     */
     public boolean insertWaypoint(double lat, double lng, int position) {
         return insertWaypointInterface.operation(lat, lng, position);
     }
 
     /**
      * Takes the id of a sale and passes this to the getSaleInterface implementation.
-     * Currently, this takes the ID and adds it to a list within the {@link MapController}
+     * Currently, this takes the ID and adds it to a list within the {@link MapController}.
 
      * @param id id of station
      * @return true if the underlying operation succeeded
@@ -55,29 +64,48 @@ public class JavaScriptBridge {
     }
 
     /**
-     * Currently this takes the lat and lng within the {@link MapController}
+     * Currently this takes the lat and lng within the {@link MapController}.
 
-     * @param lat latitude of click
-     * @param lng longitude of click
-     * @return true if the underlying operation succeeded
+     * @param lat latitude of click.
+     * @param lng longitude of click.
+     * @return true if the underlying operation succeeded.
      */
     public boolean getLatLongFromClick(double lat, double lng) {
         return getLatLongInterface.operation(lat, lng);
     }
 
+    /**
+     * Add lat lng to route referenced by: {@link MapController}.
+
+     * @param lat
+     * @param lng
+     * @return true if the underlying operation succeeded.
+     */
     public boolean addToRoute(double lat, double lng) {
         return addToRouteInterface.operation(lat, lng);
     }
 
+    /**
+     * Changes the lat and lng on a click in the javascript references: {@link MapController}
+
+     * @param lat latitude of click.
+     * @param lng longitude of click.
+     * @param label callback label.
+     * @return true if the underlying operation succeeded.
+     */
     public boolean changeLatLongFromClick(double lat, double lng, String label) {
         return changeLatLongInterface.operation(lat, lng, label);
     }
 
+    /**
+     * Edit a waypoint on journey plan referernced by: {@link MapController}, {@link CreateJourneyController}.
+
+     * @param lat longitude of waypoint.
+     * @param lng longitude of waypoint.
+     * @param position position of waypoint in journey.
+     * @return true if the underlying operation succeeded.
+     */
     public boolean editWaypoint(double lat, double lng, int position) {
         return editWaypointInterface.operation(lat, lng, position);
-    }
-
-    public void log(String text) {
-        System.out.println(text);
     }
 }

@@ -39,7 +39,6 @@ public class JourneyDAO {
         } finally {
             Utils.closeConn(conn);
         }
-
         return count;
     }
 
