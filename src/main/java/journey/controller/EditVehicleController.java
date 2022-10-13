@@ -202,15 +202,11 @@ public class EditVehicleController {
     }
 
     /**
-     * reverts changes to original vehicle.
+     * Cancels changes made to vehicle and returns to register vehicle screen.
      */
-    @FXML public void revertChanges() {
-        registrationTextBox.setText(currentVehicle.getRegistration());
-        makeTextBox.setText(currentVehicle.getMake());
-        modelTextBox.setText(currentVehicle.getModel());
-        yearTextBox.setText(Integer.toString(currentVehicle.getYear()));
-        chargerBox.setValue(currentVehicle.getChargerType());
-        connectorBox.setValue(currentVehicle.getConnectorType());
+    @FXML public void cancelChanges() {
+        profileController.getMyProfileController().setSelectedVehicle(currentVehicle.getRegistration());
+        profileController.getMyProfileController().viewRegisterVehicles();
     }
 
 

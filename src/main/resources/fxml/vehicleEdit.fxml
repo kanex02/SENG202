@@ -75,7 +75,7 @@
          </GridPane.margin>
          <children>
               <Button layoutX="39.0" layoutY="27.0" mnemonicParsing="false" onAction="#saveVehicle" prefHeight="30.0" prefWidth="135.0" stylesheets="@../gui/buttons.css" text="Save Changes" textAlignment="CENTER" wrapText="true" />
-            <Button layoutX="219.0" layoutY="27.0" mnemonicParsing="false" onAction="#revertChanges" prefHeight="30.0" prefWidth="135.0" stylesheets="@../gui/buttons.css" text="Revert Changes" textAlignment="CENTER" wrapText="true" />
+            <Button layoutX="219.0" layoutY="27.0" mnemonicParsing="false" onAction="#cancelChanges" prefHeight="30.0" prefWidth="135.0" stylesheets="@../gui/buttons.css" text="Cancel Changes" textAlignment="CENTER" wrapText="true" />
          </children>
       </AnchorPane>
       <Label text="Edit Vehicle" GridPane.columnIndex="1" GridPane.rowIndex="1">
