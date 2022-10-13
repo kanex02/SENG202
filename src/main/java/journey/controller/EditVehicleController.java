@@ -36,9 +36,6 @@ public class EditVehicleController {
     private VehicleDAO vehicleDAO;
     private Vehicle currentVehicle;
 
-    Pattern digit = Pattern.compile("[0-9]");
-    Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
-
     private static final ObservableList<String> chargerTypeOptions =
             FXCollections.observableArrayList(
                     "AC",
@@ -99,11 +96,10 @@ public class EditVehicleController {
         connectorTypeChoice();
 
         //registration validation
-        Matcher regHasSpecial = special.matcher(registration);
         if (Objects.equals(registration, "")) {
             regWarningLabel.setText("Please enter a registration");
             valid = false;
-        } else if ( regHasSpecial.find() ) {
+        } else if (registration.matches(Utils.getCharacterDigit())) {
             regWarningLabel.setText("Cannot contain special characters");
             valid = false;
         } else if (registration.length() > 6) {
@@ -115,9 +111,7 @@ public class EditVehicleController {
         }
 
         //make validation
-        Matcher makeHasDigit = digit.matcher(make);
-        Matcher makeHasSpecial = special.matcher(make);
-        if (makeHasSpecial.find() || makeHasDigit.find()) {
+        if (!make.matches(Utils.getCharacterOnly())) {
             makeWarningLabel.setText("Cannot contain digits or special characters");
             valid = false;
         } else if (make.equals("")) {
@@ -129,8 +123,7 @@ public class EditVehicleController {
         }
 
         //model validation
-        Matcher modelHasSpecial = special.matcher(model);
-        if (modelHasSpecial.find()) {
+        if (model.matches(Utils.getCharacterDigit())) {
             modelWarningLabel.setText("Cannot contain special characters");
             valid = false;
         } else if (model.equals("")) {

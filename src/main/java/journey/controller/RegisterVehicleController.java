@@ -56,9 +56,6 @@ public class RegisterVehicleController {
     private VehicleDAO vehicleDAO;
     private MyProfileController myProfileController;
 
-    Pattern digit = Pattern.compile("[0-9]");
-    Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
-
     /**
      * Error checking for entering a vehicle.
 
@@ -74,11 +71,10 @@ public class RegisterVehicleController {
         connectorTypeChoice();
 
         //registration validation
-        Matcher regHasSpecial = special.matcher(registration);
         if (Objects.equals(registration, "")) {
             regWarningLabel.setText("Please enter a registration");
             valid = false;
-        } else if ( regHasSpecial.find() ) {
+        } else if (registration.matches(Utils.getCharacterDigit())) {
             regWarningLabel.setText("Cannot contain special characters");
             valid = false;
         } else if (registration.length() > 6) {
@@ -90,9 +86,7 @@ public class RegisterVehicleController {
         }
 
         //make validation
-        Matcher makeHasDigit = digit.matcher(make);
-        Matcher makeHasSpecial = special.matcher(make);
-        if (makeHasSpecial.find() || makeHasDigit.find()) {
+        if (make.matches(Utils.getCharacterOnly())) {
             makeWarningLabel.setText("Cannot contain digits or special characters");
             valid = false;
         } else if (make.equals("")) {
@@ -104,8 +98,7 @@ public class RegisterVehicleController {
         }
 
         //model validation
-        Matcher modelHasSpecial = special.matcher(model);
-        if (modelHasSpecial.find()) {
+        if (model.matches(Utils.getCharacterDigit())) {
             modelWarningLabel.setText("Cannot contain special characters");
             valid = false;
         } else if (model.equals("")) {

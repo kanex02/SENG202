@@ -1,5 +1,7 @@
 package journey.service;
 
+import journey.Utils;
+
 /**
  * Service class to extract testable methods for logging in.
  */
@@ -12,6 +14,6 @@ public class LoginService {
      * @return whether the name contains only characters
      */
     public static Boolean checkUser(String name) {
-        return name.matches("[a-z|A-Z]+");
+        return name.matches(Utils.getCharacterSpace());
     }
 }

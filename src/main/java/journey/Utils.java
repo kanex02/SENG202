@@ -145,4 +145,18 @@ public class Utils {
         GeoCodeResult geoCode = nomMan.queryLatLng(lat, lng);
         return geoCode.getAddress();
     }
+
+    public static String getCharacterSpace() {
+        return "[a-z|A-Z| ]+";
+    }
+
+    public static String getCharacterDigit() {
+        return "[a-z|A-Z|0-9]+";
+    }
+
+    public static String getCharacterOnly() {
+        return "[a-z|A-Z]+";
+    }
+
+
 }
