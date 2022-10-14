@@ -85,6 +85,7 @@ public class MainController {
     private PlannedJourneyController plannedJourneyController;
     private StationsService stationsService;
     private Stage helpStage = null;
+    private Stage creditStage = null;
 
     private ArrayList<javafx.scene.image.ImageView> icons = new ArrayList<>();
 
@@ -321,6 +322,35 @@ public class MainController {
             log.error(e);
         }
         event.consume();
+    }
+
+
+    @FXML private void openCredits() {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/credits.fxml"));
+            root = loader.load();
+            if (creditStage == null) {
+                creditStage = new Stage();
+            }
+            CreditsController controller = loader.getController();
+            creditStage.setTitle("Credits");
+            controller.init(creditStage);
+            Scene scene = new Scene(root, 1200, 760);
+            creditStage.setScene(scene);
+            creditStage.setMaxHeight(400);
+            creditStage.setMaxWidth(600);
+            creditStage.setMaximized(false);
+            creditStage.show();
+            // set the min height and width so the window opens at the correct size
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            creditStage.setX((bounds.getWidth() - creditStage.getWidth())*1.0f/2);
+            creditStage.setY((bounds.getHeight() - creditStage.getHeight())*1.0f/3);
+
+        } catch (IOException e) {
+            log.error(e);
+        }
     }
 
     /**

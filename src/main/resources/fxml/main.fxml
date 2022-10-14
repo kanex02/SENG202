@@ -198,7 +198,7 @@
                         </Accordion>
                         <GridPane prefHeight="82.0" prefWidth="400.0" style="-fx-background-color: #efefef;">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
                               <RowConstraints maxHeight="329.0" minHeight="50.0" prefHeight="100.0" vgrow="SOMETIMES" />
@@ -209,6 +209,14 @@
                                  <padding>
                                     <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
                                  </padding>
+                              </Label>
+                              <Label onMouseClicked="#openCredits" text="Credits" textFill="#3841f2" underline="true" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
                               </Label>
                            </children>
                            <padding>

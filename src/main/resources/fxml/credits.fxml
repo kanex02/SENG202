@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.CreditsController">
+    <BorderPane prefHeight="750.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <top>
+            <GridPane maxHeight="55.0" prefHeight="55.0" style="-fx-background-color: #88B181;" BorderPane.alignment="CENTER">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+                <children>
+                    <Label style="-fx-background-color: transparent;" text="CREDITS" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <font>
+                            <Font name="Roboto" size="24.0" />
+                        </font>
+                    </Label>
+                </children>
+                <effect>
+                    <DropShadow offsetY="4.0">
+                        <color>
+                            <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.24576270580291748" />
+                        </color>
+                    </DropShadow>
+                </effect>
+            </GridPane>
+        </top>
+      <center>
+         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+               <Label layoutX="12.0" layoutY="15.0" text="Charging station icons created by Aldo Cervantes - Flaticon">
+                  <font>
+                     <Font name="Roboto" size="13.0" />
+                  </font>
+               </Label>
+               <Hyperlink layoutX="360.0" layoutY="12.0" onAction="#chargingStationIcons" prefHeight="22.0" prefWidth="231.0" text="charging station icons" underline="true">
+                  <font>
+                     <Font name="Roboto" size="12.0" />
+                  </font></Hyperlink>
+               <Label layoutX="12.0" layoutY="35.0" text="Customer journey icons created by Freepik - Flaticon">
+                  <font>
+                     <Font name="Roboto" size="13.0" />
+                  </font>
+               </Label>
+               <Hyperlink layoutX="360.0" layoutY="32.0" onAction="#customerJourneyIcons" prefHeight="22.0" prefWidth="231.0" text="customer journey icons" underline="true">
+                  <font>
+                     <Font name="Roboto" size="12.0" />
+                  </font>
+               </Hyperlink>
+               <Label layoutX="12.0" layoutY="55.0" text="Planning icons created by Freepik - Flaticon">
+                  <font>
+                     <Font name="Roboto" size="13.0" />
+                  </font>
+               </Label>
+               <Hyperlink layoutX="360.0" layoutY="52.0" onAction="#planningIcons" prefHeight="22.0" prefWidth="231.0" text="planning icons" underline="true">
+                  <font>
+                     <Font name="Roboto" size="12.0" />
+                  </font>
+               </Hyperlink>
+               <Label layoutX="12.0" layoutY="75.0" text="Check icons created by Freepik - Flaticon">
+                  <font>
+                     <Font name="Roboto" size="13.0" />
+                  </font>
+               </Label>
+               <Hyperlink layoutX="360.0" layoutY="72.0" onAction="#checkIcons" prefHeight="22.0" prefWidth="231.0" text="check icons" underline="true">
+                  <font>
+                     <Font name="Roboto" size="12.0" />
+                  </font>
+               </Hyperlink>
+               <Label layoutX="12.0" layoutY="95.0" text="Maps icons created by Smashicons - Flaticon">
+                  <font>
+                     <Font name="Roboto" size="13.0" />
+                  </font>
+               </Label>
+               <Hyperlink layoutX="360.0" layoutY="92.0" onAction="#mapsIcons" prefHeight="22.0" prefWidth="231.0" text="maps icons" underline="true">
+                  <font>
+                     <Font name="Roboto" size="12.0" />
+                  </font>
+               </Hyperlink>
+               <Label layoutX="12.0" layoutY="115.0" text="Excel icons created by Freepik - Flaticon">
+                  <font>
+                     <Font name="Roboto" size="13.0" />
+                  </font>
+               </Label>
+               <Hyperlink layoutX="360.0" layoutY="112.0" onAction="#excelIcons" prefHeight="22.0" prefWidth="231.0" text="excel icons" underline="true">
+                  <font>
+                     <Font name="Roboto" size="12.0" />
+                  </font>
+               </Hyperlink>
+               <Label layoutX="12.0" layoutY="135.0" text="Question icons created by Freepik - Flaticon">
+                  <font>
+                     <Font name="Roboto" size="13.0" />
+                  </font>
+               </Label>
+               <Hyperlink layoutX="360.0" layoutY="132.0" onAction="#questionIcons" prefHeight="22.0" prefWidth="231.0" text="question icons" underline="true">
+                  <font>
+                     <Font name="Roboto" size="12.0" />
+                  </font>
+               </Hyperlink>
+               <Label layoutX="12.0" layoutY="155.0" text="User icons created by Freepik - Flaticon">
+                  <font>
+                     <Font name="Roboto" size="13.0" />
+                  </font>
+               </Label>
+               <Hyperlink layoutX="360.0" layoutY="152.0" onAction="#userIcons" prefHeight="22.0" prefWidth="231.0" text="user icons" underline="true">
+                  <font>
+                     <Font name="Roboto" size="12.0" />
+                  </font>
+               </Hyperlink>
+               <Label layoutX="12.0" layoutY="175.0" text="Location icons created by IconMarketPK - Flaticon">
+                  <font>
+                     <Font name="Roboto" size="13.0" />
+                  </font>
+               </Label>
+               <Hyperlink layoutX="359.0" layoutY="172.0" onAction="#locationIcons" prefHeight="22.0" prefWidth="231.0" text="location icons" underline="true">
+                  <font>
+                     <Font name="Roboto" size="12.0" />
+                  </font>
+               </Hyperlink>
+               <Label layoutX="12.0" layoutY="195.0" text="Menu icons created by Ayub Irawan - Flaticon">
+                  <font>
+                     <Font name="Roboto" size="13.0" />
+                  </font>
+               </Label>
+               <Hyperlink layoutX="360.0" layoutY="192.0" onAction="#menuIcons" prefHeight="22.0" prefWidth="231.0" text="menu icons" underline="true">
+                  <font>
+                     <Font name="Roboto" size="12.0" />
+                  </font>
+               </Hyperlink>
+               <Label layoutX="12.0" layoutY="215.0" text="Close icons created by dmitri13 - Flaticon">
+                  <font>
+                     <Font name="Roboto" size="13.0" />
+                  </font>
+               </Label>
+               <Hyperlink layoutX="360.0" layoutY="212.0" onAction="#closeIcons" prefHeight="22.0" prefWidth="231.0" text="close icons" underline="true">
+                  <font>
+                     <Font name="Roboto" size="12.0" />
+                  </font>
+               </Hyperlink>
+            </children></AnchorPane>
+      </center>
+    </BorderPane>
+
+</AnchorPane>
