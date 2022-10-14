@@ -322,7 +322,7 @@ public class CreateJourneyController {
         mainController.updatePlannedJourneys();
     }
 
-    private void updateJourney() {
+    public void updateJourney() {
         if (waypoints.stream().filter(x -> !x.isBlank()).count() >= 2) {
             mainController.clearWaypoints();
             mainController.mapJourneyFromLatLng(waypoints.toArray(new String[0]));

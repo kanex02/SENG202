@@ -514,6 +514,14 @@ public class MainController {
 
         stationsService = new StationsService();
 
+        // Clears the route if a previous journey is being displayed
+        accordionPane.expandedPaneProperty().addListener(((observableValue, oldPane, newPane) -> {
+            if (newPane == planJourneyPane) {
+                plannedJourneyController.clearTableSelection();
+                createJourneyController.updateJourney();
+            }
+        }));
+
         // Fill the combo boxes
         this.stage = stage;
 

@@ -49,6 +49,10 @@ public class PlannedJourneyController {
         System.out.println("delete journey");
     }
 
+    public void clearTableSelection() {
+        journeyTable.getSelectionModel().clearSelection();
+    }
+
     /**
      * Initialises the table.
 
@@ -64,7 +68,11 @@ public class PlannedJourneyController {
 
         journeyTable.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldJourney, newJourney) -> {
-                    mainController.mapJourney(newJourney);
+                    if (newJourney == null) {
+                        mainController.clearRoute();
+                    } else {
+                        mainController.mapJourney(newJourney);
+                    }
                 this.selectedJourney = newJourney;
             }
         );
