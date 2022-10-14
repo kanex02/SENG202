@@ -1,11 +1,20 @@
 package journey.controller;
 
-
+import java.util.ArrayList;
+import java.util.List;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.CustomMenuItem;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import journey.Utils;
@@ -14,9 +23,6 @@ import journey.data.Vehicle;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
 import journey.service.StationsService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Controller for search FXML allows searching and error checking on searches for stations.
@@ -39,7 +45,7 @@ public class SearchController {
     @FXML private CheckBox favouritedCheckMark;
     @FXML private ImageView rangeHelpImage;
     @FXML private Label rangeHelpLabel;
-    final ArrayList<CheckMenuItem> connectors = new ArrayList<>();
+    final ArrayList<CustomMenuItem> connectors = new ArrayList<>();
     ArrayList<String> connectorsList = new ArrayList<>();
 
     private static final ObservableList<String> chargerTypeSearchOptions =
@@ -65,7 +71,8 @@ public class SearchController {
         Vehicle v = vehicleDAO.queryVehicle(myCar, mainController.getCurrentUser().getId());
         if (v != null) {
             currentSearch.setValue(v.getChargerType());
-            for (CheckMenuItem connector : connectors) {
+            for (CustomMenuItem customMenuItem : connectors) {
+                CheckBox connector = (CheckBox) customMenuItem.getContent();
                 if (!connector.getText().equals(v.getConnectorType())) {
                     connector.setSelected(false);
                 } else {
@@ -85,7 +92,8 @@ public class SearchController {
     @FXML public void connectorsMultiSelect() {
         ArrayList<String> selectedConnectors = new ArrayList<>();
 
-        for (CheckMenuItem connector : connectors) {
+        for (CustomMenuItem customMenuItem : connectors) {
+            CheckBox connector = (CheckBox) customMenuItem.getContent();
             connector.selectedProperty().addListener(((observableValue, oldValue, newValue) -> {
                 if (newValue) {
                     selectedConnectors.add(connector.getText());
@@ -191,8 +199,8 @@ public class SearchController {
         timeSearch.setText("");
         attractionSearch.setValue("");
         distanceSearch.setText("50");
-        for (CheckMenuItem connector : connectors) {
-            connector.setSelected(false);
+        for (CustomMenuItem connector : connectors) {
+            ((CheckBox) connector.getContent()).setSelected(false);
         }
         connectorsMenu.setText("");
         warningLabel.setText("");
@@ -348,7 +356,11 @@ public class SearchController {
         connectorsAvailable.add("Type 1 Tethered");
 
         for (String connector : connectorsAvailable) {
-            connectors.add(new CheckMenuItem(connector));
+            CheckBox checkBox = new CheckBox(connector);
+            CustomMenuItem checkBoxItem = new CustomMenuItem(checkBox);
+            checkBoxItem.setHideOnClick(false);
+            checkBox.setPrefWidth(215);
+            connectors.add(checkBoxItem);
         }
         connectorsMenu.getItems().addAll(connectors);
         connectorsMultiSelect();
