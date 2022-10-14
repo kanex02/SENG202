@@ -284,6 +284,10 @@ public class MainController {
         }
     }
 
+    public void addNewWaypoint(double lat, double lng) {
+        createJourneyController.addNewWaypoint(lat, lng);
+    }
+
     public void insertWaypoint(double lat, double lng, int position) {
         createJourneyController.insertWaypoint(lat, lng, position);
     }

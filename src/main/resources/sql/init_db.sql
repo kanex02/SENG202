@@ -49,13 +49,11 @@ DROP TABLE IF EXISTS Journeys;
 --Break
 CREATE TABLE IF NOT EXISTS Journeys (
     ID INTEGER PRIMARY KEY,
-    distance INTEGER,
-    user_ID INTEGER NOT NULL REFERENCES Users(ID),
-    vehicle_ID TEXT NOT NULL REFERENCES Vehicles(registration),
     start TEXT,
     end TEXT,
-    date TEXT,
-    completed BOOLEAN
+    user_ID INTEGER NOT NULL REFERENCES Users(ID),
+    vehicle_ID TEXT NOT NULL REFERENCES Vehicles(registration),
+    date TEXT
 );
 --Break
 DROP TABLE IF EXISTS Notes;
@@ -69,11 +67,11 @@ CREATE TABLE IF NOT EXISTS Notes (
     favourited BOOLEAN
 );
 --Break
-DROP TABLE IF EXISTS JourneyStations;
+DROP TABLE IF EXISTS JourneyWaypoints;
 --Break
-CREATE TABLE IF NOT EXISTS JourneyStations (
+CREATE TABLE IF NOT EXISTS JourneyWaypoints (
     journey_ID INTEGER NOT NULL REFERENCES Journeys(ID),
-    station_ID INTEGER NOT NULL REFERENCES Stations(ID),
+    waypoint TEXT,
     number INTEGER NOT NULL,
-    PRIMARY KEY ( journey_ID, station_ID, number)
+    PRIMARY KEY ( journey_ID, waypoint, number)
 )

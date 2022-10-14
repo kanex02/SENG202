@@ -38,6 +38,7 @@
     let route;
     let routeMapped = false;
     let previousRoute = [];
+    let isEditable = true;
     let miscMarkers = {};
     let previousN = 2;
     let prevWaypoints = [];
@@ -126,9 +127,10 @@
         markers.clearLayers();
     }
 
-    function mapJourney(waypoints) {
+    function mapJourney(waypoints, editable) {
         let waypointArray = waypoints.split("//");
         previousRoute = [];
+        isEditable = editable;
         let latlong;
         let m;
         for (let i = 0; i < waypointArray.length; i++) {
@@ -255,6 +257,7 @@
             default:
                 icon = greenIcon;
                 if (Number.isInteger(Number(label))) {
+                    removeRoute();
                     if (!routeMapped && Number(label) === 1) {
                         icon = endIcon;
                     } else
@@ -405,21 +408,43 @@
     function addRoute() {
         if (previousRoute !== []) {
             removeRoute();
+            if (isEditable) {
+                lineOptions = {
+                    styles: [{color: 'black', opacity: 0.15, weight: 9},
+                        {color: 'white', opacity: 0.8, weight: 6},
+                        {color: 'red', opacity: 1, weight: 2}],
+                    addWaypoints: true,
+                    missingRouteStyles: [{color: 'black', opacity: 0.15, weight: 7},
+                        {color: 'white', opacity: 0.6, weight: 4},
+                        {color: 'gray', opacity: 0.8, weight: 2, dashArray: '7,12'}]
+                };
+            } else {
+                lineOptions = {
+                    styles: [{color: 'black', opacity: 0.15, weight: 9},
+                        {color: 'white', opacity: 0.8, weight: 6},
+                        {color: 'green', opacity: 1, weight: 2}],
+                    addWaypoints: false,
+                    missingRouteStyles: [{color: 'black', opacity: 0.15, weight: 7},
+                        {color: 'white', opacity: 0.6, weight: 4},
+                        {color: 'gray', opacity: 0.8, weight: 2, dashArray: '7,12'}]
+                };
+            }
             route = L.Routing.control({
                 waypoints: previousRoute,
                 // Specify UCs server for routing instead of the demonstration server used by default
                 serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
                 routeWhileDragging: false,
+                lineOptions: lineOptions,
                 createMarker: function (i, waypoint, n) {
                     let marker = L.marker(waypoint.latLng, {
-                        draggable: true,
+                        draggable: isEditable,
                         icon: startIcon
                     });
 
                     // Makes the destination marker different
                     if (i === n-1) {
                         marker = L.marker(waypoint.latLng, {
-                            draggable: true,
+                            draggable: isEditable,
                             icon: endIcon
                         });
                     }
@@ -427,6 +452,7 @@
                     return marker;
                 }
             });
+
             prevWaypoints = getLatLngs(route.getWaypoints());
             route.on("routesfound", () => {
                 insertMarker(route.getWaypoints());

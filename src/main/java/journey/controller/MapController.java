@@ -37,6 +37,7 @@ public class MapController {
     private JavaScriptBridge javaScriptBridge;
     private JSObject javaScriptConnector;
     private boolean routeDisplayed = false;
+    private boolean routeEditable = true;
     private MainController mainController;
     private GetLatLongInterface callback;
     private StationDAO stationDAO;
@@ -144,23 +145,23 @@ public class MapController {
      * @param journey Journey to map
      */
     public void mapJourney(Journey journey) {
-        ArrayList<String> waypoints = new ArrayList<>();
-        waypoints.add(Utils.locToLatLng(journey.getStart()));
-        for (int stationID : journey.getStations()) {
-            Station station = stationDAO.queryStation(stationID);
-            waypoints.add(station.getLatitude() + "#" + station.getLongitude());
-        }
-        waypoints.add(Utils.locToLatLng(journey.getEnd()));
+        ArrayList<String> waypoints = journey.getWaypoints();
         String waypointString =  Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
-        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2));
+        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2), false);
         routeDisplayed = true;
+        routeEditable = false;
         setToggle(true);
     }
 
+    /**
+     * Map a journey currently being planned.
 
+     * @param waypoints the waypoints of the journey
+     */
     public void mapJourneyFromLatLng(String[] waypoints) {
         String waypointString =  Utils.convertArrayToString(waypoints, "//");
-        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2));
+        routeEditable = true;
+        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2), true);
     }
 
     /**
@@ -208,7 +209,7 @@ public class MapController {
      */
     private void addRoute() {
         routeDisplayed = true;
-        javaScriptConnector.call("addRoute");
+        javaScriptConnector.call("addRoute", routeEditable);
     }
 
     /**

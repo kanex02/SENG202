@@ -21,6 +21,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import journey.Utils;
+import journey.data.Journey;
 import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
@@ -28,6 +29,7 @@ import journey.repository.VehicleDAO;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -45,13 +47,13 @@ public class CreateJourneyController {
     @FXML private Pane iconPane;
     @FXML private ImageView firstCircle;
     @FXML private ImageView firstEllipses;
-    
+
     private MainController mainController;
     private MapController mapViewController;
     private JourneyDAO journeyDAO;
     private StationDAO stationDAO;
     private VehicleDAO vehicleDAO;
-    private ArrayList<String> waypoints;
+    private final ArrayList<String> waypoints = new ArrayList<>();
     private final ArrayList<TextField> waypointAddresses = new ArrayList<>();
     private final ArrayList<AnchorPane> waypointRows = new ArrayList<>();
     private final ArrayList<ImageView> circleIcons = new ArrayList<>();
@@ -314,57 +316,13 @@ public class CreateJourneyController {
 
     /**
      * Ensures all fields are filled and valid then adds the filed journey.
-
-     * @param event addJourney button pressed
      */
-    @FXML private void addJourney(Event event) {
-//        String vehicleChoice = selectVehicleComboBox.getValue();
-//        String start = startAddr.getText();
-//        String end = endAddr.getText();
-//        int userID = mainController.getCurrentUser().getId();
-//
-//        // Check if the inputs are valid
-//        Boolean[] valid = CreateJourneyService.checkJourney(vehicleChoice, start, end);
-//
-//        StringJoiner errors = new StringJoiner("\n");
-//
-//        if (!valid[0]) {
-//            errors.add("Please select a vehicle");
-//        }
-//
-//        if (!valid[1]) {
-//            errors.add("Start location invalid");
-//        }
-//
-//        if (!valid[2]) {
-//            errors.add("End location invalid");
-//        }
-//
-//        journeyWarningLabel.setText(errors.toString());
-//
-//        boolean validJourney = true;
-//        for (Boolean bool : valid) {
-//            if (!bool) {
-//                validJourney = false;
-//                break;
-//            }
-//        }
-//
-//        if (validJourney) {
-//            journeyWarningLabel.setText("");
-//            selectVehicleComboBox.setValue("");
-//            startAddr.setText("");
-//            endAddr.setText("");
-//            selectedStationField.setText("");
-//            visitedStationsList.setItems(FXCollections.observableArrayList());
-//            String[] vehicle = vehicleChoice.split(": ");
-//            String date = Utils.getDate();
-//            Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);
-//            journeyDAO.addJourney(journey);
-//            mapViewController.clearJourneyMarkers();
-//            mainController.updatePlannedJourneys();
-//            event.consume();
-//        }
+    @FXML private void addJourney() {
+        // TODO: Check values
+        Journey journey = new Journey(selectVehicleComboBox.getValue().split(":")[0],
+                mainController.getCurrentUser().getId(), LocalDate.now().toString(), waypoints);
+        journeyDAO.addJourney(journey);
+        mainController.updatePlannedJourneys();
     }
 
     private void updateJourney() {
@@ -423,7 +381,9 @@ public class CreateJourneyController {
         this.stationDAO = new StationDAO();
         this.vehicleDAO = new VehicleDAO();
 
-        waypoints = new ArrayList<>();
+        waypoints.add("");
+        waypoints.add("");
+
         waypointAddresses.add(address0);
         waypointAddresses.add(address1);
 
@@ -443,9 +403,13 @@ public class CreateJourneyController {
         waypointRows.add(row1);
         waypointRows.add(row2);
 
-        selectVehicleComboBox.getSelectionModel().select(
-                vehicleDAO.getSelectedVehicle(mainController.getCurrentUser()).getStringRepresentation()
-        );
+        Vehicle vehicle = vehicleDAO.getSelectedVehicle(mainController.getCurrentUser());
+
+        if (vehicle != null) {
+            selectVehicleComboBox.getSelectionModel().select(
+                    vehicle.getStringRepresentation()
+            );
+        }
 
         populateVehicleDropdown();
     }

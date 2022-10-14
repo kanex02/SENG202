@@ -31,7 +31,7 @@ public class PlannedJourneyController {
      */
     public void setJourneys() {
         dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
-        vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicle_ID"));
+        vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicleRegistration"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
         Journey[] data = journeyDAO.getPlannedJourneys(mainController.getCurrentUser());
@@ -43,9 +43,6 @@ public class PlannedJourneyController {
      * Mark a journey as completed (move planned journey table to completed journey table).
      */
     @FXML public void markCompletedButton() {
-        int journeyID = selectedJourney.getJourneyID();
-        journeyDAO.completeAJourney(journeyID, mainController.getCurrentUser().getId());
-        mainController.updateCompletedJourneys();
     }
 
     @FXML public void deleteJourney() {
@@ -71,5 +68,6 @@ public class PlannedJourneyController {
                 this.selectedJourney = newJourney;
             }
         );
+
     }
 }

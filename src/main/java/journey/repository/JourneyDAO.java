@@ -1,13 +1,17 @@
 package journey.repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import journey.Utils;
 import journey.data.Journey;
 import journey.data.User;
-import journey.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
-import java.util.ArrayList;
 
 /**
  * Concrete implementation of Database Access Object that handles all journey related actions to the database.
@@ -54,102 +58,26 @@ public class JourneyDAO {
         try {
 
             conn = databaseManager.connect();
-            String sqlQuery = "SELECT * FROM Journeys WHERE User_ID = ? and completed = ?";
+            String sqlQuery = "SELECT * FROM Journeys WHERE User_ID = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setInt(1, user.getId());
-            ps.setBoolean(2, false);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                res.add(new Journey(rs.getInt("ID"), rs.getString("start"), rs.getString("end"),
+                res.add(new Journey(rs.getInt("ID"),
                         rs.getString("vehicle_ID"), rs.getInt("user_ID"),
-                        rs.getString("date")));
+                        rs.getString("date"), rs.getString("start"),
+                        rs.getString("end")));
             }
             for (Journey journey : res) {
-                ArrayList<Integer> stations = new ArrayList<>();
-                String stationsQuery = "SELECT * FROM JourneyStations WHERE journey_ID = ? ORDER BY number";
+                ArrayList<String> waypoints = new ArrayList<>();
+                String stationsQuery = "SELECT * FROM JourneyWaypoints WHERE journey_ID = ? ORDER BY number";
                 PreparedStatement preparedStatement = conn.prepareStatement(stationsQuery);
                 preparedStatement.setInt(1, journey.getJourneyID());
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    stations.add(resultSet.getInt("station_ID"));
+                    waypoints.add(resultSet.getString("waypoint"));
                 }
-                journey.setStations(stations);
-            }
-        } catch (SQLException e) {
-            log.error(e);
-        }
-        Utils.closeConn(conn);
-        return res.toArray(Journey[]::new);
-    }
-
-    /**
-     * Inserts journey into the database.
-
-     * @param journeyID journey's ID.
-     * @param currentUser the current user.
-     */
-    public void completeAJourney(int journeyID, int currentUser) {
-        Connection conn = null;
-        Journey journey = queryJourney(journeyID, currentUser);
-        journey.setDate(Utils.getDate());
-        try {
-            conn = databaseManager.connect();
-            String insertQuery = "INSERT INTO Journeys VALUES (?,?,?,?,?,?,?,?)";
-            PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
-            insertStatement.setInt(3, journey.getUserID());
-            insertStatement.setString(4, journey.getVehicle_ID());
-            insertStatement.setString(5, journey.getStart());
-            insertStatement.setString(6, journey.getEnd());
-            insertStatement.setString(7, journey.getDate());
-            insertStatement.setBoolean(8, true);
-            insertStatement.execute();
-
-            Statement statement = conn.createStatement();
-            for (int i = 0; i < journey.getStations().size(); i++) {
-                String sql = "INSERT INTO JourneyStations VALUES (" + getNumberOfJourneys() + ","
-                        + journey.getStations().get(i) + ","
-                        + i + ")";
-                statement.addBatch(sql);
-            }
-            statement.executeBatch();
-        } catch (SQLException e) {
-            log.error(e);
-        } finally {
-            Utils.closeConn(conn);
-        }
-    }
-
-    /**
-     * Get a list of all completed journeys from a specific user.
-
-     * @param user the current user.
-     * @return list of all completed journeys.
-     */
-    public Journey[] getCompletedJourneys(User user) {
-        Connection conn = null;
-        ArrayList<Journey> res = new ArrayList<>();
-        try {
-            conn = databaseManager.connect();
-            String sqlQuery = "SELECT * FROM Journeys WHERE User_ID = ? and completed = ?";
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, user.getId());
-            ps.setBoolean(2, true);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                res.add(new Journey(rs.getInt("ID"), rs.getString("start"), rs.getString("end"),
-                        rs.getString("vehicle_ID"), rs.getInt("user_ID"),
-                        rs.getString("date")));
-            }
-            for (Journey journey : res) {
-                ArrayList<Integer> stations = new ArrayList<>();
-                String stationsQuery = "SELECT * FROM JourneyStations WHERE journey_ID = ? ORDER BY number";
-                PreparedStatement preparedStatement = conn.prepareStatement(stationsQuery);
-                preparedStatement.setInt(1, journey.getJourneyID());
-                ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    stations.add(resultSet.getInt("station_ID"));
-                }
-                journey.setStations(stations);
+                journey.setWaypoints(waypoints);
             }
         } catch (SQLException e) {
             log.error(e);
@@ -167,29 +95,27 @@ public class JourneyDAO {
         Connection conn = null;
         try {
             conn = databaseManager.connect();
-            String insertQuery = "INSERT INTO Journeys VALUES (?,?,?,?,?,?,?,?)";
+            String insertQuery = "INSERT INTO Journeys VALUES (?,?,?,?,?,?)";
             PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
-            insertStatement.setInt(3, journey.getUserID());
-            insertStatement.setString(4, journey.getVehicle_ID());
-            insertStatement.setString(5, journey.getStart());
-            insertStatement.setString(6, journey.getEnd());
-            insertStatement.setString(7, journey.getDate());
-            insertStatement.setBoolean(8, false);
+            insertStatement.setString(2, journey.getStart());
+            insertStatement.setString(3, journey.getEnd());
+            insertStatement.setInt(4, journey.getUserID());
+            insertStatement.setString(5, journey.getVehicleRegistration());
+            insertStatement.setString(6, journey.getDate());
             insertStatement.execute();
 
             Statement statement = conn.createStatement();
-            for (int i = 0; i < journey.getStations().size(); i++) {
-                String sql = "INSERT INTO JourneyStations VALUES (" + getNumberOfJourneys() + ","
-                        + journey.getStations().get(i) + ","
-                        + i + ")";
+            for (int i = 0; i < journey.getWaypoints().size(); i++) {
+                String sql = "INSERT INTO JourneyWaypoints VALUES (" + getNumberOfJourneys() + ", '"
+                        + journey.getWaypoints().get(i) + "', "
+                        + i + ");";
                 statement.addBatch(sql);
             }
             statement.executeBatch();
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            Utils.closeConn(conn);
         }
+        Utils.closeConn(conn);
     }
 
     /**
@@ -208,19 +134,22 @@ public class JourneyDAO {
             ps.setInt(1, journeyID);
             ps.setInt(2, currentUser);
             ResultSet resultSet = ps.executeQuery();
-            // Create a new journey object.
-            Journey journey = new Journey(resultSet.getInt("ID"), resultSet.getString("start"),
-                    resultSet.getString("end"), resultSet.getString("vehicle_ID"),
-                    resultSet.getInt("user_ID"), resultSet.getString("date"));
-            ArrayList<Integer> stations = new ArrayList<>();
-            String sqlQuery2 = "SELECT station_ID FROM JourneyStations WHERE journey_ID = ?";
-            PreparedStatement ps2 = conn.prepareStatement(sqlQuery2);
-            ps2.setInt(1, journey.getJourneyID());
-            ResultSet resultSet2 = ps2.executeQuery();
-            while (resultSet2.next()) {
-                stations.add(resultSet2.getInt("station_id"));
+            Journey journey = null;
+            if (!resultSet.isBeforeFirst()) {
+                // Create a new journey object
+                journey = new Journey(resultSet.getInt("ID"), resultSet.getString("vehicle_ID"),
+                        resultSet.getInt("user_ID"), resultSet.getString("date"),
+                        resultSet.getString("start"), resultSet.getString("end"));
+                ArrayList<String> waypoints = new ArrayList<>();
+                String sqlQuery2 = "SELECT waypoint FROM JourneyWaypoints WHERE journey_ID = ?";
+                PreparedStatement ps2 = conn.prepareStatement(sqlQuery2);
+                ps2.setInt(1, journey.getJourneyID());
+                ResultSet resultSet2 = ps2.executeQuery();
+                while (resultSet2.next()) {
+                    waypoints.add(resultSet2.getString("waypoint"));
+                }
+                journey.setWaypoints(waypoints);
             }
-            journey.setStations(stations);
             return journey;
 
         } catch (SQLException e) {

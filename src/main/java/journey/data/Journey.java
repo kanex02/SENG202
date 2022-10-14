@@ -1,5 +1,7 @@
 package journey.data;
 
+import journey.Utils;
+
 import java.util.ArrayList;
 
 /**
@@ -7,10 +9,10 @@ import java.util.ArrayList;
  */
 public class Journey {
     private int userID;
-    private ArrayList<Integer> stations;
+    private ArrayList<String> waypoints;
+    private String vehicleRegistration;
     private String start;
     private String end;
-    private String vehicleID;
     private int journeyID;
     private String date;
 
@@ -21,39 +23,39 @@ public class Journey {
     /**
      * initialises private variables.
 
-     * @param journeyID journeys ID.
-     * @param start start of the journey.
-     * @param end end of the journey.
-     * @param vehicleID Vehicles ID.
-     * @param userID Users ID.
-     * @param date date the journey was submitted.
+     * @param journeyID journeys ID
+     * @param vehicleID Vehicles ID
+     * @param userID Users ID
+     * @param date date the journey was submitted
      */
-    public Journey(int journeyID, String start, String end, String vehicleID, int userID, String date) {
+    public Journey(int journeyID, String vehicleID, int userID, String date, String start, String end) {
         this.journeyID = journeyID;
-        this.start = start;
-        this.end = end;
-        this.vehicleID = vehicleID;
+        this.vehicleRegistration = vehicleID;
         this.userID = userID;
         this.date = date;
+        this.start = start;
+        this.end = end;
     }
 
     /**
      * initialises private variables.
 
-     * @param start start of the journey.
-     * @param end end of the journey.
-     * @param vehicleID Vehicles ID.
-     * @param userID Users ID.
-     * @param date date the journey was submitted.
-     * @param stations stations visited on the trip.
+     * @param vehicleID Vehicles ID
+     * @param userID Users ID
+     * @param date date the journey was submitted
+     * @param waypoints stations visited on the trip
      */
-    public Journey(String start, String end, String vehicleID, int userID, String date, ArrayList<Integer> stations) {
-        this.start = start;
-        this.end = end;
-        this.vehicleID = vehicleID;
+    public Journey(String vehicleID, int userID, String date, ArrayList<String> waypoints) {
+        this.vehicleRegistration = vehicleID;
         this.userID = userID;
         this.date = date;
-        this.stations = stations;
+        this.waypoints = waypoints;
+        String[] start = waypoints.get(0).split("#");
+        this.start = Utils.latLngToAddr(Double.parseDouble(start[0]),
+                Double.parseDouble(start[1]));
+        String[] end = waypoints.get(waypoints.size() - 1).split("#");
+        this.end = Utils.latLngToAddr(Double.parseDouble(end[0]),
+                Double.parseDouble(end[1]));
     }
 
     public String getDate() {
@@ -62,6 +64,10 @@ public class Journey {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getVehicleRegistration() {
+        return vehicleRegistration;
     }
 
     public void setStart(String start) {
@@ -80,25 +86,19 @@ public class Journey {
         return start;
     }
 
-    public String getVehicle_ID() {
-        return vehicleID;
-    }
-
     public int getJourneyID() {
         return journeyID;
     }
 
-    public ArrayList<Integer> getStations() {
-        return stations;
+    public ArrayList<String> getWaypoints() {
+        return waypoints;
     }
 
-    public void setStations(ArrayList<Integer> stations) {
-        this.stations = stations;
+    public void setWaypoints(ArrayList<String> waypoints) {
+        this.waypoints = waypoints;
     }
 
     public int getUserID() {
         return userID;
     }
-
-
 }
