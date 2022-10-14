@@ -262,29 +262,26 @@ public class CreateJourneyController {
 
     @FXML private void removeNth(ActionEvent event) {
         int index = Integer.parseInt((String) ((Node) event.getSource()).getUserData());
-        int wpSize = waypoints.size();
-        if (wpSize <= 2) {
-            // Catch error trying to remove an address that doesn't exist.
-            if (wpSize != 0 && waypointAddresses.get(index).getText().equals("")) {
-                waypoints.set(index, "");
-                waypointAddresses.get(index).setText("");
-                mainController.clearWaypoint(index);
-                mainController.clearRoute();
-            }
 
+        if (waypoints.size() <= 2) {
+            waypoints.set(index, "");
+            waypointAddresses.get(index).setText("");
+            mainController.clearWaypoint(index);
+            mainController.clearRoute();
 
             // Add markers back to map
             int i = 0;
             for (String waypoint : waypoints) {
                 if (!waypoint.isBlank()) {
                     String[] latLng = waypoint.split("#");
-                    mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]),
-                            Double.parseDouble(latLng[1]), String.valueOf(i));
+                    mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]), String.valueOf(i));
                 }
                 i++;
             }
             return;
         }
+
+
 
         waypoints.remove(index);
 
