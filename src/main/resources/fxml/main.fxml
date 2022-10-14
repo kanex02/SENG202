@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
+<BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <center>
        <AnchorPane prefHeight="750.0" prefWidth="1200.0">
            <BorderPane prefHeight="750.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -118,17 +118,9 @@
                                           <ImageView fx:id="plannedIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                       </HBox>
                                   </graphic>
-                                  <ScrollPane fx:id="plannedJourneysWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                  <ScrollPane fx:id="plannedJourneysWrapper" fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                                   </ScrollPane>
-                              </TitledPane>
-                              <TitledPane fx:id="completedJourneysPane" animated="false" layoutX="30.0" layoutY="108.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="Completed Journeys">
-                                  <graphic>
-                                      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
-                                          <ImageView fx:id="tickIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
-                                      </HBox>
-                                  </graphic>
-                                  <ScrollPane fx:id="completeJourneyWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                               </TitledPane>
                               <TitledPane fx:id="selectedStationTitledPane" animated="false" layoutX="30.0" layoutY="134.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="More Information about Selected Station">
                                   <graphic>

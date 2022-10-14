@@ -60,7 +60,6 @@ public class MainController {
     @FXML private TitledPane planJourneyPane;
     @FXML private TitledPane plannedJourneyPane;
     @FXML private TitledPane selectedStationTitledPane;
-    @FXML private TitledPane completedJourneysPane;
     @FXML private TitledPane searchPane;
     @FXML private TitledPane notesPane;
     @FXML private Accordion accordionPane;
@@ -73,7 +72,6 @@ public class MainController {
     @FXML private javafx.scene.image.ImageView notesIcon;
     @FXML private javafx.scene.image.ImageView planIcon;
     @FXML private javafx.scene.image.ImageView plannedIcon;
-    @FXML private javafx.scene.image.ImageView tickIcon;
     @FXML private javafx.scene.image.ImageView chargerIcon;
 
     private NotesController notesController;
@@ -81,7 +79,6 @@ public class MainController {
     private TableController tableController;
     private CreateJourneyController createJourneyController;
     private MapController mapViewController;
-    private CompletedJourneysController completedJourneysController;
     private SelectedStationController selectedStationController;
     private PlannedJourneyController plannedJourneyController;
     private StationsService stationsService;
@@ -183,29 +180,13 @@ public class MainController {
             FXMLLoader plannedJourneysLoader = new FXMLLoader(getClass().getResource("/fxml/plannedJourneys.fxml"));
             Parent plannedJourneysViewParent = plannedJourneysLoader.load();
 
+
             PlannedJourneyController plannedJourneyController = plannedJourneysLoader.getController();
             this.plannedJourneyController = plannedJourneyController;
             plannedJourneyController.init(this);
             ((ScrollPane) plannedJourneyPane.getContent()).setContent(plannedJourneysViewParent);
-
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
-
-    /**
-     * Inserts completed journeys table into an anchor pane.
-     */
-    private void viewCompletedJourneysTable() {
-        try {
-            FXMLLoader completedJourneysViewLoader = new FXMLLoader(getClass().getResource(
-                    "/fxml/completedJourneys.fxml"));
-            Parent completedJourneysViewParent = completedJourneysViewLoader.load();
-
-            CompletedJourneysController completedJourneyViewController = completedJourneysViewLoader.getController();
-            completedJourneyViewController.init(this);
-            completedJourneysController = completedJourneyViewController;
-            ((ScrollPane) completedJourneysPane.getContent()).setContent(completedJourneysViewParent);
+            ((AnchorPane) plannedJourneysViewParent).prefHeightProperty().bind(
+                    ((ScrollPane) plannedJourneyPane.getContent()).heightProperty());
 
         } catch (IOException e) {
             log.error(e);
@@ -235,9 +216,6 @@ public class MainController {
         plannedJourneyController.setJourneys();
     }
 
-    public void updateCompletedJourneys() {
-        completedJourneysController.setJourneys();
-    }
 
     public int getSelectedStation() {
         return selectedStation;
@@ -533,7 +511,7 @@ public class MainController {
             stationList.add(newString);
         }
         icons = new ArrayList<>(asList(helpIcon, homeIcon, profileIcon, journeyIcon,
-                searchIcon, notesIcon, planIcon, plannedIcon, tickIcon, chargerIcon));
+                searchIcon, notesIcon, planIcon, plannedIcon, chargerIcon));
         initImages();
         viewMap();
         viewTable();
@@ -542,7 +520,6 @@ public class MainController {
         viewSearch();
         viewNotes();
         setSelectedVehicle(selectedVehicle);
-        viewCompletedJourneysTable();
         viewSelectedStation();
     }
 
