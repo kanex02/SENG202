@@ -165,33 +165,18 @@ public class RegisterVehicleController {
      */
     @FXML private void registerVehicle() {
         //get information about the vehicles and reset to null values
-        regWarningLabel.setText("");
-        makeWarningLabel.setText("");
-        modelWarningLabel.setText("");
-        yearWarningLabel.setText("");
-        currentWarningLabel.setText("");
-        connectorWarningLabel.setText("");
+        clearWarnings();
         boolean valid = isValid();
 
         if (valid) {
             chargerTypeChoice();
             connectorTypeChoice();
-            registrationTextBox.setText("");
-            yearTextBox.setText("");
-            makeTextBox.setText("");
-            modelTextBox.setText("");
-            chargerBox.setValue("");
-            connectorBox.setValue("");
-            regWarningLabel.setText("");
-            makeWarningLabel.setText("");
-            modelWarningLabel.setText("");
-            yearWarningLabel.setText("");
-            currentWarningLabel.setText("");
-            connectorWarningLabel.setText("");
             String registration = registrationTextBox.getText();
             String year = yearTextBox.getText();
             String make = makeTextBox.getText();
             String model = modelTextBox.getText();
+            clearTextFields();
+            clearWarnings();
             int intYear = Integer.parseInt(year);
             Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice,
                     registration, connectorTypeChoice);
@@ -206,6 +191,24 @@ public class RegisterVehicleController {
                 log.error(e);
             }
         }
+    }
+
+    public void clearWarnings() {
+        regWarningLabel.setText("");
+        makeWarningLabel.setText("");
+        modelWarningLabel.setText("");
+        yearWarningLabel.setText("");
+        currentWarningLabel.setText("");
+        connectorWarningLabel.setText("");
+    }
+
+    public void clearTextFields() {
+        registrationTextBox.setText("");
+        yearTextBox.setText("");
+        makeTextBox.setText("");
+        modelTextBox.setText("");
+        chargerBox.setValue("");
+        connectorBox.setValue("");
     }
 
 

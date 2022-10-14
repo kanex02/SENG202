@@ -25,6 +25,7 @@ public class SelectedStationController {
     @FXML private Label ratingField;
     @FXML private Label favouritedField;
     @FXML private Label attractionsField;
+    @FXML private Label operationalWarning;
 
     private final StationDAO stationDAO = new StationDAO();
     private final NoteDAO noteDAO = new NoteDAO();
@@ -60,6 +61,12 @@ public class SelectedStationController {
             ratingField.setText(Integer.toString(notes.getRating()));
         } else {
             ratingField.setText("Not yet rated");
+        }
+        String operational = selectedStation.getDateFirstOperational();
+        if (operational.length() < 1) {
+            operationalWarning.setText("WARNING: This station is not yet operational!");
+        } else {
+            operationalWarning.setText("");
         }
     }
 
