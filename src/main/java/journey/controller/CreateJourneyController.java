@@ -1,5 +1,7 @@
 package journey.controller;
 
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +28,7 @@ import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
+import journey.service.CreateJourneyService;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -47,6 +50,7 @@ public class CreateJourneyController {
     @FXML private Pane iconPane;
     @FXML private ImageView firstCircle;
     @FXML private ImageView firstEllipses;
+    @FXML private Label journeyWarningLabel;
 
     private MainController mainController;
     private MapController mapViewController;
@@ -61,6 +65,7 @@ public class CreateJourneyController {
     // Search after 0.5 seconds
     PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
 
+    FadeTransition fade;
     private Image ellipses;
     private Image circle;
     private Image closeImage;
@@ -315,11 +320,22 @@ public class CreateJourneyController {
      * Ensures all fields are filled and valid then adds the filed journey.
      */
     @FXML private void addJourney() {
-        // TODO: Check values
-        Journey journey = new Journey(selectVehicleComboBox.getValue().split(":")[0],
-                mainController.getCurrentUser().getId(), LocalDate.now().toString(), waypoints);
-        journeyDAO.addJourney(journey);
-        mainController.updatePlannedJourneys();
+        journeyWarningLabel.setStyle("-fx-text-fill: red");
+        journeyWarningLabel.setText("");
+        String warnings = CreateJourneyService.checkJourney(selectVehicleComboBox.getValue(),
+                waypoints);
+        if (warnings.isBlank()) {
+            // TODO: get this working
+            journeyWarningLabel.setStyle("-fx-text-fill: green");
+            journeyWarningLabel.setText("Saved!");
+            Journey journey = new Journey(selectVehicleComboBox.getValue().split(":")[0],
+                    mainController.getCurrentUser().getId(), LocalDate.now().toString(), waypoints);
+            journeyDAO.addJourney(journey);
+            mainController.updatePlannedJourneys();
+        } else {
+            journeyWarningLabel.setText(warnings);
+            fade.play();
+        }
     }
 
     public void updateJourney() {
@@ -407,6 +423,11 @@ public class CreateJourneyController {
                     vehicle.getStringRepresentation()
             );
         }
+
+        fade = new FadeTransition(Duration.seconds(3));
+        fade.setFromValue(10);
+        fade.setToValue(0);
+        fade.setNode(journeyWarningLabel);
 
         populateVehicleDropdown();
     }

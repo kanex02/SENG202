@@ -2,6 +2,8 @@ package journey.service;
 
 import journey.Utils;
 
+import java.util.ArrayList;
+
 /**
  * Service class to extract testable methods for journey planning.
  */
@@ -12,20 +14,18 @@ public class CreateJourneyService {
      * as that point is in the ocean off the coast of Africa, outside NZ.
 
      * @param vehicle choice of vehicle
-     * @param start start point
-     * @param end end point
+     * @param waypoints waypoints of journey
      * @return whether the inputs are valid, in the same order as the function params.
      */
-    public static Boolean[] checkJourney(String vehicle, String start, String end) {
-        Boolean[] valid = new Boolean[] {true, true, true};
+    public static String checkJourney(String vehicle, ArrayList<String> waypoints) {
+        String valid = "";
+        String start = waypoints.get(0);
+        String end = waypoints.get(waypoints.size()-1);
         if (vehicle == null || vehicle.isEmpty()) {
-            valid[0] = false;
+            valid += "No vehicle selected!\n";
         }
-        if (start.equals("") || Utils.locToLatLng(start).equals("0.0#0.0")) {
-            valid[1] = false;
-        }
-        if (end.equals("") || Utils.locToLatLng(end).equals("0.0#0.0")) {
-            valid[2] = false;
+        if (start.equals("") || end.equals("")) {
+            valid += "Invalid journey!\n";
         }
         return valid;
     }

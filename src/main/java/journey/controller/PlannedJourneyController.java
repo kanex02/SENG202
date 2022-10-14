@@ -39,9 +39,11 @@ public class PlannedJourneyController {
      * Deletes a journey.
      */
     @FXML public void deleteJourney() {
-        journeyDAO.deleteJourney(selectedJourney);
-        selectedJourney = null;
-        setJourneys();
+        if (selectedJourney != null) {
+            journeyDAO.deleteJourney(selectedJourney);
+            selectedJourney = null;
+            setJourneys();
+        }
     }
 
     public void clearTableSelection() {
