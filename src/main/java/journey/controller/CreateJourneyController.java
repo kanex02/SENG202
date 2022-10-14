@@ -18,6 +18,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import journey.Utils;
+import journey.data.Journey;
 import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
 import journey.repository.StationDAO;
@@ -25,6 +26,7 @@ import journey.repository.VehicleDAO;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -59,7 +61,7 @@ public class CreateJourneyController {
     private JourneyDAO journeyDAO;
     private StationDAO stationDAO;
     private VehicleDAO vehicleDAO;
-    private ArrayList<String> waypoints;
+    private final ArrayList<String> waypoints = new ArrayList<>();
     private final ArrayList<TextField> waypointAddresses = new ArrayList<>();
     private final ArrayList<AnchorPane> waypointRows = new ArrayList<>();
     private final ArrayList<ImageView> circleIcons = new ArrayList<>();
@@ -78,6 +80,16 @@ public class CreateJourneyController {
                 setOffsetY(4);
                 setColor(new Color(0.23, 0.23, 0.23, 0.25));
     }};
+
+    public void addNewWaypoint(double lat, double lng) {
+        int position = (int) waypoints.stream().filter(waypoint -> !waypoint.isBlank()).count();
+
+        // make sure a waypoint isn't added twice in a row
+        if (position == 0 || !waypoints.get(position - 1).equals(lat + "#" + lng)) {
+            // inserts a waypoint at the end of the list
+            addWaypointToJourney(lat, lng, position);
+        }
+    }
 
 
     public void insertWaypoint(double lat, double lng, int position) {
@@ -300,57 +312,13 @@ public class CreateJourneyController {
 
     /**
      * Ensures all fields are filled and valid then adds the filed journey.
-
-     * @param event addJourney button pressed
      */
-    @FXML private void addJourney(Event event) {
-//        String vehicleChoice = selectVehicleComboBox.getValue();
-//        String start = startAddr.getText();
-//        String end = endAddr.getText();
-//        int userID = mainController.getCurrentUser().getId();
-//
-//        // Check if the inputs are valid
-//        Boolean[] valid = CreateJourneyService.checkJourney(vehicleChoice, start, end);
-//
-//        StringJoiner errors = new StringJoiner("\n");
-//
-//        if (!valid[0]) {
-//            errors.add("Please select a vehicle");
-//        }
-//
-//        if (!valid[1]) {
-//            errors.add("Start location invalid");
-//        }
-//
-//        if (!valid[2]) {
-//            errors.add("End location invalid");
-//        }
-//
-//        journeyWarningLabel.setText(errors.toString());
-//
-//        boolean validJourney = true;
-//        for (Boolean bool : valid) {
-//            if (!bool) {
-//                validJourney = false;
-//                break;
-//            }
-//        }
-//
-//        if (validJourney) {
-//            journeyWarningLabel.setText("");
-//            selectVehicleComboBox.setValue("");
-//            startAddr.setText("");
-//            endAddr.setText("");
-//            selectedStationField.setText("");
-//            visitedStationsList.setItems(FXCollections.observableArrayList());
-//            String[] vehicle = vehicleChoice.split(": ");
-//            String date = Utils.getDate();
-//            Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);
-//            journeyDAO.addJourney(journey);
-//            mapViewController.clearJourneyMarkers();
-//            mainController.updatePlannedJourneys();
-//            event.consume();
-//        }
+    @FXML private void addJourney() {
+        // TODO: Check values
+        Journey journey = new Journey(selectVehicleComboBox.getValue().split(":")[0],
+                mainController.getCurrentUser().getId(), LocalDate.now().toString(), waypoints);
+        journeyDAO.addJourney(journey);
+        mainController.updatePlannedJourneys();
     }
 
     private void updateJourney() {
@@ -373,7 +341,9 @@ public class CreateJourneyController {
         this.stationDAO = new StationDAO();
         this.vehicleDAO = new VehicleDAO();
 
-        waypoints = new ArrayList<>();
+        waypoints.add("");
+        waypoints.add("");
+
         waypointAddresses.add(address0);
         waypointAddresses.add(address1);
 
@@ -419,30 +389,18 @@ public class CreateJourneyController {
         cancel2.setFitHeight(24);
         cancel2.setFitWidth(24);
         cancel2.setPreserveRatio(true);
-        ((Button)((HBox)row1.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel1);
-        ((Button)((HBox)row2.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel2);
+        ((Button) ((HBox) row1.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel1);
+        ((Button) ((HBox) row2.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel2);
         waypointRows.add(row1);
         waypointRows.add(row2);
-       // disable scroll pane at start
-//        startAddrScroll.setVisible(false);
-//        endAddrScroll.setVisible(false);
 
-//        // Set up event listeners for text areas
-//        startAddr.setOnKeyPressed(keyEvent -> {
-//            if (keyEvent.getCode() == KeyCode.ENTER) {
-//                autoComplete(true);
-//            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
-//                startAddrScroll.setVisible(false);
-//            }
-//        });
-//
-//        endAddr.setOnKeyPressed(keyEvent -> {
-//            if (keyEvent.getCode() == KeyCode.ENTER) {
-//                utoComplete(false);
-//            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
-//                endAddrScroll.setVisible(false);
-//            }
-//        });
+        Vehicle vehicle = vehicleDAO.getSelectedVehicle(mainController.getCurrentUser());
+
+        if (vehicle != null) {
+            selectVehicleComboBox.getSelectionModel().select(
+                    vehicle.getStringRepresentation()
+            );
+        }
 
         populateVehicleDropdown();
     }

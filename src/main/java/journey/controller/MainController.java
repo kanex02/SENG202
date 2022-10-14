@@ -250,8 +250,8 @@ public class MainController {
         return currentStations;
     }
 
-    public void mapJourney(Journey journey) {
-        mapViewController.mapJourney(journey);
+    public void mapJourney(Journey journey, boolean editable) {
+        mapViewController.mapJourney(journey, editable);
     }
 
     public void mapJourneyFromLatLng(String[] waypoints) {

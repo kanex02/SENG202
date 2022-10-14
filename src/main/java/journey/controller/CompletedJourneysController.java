@@ -33,9 +33,6 @@ public class CompletedJourneysController {
         vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicle_ID"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
-        Journey[] data = journeyDAO.getCompletedJourneys(mainController.getCurrentUser());
-        ObservableList<Journey> journeys = FXCollections.observableArrayList(data);
-        journeyTable.setItems(journeys);
     }
 
     /**
@@ -51,7 +48,7 @@ public class CompletedJourneysController {
         journeyTable.maxWidthProperty().bind(completedJourneysParent.widthProperty());
         journeyTable.maxHeightProperty().bind(completedJourneysParent.heightProperty());
 
-        journeyTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldJourney, newJourney) -> mainController.mapJourney(newJourney)
+        journeyTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldJourney, newJourney) -> mainController.mapJourney(newJourney, true)
         );
     }
 }

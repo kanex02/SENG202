@@ -36,6 +36,7 @@ public class MapController {
     private JavaScriptBridge javaScriptBridge;
     private JSObject javaScriptConnector;
     private boolean routeDisplayed = false;
+    private boolean routeEditable = true;
     private MainController mainController;
     private GetLatLongInterface callback;
     private StationDAO stationDAO;
@@ -135,17 +136,12 @@ public class MapController {
 
      * @param journey Journey to map
      */
-    public void mapJourney(Journey journey) {
-        ArrayList<String> waypoints = new ArrayList<>();
-        waypoints.add(Utils.locToLatLng(journey.getStart()));
-        for (int stationID : journey.getStations()) {
-            Station station = stationDAO.queryStation(stationID);
-            waypoints.add(station.getLatitude() + "#" + station.getLongitude());
-        }
-        waypoints.add(Utils.locToLatLng(journey.getEnd()));
+    public void mapJourney(Journey journey, boolean editable) {
+        ArrayList<String> waypoints = journey.getWaypoints();
         String waypointString =  Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
-        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2));
+        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2), editable);
         routeDisplayed = true;
+        routeEditable = editable;
         setToggle(true);
     }
 
@@ -200,7 +196,7 @@ public class MapController {
      */
     private void addRoute() {
         routeDisplayed = true;
-        javaScriptConnector.call("addRoute");
+        javaScriptConnector.call("addRoute", routeEditable);
     }
 
     /**
