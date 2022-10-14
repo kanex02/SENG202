@@ -1,6 +1,10 @@
 package journey.controller;
 
-import javafx.animation.Animation;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Objects;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
@@ -10,7 +14,10 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -26,15 +33,9 @@ import journey.Utils;
 import journey.data.Journey;
 import journey.data.Vehicle;
 import journey.repository.JourneyDAO;
-import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
 import journey.service.CreateJourneyService;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Class to handle creating a journey given a start, end and chargers along the way.
@@ -55,7 +56,6 @@ public class CreateJourneyController {
     private MainController mainController;
     private MapController mapViewController;
     private JourneyDAO journeyDAO;
-    private StationDAO stationDAO;
     private VehicleDAO vehicleDAO;
     private final ArrayList<String> waypoints = new ArrayList<>();
     private final ArrayList<TextField> waypointAddresses = new ArrayList<>();
@@ -79,6 +79,12 @@ public class CreateJourneyController {
                 setColor(new Color(0.23, 0.23, 0.23, 0.25));
         }};
 
+    /**
+     * Adds a new waypoint at the end of the current list.
+
+     * @param lat latitude
+     * @param lng longitude
+     */
     public void addNewWaypoint(double lat, double lng) {
         int position = (int) waypoints.stream().filter(waypoint -> !waypoint.isBlank()).count();
 
@@ -183,14 +189,13 @@ public class CreateJourneyController {
 
     private AnchorPane nthWaypoint(int i) {
         addIcon(i);
-        AnchorPane stationRow = new AnchorPane();
-        HBox row = new HBox();
-        TextField address = new TextField();
-        Button removeWaypoint = new Button();
         ImageView cancel1 = new ImageView(closeImage);
         cancel1.setFitHeight(24);
         cancel1.setFitWidth(24);
         cancel1.setPreserveRatio(true);
+
+
+        AnchorPane stationRow = new AnchorPane();
         stationRow.setId("row" + i);
         stationRow.setPrefHeight(32);
         stationRow.setPrefWidth(270);
@@ -198,6 +203,9 @@ public class CreateJourneyController {
         AnchorPane.setRightAnchor(stationRow, 10d);
         AnchorPane.setLeftAnchor(stationRow, 0d);
 
+        TextField address = new TextField();
+        HBox row = new HBox();
+        Button removeWaypoint = new Button();
         row.getChildren().add(address);
         row.getChildren().add(removeWaypoint);
         stationRow.getChildren().add(row);
@@ -279,7 +287,8 @@ public class CreateJourneyController {
             for (String waypoint : waypoints) {
                 if (!waypoint.isBlank()) {
                     String[] latLng = waypoint.split("#");
-                    mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]), String.valueOf(i));
+                    mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]),
+                            Double.parseDouble(latLng[1]), String.valueOf(i));
                 }
                 i++;
             }
@@ -325,9 +334,9 @@ public class CreateJourneyController {
         String warnings = CreateJourneyService.checkJourney(selectVehicleComboBox.getValue(),
                 waypoints);
         if (warnings.isBlank()) {
-            // TODO: get this working
             journeyWarningLabel.setStyle("-fx-text-fill: green");
             journeyWarningLabel.setText("Saved!");
+            fade.play();
             Journey journey = new Journey(selectVehicleComboBox.getValue().split(":")[0],
                     mainController.getCurrentUser().getId(), LocalDate.now().toString(), waypoints);
             journeyDAO.addJourney(journey);
@@ -338,6 +347,9 @@ public class CreateJourneyController {
         }
     }
 
+    /**
+     * Maps the current waypoints.
+     */
     public void updateJourney() {
         if (waypoints.stream().filter(x -> !x.isBlank()).count() >= 2) {
             mainController.clearWaypoints();
@@ -370,10 +382,10 @@ public class CreateJourneyController {
         );
 
         ImageView cancel1 = new ImageView(closeImage);
-        ImageView cancel2 = new ImageView(closeImage);
         cancel1.setFitHeight(24);
         cancel1.setFitWidth(24);
         cancel1.setPreserveRatio(true);
+        ImageView cancel2 = new ImageView(closeImage);
         cancel2.setFitHeight(24);
         cancel2.setFitWidth(24);
         cancel2.setPreserveRatio(true);
@@ -391,7 +403,6 @@ public class CreateJourneyController {
         this.mainController = mainController;
         this.mapViewController = mainController.getMapViewController();
         this.journeyDAO = new JourneyDAO();
-        this.stationDAO = new StationDAO();
         this.vehicleDAO = new VehicleDAO();
 
         waypoints.add("");

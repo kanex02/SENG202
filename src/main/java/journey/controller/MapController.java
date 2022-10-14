@@ -1,5 +1,8 @@
 package journey.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,14 +16,10 @@ import journey.business.GetLatLongInterface;
 import journey.business.JavaScriptBridge;
 import journey.data.Journey;
 import journey.data.Station;
-import journey.repository.StationDAO;
 import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Controller for displaying Open Street Maps through JavaFX webview.
@@ -40,7 +39,6 @@ public class MapController {
     private boolean routeEditable = true;
     private MainController mainController;
     private GetLatLongInterface callback;
-    private StationDAO stationDAO;
     private String label;
     private boolean showLegend;
     private static final Logger log = LogManager.getLogger();
@@ -84,7 +82,6 @@ public class MapController {
      * Initialise map class.
      */
     void init(MainController mainController) {
-        stationDAO = new StationDAO();
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick,
                 this::getLatLongFromClick,
                 this::changeLatLong,
@@ -146,11 +143,13 @@ public class MapController {
      */
     public void mapJourney(Journey journey) {
         ArrayList<String> waypoints = journey.getWaypoints();
-        String waypointString =  Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
-        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2), false);
-        routeDisplayed = true;
-        routeEditable = false;
-        setToggle(true);
+        if (waypoints.size() >= 2) {
+            String waypointString = Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
+            javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2), false);
+            routeDisplayed = true;
+            routeEditable = false;
+            setToggle(true);
+        }
     }
 
     /**
@@ -296,14 +295,6 @@ public class MapController {
     public void setCallback(GetLatLongInterface callback, String label) {
         this.callback = callback;
         this.label = label;
-    }
-
-    /**
-     * Clears the start and end of the journey.
-     */
-    public void clearJourneyMarkers() {
-        javaScriptConnector.call("clearMiscMarker", "start");
-        javaScriptConnector.call("clearMiscMarker", "end");
     }
 
     /**

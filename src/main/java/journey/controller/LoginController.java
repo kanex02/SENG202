@@ -1,5 +1,8 @@
 package journey.controller;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.util.Objects;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,9 +26,6 @@ import journey.service.LoginService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.Objects;
 
 
 /**
@@ -85,12 +85,16 @@ public class LoginController {
         Boolean valid = LoginService.checkUser(name);
         if (!valid) {
             registerWarningLabel.setText("Your name cannot contain any digits or special characters!");
+            nameTextBox.setStyle("-fx-border-color: red");
         } else if (name.equals("")) {
             registerWarningLabel.setText("Please enter a name or select from dropdown");
+            nameTextBox.setStyle("-fx-border-color: red");
         } else if (userDAO.nameInDB(name)) {
             registerWarningLabel.setText("A user with that name already exists!");
+            nameTextBox.setStyle("-fx-border-color: red");
         } else if (name.length() > 15) {
             registerWarningLabel.setText("Your name cannot be longer than 15 characters!");
+            nameTextBox.setStyle("-fx-border-color: red");
         } else {
             user = userDAO.setCurrentUser(name);
             stage.setTitle("Loading...");
@@ -102,6 +106,8 @@ public class LoginController {
      * Resets the warning labels if nameTextBox or nameChoiceBox is clicked.
      */
     @FXML public void resetLoginWarnings() {
+        nameTextBox.setStyle("-fx-border-color: none");
+        nameChoiceBox.setStyle("-fx-border-color: none");
         if (!(loginWarningLabel.getText().equals(""))) {
             loginWarningLabel.setText("");
         }
@@ -121,6 +127,7 @@ public class LoginController {
             stage.setTitle("Loading...");
             Platform.runLater(this::switchToMain);
         } else {
+            nameChoiceBox.setStyle("-fx-border-color: red");
             loginWarningLabel.setText("Please select from dropdown or register new user");
         }
     }
