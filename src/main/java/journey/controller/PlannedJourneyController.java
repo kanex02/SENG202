@@ -63,9 +63,10 @@ public class PlannedJourneyController {
         journeyTable.maxHeightProperty().bind(tableParent.heightProperty());
 
         journeyTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldJourney, newJourney) -> {
-                mainController.mapJourney(newJourney, false);
+                mainController.mapJourney(newJourney);
                 this.selectedJourney = newJourney;
             }
         );
+
     }
 }

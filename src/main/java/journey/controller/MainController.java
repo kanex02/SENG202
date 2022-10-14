@@ -250,8 +250,8 @@ public class MainController {
         return currentStations;
     }
 
-    public void mapJourney(Journey journey, boolean editable) {
-        mapViewController.mapJourney(journey, editable);
+    public void mapJourney(Journey journey) {
+        mapViewController.mapJourney(journey);
     }
 
     public void mapJourneyFromLatLng(String[] waypoints) {
@@ -274,6 +274,10 @@ public class MainController {
         } catch (IOException e) {
             log.error(e);
         }
+    }
+
+    public void addNewWaypoint(double lat, double lng) {
+        createJourneyController.addNewWaypoint(lat, lng);
     }
 
     public void insertWaypoint(double lat, double lng, int position) {

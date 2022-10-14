@@ -128,6 +128,7 @@ public class MapController {
     }
 
     public boolean addToRoute(double lat, double lng) {
+        mainController.addNewWaypoint(lat, lng);
         return true;
     }
 
@@ -136,19 +137,24 @@ public class MapController {
 
      * @param journey Journey to map
      */
-    public void mapJourney(Journey journey, boolean editable) {
+    public void mapJourney(Journey journey) {
         ArrayList<String> waypoints = journey.getWaypoints();
         String waypointString =  Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
-        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2), editable);
+        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2), false);
         routeDisplayed = true;
-        routeEditable = editable;
+        routeEditable = false;
         setToggle(true);
     }
 
+    /**
+     * Map a journey currently being planned.
 
+     * @param waypoints the waypoints of the journey
+     */
     public void mapJourneyFromLatLng(String[] waypoints) {
         String waypointString =  Utils.convertArrayToString(waypoints, "//");
-        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2));
+        routeEditable = true;
+        javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2), true);
     }
 
     /**
