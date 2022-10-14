@@ -57,15 +57,15 @@ public class HelpController {
         switch (image) {
             default -> setHelpImage("");
 
-            case "Search and Filter" -> setHelpImage("/pictures/Search.jpg");
+            case "Search and Filter" -> setHelpImage("/images/Search.jpg");
 
-            case "Record Notes" -> setHelpImage("/pictures/Notes.jpg");
+            case "Record Notes" -> setHelpImage("/images/Notes.jpg");
 
-            case "Plan a Journey" -> setHelpImage("/pictures/PlanJourney.jpg");
+            case "Plan a Journey" -> setHelpImage("/images/PlanJourney.jpg");
 
-            case "Planned Journeys" -> setHelpImage("/pictures/Planned.jpg");
+            case "Planned Journeys" -> setHelpImage("/images/Planned.jpg");
 
-            case "Register a Vehicle" -> setHelpImage("/pictures/RegisterVehicle.jpg");
+            case "Register a Vehicle" -> setHelpImage("/images/RegisterVehicle.jpg");
         }
     }
 
@@ -76,6 +76,8 @@ public class HelpController {
      */
     void init(Stage helpStage) {
         this.stage = helpStage;
+        stage.setMinHeight(600);
+        stage.setMinWidth(915);
         setHelpImage("/images/Search.jpg");
         fillHelp();
     }

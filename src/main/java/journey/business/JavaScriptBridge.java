@@ -100,7 +100,7 @@ public class JavaScriptBridge {
     }
 
     /**
-     * Edit a waypoint on journey plan referernced by: {@link MapController}, {@link CreateJourneyController}.
+     * Edit a waypoint on journey plan refererenced by: {@link MapController}, {@link CreateJourneyController}.
 
      * @param lat longitude of waypoint.
      * @param lng longitude of waypoint.

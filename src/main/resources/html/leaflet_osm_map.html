@@ -29,10 +29,18 @@
 <script>
     let map;
     var markers = L.markerClusterGroup({
+
         showCoverageOnHover: false,
+        zoomToBoundsOnClick: true,
         removeOutsideVisibleBounds: false,
         maxClusterRadius: 100,
         disableClusteringAtZoom: 10,
+        unspiderfy: true,
+        iconCreateFunction: function(cluster) {
+            return L.divIcon({ html: '<div style=\"background-color:'+'rgba(60,143,204, 0.8);'
+                    +'\"><span>' + cluster.getChildCount() + '</span></div>',
+                className: 'marker-cluster', iconSize: new L.Point(40, 40) });
+        }
     });
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let route;
@@ -164,7 +172,7 @@
      */
     function initMap() {
         var corner1 = L.latLng(-48.632908, 162.949218);
-        var corner2 = L.latLng(-33.57801, 179.73628);
+        var corner2 = L.latLng(-33.57801, 181.73628);
         var bounds = L.latLngBounds(corner1, corner2);
 
         console.log = function(message) {
