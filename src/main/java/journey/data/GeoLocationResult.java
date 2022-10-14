@@ -1,19 +1,19 @@
 package journey.data;
 
 /**
- * Simple class wrapping float of lat and lng values for use with Geolocation
+ * Simple class wrapping float of lat and lng values for use with Geolocation.
 
- * @author Morgan English
+ * @author Morgan English.
  */
 public class GeoLocationResult {
     float lat;
     float lng;
 
     /**
-     * Create a new geolocation result with the given lat and long co-ordinates
+     * Create a new geolocation result with the given lat and long co-ordinates.
 
-     * @param lat latitude of location
-     * @param lng longitude of location
+     * @param lat latitude of location.
+     * @param lng longitude of location.
      */
     public GeoLocationResult(float lat, float lng) {
         this.lat = lat;
@@ -21,18 +21,18 @@ public class GeoLocationResult {
     }
 
     /**
-     * Gets location latitude
+     * Gets location latitude.
 
-     * @return latitude of location
+     * @return latitude of location.
      */
     public float getLat() {
         return lat;
     }
 
     /**
-     * Gets location longitude
+     * Gets location longitude.
 
-     * @return longitude of location
+     * @return longitude of location.
      */
     public float getLng() {
         return lng;

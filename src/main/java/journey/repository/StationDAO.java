@@ -160,10 +160,8 @@ public class StationDAO {
 
         try {
             conn = databaseManager.connect();
-            Statement statement = conn.createStatement();
-
-            String stationQuery = "SELECT * FROM Stations " +
-                    "left outer join (select * from Notes where user_ID = ?) on Stations.id = station_ID";
+            String stationQuery = "SELECT * FROM Stations "
+                    + "left outer join (select * from Notes where user_ID = ?) on Stations.id = station_ID";
             PreparedStatement ps = conn.prepareStatement(stationQuery);
             ps.setInt(1, currUser.getId());
             ResultSet rs = ps.executeQuery();
@@ -175,6 +173,11 @@ public class StationDAO {
         return res.toArray(Station[]::new);
     }
 
+    /**
+     * Gets all operators for searching.
+
+     * @return List of operators.
+     */
     public ObservableList<String> getAllOperators() {
         Connection conn = null;
         ObservableList<String> operators =

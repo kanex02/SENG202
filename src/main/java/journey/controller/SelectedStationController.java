@@ -23,12 +23,11 @@ public class SelectedStationController {
     @FXML private Label costField;
     @FXML private Label parkingCostField;
     @FXML private Label ratingField;
-    @FXML private Label favoritedField;
-//    @FXML private ListView<String> attractionsList;
+    @FXML private Label favouritedField;
+    @FXML private Label attractionsField;
 
     private final StationDAO stationDAO = new StationDAO();
     private final NoteDAO noteDAO = new NoteDAO();
-//    private AttractionsService attractionsService = new AttractionsService();
     private MainController mainController;
     private Station selectedStation;
 
@@ -50,28 +49,18 @@ public class SelectedStationController {
             timeLimitField.setText(Integer.toString(time));
         }
         boolean chargeCost = selectedStation.getHasChargingCost();
-        costField.setText(chargeCost ? "Yes":"No");
+        costField.setText(chargeCost ? "Yes" : "No");
         boolean parkCost = selectedStation.getHasCarParkCost();
-        parkingCostField.setText(parkCost ? "Yes":"No");
+        parkingCostField.setText(parkCost ? "Yes" : "No");
         Note notes = noteDAO.getNoteFromStation(selectedStation, mainController.getCurrentUser());
-        favoritedField.setText(notes.getFavourite() ? "Yes":"No");
+        favouritedField.setText(notes.getFavourite() ? "Yes" : "No");
+        boolean attractions = selectedStation.getHasTouristAttraction();
+        attractionsField.setText(attractions ? "Yes" : "No");
         if (notes.getRating() != 0) {
             ratingField.setText(Integer.toString(notes.getRating()));
         } else {
             ratingField.setText("Not yet rated");
         }
-//        ArrayList<Feature> features = null;
-//        try {
-//            features = attractionsService.getAttractions(selectedStation.getLatitude(), selectedStation.getLongitude(), 2000);
-//        } catch (IOException e) {
-//            log.error(e);
-//        }
-//        ObservableList<String> attractions = FXCollections.observableArrayList();
-//        for (Feature feature : features) {
-//
-//            attractions.add(feature.getFormattedName());
-//        }
-//        attractionsList.setItems(attractions);
     }
 
     /**

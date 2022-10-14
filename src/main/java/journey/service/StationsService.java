@@ -7,6 +7,9 @@ import journey.repository.StationDAO;
 
 import java.util.*;
 
+/**
+ * Service class to extract testable methods for Station actions.
+ */
 public class StationsService {
     private final Station[] allStations;
 
@@ -20,6 +23,20 @@ public class StationsService {
         return allStations;
     }
 
+    /**
+     * Creates a Query station to Query the database.
+
+     * @param name name.
+     * @param operator operator.
+     * @param maxTime maximum time allowed to stay.
+     * @param attractions whether there is an attraction nearby.
+     * @param addressLatLng latitude and longitude of address.
+     * @param currentType type of current provided (AC/DC/Mixed).
+     * @param connectors information about connectors.
+     * @param range range.
+     * @param favourited whether the station has been favourited or not.
+     * @return A station like object to be queried in the Database.
+     */
     public static QueryStation createQueryStation(String name,
                                                   String operator,
                                                   String currentType,
@@ -52,7 +69,7 @@ public class StationsService {
     }
 
     /**
-     * checks all inputs are given in a way that the database can understand
+     * checks all inputs are given in a way that the database can understand.
 
      * @return A string of errors
      */
@@ -83,6 +100,12 @@ public class StationsService {
         return errors.toString();
     }
 
+    /**
+     * Filter by a QueryStation.
+
+     * @param queryStation station like object to be queried against
+     * @return List of stations like the query station.
+     */
     public Station[] filterBy(QueryStation queryStation) {
         ArrayList<Station> result = new ArrayList<>(Arrays.asList(allStations));
         //filter stations by fields of the queryStation

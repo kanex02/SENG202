@@ -1,6 +1,5 @@
 package journey.controller;
 
-import java.util.Objects;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,8 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 import java.io.BufferedInputStream;
+import java.util.Objects;
 
 /**
  * Controller for help pages.
@@ -50,12 +49,14 @@ public class HelpController {
         helpImage.fitHeightProperty().bind(stage.heightProperty());
     }
     /**
-     * shows help image based on change in the helpBox
+     * shows help image based on change in the helpBox.
 
-     * @param image image required to match helpBox->helpImage
+     * @param image image required to match helpBox->helpImage.
      */
     private void changeImage(String image) {
         switch (image) {
+            default -> setHelpImage("");
+
             case "Search and Filter" -> setHelpImage("/pictures/Search.jpg");
 
             case "Record Notes" -> setHelpImage("/pictures/Notes.jpg");

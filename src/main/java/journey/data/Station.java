@@ -132,7 +132,8 @@ public class Station {
                    Boolean is24Hours, int carParkCount, Boolean hasCarParkCost,
                    int maxTimeLimit, Boolean hasTouristAttraction, float latitude,
                    float longitude, String currentType, String dateFirstOperational,
-                   int numberOfConnectors, String[] connectorsList, Boolean hasChargingCost, int rating, boolean favourite) {
+                   int numberOfConnectors, String[] connectorsList,
+                   Boolean hasChargingCost, int rating, boolean favourite) {
         this.OBJECTID = id;
         this.name = name;
         this.operator = operator;
@@ -175,23 +176,33 @@ public class Station {
         return radius * c;
     }
 
-    public int getRating() { return rating; }
+    public int getRating() {
+        return rating;
+    }
 
-    public void setRating(int rating) { this.rating = rating; }
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
-    public boolean getFavourite() { return favourite; }
+    public boolean getFavourite() {
+        return favourite;
+    }
 
-    public void setFavourite(boolean favourite) { this.favourite = favourite; }
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
 
     public int getMaxTime() {
         return maxTime;
     }
 
     public void setMaxTime(int maxTime) {
+
         this.maxTime = maxTime;
     }
 
     public String[] getConnectors() {
+
         return connectors;
     }
 

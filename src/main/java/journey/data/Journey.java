@@ -10,7 +10,7 @@ public class Journey {
     private ArrayList<Integer> stations;
     private String start;
     private String end;
-    private String vehicle_ID;
+    private String vehicleID;
     private int journeyID;
     private String date;
 
@@ -19,38 +19,38 @@ public class Journey {
 
 
     /**
-     * initialises private variables
+     * initialises private variables.
 
-     * @param journeyID journeys ID
-     * @param start start of the journey
-     * @param end end of the journey
-     * @param vehicleID Vehicles ID
-     * @param userID Users ID
-     * @param date date the journey was submitted
+     * @param journeyID journeys ID.
+     * @param start start of the journey.
+     * @param end end of the journey.
+     * @param vehicleID Vehicles ID.
+     * @param userID Users ID.
+     * @param date date the journey was submitted.
      */
     public Journey(int journeyID, String start, String end, String vehicleID, int userID, String date) {
         this.journeyID = journeyID;
         this.start = start;
         this.end = end;
-        this.vehicle_ID = vehicleID;
+        this.vehicleID = vehicleID;
         this.userID = userID;
         this.date = date;
     }
 
     /**
-     * initialises private variables
+     * initialises private variables.
 
-     * @param start start of the journey
-     * @param end end of the journey
-     * @param vehicleID Vehicles ID
-     * @param userID Users ID
-     * @param date date the journey was submitted
-     * @param stations stations visited on the trip
+     * @param start start of the journey.
+     * @param end end of the journey.
+     * @param vehicleID Vehicles ID.
+     * @param userID Users ID.
+     * @param date date the journey was submitted.
+     * @param stations stations visited on the trip.
      */
     public Journey(String start, String end, String vehicleID, int userID, String date, ArrayList<Integer> stations) {
         this.start = start;
         this.end = end;
-        this.vehicle_ID = vehicleID;
+        this.vehicleID = vehicleID;
         this.userID = userID;
         this.date = date;
         this.stations = stations;
@@ -81,7 +81,7 @@ public class Journey {
     }
 
     public String getVehicle_ID() {
-        return vehicle_ID;
+        return vehicleID;
     }
 
     public int getJourneyID() {

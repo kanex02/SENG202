@@ -22,9 +22,9 @@ public class JourneyDAO {
     }
 
     /**
-     * Gets number of journeys from the database
+     * Gets number of journeys from the database.
 
-     * @return number of journeys in the database
+     * @return number of journeys in the database.
      */
     public int getNumberOfJourneys() {
         Connection conn = null;
@@ -43,10 +43,10 @@ public class JourneyDAO {
     }
 
     /**
-     * Gets all the journeys inputted by the user
+     * Gets all the journeys inputted by the user.
 
-     * @param user current user
-     * @return a list of journeys submitted by the user
+     * @param user current user.
+     * @return a list of journeys submitted by the user.
      */
     public Journey[] getPlannedJourneys(User user) {
         Connection conn = null;
@@ -106,9 +106,9 @@ public class JourneyDAO {
 
             Statement statement = conn.createStatement();
             for (int i = 0; i < journey.getStations().size(); i++) {
-                String sql = "INSERT INTO JourneyStations VALUES (" + getNumberOfJourneys() + "," +
-                        journey.getStations().get(i) + "," +
-                        i + ")";
+                String sql = "INSERT INTO JourneyStations VALUES (" + getNumberOfJourneys() + ","
+                        + journey.getStations().get(i) + ","
+                        + i + ")";
                 statement.addBatch(sql);
             }
             statement.executeBatch();
@@ -159,9 +159,9 @@ public class JourneyDAO {
     }
 
     /**
-     * adds a journey into the database
+     * Adds a journey into the database.
 
-     * @param journey journey to be added into the database
+     * @param journey journey to be added into the database.
      */
     public void addJourney(Journey journey) {
         Connection conn = null;
@@ -179,9 +179,9 @@ public class JourneyDAO {
 
             Statement statement = conn.createStatement();
             for (int i = 0; i < journey.getStations().size(); i++) {
-                String sql = "INSERT INTO JourneyStations VALUES (" + getNumberOfJourneys() + "," +
-                        journey.getStations().get(i) + "," +
-                        i + ")";
+                String sql = "INSERT INTO JourneyStations VALUES (" + getNumberOfJourneys() + ","
+                        + journey.getStations().get(i) + ","
+                        + i + ")";
                 statement.addBatch(sql);
             }
             statement.executeBatch();
