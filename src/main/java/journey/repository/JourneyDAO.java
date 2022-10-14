@@ -119,46 +119,20 @@ public class JourneyDAO {
     }
 
     /**
-     * Gets a Journey from the database to be displayed on the map view.
+     * Deletes all the waypoints from a journey, then the journey itself.
 
-     * @param journeyID journey ID of required journey.
-     * @param currentUser The current user.
-     * @return Journey from database
+     * @param journey journey to delete
      */
-    public Journey queryJourney(int journeyID, int currentUser) {
+    public void deleteJourney(Journey journey) {
         Connection conn = null;
         try {
-            String sqlQuery = "SELECT * FROM Journeys WHERE ID = ? and user_ID = ?";
             conn = databaseManager.connect();
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, journeyID);
-            ps.setInt(2, currentUser);
-            ResultSet resultSet = ps.executeQuery();
-            Journey journey = null;
-            if (!resultSet.isBeforeFirst()) {
-                // Create a new journey object
-                journey = new Journey(resultSet.getInt("ID"), resultSet.getString("vehicle_ID"),
-                        resultSet.getInt("user_ID"), resultSet.getString("date"),
-                        resultSet.getString("start"), resultSet.getString("end"));
-                ArrayList<String> waypoints = new ArrayList<>();
-                String sqlQuery2 = "SELECT waypoint FROM JourneyWaypoints WHERE journey_ID = ?";
-                PreparedStatement ps2 = conn.prepareStatement(sqlQuery2);
-                ps2.setInt(1, journey.getJourneyID());
-                ResultSet resultSet2 = ps2.executeQuery();
-                while (resultSet2.next()) {
-                    waypoints.add(resultSet2.getString("waypoint"));
-                }
-                journey.setWaypoints(waypoints);
-            }
-            return journey;
-
+            int id = journey.getJourneyID();
+            conn.prepareStatement("DELETE FROM JourneyWaypoints WHERE journey_ID = " + id).execute();
+            conn.prepareStatement("DELETE FROM Journeys WHERE ID = " + id).execute();
         } catch (SQLException e) {
             log.error(e);
-        } finally {
-            Utils.closeConn(conn);
         }
-        return null;
+        Utils.closeConn(conn);
     }
-
-
 }

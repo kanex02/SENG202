@@ -30,23 +30,18 @@ public class PlannedJourneyController {
      * Imports the data.
      */
     public void setJourneys() {
-        dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
-        vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicleRegistration"));
-        startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
-        endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
         Journey[] data = journeyDAO.getPlannedJourneys(mainController.getCurrentUser());
         ObservableList<Journey> journeys = FXCollections.observableArrayList(data);
         journeyTable.setItems(journeys);
     }
 
     /**
-     * Mark a journey as completed (move planned journey table to completed journey table).
+     * Deletes a journey.
      */
-    @FXML public void markCompletedButton() {
-    }
-
     @FXML public void deleteJourney() {
-        System.out.println("delete journey");
+        journeyDAO.deleteJourney(selectedJourney);
+        selectedJourney = null;
+        setJourneys();
     }
 
     public void clearTableSelection() {
@@ -62,7 +57,13 @@ public class PlannedJourneyController {
         this.mainController = mainController;
         journeyDAO = new JourneyDAO();
 
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicleRegistration"));
+        startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+        endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+
         setJourneys();
+
         journeyTable.maxWidthProperty().bind(tableParent.widthProperty());
         journeyTable.maxHeightProperty().bind(tableParent.heightProperty());
 
