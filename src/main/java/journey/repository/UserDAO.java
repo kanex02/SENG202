@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Concrete implementation of Database Access Object that handles all user related actions to the database
+ * Concrete implementation of Database Access Object that handles all user related actions to the database.
  */
 public class UserDAO {
     private final DatabaseManager databaseManager;
@@ -163,6 +163,7 @@ public class UserDAO {
 
     /**
      * get User from database.
+
      * @param id User ID
      * @return User Object
      */

@@ -28,13 +28,15 @@
 <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 <script>
     let map;
-    // let markers = [];
-    var markers = L.markerClusterGroup();
+    var markers = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        removeOutsideVisibleBounds: false,
+        maxClusterRadius: 100,
+        disableClusteringAtZoom: 10,
+    });
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let route;
     let routeMapped = false;
-    let startMarker;
-    let endMarker;
     let previousRoute = [];
     let miscMarkers = {};
     let previousN = 2;
@@ -43,10 +45,6 @@
     let selectedMarker;
     let selectedMarkerId = -1;
     let prevMarkerFavourite = false;
-
-    //var searchAPIKey = "8bbefdb85c2f4671aeada47ff2930302";
-
-    //const addressSearchControl = L.control.addressSearch(searchAPIKey, { });
 
     const selectedIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',

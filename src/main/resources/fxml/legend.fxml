@@ -5,57 +5,49 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="wholeScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="178.0" prefWidth="172.0" style="-fx-background-color: white; -fx-border-color: darkgrey; -fx-border-width: 2; -fx-border-radius: 5;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MapController">
-   <children>
-      <Label layoutX="43.0" layoutY="13.0" text="Station">
-         <font>
-            <Font name="Roboto" size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="43.0" layoutY="80.0" text="Favourited Station">
-         <font>
-            <Font name="Roboto" size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="43.0" layoutY="115.0" text="Search from range">
-         <font>
-            <Font name="Roboto" size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="43.0" layoutY="150.0" text="Journey Marker">
-         <font>
-            <Font name="Roboto" size="14.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="12.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/blue-marker.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="12.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/marker-icon-2x-gold.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="12.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/marker-icon-2x-green.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="12.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/marker-icon-2x-red.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="12.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/marker-icon-2x-violet.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="43.0" layoutY="47.0" text="Selected Station">
-         <font>
-            <Font name="Roboto" size="14.0" />
-         </font>
-      </Label>
-   </children>
+<AnchorPane fx:id="wholeScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="178.0" prefWidth="172.0"
+            style="-fx-background-color: white; -fx-border-color: darkgrey; -fx-border-width: 2; -fx-border-radius: 5;"
+            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="journey.controller.MapController">
+   <Label layoutX="43.0" layoutY="13.0" text="Station">
+      <font>
+         <Font name="Roboto" size="14.0"/>
+      </font>
+   </Label>
+   <Label layoutX="43.0" layoutY="80.0" text="Favourited Station">
+      <font>
+         <Font name="Roboto" size="14.0"/>
+      </font>
+   </Label>
+   <Label layoutX="43.0" layoutY="115.0" text="Search from range">
+      <font>
+         <Font name="Roboto" size="14.0"/>
+      </font>
+   </Label>
+   <Label layoutX="43.0" layoutY="150.0" text="Journey Marker">
+      <font>
+         <Font name="Roboto" size="14.0"/>
+      </font>
+   </Label>
+   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="12.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../images/blue-marker.png"/>
+   </ImageView>
+   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="12.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../images/marker-icon-2x-gold.png"/>
+   </ImageView>
+   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="12.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../images/marker-icon-2x-green.png"/>
+   </ImageView>
+   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="12.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../images/marker-icon-2x-red.png"/>
+   </ImageView>
+   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="12.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../images/marker-icon-2x-violet.png"/>
+   </ImageView>
+   <Label layoutX="43.0" layoutY="47.0" text="Selected Station">
+      <font>
+         <Font name="Roboto" size="14.0"/>
+      </font>
+   </Label>
 </AnchorPane>

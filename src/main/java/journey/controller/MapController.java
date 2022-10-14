@@ -28,6 +28,7 @@ import java.util.Objects;
  * @author Morgan English with changes/additions from Daniel Neal
  */
 public class MapController {
+    public AnchorPane wholeScene;
     @FXML private WebView webView;
     @FXML private Button toggleRouteButton;
     @FXML private AnchorPane legendWrapper;
@@ -43,6 +44,9 @@ public class MapController {
     private boolean showLegend;
     private static final Logger log = LogManager.getLogger();
 
+    /**
+     * Legend button for all the different markers.
+     */
     @FXML public void legendButton() {
         if (showLegend) {
             legendWrapper.setVisible(false);
@@ -55,6 +59,9 @@ public class MapController {
         }
     }
 
+    /**
+     * View the marker legend.
+     */
     public void viewLegend() {
         try {
             FXMLLoader legendLoader = new FXMLLoader(getClass().getResource("/fxml/legend.fxml"));
@@ -170,18 +177,18 @@ public class MapController {
     }
 
     /**
-     * Function to call to add the range indicator circle on the map
+     * Function to call to add the range indicator circle on the map.
 
-     * @param lat The latitude of the circle
-     * @param lng The longitude of the circle
-     * @param radius The radius of the circle
+     * @param lat The latitude of the circle.
+     * @param lng The longitude of the circle.
+     * @param radius The radius of the circle.
      */
     public void addRangeIndicator(double lat, double lng, int radius) {
         javaScriptConnector.call("addRangeIndicator", lat, lng, radius);
     }
 
     /**
-     * Removes the range indicator marker from the map
+     * Removes the range indicator marker from the map.
      */
     public void removeRangeIndicator() {
         javaScriptConnector.call("removeRangeIndicator");
@@ -320,7 +327,7 @@ public class MapController {
     }
 
     /**
-     * Calls remove route in the javascript class
+     * Calls remove route in the javascript class.
      */
     public void clearRoute() {
         javaScriptConnector.call("removeRoute");

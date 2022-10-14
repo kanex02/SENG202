@@ -11,215 +11,166 @@
 
 <BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.MainController">
    <center>
-      <AnchorPane prefHeight="750.0" prefWidth="1200.0">
-         <children>
-            <BorderPane prefHeight="750.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <top>
-                   <GridPane maxHeight="55.0" prefHeight="55.0" style="-fx-background-color: #88B181;" BorderPane.alignment="CENTER">
-                       <columnConstraints>
-                           <ColumnConstraints hgrow="NEVER" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
-                           <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="726.0" />
-                           <ColumnConstraints hgrow="NEVER" maxWidth="160.0" minWidth="55.0" prefWidth="117.0" />
-                           <ColumnConstraints hgrow="NEVER" maxWidth="143.0" minWidth="66.0" prefWidth="109.0" />
-                           <ColumnConstraints hgrow="NEVER" maxWidth="129.0" minWidth="95.0" prefWidth="129.0" />
-                       </columnConstraints>
-                       <rowConstraints>
-                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                       </rowConstraints>
-                       <children>
-                           <Button alignment="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#helpButton" prefHeight="30.0" prefWidth="100.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="Help" textFill="WHITE" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                               <font>
-                                   <Font name="Roboto" size="16.0" />
-                               </font>
-                               <graphic>
-                                   <HBox alignment="CENTER" prefHeight="30.0" prefWidth="30.0">
-                                       <children>
-                                           <ImageView fx:id="helpIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
-                                       </children>
-                                   </HBox>
-                               </graphic>
-                           </Button>
-                           <Button alignment="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#myProfileButton" prefHeight="30.0" prefWidth="120.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="My Profile" textFill="WHITE" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                               <font>
-                                   <Font name="Roboto" size="16.0" />
-                               </font>
-                               <graphic>
-                                   <HBox alignment="CENTER" prefHeight="30.0" prefWidth="30.0">
-                                       <children>
-                                           <ImageView fx:id="profileIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
-                                       </children>
-                                   </HBox>
-                               </graphic>
-                           </Button>
-                           <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="CENTER" />
-                           <ImageView fx:id="journeyIcon" fitHeight="40.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-                           <Button alignment="CENTER" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: transparent;" text="Home" textFill="#3b3b3b" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                               <font>
-                                   <Font name="Roboto" size="16.0" />
-                               </font>
-                               <graphic>
-                                   <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="30.0">
-                                       <children>
-                                           <ImageView fx:id="homeIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
-                                       </children>
-                                   </HBox>
-                               </graphic>
-                           </Button>
-                       </children>
-                       <effect>
-                           <DropShadow offsetY="4.0">
-                               <color>
-                                   <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.24576270580291748" />
-                               </color>
-                           </DropShadow>
-                       </effect>
-                   </GridPane>
-               </top>
-               <center>
+       <AnchorPane prefHeight="750.0" prefWidth="1200.0">
+           <BorderPane prefHeight="750.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <top>
+                  <GridPane maxHeight="55.0" prefHeight="55.0" style="-fx-background-color: #88B181;" BorderPane.alignment="CENTER">
+                      <columnConstraints>
+                          <ColumnConstraints hgrow="NEVER" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
+                          <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="726.0" />
+                          <ColumnConstraints hgrow="NEVER" maxWidth="160.0" minWidth="55.0" prefWidth="117.0" />
+                          <ColumnConstraints hgrow="NEVER" maxWidth="143.0" minWidth="66.0" prefWidth="109.0" />
+                          <ColumnConstraints hgrow="NEVER" maxWidth="129.0" minWidth="95.0" prefWidth="129.0" />
+                      </columnConstraints>
+                      <rowConstraints>
+                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      </rowConstraints>
+                      <effect>
+                          <DropShadow offsetY="4.0">
+                              <color>
+                                  <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.24576270580291748" />
+                              </color>
+                          </DropShadow>
+                      </effect>
+                      <Button alignment="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#helpButton" prefHeight="30.0" prefWidth="100.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="Help" textFill="WHITE" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                          <font>
+                              <Font name="Roboto" size="16.0" />
+                          </font>
+                          <graphic>
+                              <HBox alignment="CENTER" prefHeight="30.0" prefWidth="30.0">
+                                  <ImageView fx:id="helpIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                              </HBox>
+                          </graphic>
+                      </Button>
+                      <Button alignment="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#myProfileButton" prefHeight="30.0" prefWidth="120.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="My Profile" textFill="WHITE" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                          <font>
+                              <Font name="Roboto" size="16.0" />
+                          </font>
+                          <graphic>
+                              <HBox alignment="CENTER" prefHeight="30.0" prefWidth="30.0">
+                                  <ImageView fx:id="profileIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                              </HBox>
+                          </graphic>
+                      </Button>
+                      <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="CENTER" />
+                      <ImageView fx:id="journeyIcon" fitHeight="40.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                      <Button alignment="CENTER" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: transparent;" text="Home" textFill="#3b3b3b" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                          <font>
+                              <Font name="Roboto" size="16.0" />
+                          </font>
+                          <graphic>
+                              <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="30.0">
+                                  <ImageView fx:id="homeIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                              </HBox>
+                          </graphic>
+                      </Button>
+                  </GridPane>
+              </top>
+              <center>
                   <TabPane fx:id="mainTabs" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" stylesheets="@../gui/tabs.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-                    <tabs>
-                        <Tab fx:id="mapTab" closable="false" text="Map">
-                            <content>
-                                <AnchorPane fx:id="mapPaneWrapper" prefHeight="635.0">
-                                    <children>
-                                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <children>
-                                                <BorderPane fx:id="mapPane" prefHeight="320.0" prefWidth="367.0" VBox.vgrow="ALWAYS" />
-                                            </children>
-                                        </VBox>
-                                    </children>
-                                </AnchorPane>
-                            </content>
-                        </Tab>
-                      <Tab text="Table">
-                        <content>
-                          <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
+                      <Tab fx:id="mapTab" closable="false" text="Map">
+                          <AnchorPane fx:id="mapPaneWrapper" prefHeight="635.0">
+                              <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <BorderPane fx:id="mapPane" prefHeight="320.0" prefWidth="367.0" VBox.vgrow="ALWAYS" />
+                              </VBox>
+                          </AnchorPane>
                       </Tab>
-                    </tabs>
+                      <Tab text="Table">
+                          <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      </Tab>
                   </TabPane>
-               </center>
-               <left>
+              </center>
+              <left>
                   <VBox minWidth="300.0" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #efefef;" BorderPane.alignment="CENTER">
-                     <children>
-                        <Accordion fx:id="accordionPane" minHeight="650.0" prefHeight="900.0" prefWidth="350.0" style="-fx-background-color: #efefef;" stylesheets="@../gui/style.css">
+                      <Accordion fx:id="accordionPane" minHeight="650.0" prefHeight="900.0" prefWidth="350.0" style="-fx-background-color: #efefef;" stylesheets="@../gui/style.css">
                           <panes>
-                            <TitledPane fx:id="searchPane" animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Search and Filter">
-                                 <graphic>
-                                    <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
-                                       <children>
+                              <TitledPane fx:id="searchPane" animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Search and Filter">
+                                  <graphic>
+                                      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
                                           <ImageView fx:id="searchIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
-                                       </children>
-                                    </HBox>
-                                 </graphic>
-                                 <content>
-                                    <ScrollPane fx:id="searchWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                                      </content>
-                                    </ScrollPane>
-                                 </content>
-                            </TitledPane>
+                                      </HBox>
+                                  </graphic>
+                                  <ScrollPane fx:id="searchWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                  </ScrollPane>
+                              </TitledPane>
                               <TitledPane fx:id="notesPane" animated="false" style="-fx-background-color: #efefef;" styleClass="option-tab" stylesheets="@../gui/style.css" text="Record Notes about Station">
                                   <graphic>
                                       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
-                                          <children>
-                                              <ImageView fx:id="notesIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
-                                          </children>
+                                          <ImageView fx:id="notesIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                       </HBox>
                                   </graphic>
-                                 <content>
-                                    <ScrollPane fx:id="notesWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                                      </content>
-                                    </ScrollPane>
-                                 </content>
+                                  <ScrollPane fx:id="notesWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                  </ScrollPane>
                               </TitledPane>
-                            <TitledPane fx:id="planJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Plan a Journey">
-                                <graphic>
-                                    <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
-                                        <children>
-                                            <ImageView fx:id="planIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
-                                        </children>
-                                    </HBox>
-                                </graphic>
-                                 <content>
-                                    <ScrollPane fx:id="recordJourneyWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" vbarPolicy="NEVER" />
-                                 </content>
-                            </TitledPane>
-                            <TitledPane fx:id="plannedJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">
-                                <graphic>
-                                    <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
-                                        <children>
-                                            <ImageView fx:id="plannedIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
-                                        </children>
-                                    </HBox>
-                                </graphic>
-                                 <content>
-                                    <ScrollPane fx:id="plannedJourneysWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                                      </content>
-                                    </ScrollPane>
-                                 </content>
-                            </TitledPane>
+                              <TitledPane fx:id="planJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Plan a Journey">
+                                  <graphic>
+                                      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
+                                          <ImageView fx:id="planIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                                      </HBox>
+                                  </graphic>
+                                  <ScrollPane fx:id="recordJourneyWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" vbarPolicy="NEVER" />
+                              </TitledPane>
+                              <TitledPane fx:id="plannedJourneyPane" animated="false" styleClass="option-tab" stylesheets="@../gui/style.css" text="Planned Journeys">
+                                  <graphic>
+                                      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
+                                          <ImageView fx:id="plannedIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                                      </HBox>
+                                  </graphic>
+                                  <ScrollPane fx:id="plannedJourneysWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                  </ScrollPane>
+                              </TitledPane>
                               <TitledPane fx:id="completedJourneysPane" animated="false" layoutX="30.0" layoutY="108.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="Completed Journeys">
                                   <graphic>
                                       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
-                                          <children>
-                                              <ImageView fx:id="tickIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
-                                          </children>
+                                          <ImageView fx:id="tickIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                       </HBox>
                                   </graphic>
-                                 <content>
-                                    <ScrollPane fx:id="completeJourneyWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                                 </content>
+                                  <ScrollPane fx:id="completeJourneyWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                               </TitledPane>
                               <TitledPane fx:id="selectedStationTitledPane" animated="false" layoutX="30.0" layoutY="134.0" styleClass="option-tab" stylesheets="@../gui/style.css" text="More Information about Selected Station">
                                   <graphic>
                                       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="40.0">
-                                          <children>
-                                              <ImageView fx:id="chargerIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
-                                          </children>
+                                          <ImageView fx:id="chargerIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                       </HBox>
                                   </graphic>
-                                 <content>
-                                    <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
-                                 </content>
+                                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;" />
                               </TitledPane>
                           </panes>
-                           <padding>
+                          <padding>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
-                           <opaqueInsets>
+                          </padding>
+                          <opaqueInsets>
                               <Insets />
-                           </opaqueInsets>
-                        </Accordion>
-                        <GridPane prefHeight="82.0" prefWidth="400.0" style="-fx-background-color: #efefef;">
+                          </opaqueInsets>
+                      </Accordion>
+                      <GridPane prefHeight="82.0" prefWidth="400.0" style="-fx-background-color: #efefef;">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
                               <RowConstraints maxHeight="329.0" minHeight="50.0" prefHeight="100.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
                           </rowConstraints>
-                           <children>
-                              <Label fx:id="currentVehicle" contentDisplay="CENTER" prefHeight="36.0" prefWidth="409.0" style="-fx-background-color: transparent;" text="Current Vehicle: " GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <padding>
-                                    <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </Label>
-                           </children>
-                           <padding>
+                          <padding>
                               <Insets top="10.0" />
-                           </padding>
-                        </GridPane>
-                     </children>
+                          </padding>
+                          <Label fx:id="currentVehicle" contentDisplay="CENTER" prefHeight="36.0" prefWidth="409.0" style="-fx-background-color: transparent;" text="Current Vehicle: " GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                              <padding>
+                                  <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
+                              </padding>
+                          </Label>
+                     <Label fx:id="openCredits" text="Credits" textFill="#3522c9" underline="true" GridPane.rowIndex="1">
+                        <font>
+                           <Font name="Roboto" size="12.0" />
+                        </font>
+                     </Label>
+                      </GridPane>
                   </VBox>
-               </left>
-            </BorderPane>
-         </children>
-      </AnchorPane>
+              </left>
+           </BorderPane>
+       </AnchorPane>
    </center>
 </BorderPane>

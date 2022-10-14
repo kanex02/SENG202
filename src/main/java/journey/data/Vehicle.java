@@ -11,7 +11,16 @@ public class Vehicle {
     String connectorType;
     String registration;
 
+    /**
+     * Vehicle object initialiser.
 
+     * @param year year made.
+     * @param make make.
+     * @param model model.
+     * @param chargerType charger type.
+     * @param registration registration.
+     * @param connector connector.
+     */
     public Vehicle(int year, String make, String model, String chargerType, String registration, String connector) {
         this.year = year;
         this.make = make;
@@ -41,7 +50,9 @@ public class Vehicle {
         return registration;
     }
 
-    public String getConnectorType() { return connectorType; }
+    public String getConnectorType() {
+        return connectorType;
+    }
 
     public String getStringRepresentation() {
         return registration + ": " + year + " " + make + " " + model;

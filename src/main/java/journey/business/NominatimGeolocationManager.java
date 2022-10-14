@@ -15,8 +15,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+
+
+
 /**
- * Class to handle requesting location from Nominatim Geolocation API
+ * Class to handle requesting location from Nominatim Geolocation API.
 
  * @author Morgan English and Daniel Neal
  */
@@ -24,7 +27,7 @@ public class NominatimGeolocationManager {
     private static final Logger log = LogManager.getLogger();
 
     /**
-     * Runs a query with the address given and finds the most applicable lat, lng co-ordinates
+     * Runs a query with the address given and finds the most applicable lat, lng co-ordinates.
 
      * @param address address of lat, lng
      * @return lat, lng of address for geolocation
@@ -58,7 +61,7 @@ public class NominatimGeolocationManager {
     }
 
     /**
-     * Runs a query with the lat, lng given and finds the most applicable address
+     * Runs a query with the lat, lng given and finds the most applicable address.
 
      * @param lat latitude of address
      * @param lng longitude of address
@@ -67,11 +70,11 @@ public class NominatimGeolocationManager {
     public GeoCodeResult queryLatLng(double lat, double lng) {
         String logMessage = String.format("Requesting geolocation from Nominatim for lat, lng: %s, %s", lat, lng);
         log.info(logMessage);
-        try{
+        try {
             // Creating the http request
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(
-                URI.create("https://nominatim.openstreetmap.org/reverse?lat="+lat+"&lon="+lng+"&format=jsonv2")
+                URI.create("https://nominatim.openstreetmap.org/reverse?lat=" + lat + "&lon=" + lng + "&format=jsonv2")
             ).build();
             // Getting the response
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

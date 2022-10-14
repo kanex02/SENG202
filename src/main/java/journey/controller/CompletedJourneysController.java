@@ -51,7 +51,8 @@ public class CompletedJourneysController {
         journeyTable.maxWidthProperty().bind(completedJourneysParent.widthProperty());
         journeyTable.maxHeightProperty().bind(completedJourneysParent.heightProperty());
 
-        journeyTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldJourney, newJourney) -> mainController.mapJourney(newJourney)
+        journeyTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldJourney, newJourney)
+                -> mainController.mapJourney(newJourney)
         );
     }
 }

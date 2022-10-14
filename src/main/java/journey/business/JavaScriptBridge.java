@@ -1,16 +1,17 @@
 package journey.business;
 
-import journey.controller.MapController;
 import journey.controller.CreateJourneyController;
+import journey.controller.MapController;
+
 
 /**
- * Simple example class showing the ability to 'bridge' from javascript to java
+ * Simple example class showing the ability to 'bridge' from javascript to java.
  * The functions within can be called from our javascript in the map view when we set an object of this class
- * as a member of the javascript
+ * as a member of the javascript.
  * Note: This is a very basic example you can use any java code, though you may need to be careful when working
- * with objects
+ * with objects.
 
- * @author Morgan English with changes from the Journey development team
+ * @author Morgan English with changes from the Journey development team.
  */
 public class JavaScriptBridge {
 
@@ -22,9 +23,10 @@ public class JavaScriptBridge {
     private final InsertWaypointInterface insertWaypointInterface;
 
     /**
-     * Creates a javascript bridge object with a 'callback' lambda function for displaying the station on the map after creation
+     * Creates a javascript bridge object with a 'callback' lambda function.
+     * This is for displaying the station on the map after creation.
 
-     * @param getStationLambda indicate a station to get from database by id, return true if its found and used
+     * @param getStationLambda indicate a station to get from database by id, return true if its found and used.
      */
     public JavaScriptBridge(GetStationInterface getStationLambda,
                             GetLatLongInterface getLatLongLambda,
@@ -77,8 +79,8 @@ public class JavaScriptBridge {
     /**
      * Add lat lng to route referenced by: {@link MapController}.
 
-     * @param lat
-     * @param lng
+     * @param lat latitude.
+     * @param lng longitude.
      * @return true if the underlying operation succeeded.
      */
     public boolean addToRoute(double lat, double lng) {
@@ -86,7 +88,7 @@ public class JavaScriptBridge {
     }
 
     /**
-     * Changes the lat and lng on a click in the javascript references: {@link MapController}
+     * Changes the lat and lng on a click in the javascript references: {@link MapController}.
 
      * @param lat latitude of click.
      * @param lng longitude of click.

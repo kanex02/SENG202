@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Concrete implementation of Database Access Object that handles all notes related actions to the database
+ * Concrete implementation of Database Access Object that handles all notes related actions to the database.
  */
 public class NoteDAO {
     private final DatabaseManager databaseManager;
@@ -66,7 +66,8 @@ public class NoteDAO {
                 insertStatement.execute();
             } else {
                 // A note exists, therefore we update it
-                String updateQuery = "UPDATE Notes SET note = ?, rating = ?, favourited = ? WHERE station_ID = ? AND user_ID = ?";
+                String updateQuery = "UPDATE Notes SET note = ?, rating = ?, "
+                        + "favourited = ? WHERE station_ID = ? AND user_ID = ?";
                 PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
                 updateStatement.setString(1, noteString); // Updating the note field with the new note string.
                 updateStatement.setInt(2, rating);

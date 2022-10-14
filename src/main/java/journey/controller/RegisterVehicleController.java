@@ -13,11 +13,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
- * Controller for the registerVehicle FXML allows registering a vehicle and does error checking on the inputs given
+ * Controller for the registerVehicle FXML allows registering a vehicle and does error checking on the inputs given.
  */
 public class RegisterVehicleController {
 
@@ -180,7 +178,8 @@ public class RegisterVehicleController {
             yearWarningLabel.setText("");
             currentWarningLabel.setText("");
             connectorWarningLabel.setText("");
-            Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice, registration, connectorTypeChoice);
+            Vehicle newVehicle = new Vehicle(intYear, make, model, chargerTypeChoice,
+                    registration, connectorTypeChoice);
             successLabel.setText("Successfully registered a vehicle");
             // Send vehicle to database
             try {
