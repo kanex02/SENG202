@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="558.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.SearchController">
     <Label layoutX="14.0" layoutY="25.0" text="Place Range Marker:" />
    <Button fx:id="placeMarkerButton" layoutX="156.0" layoutY="21.0" mnemonicParsing="false" onAction="#clickToPlaceMarker" prefHeight="18.0" prefWidth="16.0" style="-fx-background-color: #FFFFFF;">
       <effect>
@@ -27,11 +27,10 @@
          </DropShadow>
       </effect>
    </Button>
-   <ImageView fx:id="rangeHelpImage" fitHeight="20.0" fitWidth="20.0" layoutX="311.0" layoutY="25.0" onMouseClicked="#clickToolTip" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../images/question.png" />
-      </image>
-   </ImageView>
+    <ImageView fx:id="rangeHelpImage" fitHeight="20.0" fitWidth="20.0" layoutX="311.0" layoutY="25.0"
+               onMouseClicked="#clickToolTip" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../images/question.png"/>
+    </ImageView>
    <Label fx:id="rangeHelpLabel" layoutX="309.0" layoutY="26.0" />
     <TextField fx:id="addressSearch" layoutX="104.0" layoutY="41.0" prefHeight="24.0" prefWidth="143.0" promptText="Address" stylesheets="@../gui/textFields.css" visible="false" />
     <Button layoutX="251.0" layoutY="41.0" mnemonicParsing="false" onAction="#clickSearch" prefHeight="24.0" prefWidth="85.0" style="-fx-background-color: #FFFFFF;" text="Click Map" visible="false">
@@ -101,17 +100,16 @@
         </padding>
     </Label>
     <AnchorPane layoutX="3.0" layoutY="378.0" prefHeight="64.0" prefWidth="310.0">
-      <children>
-          <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#myCar" stylesheets="@../gui/buttons.css" text="Filter for my vehicle" />
-      </children>
+        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#myCar"
+                stylesheets="@../gui/buttons.css" text="Filter for my vehicle"/>
     </AnchorPane>
-    <Label fx:id="warningLabel" alignment="CENTER" layoutX="140.0" layoutY="402.0" textAlignment="CENTER" textFill="RED" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-     <GridPane layoutY="418.0" prefHeight="82.0" prefWidth="350.0">
+     <GridPane alignment="TOP_CENTER" layoutY="418.0" prefHeight="82.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="430.0">
          <columnConstraints>
              <ColumnConstraints hgrow="ALWAYS" minWidth="85.0" prefWidth="157.0" />
          </columnConstraints>
          <rowConstraints>
-             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+             <RowConstraints minHeight="40.0" prefHeight="50.0" vgrow="NEVER" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
          </rowConstraints>
          <Button mnemonicParsing="false" onAction="#clearSearch" style="-fx-background-color: #FFFFFF;" text="Clear" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
              <effect>
@@ -125,12 +123,12 @@
                  <Insets left="5.0" right="5.0" />
              </GridPane.margin>
          </Button>
+       <Label fx:id="warningLabel" alignment="CENTER" prefHeight="200.0" textAlignment="CENTER" textFill="RED" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
      </GridPane>
-   <ImageView fx:id="placeMarkerImage" fitHeight="18.0" fitWidth="16.0" layoutX="159.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../images/green-marker.png" />
-      </image>
-   </ImageView>
+    <ImageView fx:id="placeMarkerImage" fitHeight="18.0" fitWidth="16.0" layoutX="159.0" layoutY="25.0"
+               pickOnBounds="true" preserveRatio="true">
+        <Image url="@../images/green-marker.png"/>
+    </ImageView>
    <CheckBox fx:id="favouritedCheckMark" layoutX="100.0" layoutY="96.0" mnemonicParsing="false" />
    <Label layoutX="13.0" layoutY="97.0" text="Favourited:" />
 </AnchorPane>

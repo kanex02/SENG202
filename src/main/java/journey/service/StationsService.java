@@ -1,12 +1,14 @@
 package journey.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 import journey.Utils;
 import journey.data.QueryStation;
 import journey.data.Station;
 import journey.data.User;
 import journey.repository.StationDAO;
 
-import java.util.*;
 
 /**
  * Service class to extract testable methods for Station actions.
@@ -83,8 +85,12 @@ public class StationsService {
         }
 
         //time limit check
-        if (!Utils.isInt(timeLimit) && !timeLimit.equals("")) {
-            errors.append("Time limit must be an integer!\n");
+        if (!timeLimit.equals("")) {
+            if (!Utils.isInt(timeLimit)) {
+                errors.append("Time limit must be a positive integer!\n");
+            } else if (Integer.parseInt(timeLimit) < 0) {
+                errors.append("Time limit must be a positive integer!\n");
+            }
         }
 
         //range check

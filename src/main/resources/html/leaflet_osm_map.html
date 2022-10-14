@@ -48,7 +48,6 @@
     let previousRoute = [];
     let isEditable = true;
     let miscMarkers = {};
-    let previousN = 2;
     let prevWaypoints = [];
     let rangeIndicator;
     let selectedMarker;
@@ -151,18 +150,16 @@
     }
 
     function getButtonHTML(text) {
-        let buttonDialog = '<!DOCTYPE html>\n' +
+        return '<!DOCTYPE html>\n' +
             '<html>\n' +
             '<head>\n' +
             '<link rel="stylesheet" href="../gui/popupButtons.css">\n' +
             '</head>' +
             '<body class="popupBody">\n' +
-            '<p>'+text+'</p>\n' +
+            '<p>' + text + '</p>\n' +
             '<button name="submit" class="addToRoute" type="submit" value="Add to Route" >Add to Route</button>\n' +
             '</body>\n' +
             '</html>\n';
-
-        return buttonDialog;
     }
 
 
@@ -314,7 +311,7 @@
      */
     function addRangeIndicator(lat, lng, radius) {
 
-        if(radius != 0 && miscMarkers["search"] !== undefined) {
+        if(radius !== 0 && miscMarkers["search"] !== undefined) {
             // Colour comes from the green marker used for indicating search.
             //let colourCode = "#24AD22";
             let c = new L.circle([ lat, lng ], {
@@ -359,7 +356,7 @@
             options = {icon: goldIcon};
         }
 
-        if (selectedMarkerId == id) {
+        if (selectedMarkerId === id) {
             options = {icon: selectedIcon};
         }
 

@@ -161,7 +161,6 @@ public class SearchController {
      * Searches for relevant stations based on users search inputs.
      */
     @FXML public void search() {
-        // TODO: move out of Util
         String name = nameSearch.getText();
         String timeLimit = timeSearch.getText();
         String range = distanceSearch.getText();

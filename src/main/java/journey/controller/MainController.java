@@ -1,5 +1,13 @@
 package journey.controller;
 
+import static java.util.Arrays.asList;
+import static java.util.Arrays.copyOfRange;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -8,7 +16,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -23,14 +36,7 @@ import journey.service.StationsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
-import static java.util.Arrays.asList;
-import static java.util.Arrays.copyOfRange;
 
 /**
  * FXML controller class for the main window.
@@ -100,13 +106,6 @@ public class MainController {
 
     public void setUser(User user) {
         currentUser = user;
-    }
-
-    /**
-     * Sets the accordion pane to be expanded on the plan journeys tab.
-     */
-    public void setViewPlanJourneys() {
-        accordionPane.setExpandedPane(planJourneyPane);
     }
 
     public StationsService getStationsService() {
