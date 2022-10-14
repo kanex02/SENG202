@@ -49,7 +49,8 @@ public class LoginController {
      * when register button is pressed.
      */
     @FXML private void setRunLater() {
-        if ((nameChoiceBox.getValue() == null || nameChoiceBox.getValue().equals("")) && nameTextBox.getText().equals("")) {
+        if ((nameChoiceBox.getValue() == null
+                || nameChoiceBox.getValue().equals("")) && nameTextBox.getText().equals("")) {
             loginWarningLabel.setText("Please select or enter Username");
         } else if (nameChoiceBox.getValue() == null || nameChoiceBox.getValue().equals("")) {
             Platform.runLater(this::register);
@@ -98,7 +99,7 @@ public class LoginController {
     }
 
     /**
-     * Resets the warning labels if nameTextBox or nameChoiceBox is clicked
+     * Resets the warning labels if nameTextBox or nameChoiceBox is clicked.
      */
     @FXML public void resetLoginWarnings() {
         if (!(loginWarningLabel.getText().equals(""))) {
@@ -175,8 +176,8 @@ public class LoginController {
         this.stage = stage;
         userDAO = new UserDAO();
         //This must use Platform.runLater or else we get a core dump.
-        wholeScene.setOnKeyPressed( event -> {
-            if( event.getCode() == KeyCode.ENTER ) {
+        wholeScene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
                 setRunLater();
             }
         });

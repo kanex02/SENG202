@@ -41,9 +41,10 @@ import static java.util.Arrays.copyOfRange;
 public class MainController {
 
     private static final Logger log = LogManager.getLogger();
-
+    
+    public Tab mapTab;
+    public ScrollPane searchWrapper;
     private StationDAO stationDAO;
-    private VehicleDAO vehicleDAO;
     private Stage stage;
     private int selectedStation = -1;
     private User currentUser;
@@ -91,7 +92,7 @@ public class MainController {
     private final ArrayList<String> paths = new ArrayList<>(asList("/images/question 1.png",
             "/images/home-svgrepo-com.png", "/images/user 1.png", "/images/Journey_Logo.jpeg",
             "/images/search-svgrepo-com.png", "/images/notes-svgrepo-com.png",
-            "/images/destination.png", "/images/task.png","/images/check-mark.png",
+            "/images/destination.png", "/images/task.png", "/images/check-mark.png",
             "/images/charging-station.png"));
 
 
@@ -142,8 +143,8 @@ public class MainController {
     public void updateFavourite(Station station, boolean favourite) {
         int stationID = station.getOBJECTID();
         Station[] allStations = stationsService.getAllStations();
-        for(Station s : allStations) {
-            if(s.getOBJECTID() == stationID) {
+        for (Station s : allStations) {
+            if (s.getOBJECTID() == stationID) {
                 s.setFavourite(favourite);
             }
         }
@@ -196,7 +197,8 @@ public class MainController {
      */
     private void viewCompletedJourneysTable() {
         try {
-            FXMLLoader completedJourneysViewLoader = new FXMLLoader(getClass().getResource("/fxml/completedJourneys.fxml"));
+            FXMLLoader completedJourneysViewLoader = new FXMLLoader(getClass().getResource(
+                    "/fxml/completedJourneys.fxml"));
             Parent completedJourneysViewParent = completedJourneysViewLoader.load();
 
             CompletedJourneysController completedJourneyViewController = completedJourneysViewLoader.getController();
@@ -240,6 +242,11 @@ public class MainController {
         return selectedStation;
     }
 
+    /**
+     * Sets the selected station.
+
+     * @param selectedStation said selected station.
+     */
     public void setSelectedStation(int selectedStation) {
         this.selectedStation = selectedStation;
         selectedStationController.updateSelectedStation(selectedStation);
@@ -289,9 +296,9 @@ public class MainController {
     }
 
     /**
-     * Opens new stage if none exists of a help page upon help button press
+     * Opens new stage if none exists of a help page upon help button press.
 
-     * @param event help button pressed
+     * @param event help button pressed.
      */
     @FXML private void helpButton(Event event) {
         Parent root;
@@ -314,8 +321,8 @@ public class MainController {
             // set the min height and width so the window opens at the correct size
             Screen screen = Screen.getPrimary();
             Rectangle2D bounds = screen.getVisualBounds();
-            helpStage.setX((bounds.getWidth() - helpStage.getWidth())*1.0f/2);
-            helpStage.setY((bounds.getHeight() - helpStage.getHeight())*1.0f/3);
+            helpStage.setX((bounds.getWidth() - helpStage.getWidth()) * 1.0f / 2);
+            helpStage.setY((bounds.getHeight() - helpStage.getHeight()) * 1.0f / 3);
 
         } catch (IOException e) {
             log.error(e);
@@ -420,6 +427,11 @@ public class MainController {
         setCurrentStations(stationDAO.getAll());
     }
 
+    /**
+     * Sets the selected vehicle.
+
+     * @param selectedVehicle said selected vehicle.
+     */
     public void setSelectedVehicle(String selectedVehicle) {
         if (getSelectedVehicle() == null) {
             currentVehicle.setText("Current Vehicle: none selected");
@@ -457,7 +469,7 @@ public class MainController {
     public void init(Stage stage, User user) {
         stationDAO = new StationDAO();
         currentUser = user;
-        vehicleDAO = new VehicleDAO();
+        VehicleDAO vehicleDAO = new VehicleDAO();
         if (vehicleDAO.getSelectedVehicle(user) == null) {
             this.selectedVehicle = null;
         } else {

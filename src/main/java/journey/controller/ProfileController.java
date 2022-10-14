@@ -12,14 +12,13 @@ import journey.repository.VehicleDAO;
 import journey.service.LoginService;
 
 /**
- * Controller for the profile popup
+ * Controller for the profile popup.
  */
 public class ProfileController {
     private MyProfileController profileController;
     private VehicleDAO vehicleDAO;
     @FXML private Label name;
     @FXML private Label vehicle;
-    @FXML private Label warningLabel;
     @FXML private TextField editName;
     @FXML private Button editNameButton;
     @FXML private Button editCurrentVehicle;
@@ -28,15 +27,12 @@ public class ProfileController {
     @FXML private TableColumn<Vehicle, String> registrationCol;
     @FXML private Label nameWarning;
     @FXML private TableColumn<Vehicle, String> makeCol;
-
     @FXML private TableColumn<Vehicle, String> modelCol;
-
     @FXML private TableColumn<Vehicle, Integer> yearCol;
-
     @FXML private TableColumn<Vehicle, String> chargerTypeCol;
     @FXML private TableColumn<Vehicle, String> connectorTypeCol;
-
     @FXML private TableView<Vehicle> vehicleTable;
+
     private boolean editing = false;
     private final UserDAO userDAO = new UserDAO();
 
@@ -45,14 +41,14 @@ public class ProfileController {
     }
 
     /**
-     * Sets the text field to the name of the current user in the profile box
+     * Sets the text field to the name of the current user in the profile box.
      */
     public void setName() {
         name.setText(profileController.getCurrentUser().getName());
     }
 
     /**
-     * Sets the text field to the registration of the currently used vehicle
+     * Sets the text field to the registration of the currently used vehicle.
      */
     public void setVehicle() {
         Vehicle v = vehicleDAO.getSelectedVehicle(profileController.getCurrentUser());
@@ -165,21 +161,25 @@ public class ProfileController {
             makeButtonsInvisible();
         }
 
-        vehicleTable.getSelectionModel().selectedItemProperty().addListener(((ObservableValue<? extends Vehicle> observable, Vehicle oldVehicle, Vehicle newVehicle) -> {
-            if (newVehicle != null) {
-                Vehicle old = vehicleDAO.getSelectedVehicle(profileController.getCurrentUser());
-                if (old != null) {
-                    if (!newVehicle.getRegistration().equals(vehicleDAO.getSelectedVehicle(profileController.getCurrentUser()).getRegistration())) {
-                        vehicleDAO.changeSelectedVehicle(profileController.getCurrentUser(), newVehicle.getRegistration());
+        vehicleTable.getSelectionModel().selectedItemProperty().addListener(
+                ((ObservableValue<? extends Vehicle> observable, Vehicle oldVehicle, Vehicle newVehicle) -> {
+                if (newVehicle != null) {
+                    Vehicle old = vehicleDAO.getSelectedVehicle(profileController.getCurrentUser());
+                    if (old != null) {
+                        if (!newVehicle.getRegistration().equals(vehicleDAO.getSelectedVehicle(
+                                profileController.getCurrentUser()).getRegistration())) {
+                            vehicleDAO.changeSelectedVehicle(profileController.getCurrentUser(),
+                                    newVehicle.getRegistration());
+                            setVehicle();
+                        }
+                    }  else {
+                        vehicleDAO.changeSelectedVehicle(profileController.getCurrentUser(),
+                                newVehicle.getRegistration());
                         setVehicle();
+                        makeButtonsVisible();
                     }
-                }  else {
-                    vehicleDAO.changeSelectedVehicle(profileController.getCurrentUser(), newVehicle.getRegistration());
-                    setVehicle();
-                    makeButtonsVisible();
                 }
-            }
-        }));
+            }));
     }
 
 }

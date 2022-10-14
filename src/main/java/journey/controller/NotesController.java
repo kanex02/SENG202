@@ -22,9 +22,7 @@ public class NotesController {
     @FXML private Label noteStationAddr;
     @FXML private Rating stationRating;
     @FXML private CheckBox favouriteCheckBox;
-
     @FXML private Label notesSuccess;
-
     @FXML private Label notesWarning;
     private Station currStation;
     private double stationRatingValue;
@@ -63,7 +61,7 @@ public class NotesController {
     }
 
     /**
-     * Runs all functionality to update the notes panel for a newly selected station
+     * Runs all functionality to update the notes panel for a newly selected station.
      */
     public void updateNote() {
         if (mainController.getSelectedStation() != -1) {
@@ -119,6 +117,7 @@ public class NotesController {
 
     /**
      * Updates the currently selected station.
+
      * @param selectedStation current station to be displayed within the notes pane.
      */
     public void updateSelectedStation(int selectedStation) {
@@ -135,7 +134,7 @@ public class NotesController {
     }
 
     /**
-     * Ensures rating does not "Lock in" on hover
+     * Ensures rating does not "Lock in" on hover.
      */
     @FXML private void mouseEscaped() {
         stationRating.setRating(stationRatingValue);

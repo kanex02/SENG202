@@ -28,7 +28,6 @@ public class SelectedStationController {
 
     private final StationDAO stationDAO = new StationDAO();
     private final NoteDAO noteDAO = new NoteDAO();
-//    private AttractionsService attractionsService = new AttractionsService();
     private MainController mainController;
     private Station selectedStation;
 
@@ -50,13 +49,13 @@ public class SelectedStationController {
             timeLimitField.setText(Integer.toString(time));
         }
         boolean chargeCost = selectedStation.getHasChargingCost();
-        costField.setText(chargeCost ? "Yes":"No");
+        costField.setText(chargeCost ? "Yes" : "No");
         boolean parkCost = selectedStation.getHasCarParkCost();
-        parkingCostField.setText(parkCost ? "Yes":"No");
+        parkingCostField.setText(parkCost ? "Yes" : "No");
         Note notes = noteDAO.getNoteFromStation(selectedStation, mainController.getCurrentUser());
-        favouritedField.setText(notes.getFavourite() ? "Yes":"No");
+        favouritedField.setText(notes.getFavourite() ? "Yes" : "No");
         boolean attractions = selectedStation.getHasTouristAttraction();
-        attractionsField.setText(attractions ? "Yes":"No");
+        attractionsField.setText(attractions ? "Yes" : "No");
         if (notes.getRating() != 0) {
             ratingField.setText(Integer.toString(notes.getRating()));
         } else {

@@ -7,68 +7,75 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="wholeScene" maxHeight="500.0" maxWidth="800.0" minHeight="500.0" minWidth="800.0" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.LoginController">
-   <children>
-      <GridPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #88B181;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="300.0" prefWidth="300.0" />
-            <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="300.0" prefWidth="300.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="100.0" prefHeight="141.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="241.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="241.0" minHeight="10.0" prefHeight="241.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="51.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <AnchorPane prefHeight="202.0" prefWidth="383.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <children>
-                  <TextField fx:id="nameTextBox" layoutX="82.0" layoutY="25.0" onMouseClicked="#resetLoginWarnings" prefHeight="35.0" prefWidth="215.0" promptText="NAME..." style="-fx-background-color: #FFFFFF;">
-                     <effect>
-                        <InnerShadow blurType="ONE_PASS_BOX" choke="0.4" offsetY="2.0">
-                           <color>
-                              <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513" opacity="0.24576270580291748" />
-                           </color>
-                        </InnerShadow>
-                     </effect></TextField>
-                  <Button layoutX="82.0" layoutY="76.0" mnemonicParsing="false" onAction="#register" prefHeight="35.0" prefWidth="215.0" stylesheets="@../gui/buttons.css" text="CREATE ACCOUNT" />
-                  <Label fx:id="registerWarningLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="121.0" prefHeight="16.0" prefWidth="385.0" textAlignment="CENTER" textFill="#dd0000" textOverrun="CLIP" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
-               <children>
-                  <ImageView fx:id="journeyIcon" fitHeight="88.0" fitWidth="147.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-               </children></AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <children>
-                  <Label layoutX="140.0" layoutY="14.0" text="LOGIN" textFill="#608658">
-                     <font>
-                        <Font name="Roboto" size="36.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="2">
-               <children>
-                  <ChoiceBox fx:id="nameChoiceBox" layoutX="82.0" layoutY="25.0" onMouseClicked="#resetLoginWarnings" prefHeight="35.0" prefWidth="215.0" style="-fx-background-color: #f8fcf7;" styleClass="drop-down" stylesheets="@../gui/dropdowns.css" />
-                  <Button layoutX="82.0" layoutY="76.0" mnemonicParsing="false" onAction="#login" prefHeight="35.0" prefWidth="215.0" style="-fx-background-color: #88B181;" stylesheets="@../gui/buttons.css" text="LOGIN" />
-                  <Label fx:id="loginWarningLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="22.0" layoutY="121.0" prefHeight="16.0" prefWidth="357.0" textAlignment="CENTER" textFill="#dd0000" />
-               </children></AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="3" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <Label layoutX="34.0" prefHeight="44.0" prefWidth="342.0" text="Don't have an account already?" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
-                     <font>
-                        <Font name="Roboto Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="97.0" layoutY="39.0" text="Register as a new user." textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-               </children></AnchorPane>
-         </children>
-      </GridPane>
-   </children>
+<AnchorPane fx:id="wholeScene" maxHeight="500.0" maxWidth="800.0" minHeight="500.0" minWidth="800.0" prefHeight="500.0"
+            prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="journey.controller.LoginController">
+   <GridPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #88B181;" AnchorPane.bottomAnchor="0.0"
+             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <columnConstraints>
+         <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="300.0" prefWidth="300.0"/>
+         <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="300.0" prefWidth="300.0"/>
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="100.0" prefHeight="141.0" vgrow="SOMETIMES"/>
+         <RowConstraints maxHeight="241.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES"/>
+         <RowConstraints maxHeight="241.0" minHeight="10.0" prefHeight="241.0" vgrow="SOMETIMES"/>
+         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="51.0" vgrow="SOMETIMES"/>
+      </rowConstraints>
+      <AnchorPane prefHeight="202.0" prefWidth="383.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <TextField fx:id="nameTextBox" layoutX="82.0" layoutY="25.0" onMouseClicked="#resetLoginWarnings"
+                    prefHeight="35.0" prefWidth="215.0" promptText="NAME..."
+                    style="-fx-background-color: #FFFFFF;">
+            <effect>
+               <InnerShadow blurType="ONE_PASS_BOX" choke="0.4" offsetY="2.0">
+                  <color>
+                     <Color red="0.23000000417232513" green="0.23000000417232513" blue="0.23000000417232513"
+                            opacity="0.24576270580291748"/>
+                  </color>
+               </InnerShadow>
+            </effect>
+         </TextField>
+         <Button layoutX="82.0" layoutY="76.0" mnemonicParsing="false" onAction="#register" prefHeight="35.0"
+                 prefWidth="215.0" stylesheets="@../gui/buttons.css" text="CREATE ACCOUNT"/>
+         <Label fx:id="registerWarningLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="8.0"
+                layoutY="121.0" prefHeight="16.0" prefWidth="385.0" textAlignment="CENTER" textFill="#dd0000"
+                textOverrun="CLIP"/>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
+         <ImageView fx:id="journeyIcon" fitHeight="88.0" fitWidth="147.0" layoutX="14.0" layoutY="14.0"
+                    pickOnBounds="true" preserveRatio="true"/>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;"
+                  GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <Label layoutX="140.0" layoutY="14.0" text="LOGIN" textFill="#608658">
+            <font>
+               <Font name="Roboto" size="36.0"/>
+            </font>
+         </Label>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="2">
+         <ChoiceBox fx:id="nameChoiceBox" layoutX="82.0" layoutY="25.0" onMouseClicked="#resetLoginWarnings"
+                    prefHeight="35.0" prefWidth="215.0" style="-fx-background-color: #f8fcf7;"
+                    styleClass="drop-down" stylesheets="@../gui/dropdowns.css"/>
+         <Button layoutX="82.0" layoutY="76.0" mnemonicParsing="false" onAction="#login" prefHeight="35.0"
+                 prefWidth="215.0" style="-fx-background-color: #88B181;" stylesheets="@../gui/buttons.css"
+                 text="LOGIN"/>
+         <Label fx:id="loginWarningLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="22.0"
+                layoutY="121.0" prefHeight="16.0" prefWidth="357.0" textAlignment="CENTER" textFill="#dd0000"/>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="3"/>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <Label layoutX="34.0" prefHeight="44.0" prefWidth="342.0" text="Don't have an account already?"
+                textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+            <font>
+               <Font name="Roboto Bold" size="24.0"/>
+            </font>
+         </Label>
+         <Label layoutX="97.0" layoutY="39.0" text="Register as a new user." textFill="WHITE">
+            <font>
+               <Font size="18.0"/>
+            </font>
+         </Label>
+      </AnchorPane>
+   </GridPane>
 </AnchorPane>

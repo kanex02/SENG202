@@ -11,8 +11,7 @@ import journey.data.Vehicle;
 import journey.repository.VehicleDAO;
 
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 /**
  * Controller for editing existing vehicles.
@@ -80,9 +79,9 @@ public class EditVehicleController {
     }
 
     /**
-     * Error checking for entering a vehicle
+     * Error checking for entering a vehicle.
 
-     * @return whether result passed error checking or not (true/false)
+     * @return whether result passed error checking or not (true/false).
      */
     public boolean isValid() {
         boolean valid = true;
@@ -103,7 +102,8 @@ public class EditVehicleController {
         } else if (registration.length() > 6) {
             regWarningLabel.setText("Cannot be more than 6 characters");
             valid = false;
-        } else if (vehicleDAO.queryVehicle(registration, profileController.getMyProfileController().getCurrentUser().getId()) != null) {
+        } else if (vehicleDAO.queryVehicle(registration,
+                profileController.getMyProfileController().getCurrentUser().getId()) != null) {
             regWarningLabel.setText("A vehicle with this registration already exists for this user!");
             valid = false;
         }
@@ -178,7 +178,8 @@ public class EditVehicleController {
         yearWarningLabel.setText("");
         currentWarningLabel.setText("");
         connectorWarningLabel.setText("");
-        vehicleDAO.removeVehicle(currentVehicle.getRegistration(), profileController.getMyProfileController().getCurrentUser().getId());
+        vehicleDAO.removeVehicle(currentVehicle.getRegistration(),
+                profileController.getMyProfileController().getCurrentUser().getId());
         if (isValid()) {
             String reg = registrationTextBox.getText();
             String make = makeTextBox.getText();
@@ -217,7 +218,8 @@ public class EditVehicleController {
         vehicleDAO = new VehicleDAO();
         chargerBox.setItems(chargerTypeOptions);
         connectorBox.setItems(connectorTypeOptions);
-        this.currentVehicle = vehicleDAO.getSelectedVehicle(profileController.getMyProfileController().getCurrentUser());
+        this.currentVehicle = vehicleDAO.getSelectedVehicle(
+                profileController.getMyProfileController().getCurrentUser());
         if (currentVehicle != null) {
             fillCurrentVehicle();
         }

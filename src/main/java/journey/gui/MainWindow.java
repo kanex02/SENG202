@@ -15,7 +15,7 @@ import journey.controller.LoginController;
 import java.io.IOException;
 
 /**
- * Class starts the javaFX application window
+ * Class starts the javaFX application window.
 
  * @author Journey dev team
  */
@@ -23,7 +23,7 @@ public class MainWindow extends Application {
     private static final Logger log = LogManager.getLogger();
 
     /**
-     * Opens the gui with the fxml content specified in resources/fxml/main
+     * Opens the gui with the fxml content specified in resources/fxml/main.
 
      * @param primaryStage The current fxml stage, handled by javaFX Application class
      */
@@ -45,8 +45,8 @@ public class MainWindow extends Application {
             // set the min height and width so the window opens at the correct size
             Screen screen = Screen.getPrimary();
             Rectangle2D bounds = screen.getVisualBounds();
-            primaryStage.setX((bounds.getWidth() - primaryStage.getWidth())*1.0f/2);
-            primaryStage.setY((bounds.getHeight() - primaryStage.getHeight())*1.0f/3);
+            primaryStage.setX((bounds.getWidth() - primaryStage.getWidth()) * 1.0f / 2);
+            primaryStage.setY((bounds.getHeight() - primaryStage.getHeight()) * 1.0f / 3);
 
         } catch (IOException e) {
             log.error(e);

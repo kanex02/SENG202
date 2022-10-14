@@ -88,8 +88,8 @@ public class MyProfileController {
             // set the min height and width so the window opens at the correct size
             Screen screen = Screen.getPrimary();
             Rectangle2D bounds = screen.getVisualBounds();
-            loginStage.setX((bounds.getWidth() - loginStage.getWidth())*1.0f/2);
-            loginStage.setY((bounds.getHeight() - loginStage.getHeight())*1.0f/3);
+            loginStage.setX((bounds.getWidth() - loginStage.getWidth()) * 1.0f / 2);
+            loginStage.setY((bounds.getHeight() - loginStage.getHeight()) * 1.0f / 3);
             this.stage.close();
         } catch (IOException e) {
             log.error(e);
@@ -122,7 +122,7 @@ public class MyProfileController {
     }
 
     /**
-     * set all vehicles within the profile controller
+     * set all vehicles within the profile controller.
      */
     public void populateVehicleTable() {
         profileController.setVehicles();
@@ -135,6 +135,7 @@ public class MyProfileController {
     public User getCurrentUser() {
         return currentUser;
     }
+
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }

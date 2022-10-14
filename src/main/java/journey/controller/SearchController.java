@@ -52,8 +52,6 @@ public class SearchController {
     private MainController mainController;
     private StationDAO stationDAO;
     private String addressLatLng = "";
-    private static ObservableList<String> operators =
-            FXCollections.observableArrayList();
 
     private StationsService stationsService;
 
@@ -68,7 +66,7 @@ public class SearchController {
         if (v != null) {
             currentSearch.setValue(v.getChargerType());
             for (CheckMenuItem connector : connectors) {
-                if (!connector.getText().equals(v.getConnectorType()) ) {
+                if (!connector.getText().equals(v.getConnectorType())) {
                     connector.setSelected(false);
                 } else {
                     connector.setSelected(true);
@@ -138,7 +136,7 @@ public class SearchController {
      */
     public void addRangeIndicator(double lat, double lng) {
         String range = distanceSearch.getText();
-        if(!range.isBlank() ) {
+        if (!range.isBlank()) {
             if (Utils.isInt(range) && !(Integer.parseInt(range) < 0 || Integer.parseInt(range) > 1600)) {
                 int radius = Integer.parseInt(range);
                 mainController.getMapViewController().addRangeIndicator(lat, lng, radius);
@@ -183,7 +181,7 @@ public class SearchController {
     }
 
     /**
-     * clears the search
+     * Clears the search.
      */
     @FXML private void clearSearch() {
         addressSearch.setText("");
@@ -225,7 +223,7 @@ public class SearchController {
         mainController.openMap();
         mainController.getMapViewController().setCallback((lat, lng) -> {
             addRangeIndicator(lat, lng);
-            addressLatLng = lat+"#"+lng;
+            addressLatLng = lat + "#" + lng;
             search();
             removeMarkerButton.setDisable(false);
             return true;
@@ -248,7 +246,8 @@ public class SearchController {
     }
 
     @FXML private void clickToolTip() {
-        final Tooltip customTooltip = new Tooltip("Click the map to place a marker after clicking on the green marker button.");
+        final Tooltip customTooltip = new Tooltip(
+                "Click the map to place a marker after clicking on the green marker button.");
         rangeHelpLabel.setTooltip(customTooltip);
         customTooltip.setAutoHide(true);
 
@@ -256,11 +255,12 @@ public class SearchController {
 
     /**
      * Changes the lat and long in the search controller.
-     * @param lat the latitude
-     * @param lng the longitude
+
+     * @param lat the latitude.
+     * @param lng the longitude.
      */
     public void changeSearchLatLong(double lat, double lng) {
-        addressLatLng = lat+"#"+lng;
+        addressLatLng = lat + "#" + lng;
     }
 
     /**
@@ -280,8 +280,10 @@ public class SearchController {
             pause.playFromStart();
         });
 
-        currentSearch.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> search()));
-        operatorSearch.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> search()));
+        currentSearch.getSelectionModel().selectedItemProperty().addListener(
+                ((observable, oldValue, newValue) -> search()));
+        operatorSearch.getSelectionModel().selectedItemProperty().addListener(
+                ((observable, oldValue, newValue) -> search()));
 
         // the listeners for connectors are set in connectorsMultiSelect
 
@@ -290,7 +292,8 @@ public class SearchController {
             pause.playFromStart();
         });
 
-        attractionSearch.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> search()));
+        attractionSearch.getSelectionModel().selectedItemProperty().addListener(
+                ((observable, oldValue, newValue) -> search()));
 
         distanceSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             pause.setOnFinished(event -> updateRange());
@@ -310,7 +313,7 @@ public class SearchController {
         currentSearch.setItems(chargerTypeSearchOptions);
         currentSearch.setValue("");
 
-        operators = (stationDAO.getAllOperators());
+        ObservableList<String> operators = (stationDAO.getAllOperators());
         operatorSearch.setItems(operators);
 
         attractionSearch.setItems(yesNoMaybeSo);
@@ -331,7 +334,8 @@ public class SearchController {
         rangeHelpLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         rangeHelpLabel.setGraphic(rangeHelpImage);
 
-        Tooltip rangeHelpTooltip = new Tooltip("Click the map to place a marker after clicking on the green marker button.");
+        Tooltip rangeHelpTooltip = new Tooltip(
+                "Click the map to place a marker after clicking on the green marker button.");
         rangeHelpTooltip.setShowDelay(new Duration(0.0));
         rangeHelpLabel.setTooltip(rangeHelpTooltip);
 
@@ -343,7 +347,7 @@ public class SearchController {
         connectorsAvailable.add("Type 2 CCS");
         connectorsAvailable.add("Type 1 Tethered");
 
-        for (String connector: connectorsAvailable) {
+        for (String connector : connectorsAvailable) {
             connectors.add(new CheckMenuItem(connector));
         }
         connectorsMenu.getItems().addAll(connectors);

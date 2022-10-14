@@ -14,7 +14,10 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import journey.Utils;
@@ -34,14 +37,7 @@ import java.util.Objects;
 public class CreateJourneyController {
     @FXML private TextField address0;
     @FXML private TextField address1;
-    @FXML private TextField selectedStationField;
-
-    @FXML private ListView<String> visitedStationsList;
     @FXML private ComboBox<String> selectVehicleComboBox;
-    @FXML private Label journeyWarningLabel;
-    @FXML private VBox matchAddrStart;
-    @FXML private VBox matchAddrEnd;
-    @FXML private ScrollPane journeyScrollPane;
     @FXML private AnchorPane journeyPane;
     @FXML private AnchorPane row1;
     @FXML private AnchorPane row2;
@@ -49,11 +45,7 @@ public class CreateJourneyController {
     @FXML private Pane iconPane;
     @FXML private ImageView firstCircle;
     @FXML private ImageView firstEllipses;
-    private Image xImage;
-    private Double startLat;
-    private Double startLng;
-    private Double endLat;
-    private Double endLng;
+    
     private MainController mainController;
     private MapController mapViewController;
     private JourneyDAO journeyDAO;
@@ -69,6 +61,7 @@ public class CreateJourneyController {
 
     private Image ellipses;
     private Image circle;
+    private Image closeImage;
     private final String textCss = (new File(Objects.requireNonNull(
             getClass().getClassLoader().getResource("gui/textFields.css"))
             .getFile()))
@@ -77,9 +70,15 @@ public class CreateJourneyController {
                 setBlurType(BlurType.ONE_PASS_BOX);
                 setOffsetY(4);
                 setColor(new Color(0.23, 0.23, 0.23, 0.25));
-    }};
+        }};
 
+    /**
+     * Inserts a waypoint into the route.
 
+     * @param lat latitude.
+     * @param lng longitude.
+     * @param position position within route.
+     */
     public void insertWaypoint(double lat, double lng, int position) {
         // Add one more row and move the addresses over
         journeyPane.getChildren().add(nthWaypoint(waypoints.size()));
@@ -171,7 +170,7 @@ public class CreateJourneyController {
         HBox row = new HBox();
         TextField address = new TextField();
         Button removeWaypoint = new Button();
-        ImageView cancel1 = new ImageView(xImage);
+        ImageView cancel1 = new ImageView(closeImage);
         cancel1.setFitHeight(24);
         cancel1.setFitWidth(24);
         cancel1.setPreserveRatio(true);
@@ -254,7 +253,7 @@ public class CreateJourneyController {
         int wpSize = waypoints.size();
         if (wpSize <= 2) {
             // Catch error trying to remove an address that doesn't exist.
-            if (wpSize != 0 && waypointAddresses.get(index).getText() != "") {
+            if (wpSize != 0 && waypointAddresses.get(index).getText().equals("")) {
                 waypoints.set(index, "");
                 waypointAddresses.get(index).setText("");
                 mainController.clearWaypoint(index);
@@ -267,7 +266,8 @@ public class CreateJourneyController {
             for (String waypoint : waypoints) {
                 if (!waypoint.isBlank()) {
                     String[] latLng = waypoint.split("#");
-                    mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]), String.valueOf(i));
+                    mainController.addMiscMarkerToMap(Double.parseDouble(latLng[0]),
+                            Double.parseDouble(latLng[1]), String.valueOf(i));
                 }
                 i++;
             }
@@ -308,53 +308,8 @@ public class CreateJourneyController {
      * @param event addJourney button pressed
      */
     @FXML private void addJourney(Event event) {
-//        String vehicleChoice = selectVehicleComboBox.getValue();
-//        String start = startAddr.getText();
-//        String end = endAddr.getText();
-//        int userID = mainController.getCurrentUser().getId();
-//
-//        // Check if the inputs are valid
-//        Boolean[] valid = CreateJourneyService.checkJourney(vehicleChoice, start, end);
-//
-//        StringJoiner errors = new StringJoiner("\n");
-//
-//        if (!valid[0]) {
-//            errors.add("Please select a vehicle");
-//        }
-//
-//        if (!valid[1]) {
-//            errors.add("Start location invalid");
-//        }
-//
-//        if (!valid[2]) {
-//            errors.add("End location invalid");
-//        }
-//
-//        journeyWarningLabel.setText(errors.toString());
-//
-//        boolean validJourney = true;
-//        for (Boolean bool : valid) {
-//            if (!bool) {
-//                validJourney = false;
-//                break;
-//            }
-//        }
-//
-//        if (validJourney) {
-//            journeyWarningLabel.setText("");
-//            selectVehicleComboBox.setValue("");
-//            startAddr.setText("");
-//            endAddr.setText("");
-//            selectedStationField.setText("");
-//            visitedStationsList.setItems(FXCollections.observableArrayList());
-//            String[] vehicle = vehicleChoice.split(": ");
-//            String date = Utils.getDate();
-//            Journey journey = new Journey(start, end, vehicle[0], userID, date, journeyStations);
-//            journeyDAO.addJourney(journey);
-//            mapViewController.clearJourneyMarkers();
-//            mainController.updatePlannedJourneys();
-//            event.consume();
-//        }
+        System.out.println("add journey");
+        event.consume();
     }
 
     private void updateJourney() {
@@ -382,22 +337,22 @@ public class CreateJourneyController {
                         Objects.requireNonNull(getClass().getResourceAsStream("/images/dots.png"))
                 )
         );
-        xImage = new Image(
+        closeImage = new Image(
                 new BufferedInputStream(
                         Objects.requireNonNull(getClass().getResourceAsStream("/images/cancel.png"))
                 )
         );
 
-        ImageView cancel1 = new ImageView(xImage);
-        ImageView cancel2 = new ImageView(xImage);
+        ImageView cancel1 = new ImageView(closeImage);
+        ImageView cancel2 = new ImageView(closeImage);
         cancel1.setFitHeight(24);
         cancel1.setFitWidth(24);
         cancel1.setPreserveRatio(true);
         cancel2.setFitHeight(24);
         cancel2.setFitWidth(24);
         cancel2.setPreserveRatio(true);
-        ((Button)((HBox)row1.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel1);
-        ((Button)((HBox)row2.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel2);
+        ((Button) ((HBox) row1.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel1);
+        ((Button) ((HBox) row2.getChildren().get(0)).getChildren().get(1)).setGraphic(cancel2);
     }
 
 
@@ -432,27 +387,6 @@ public class CreateJourneyController {
         init_images();
         waypointRows.add(row1);
         waypointRows.add(row2);
-       // disable scroll pane at start
-//        startAddrScroll.setVisible(false);
-//        endAddrScroll.setVisible(false);
-
-//        // Set up event listeners for text areas
-//        startAddr.setOnKeyPressed(keyEvent -> {
-//            if (keyEvent.getCode() == KeyCode.ENTER) {
-//                autoComplete(true);
-//            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
-//                startAddrScroll.setVisible(false);
-//            }
-//        });
-//
-//        endAddr.setOnKeyPressed(keyEvent -> {
-//            if (keyEvent.getCode() == KeyCode.ENTER) {
-//                utoComplete(false);
-//            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
-//                endAddrScroll.setVisible(false);
-//            }
-//        });
-
         populateVehicleDropdown();
     }
 }
