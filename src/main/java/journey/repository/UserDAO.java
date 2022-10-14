@@ -1,22 +1,20 @@
 package journey.repository;
 
-import journey.Utils;
-import journey.data.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import journey.Utils;
+import journey.data.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Concrete implementation of Database Access Object that handles all user related actions to the database.
  */
 public class UserDAO {
     private final DatabaseManager databaseManager;
-    private static User currentUser;
     private static final Logger log = LogManager.getLogger();
 
     public UserDAO() {
@@ -84,12 +82,7 @@ public class UserDAO {
         } finally {
             Utils.closeConn(conn);
         }
-        currentUser = user;
         return user;
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
     }
 
     /**

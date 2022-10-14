@@ -330,8 +330,8 @@ public class MainController {
             // set the min height and width so the window opens at the correct size
             Screen screen = Screen.getPrimary();
             Rectangle2D bounds = screen.getVisualBounds();
-            creditStage.setX((bounds.getWidth() - creditStage.getWidth())*1.0f/2);
-            creditStage.setY((bounds.getHeight() - creditStage.getHeight())*1.0f/3);
+            creditStage.setX((bounds.getWidth() - creditStage.getWidth()) * 1.0f / 2);
+            creditStage.setY((bounds.getHeight() - creditStage.getHeight()) * 1.0f / 3);
 
         } catch (IOException e) {
             log.error(e);
@@ -437,7 +437,7 @@ public class MainController {
     }
 
     public void clearSearch() {
-        setCurrentStations(stationDAO.getAll());
+        setCurrentStations(stationDAO.getAll(currentUser));
     }
 
     /**
@@ -488,9 +488,8 @@ public class MainController {
         } else {
             this.selectedVehicle = vehicleDAO.getSelectedVehicle(user).getRegistration();
         }
-        currentStations = stationDAO.getAll();
 
-        stationsService = new StationsService();
+        stationsService = new StationsService(currentUser);
 
         // Clears the route if a previous journey is being displayed
         accordionPane.expandedPaneProperty().addListener(((observableValue, oldPane, newPane) -> {
@@ -503,9 +502,11 @@ public class MainController {
         // Fill the combo boxes
         this.stage = stage;
 
-        Station[] stations = stationDAO.getAll();
+        currentStations = stationDAO.getAll(currentUser);
+
+        // TODO: Figure out what this is for
         ObservableList<String> stationList = FXCollections.observableArrayList();
-        for (Station station : stations) {
+        for (Station station : currentStations) {
             String newString = Arrays.toString(copyOfRange(station.getAddress().split(","), 0, 2));
             newString = newString.substring(1, newString.length() - 1);
             stationList.add(newString);

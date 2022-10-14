@@ -3,6 +3,7 @@ package journey.repository;
 import journey.data.QueryStation;
 import journey.data.Station;
 import journey.Utils;
+import journey.data.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,12 +19,15 @@ class StationDAOTest {
     StationDAO stationDAO;
     DatabaseManager databaseManager;
     Connection conn;
+    User user;
 
     @BeforeEach
     void setUp() {
         stationDAO = new StationDAO();
         databaseManager = DatabaseManager.getInstance();
         conn = databaseManager.connect();
+        user = new User("USER");
+        user.setId(-1);
     }
 
     @AfterEach
@@ -76,7 +80,7 @@ class StationDAOTest {
 
     @Test
     void testGetAll() throws SQLException {
-        Station[] stations = stationDAO.getAll();
+        Station[] stations = stationDAO.getAll(user);
         databaseManager = DatabaseManager.getInstance();
         conn = databaseManager.connect();
         Statement s = conn.createStatement();
@@ -87,7 +91,7 @@ class StationDAOTest {
     @Test
     void testQueryEmpty() throws SQLException {
         QueryStation queryStation = new QueryStation();
-        Station[] stations = stationDAO.getAll();
+        Station[] stations = stationDAO.getAll(user);
         databaseManager = DatabaseManager.getInstance();
         conn = databaseManager.connect();
         Statement s = conn.createStatement();

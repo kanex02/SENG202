@@ -151,19 +151,18 @@ public class StationDAO {
 
      * @return result ArrayList of all stations in the database
      */
-    public Station[] getAll() {
+    public Station[] getAll(User user) {
         Connection conn = null;
         ArrayList<Station> res = new ArrayList<>();
 
         UserDAO userDAO = new UserDAO();
-        User currUser = userDAO.getCurrentUser();
 
         try {
             conn = databaseManager.connect();
             String stationQuery = "SELECT * FROM Stations "
                     + "left outer join (select * from Notes where user_ID = ?) on Stations.id = station_ID";
             PreparedStatement ps = conn.prepareStatement(stationQuery);
-            ps.setInt(1, currUser.getId());
+            ps.setInt(1, user.getId());
             ResultSet rs = ps.executeQuery();
             Utils.insertRsIntoArray(rs, res);
         } catch (SQLException e) {

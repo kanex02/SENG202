@@ -54,8 +54,6 @@ public class VehicleDAO {
                 insertStatement.setString(7, v.getConnectorType());
                 insertStatement.setBoolean(8, selected);
                 insertStatement.execute();
-                // Insert into list of vehicles for current user
-                user.newVehicle(v);
             }
         } catch (SQLException e) {
             log.error(e);

@@ -175,7 +175,7 @@ public class SearchController {
             mainController.setCurrentStations(stationsService.filterBy(queryStation));
         } else {
             warningLabel.setText(errors);
-            mainController.setCurrentStations(stationDAO.getAll());
+            mainController.setCurrentStations(stationDAO.getAll(mainController.getCurrentUser()));
         }
 
     }

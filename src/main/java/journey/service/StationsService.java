@@ -3,6 +3,7 @@ package journey.service;
 import journey.Utils;
 import journey.data.QueryStation;
 import journey.data.Station;
+import journey.data.User;
 import journey.repository.StationDAO;
 
 import java.util.*;
@@ -14,9 +15,9 @@ public class StationsService {
     private final Station[] allStations;
 
 
-    public StationsService() {
+    public StationsService(User user) {
         StationDAO stationDAO = new StationDAO();
-        allStations = stationDAO.getAll();
+        allStations = stationDAO.getAll(user);
     }
 
     public Station[] getAllStations() {

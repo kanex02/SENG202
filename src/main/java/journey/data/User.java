@@ -8,8 +8,6 @@ import java.util.ArrayList;
 public class User {
     private int id;
     private String name;
-    private final ArrayList<Vehicle> vehicles = new ArrayList<>();
-    private ArrayList<Station> stations;
 
     public User(String name) {
         this.name = name;
@@ -31,16 +29,5 @@ public class User {
         this.name = name;
     }
 
-    public ArrayList<Station> getStations() {
-        return stations;
-    }
-
-    public void setStations(ArrayList<Station> stations) {
-        this.stations = stations;
-    }
-
-    public void newVehicle(Vehicle vehicle) {
-        this.vehicles.add(vehicle);
-    }
 
 }
