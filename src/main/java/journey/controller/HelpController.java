@@ -1,12 +1,16 @@
 package journey.controller;
 
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+
 import java.io.BufferedInputStream;
 import java.util.Objects;
 
@@ -74,11 +78,17 @@ public class HelpController {
 
      * @param helpStage current stage
      */
-    void init(Stage helpStage) {
+    void init(Stage helpStage, Stage mainStage) {
         this.stage = helpStage;
         stage.setMinHeight(600);
         stage.setMinWidth(915);
         setHelpImage("/images/Search.jpg");
+        mainStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+                Platform.exit();
+            }
+        });
         fillHelp();
     }
 

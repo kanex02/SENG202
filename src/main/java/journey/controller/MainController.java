@@ -288,7 +288,7 @@ public class MainController {
                 helpStage = new Stage();
             }
             HelpController controller = loader.getController();
-            controller.init(helpStage);
+            controller.init(helpStage, this.stage);
             helpStage.setTitle("Help");
 
             Scene scene = new Scene(root, 1200, 760);
