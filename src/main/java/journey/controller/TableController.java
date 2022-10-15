@@ -61,7 +61,7 @@ public class TableController {
         isFreePark.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getHasCarParkCost() ? "Yes" : "No"));
         isFreeCharge.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getHasChargingCost() ? "Yes" : "No"));
+                new SimpleStringProperty(cellData.getValue().hasChargingCost() ? "Yes" : "No"));
         latCol.setCellValueFactory(new PropertyValueFactory<>("latitude"));
         longCol.setCellValueFactory(new PropertyValueFactory<>("longitude"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));

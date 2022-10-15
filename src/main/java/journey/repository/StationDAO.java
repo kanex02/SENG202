@@ -1,13 +1,5 @@
 package journey.repository;
 
-import static journey.Utils.convertArrayToString;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import journey.Utils;
@@ -15,6 +7,11 @@ import journey.data.Station;
 import journey.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.sql.*;
+import java.util.ArrayList;
+
+import static journey.Utils.convertArrayToString;
 
 
 /**
@@ -134,7 +131,7 @@ public class StationDAO {
                 station.getAddress(),
                 station.isIs24Hours(),
                 station.getCarParkCount(),
-                station.isHasCarParkCost(),
+                station.getHasCarParkCost(),
                 station.getMaxTime(),
                 station.getHasTouristAttraction(),
                 station.getLatitude(),
@@ -143,7 +140,7 @@ public class StationDAO {
                 station.getDateFirstOperational(),
                 station.getNumberOfConnectors(),
                 station.getConnectors(),
-                station.isHasChargingCost());
+                station.hasChargingCost());
     }
 
     /**

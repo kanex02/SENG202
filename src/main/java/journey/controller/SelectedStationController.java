@@ -53,7 +53,6 @@ public class SelectedStationController {
                 } else {
                     conn = (connectors[counter-2].substring(3) + ":" + connectors[counter-1] + ":" + connectors[counter].substring(0, 1));
                 }
-                conn.substring(0, conn.length()-2);
                 conns.add(conn);
             }
             counter++;
@@ -82,7 +81,7 @@ public class SelectedStationController {
         } else {
             timeLimitField.setText(Integer.toString(time));
         }
-        boolean chargeCost = selectedStation.getHasChargingCost();
+        boolean chargeCost = selectedStation.hasChargingCost();
         costField.setText(chargeCost ? "Yes" : "No");
         boolean parkCost = selectedStation.getHasCarParkCost();
         parkingCostField.setText(parkCost ? "Yes" : "No");

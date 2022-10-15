@@ -305,7 +305,7 @@ public class Station {
         return hasCarParkCost;
     }
 
-    public Boolean getHasChargingCost() {
+    public Boolean hasChargingCost() {
         return hasChargingCost;
     }
 
