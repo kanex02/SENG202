@@ -5,7 +5,6 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
-import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,8 +63,6 @@ public class CreateJourneyController {
     private final ArrayList<ImageView> ellipsesIcons = new ArrayList<>();
     // Search after 0.5 seconds
     PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
-
-    FadeTransition fade;
     private Image ellipses;
     private Image circle;
     private Image closeImage;
@@ -228,6 +225,13 @@ public class CreateJourneyController {
         HBox.setMargin(address, new Insets(0, 10, 0, 0));
         address.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             if ((int) keyEvent.getCharacter().charAt(0) == 13) {
+                pause.setOnFinished(event -> typeNth(i));
+                pause.playFromStart();
+            }
+        });
+        // Search on focus lost
+        address.focusedProperty().addListener((observableValue, oldBool, newBool) -> {
+            if (!newBool) {
                 typeNth(i);
             }
         });
@@ -250,6 +254,8 @@ public class CreateJourneyController {
     }
 
     @FXML private void clickNth(Event event) {
+        journeyWarningLabel.setStyle("-fx-text-fill: red");
+        journeyWarningLabel.setText("");
         //Gets the position of the station in the route from its id
         int i = Integer.parseInt(((Node) event.getSource()).getId().substring(7));
         mapViewController.setCallback((lat, lng) -> {
@@ -259,8 +265,11 @@ public class CreateJourneyController {
     }
 
     private void typeNth(int i) {
+        journeyWarningLabel.setStyle("-fx-text-fill: red");
+        journeyWarningLabel.setText("");
         String address = waypointAddresses.get(i).getText();
-        pause.setOnFinished(event -> {
+
+        if (!address.isBlank()) {
             String latLngString = Utils.locToLatLng(address);
 
             if (!latLngString.equals("0.0#0.0")) {
@@ -269,13 +278,15 @@ public class CreateJourneyController {
                         Double.parseDouble(latLng[1]), String.valueOf(i));
                 addWaypointToJourney(Double.parseDouble(latLng[0]), Double.parseDouble(latLng[1]), i);
             }
-        });
-        pause.playFromStart();
+        }
     }
 
     @FXML private void removeNth(ActionEvent event) {
         int index = Integer.parseInt((String) ((Node) event.getSource()).getUserData());
+        removeNth(index);
+    }
 
+    private void removeNth(int index) {
         if (waypoints.size() <= 2) {
             waypoints.set(index, "");
             waypointAddresses.get(index).setText("");
@@ -294,8 +305,6 @@ public class CreateJourneyController {
             }
             return;
         }
-
-
 
         waypoints.remove(index);
 
@@ -336,14 +345,17 @@ public class CreateJourneyController {
         if (warnings.isBlank()) {
             journeyWarningLabel.setStyle("-fx-text-fill: green");
             journeyWarningLabel.setText("Saved!");
-            fade.play();
             Journey journey = new Journey(selectVehicleComboBox.getValue().split(":")[0],
                     mainController.getCurrentUser().getId(), LocalDate.now().toString(), waypoints);
             journeyDAO.addJourney(journey);
             mainController.updatePlannedJourneys();
+            // Remove all waypoints
+            int size = waypoints.size() - 1;
+            for (; size >= 0; size--) {
+                removeNth(size);
+            }
         } else {
             journeyWarningLabel.setText(warnings);
-            fade.play();
         }
     }
 
@@ -414,12 +426,23 @@ public class CreateJourneyController {
         address0.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
             // The keyCode is UNDEFINED and comparing strings doesn't work
             if ((int) keyEvent.getCharacter().charAt(0) == 13) {
+                pause.setOnFinished(event -> typeNth(0));
+                pause.playFromStart();
+            }
+        });
+        address0.focusedProperty().addListener((observableValue, oldBool, newBool) -> {
+            if (!newBool) {
                 typeNth(0);
-                keyEvent.consume();
             }
         });
         address1.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
             if ((int) keyEvent.getCharacter().charAt(0) == 13) {
+                pause.setOnFinished(event -> typeNth(1));
+                pause.playFromStart();
+            }
+        });
+        address1.focusedProperty().addListener((observableValue, oldBool, newBool) -> {
+            if (!newBool) {
                 typeNth(1);
             }
         });
@@ -435,10 +458,10 @@ public class CreateJourneyController {
             );
         }
 
-        fade = new FadeTransition(Duration.seconds(3));
-        fade.setFromValue(10);
-        fade.setToValue(0);
-        fade.setNode(journeyWarningLabel);
+        selectVehicleComboBox.setOnMouseClicked(mouseEvent -> {
+            journeyWarningLabel.setStyle("-fx-text-fill: red");
+            journeyWarningLabel.setText("");
+        });
 
         populateVehicleDropdown();
     }

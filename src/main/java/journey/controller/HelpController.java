@@ -1,18 +1,16 @@
 package journey.controller;
 
+import java.io.BufferedInputStream;
+import java.util.Objects;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import java.io.BufferedInputStream;
-import java.util.Objects;
 
 /**
  * Controller for help pages.
@@ -83,13 +81,21 @@ public class HelpController {
         stage.setMinHeight(600);
         stage.setMinWidth(915);
         setHelpImage("/images/Search.jpg");
-        mainStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent e) {
-                Platform.exit();
+        mainStage.setOnCloseRequest(e -> Platform.exit());
+        fillHelp();
+        helpBoxSearch.setOnScroll(scrollEvent -> {
+            if (scrollEvent.getDeltaY() > 0) {
+                if (helpBoxSearch.getSelectionModel().getSelectedIndex() > 0) {
+                    helpBoxSearch.getSelectionModel().select(
+                            helpBoxSearch.getSelectionModel().getSelectedIndex() - 1);
+                }
+            } else {
+                if (helpBoxSearch.getSelectionModel().getSelectedIndex() < helpBoxSearch.getItems().size()) {
+                    helpBoxSearch.getSelectionModel().select(
+                            helpBoxSearch.getSelectionModel().getSelectedIndex() + 1);
+                }
             }
         });
-        fillHelp();
     }
 
 
