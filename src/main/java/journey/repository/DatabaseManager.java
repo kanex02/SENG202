@@ -1,17 +1,21 @@
 package journey.repository;
 
-import journey.ReadCSV;
-import journey.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import journey.ReadCSV;
+import journey.Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 /**
  * Static utility class to make queries to the database.
@@ -74,6 +78,7 @@ public final class DatabaseManager {
                 ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM main.sqlite_master "
                         + "WHERE name = 'Stations'");
                 noDB = (rs.getInt(1) == 0);
+                Utils.closeConn(conn);
                 if (noDB) {
                     instance.setup();
                     ReadCSV.readStations();
