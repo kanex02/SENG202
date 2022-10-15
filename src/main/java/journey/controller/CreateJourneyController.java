@@ -5,7 +5,6 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
-import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,8 +63,6 @@ public class CreateJourneyController {
     private final ArrayList<ImageView> ellipsesIcons = new ArrayList<>();
     // Search after 0.5 seconds
     PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
-
-    FadeTransition fade;
     private Image ellipses;
     private Image circle;
     private Image closeImage;
@@ -257,6 +254,8 @@ public class CreateJourneyController {
     }
 
     @FXML private void clickNth(Event event) {
+        journeyWarningLabel.setStyle("-fx-text-fill: red");
+        journeyWarningLabel.setText("");
         //Gets the position of the station in the route from its id
         int i = Integer.parseInt(((Node) event.getSource()).getId().substring(7));
         mapViewController.setCallback((lat, lng) -> {
@@ -266,6 +265,8 @@ public class CreateJourneyController {
     }
 
     private void typeNth(int i) {
+        journeyWarningLabel.setStyle("-fx-text-fill: red");
+        journeyWarningLabel.setText("");
         String address = waypointAddresses.get(i).getText();
 
         if (!address.isBlank()) {
@@ -282,7 +283,10 @@ public class CreateJourneyController {
 
     @FXML private void removeNth(ActionEvent event) {
         int index = Integer.parseInt((String) ((Node) event.getSource()).getUserData());
+        removeNth(index);
+    }
 
+    private void removeNth(int index) {
         if (waypoints.size() <= 2) {
             waypoints.set(index, "");
             waypointAddresses.get(index).setText("");
@@ -301,8 +305,6 @@ public class CreateJourneyController {
             }
             return;
         }
-
-
 
         waypoints.remove(index);
 
@@ -343,14 +345,17 @@ public class CreateJourneyController {
         if (warnings.isBlank()) {
             journeyWarningLabel.setStyle("-fx-text-fill: green");
             journeyWarningLabel.setText("Saved!");
-            fade.play();
             Journey journey = new Journey(selectVehicleComboBox.getValue().split(":")[0],
                     mainController.getCurrentUser().getId(), LocalDate.now().toString(), waypoints);
             journeyDAO.addJourney(journey);
             mainController.updatePlannedJourneys();
+            // Remove all waypoints
+            int size = waypoints.size() - 1;
+            for (; size >= 0; size--) {
+                removeNth(size);
+            }
         } else {
             journeyWarningLabel.setText(warnings);
-            fade.play();
         }
     }
 
@@ -453,10 +458,10 @@ public class CreateJourneyController {
             );
         }
 
-        fade = new FadeTransition(Duration.seconds(3));
-        fade.setFromValue(10);
-        fade.setToValue(0);
-        fade.setNode(journeyWarningLabel);
+        selectVehicleComboBox.setOnMouseClicked(mouseEvent -> {
+            journeyWarningLabel.setStyle("-fx-text-fill: red");
+            journeyWarningLabel.setText("");
+        });
 
         populateVehicleDropdown();
     }
