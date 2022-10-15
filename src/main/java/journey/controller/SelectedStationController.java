@@ -94,6 +94,7 @@ public class SelectedStationController {
         } else {
             operationalWarning.setText("");
         }
+        connectorsList.getItems().clear();
         connectorsList.getItems().addAll(conns);
 
     }
