@@ -62,7 +62,6 @@ public class Utils {
         for (String i : arr) {
             str.append(i).append(delimiter);
         }
-        //return str.substring(0, delimiter.length()-1);
         if (str.length() > 2) {
             return str.substring(0, str.length() - 1);
         } else {

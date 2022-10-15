@@ -1,7 +1,5 @@
 package journey.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,11 +24,9 @@ import org.apache.logging.log4j.Logger;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 import static java.util.Arrays.asList;
-import static java.util.Arrays.copyOfRange;
 
 
 
@@ -91,7 +87,7 @@ public class MainController {
     private final ArrayList<String> paths = new ArrayList<>(asList("/images/question 1.png",
             "/images/home-svgrepo-com.png", "/images/user 1.png", "/images/Journey_Logo.jpeg",
             "/images/search-svgrepo-com.png", "/images/notes-svgrepo-com.png",
-            "/images/destination.png", "/images/task.png", "/images/check-mark.png",
+            "/images/destination.png", "/images/task.png",
             "/images/charging-station.png"));
 
 
@@ -497,14 +493,6 @@ public class MainController {
         this.stage = stage;
 
         currentStations = stationDAO.getAll(currentUser);
-
-        // TODO: Figure out what this is for
-        ObservableList<String> stationList = FXCollections.observableArrayList();
-        for (Station station : currentStations) {
-            String newString = Arrays.toString(copyOfRange(station.getAddress().split(","), 0, 2));
-            newString = newString.substring(1, newString.length() - 1);
-            stationList.add(newString);
-        }
         icons = new ArrayList<>(asList(helpIcon, homeIcon, profileIcon, journeyIcon,
                 searchIcon, notesIcon, planIcon, plannedIcon, chargerIcon));
         initImages();
