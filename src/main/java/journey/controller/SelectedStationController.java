@@ -1,8 +1,6 @@
 package journey.controller;
 
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -11,12 +9,6 @@ import journey.data.Note;
 import journey.data.Station;
 import journey.repository.NoteDAO;
 import journey.repository.StationDAO;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Controller for selected station FXML.
@@ -46,7 +38,7 @@ public class SelectedStationController {
      * Fills all fields with the selected station's information.
      * (With readability changes e.g true->yes).
      */
-    public void fillFields() {
+    private void fillFields() {
         addressField.setText(selectedStation.getAddress());
         nameField.setText(selectedStation.getName());
         operatorField.setText(selectedStation.getOperator());

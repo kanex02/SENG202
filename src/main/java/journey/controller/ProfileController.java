@@ -38,14 +38,15 @@ public class ProfileController {
     private boolean confirming = true;
     private final UserDAO userDAO = new UserDAO();
 
-    public ProfileMainController getMyProfileController() {
+
+    public ProfileMainController getProfileMainController() {
         return profileMainController;
     }
 
     /**
      * Sets the text field to the name of the current user in the profile box.
      */
-    public void setName() {
+    private void setName() {
         name.setText(profileMainController.getCurrentUser().getName());
     }
 
@@ -115,7 +116,7 @@ public class ProfileController {
     /**
      * Delete the currently selected vehicle from the database.
      */
-    @FXML public void deleteCurrentVehicle() {
+    @FXML private void deleteCurrentVehicle() {
         if (confirming) {
             deleteCurrentVehicle.setText("Confirm delete?");
             goBackButton.setVisible(true);
@@ -163,7 +164,7 @@ public class ProfileController {
         deleteCurrentVehicle.setVisible(true);
     }
 
-    public void makeButtonsInvisible() {
+    private void makeButtonsInvisible() {
         editCurrentVehicle.setVisible(false);
         deleteCurrentVehicle.setVisible(false);
         goBackButton.setVisible(false);
@@ -204,5 +205,4 @@ public class ProfileController {
                 }
             }));
     }
-
 }

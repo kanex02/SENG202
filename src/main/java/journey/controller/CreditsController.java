@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import javafx.application.Application;
 
-public class CreditsController extends Application {
+public abstract class CreditsController extends Application {
 
     /**
      * Open the given URL in the default browser.
@@ -49,16 +49,16 @@ public class CreditsController extends Application {
         openLink("https://www.flaticon.com/free-icons/close");
     }
 
+    /**
+     * Initialises credits controller.
+
+     * @param stage current stage
+     */
     public void init(Stage stage) {
         stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
             if (!isNowFocused) {
                 stage.close();
             }
         });
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-
     }
 }

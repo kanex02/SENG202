@@ -1,81 +1,82 @@
-//package journey.repository;
-//
-//import journey.data.Journey;
-//import journey.data.User;
-//import journey.Utils;
-//import journey.data.Vehicle;
-//import org.junit.jupiter.api.AfterEach;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//
-//import java.sql.Connection;
-//import java.sql.SQLException;
-//import java.sql.Statement;
-//import java.util.ArrayList;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//class JourneyDAOTest {
-//    JourneyDAO journeyDAO;
-//    VehicleDAO vehicleDAO;
-//    UserDAO userDAO;
-//    User user;
-//    Connection conn;
-//    int id1;
-//
-//    @BeforeEach
-//    void setUp() throws SQLException {
-//        DatabaseManager databaseManager = DatabaseManager.getInstance();
-//        conn = databaseManager.connect();
-//        journeyDAO = new JourneyDAO();
-//        vehicleDAO = new VehicleDAO();
-//        userDAO = new UserDAO();
-//        user = userDAO.setCurrentUser("Tester");
-//        Statement s = conn.createStatement();
-//        s.execute("DELETE FROM Vehicles WHERE registration = 'FakeRegUnique'");
-//    }
-//
-//    @BeforeEach
-//    void createJourney() throws SQLException {
-//        Vehicle vehicle = new Vehicle(2020, "make", "model", "AC", "FakeRegUnique", "HDMI");
-//        vehicleDAO.setVehicle(vehicle, user);
-//        id1 = journeyDAO.getNumberOfJourneys();
-//        ArrayList<String> stations = new ArrayList<>();
-//        stations.add("-43.73745#170.100913");
-//        journeyDAO.addJourney(new Journey(vehicle.getRegistration(),
-//                user.getId(), "now", stations));
-//    }
-//
-//    @AfterEach
-//    void tearDown() throws SQLException {
-//        Statement s = conn.createStatement();
-//        s.execute("DELETE FROM Users WHERE name = 'Tester'");
-//        s.execute("DELETE FROM Vehicles WHERE registration = 'FakeRegUnique'");
-//        Utils.closeConn(conn);
-//    }
-//
-//    @Test
-//    void getNumberOfJourneys() {
-//        assertEquals(id1+1, journeyDAO.getNumberOfJourneys());
-//    }
-//
-//    @Test
-//    void getPlannedJourneys() {
-//        assertEquals(1, journeyDAO.getPlannedJourneys(user).length);
-//    }
-//
-//
-////    @Test
-////    void completeAJourney() {
-////        assertEquals(0, journeyDAO.getCompletedJourneys(user).length);
-////        journeyDAO.completeAJourney(journeyDAO.getPlannedJourneys(user)[0].getJourneyID(), user.getId());
-////        assertEquals(1, journeyDAO.getCompletedJourneys(user).length);
-////    }
-//
-////    @Test
-////    void getCompletedJourneys() {
-////        journeyDAO.completeAJourney(journeyDAO.getPlannedJourneys(user)[0].getJourneyID(), user.getId());
-////        assertEquals(1, journeyDAO.getCompletedJourneys(user).length);
-////    }
-//
-//}
+package journey.repository;
+
+import journey.data.Journey;
+import journey.data.User;
+import journey.Utils;
+import journey.data.Vehicle;
+import org.junit.jupiter.api.*;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class JourneyDAOTest {
+    static DatabaseManager databaseManager;
+    static JourneyDAO journeyDAO;
+    static VehicleDAO vehicleDAO;
+    static UserDAO userDAO;
+    static User user;
+    static Path testDB = Path.of("src/test/resources/test.db");
+    static Vehicle vehicle;
+    static Journey journey;
+
+    @BeforeAll
+    static void initialise() throws IOException {
+        // Make sure that it is a new database
+        Files.deleteIfExists(testDB);
+        databaseManager = new DatabaseManager("src/test/resources/test.db");
+        databaseManager.setup();
+        journeyDAO = new JourneyDAO();
+        vehicleDAO = new VehicleDAO();
+        userDAO = new UserDAO();
+        user = userDAO.setCurrentUser("Tester");
+        vehicle = new Vehicle(2020, "make", "model", "AC", "FakeRegUnique", "HDMI");
+        vehicleDAO.setVehicle(vehicle, user);
+        ArrayList<String> stations = new ArrayList<>();
+        stations.add("-43.73#170.10");
+        stations.add("-43.76#170.13");
+        journey = new Journey(vehicle.getRegistration(), user.getId(), "now", stations);
+    }
+
+    @BeforeEach
+    void createJourney() {
+        journeyDAO.addJourney(journey);
+        journey = journeyDAO.getPlannedJourneys(user)[0];
+    }
+
+    @AfterEach
+    void tearDown() {
+        journeyDAO.deleteJourney(journey);
+    }
+
+    @AfterAll
+    static void closeDown() throws IOException, SQLException {
+        Connection conn = databaseManager.connect();
+        Statement s = conn.createStatement();
+        s.execute("DELETE FROM Users WHERE name = 'Tester'");
+        s.execute("DELETE FROM Vehicles WHERE registration = 'FakeRegUnique'");
+        Utils.closeConn(conn);
+        Files.deleteIfExists(testDB);
+    }
+
+    @Test
+    void waypointsEntered() throws SQLException {
+        Connection conn = databaseManager.connect();
+        int count = conn.prepareStatement("SELECT COUNT(*) FROM JourneyWaypoints WHERE journey_ID = "
+                        + journey.getJourneyID())
+                .executeQuery().getInt(1);
+        Utils.closeConn(conn);
+        assertEquals(2, count);
+    }
+
+    @Test
+    void getPlannedJourneys() {
+        assertEquals(1, journeyDAO.getPlannedJourneys(user).length);
+    }
+}

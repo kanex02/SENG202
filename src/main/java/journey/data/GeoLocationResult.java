@@ -6,8 +6,8 @@ package journey.data;
  * @author Morgan English.
  */
 public class GeoLocationResult {
-    float lat;
-    float lng;
+    private float lat;
+    private float lng;
 
     /**
      * Create a new geolocation result with the given lat and long co-ordinates.

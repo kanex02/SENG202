@@ -1,20 +1,20 @@
 package journey.repository;
 
+import static journey.Utils.convertArrayToString;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import journey.Utils;
-import journey.data.QueryStation;
 import journey.data.Station;
 import journey.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.StringJoiner;
-
-import static journey.Utils.convertArrayToString;
 
 
 /**
@@ -155,8 +155,6 @@ public class StationDAO {
         Connection conn = null;
         ArrayList<Station> res = new ArrayList<>();
 
-        UserDAO userDAO = new UserDAO();
-
         try {
             conn = databaseManager.connect();
             String stationQuery = "SELECT * FROM Stations "
@@ -195,64 +193,4 @@ public class StationDAO {
         return operators;
     }
 
-    /**
-     * Function to find all matching stations with results matching QueryStation
-     * (QueryStation assembled based on search inputs).
-
-     * @param searchStation QueryStation object which holds all necessary search values (the rest are null/null-like)
-     * @return result ArrayList of all stations in the database that match given values in QueryStation
-     */
-    public Station[] query(QueryStation searchStation) {
-        //query with WHERE that is always true so that further statements can be chained on
-        StringBuilder queryString = new StringBuilder("SELECT * FROM Stations WHERE id LIKE'%' ");
-        //monster that builds up the query
-        String name = searchStation.getName();
-        if (name != null && name.trim().length() > 0) {
-            queryString.append("AND name LIKE '%").append(name).append("%' ");
-        }
-        String operator = searchStation.getOperator();
-        if (operator != null && operator.trim().length() > 0) {
-            queryString.append("AND operator LIKE '%").append(operator).append("%' ");
-        }
-        int maxTime = searchStation.getMaxTime();
-        if (maxTime > 0) {
-            queryString.append("AND (maxTimeLimit >= ").append(maxTime)
-                    .append(" OR maxTimeLimit = 0) ");
-        }
-        String currentType = searchStation.getCurrentType();
-        if (!Objects.equals(currentType, "") && currentType != null) {
-            queryString.append("AND (currentType = '").append(currentType)
-                    .append("' OR currentType = 'Mixed') ");
-        }
-        String[] connectors = searchStation.getConnectors();
-        if (connectors != null && connectors.length > 0) {
-            StringJoiner connectorQuery = new StringJoiner(" OR ", "AND (", ") ");
-            for (String connector : connectors) {
-                connectorQuery.add("connectorsList LIKE '%" + connector + "%'");
-            }
-            queryString.append(connectorQuery);
-        }
-        Boolean attractions = searchStation.getHasTouristAttraction();
-        if (attractions != null) {
-            if (attractions) {
-                queryString.append("AND hasTouristAttraction ");
-            } else {
-                queryString.append("AND NOT hasTouristAttraction ");
-            }
-        }
-        ArrayList<Station> res = new ArrayList<>();
-        Connection conn = null;
-        try {
-            conn = databaseManager.connect();
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(queryString.toString());
-            Utils.insertRsIntoArray(rs, res);
-        } catch (SQLException e) {
-            log.error(e);
-        }
-        res.removeIf(station -> searchStation.getRange() > 0
-                && searchStation.distanceTo(station) > searchStation.getRange());
-        Utils.closeConn(conn);
-        return res.toArray(Station[]::new);
-    }
 }

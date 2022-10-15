@@ -117,10 +117,6 @@ public class ProfileMainController {
         }
     }
 
-    public MainController getMainController() {
-        return this.mainController;
-    }
-
     /**
      * set all vehicles within the profile controller.
      */

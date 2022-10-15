@@ -100,7 +100,7 @@
         </padding>
     </Label>
     <AnchorPane layoutX="3.0" layoutY="378.0" prefHeight="64.0" prefWidth="310.0">
-        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#myCar"
+        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#filterByCurrVehicle"
                 stylesheets="@../gui/buttons.css" text="Filter for my vehicle"/>
     </AnchorPane>
      <GridPane alignment="TOP_CENTER" layoutY="418.0" prefHeight="82.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="430.0">

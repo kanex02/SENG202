@@ -1,8 +1,5 @@
 package journey.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +17,10 @@ import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
+
 
 /**
  * Controller for displaying Open Street Maps through JavaFX webview.
@@ -27,7 +28,7 @@ import org.apache.logging.log4j.Logger;
  * @author Morgan English with changes/additions from Daniel Neal
  */
 public class MapController {
-    public AnchorPane wholeScene;
+    @FXML private AnchorPane wholeScene;
     @FXML private WebView webView;
     @FXML private Button toggleRouteButton;
     @FXML private AnchorPane legendWrapper;
@@ -46,7 +47,7 @@ public class MapController {
     /**
      * Legend button for all the different markers.
      */
-    @FXML public void legendButton() {
+    @FXML private void legendButton() {
         if (showLegend) {
             legendWrapper.setVisible(false);
             legendButton.setText("Show Legend");
@@ -61,7 +62,7 @@ public class MapController {
     /**
      * View the marker legend.
      */
-    public void viewLegend() {
+    private void viewLegend() {
         try {
             FXMLLoader legendLoader = new FXMLLoader(getClass().getResource("/fxml/legend.fxml"));
             Parent plannedJourneysViewParent = legendLoader.load();
@@ -81,7 +82,7 @@ public class MapController {
     /**
      * Initialise map class.
      */
-    void init(MainController mainController) {
+    public void init(MainController mainController) {
         javaScriptBridge = new JavaScriptBridge(this::getStationFromClick,
                 this::getLatLongFromClick,
                 this::changeLatLong,
@@ -131,6 +132,13 @@ public class MapController {
                 });
     }
 
+    /**
+     * Add a new waypoint to the route.
+
+     * @param lat latitude.
+     * @param lng longitude.
+     * @return true
+     */
     public boolean addToRoute(double lat, double lng) {
         mainController.addNewWaypoint(lat, lng);
         return true;
@@ -199,7 +207,7 @@ public class MapController {
 
      * @param toggleOn visible/not visible.
      */
-    void setToggle(boolean toggleOn) {
+    private void setToggle(boolean toggleOn) {
         toggleRouteButton.setVisible(toggleOn);
     }
 
@@ -222,7 +230,7 @@ public class MapController {
     /**
      * Simple toggle to hide or display the route on click.
      */
-    public void toggleRoute() {
+    @FXML private void toggleRoute() {
         if (routeDisplayed) {
             removeRoute();
             toggleRouteButton.setText("Display Route");
