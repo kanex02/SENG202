@@ -1,20 +1,10 @@
 package journey.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.CustomMenuItem;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import journey.Utils;
@@ -23,6 +13,9 @@ import journey.data.Vehicle;
 import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
 import journey.service.StationsService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller for search FXML allows searching and error checking on searches for stations.
@@ -45,27 +38,22 @@ public class SearchController {
     @FXML private CheckBox favouritedCheckMark;
     @FXML private ImageView rangeHelpImage;
     @FXML private Label rangeHelpLabel;
-    final ArrayList<CustomMenuItem> connectors = new ArrayList<>();
-    ArrayList<String> connectorsList = new ArrayList<>();
-
+    private final ArrayList<CustomMenuItem> connectors = new ArrayList<>();
+    private ArrayList<String> connectorsList = new ArrayList<>();
     private static final ObservableList<String> chargerTypeSearchOptions =
             FXCollections.observableArrayList("", "Mixed", "AC", "DC");
-
     private static final ObservableList<String> yesNoMaybeSo =
             FXCollections.observableArrayList("", "Yes", "No");
-
-
     private MainController mainController;
     private StationDAO stationDAO;
     private String addressLatLng = "";
-
     private StationsService stationsService;
 
     /**
      * Gets users current vehicle from the database
      * and inputs its current type and charger type into the search.
      */
-    @FXML public void myCar() {
+    @FXML private void filterByCurrVehicle() {
         ArrayList<String> selectedConnectors = new ArrayList<>();
         String myCar = mainController.getSelectedVehicle();
         Vehicle v = vehicleDAO.queryVehicle(myCar, mainController.getCurrentUser().getId());
@@ -89,7 +77,7 @@ public class SearchController {
      * Ensures multi-select for the connectors list behaves correctly.
      * (No duplicate values are entered into arrayList).
      */
-    @FXML public void connectorsMultiSelect() {
+    @FXML private void connectorsMultiSelect() {
         ArrayList<String> selectedConnectors = new ArrayList<>();
 
         for (CustomMenuItem customMenuItem : connectors) {
@@ -113,7 +101,7 @@ public class SearchController {
 
      * @return connectors to find from database.
      */
-    public String[] getConnectors() {
+    private String[] getConnectorsAsStrArr() {
         String[] connectorsToFind = new String[connectorsList.size()];
         for (int i = 0; i < connectorsList.size(); i++) {
             connectorsToFind[i] = connectorsList.get(i);
@@ -125,7 +113,7 @@ public class SearchController {
      * Called on update of range field in FXML.
      * Used to update the range circle.
      */
-    public void updateRange() {
+    private void updateRange() {
         if (!addressLatLng.isEmpty()) {
             String[] latLng = addressLatLng.split("#");
             double lat = Double.parseDouble(latLng[0]);
@@ -153,7 +141,10 @@ public class SearchController {
         }
     }
 
-    public void removeRangeIndicator() {
+    /**
+     * Removes a range indicator from the map.
+     */
+    private void removeRangeIndicator() {
         mainController.getMapViewController().removeRangeIndicator();
     }
 
@@ -173,7 +164,7 @@ public class SearchController {
             QueryStation queryStation = StationsService.createQueryStation(nameSearch.getText(),
                     operatorSearch.getValue(),
                     currentSearch.getValue(),
-                    getConnectors(),
+                    getConnectorsAsStrArr(),
                     attractionSearch.getValue(),
                     timeLimit,
                     addressLatLng,
@@ -316,7 +307,7 @@ public class SearchController {
     /**
      * Initialises choice boxes and their options.
      */
-    void choiceBox_init() {
+    private void choiceBox_init() {
         currentSearch.setItems(chargerTypeSearchOptions);
         currentSearch.setValue("");
 

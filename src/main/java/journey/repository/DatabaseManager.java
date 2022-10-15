@@ -66,20 +66,22 @@ public final class DatabaseManager {
     public static DatabaseManager getInstance() {
         if (instance == null) {
             instance = new DatabaseManager();
+            Connection conn = null;
             boolean noDB;
             try {
-                Connection conn = instance.connect();
+                conn = instance.connect();
                 Statement statement = conn.createStatement();
                 ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM main.sqlite_master "
                         + "WHERE name = 'Stations'");
                 noDB = (rs.getInt(1) == 0);
-                Utils.closeConn(conn);
                 if (noDB) {
                     instance.setup();
                     ReadCSV.readStations();
                 }
             } catch (Exception e) {
                 log.error(e);
+            } finally {
+                Utils.closeConn(conn);
             }
         }
 
@@ -109,8 +111,6 @@ public final class DatabaseManager {
             log.info("DatabaseManager setup.");
         } catch (Exception e) {
             log.error(e);
-
-            throw e;
         } finally {
             Utils.closeConn(conn);
         }

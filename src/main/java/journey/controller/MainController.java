@@ -1,13 +1,5 @@
 package journey.controller;
 
-import static java.util.Arrays.asList;
-import static java.util.Arrays.copyOfRange;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -16,12 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -36,6 +23,15 @@ import journey.service.StationsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+
+import static java.util.Arrays.asList;
+import static java.util.Arrays.copyOfRange;
+
 
 
 /**
@@ -48,8 +44,7 @@ public class MainController {
 
     private static final Logger log = LogManager.getLogger();
     
-    public Tab mapTab;
-    public ScrollPane searchWrapper;
+
     private StationDAO stationDAO;
     private Stage stage;
     private int selectedStation = -1;

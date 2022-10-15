@@ -32,18 +32,18 @@ public class ProfileController {
     @FXML private TableColumn<Vehicle, String> chargerTypeCol;
     @FXML private TableColumn<Vehicle, String> connectorTypeCol;
     @FXML private TableView<Vehicle> vehicleTable;
-
     private boolean editing = false;
     private final UserDAO userDAO = new UserDAO();
-
-    public ProfileMainController getMyProfileController() {
+    
+    
+    public ProfileMainController getProfileMainController() {
         return profileMainController;
     }
 
     /**
      * Sets the text field to the name of the current user in the profile box.
      */
-    public void setName() {
+    private void setName() {
         name.setText(profileMainController.getCurrentUser().getName());
     }
 
@@ -113,7 +113,7 @@ public class ProfileController {
     /**
      * Delete the currently selected vehicle from the database.
      */
-    @FXML public void deleteCurrentVehicle() {
+    @FXML private void deleteCurrentVehicle() {
         String reg = vehicleDAO.getSelectedVehicle(profileMainController.getCurrentUser()).getRegistration();
         vehicleDAO.removeVehicle(reg, profileMainController.getCurrentUser().getId());
         setVehicles();
@@ -141,7 +141,7 @@ public class ProfileController {
         deleteCurrentVehicle.setVisible(true);
     }
 
-    public void makeButtonsInvisible() {
+    private void makeButtonsInvisible() {
         editCurrentVehicle.setVisible(false);
         deleteCurrentVehicle.setVisible(false);
     }
@@ -181,5 +181,4 @@ public class ProfileController {
                 }
             }));
     }
-
 }

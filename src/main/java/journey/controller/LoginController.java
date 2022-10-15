@@ -1,8 +1,5 @@
 package journey.controller;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.Objects;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +22,10 @@ import journey.repository.UserDAO;
 import journey.service.LoginService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.util.Objects;
 
 
 
@@ -78,7 +79,7 @@ public class LoginController {
      * if register button is clicked and nameTextBox field is valid.
      * Sets warning label if not valid.
      */
-    @FXML public void register() {
+    @FXML private void register() {
 
         String name = nameTextBox.getText();
         registerWarningLabel.setText("");
@@ -105,7 +106,7 @@ public class LoginController {
     /**
      * Resets the warning labels if nameTextBox or nameChoiceBox is clicked.
      */
-    @FXML public void resetLoginWarnings() {
+    @FXML private void resetLoginWarnings() {
         nameTextBox.setStyle("-fx-border-color: none");
         nameChoiceBox.setStyle("-fx-border-color: none");
         if (!(loginWarningLabel.getText().equals(""))) {
@@ -120,7 +121,7 @@ public class LoginController {
      * Logs in user and switch to main page if a user is selected.
      * Sets warning label if user not selected and login button pressed.
      */
-    @FXML public void login() {
+    @FXML private void login() {
         if (!(nameChoiceBox.getValue() == null || nameChoiceBox.getValue().equals(""))) {
             String name = nameChoiceBox.getValue();
             user = userDAO.setCurrentUser(name);
@@ -167,7 +168,7 @@ public class LoginController {
 
     }
 
-    void initImages() {
+    private void initImages() {
         Image img = new Image(
                 new BufferedInputStream(
                         Objects.requireNonNull(getClass().getResourceAsStream("/images/Journey_Logo.jpeg"))

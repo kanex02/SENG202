@@ -1,6 +1,5 @@
 package journey.controller;
 
-import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +11,8 @@ import journey.data.Vehicle;
 import journey.repository.VehicleDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Objects;
 
 
 /**
@@ -59,7 +60,7 @@ public class RegisterVehicleController {
 
      * @return whether result passed error checking or not (true/false).
      */
-    public boolean isValid() {
+    private boolean isValid() {
         boolean valid = true;
         String registration = registrationTextBox.getText();
         chargerTypeChoice();
@@ -193,7 +194,7 @@ public class RegisterVehicleController {
         }
     }
 
-    public void clearWarnings() {
+    private void clearWarnings() {
         regWarningLabel.setText("");
         makeWarningLabel.setText("");
         modelWarningLabel.setText("");
@@ -202,7 +203,7 @@ public class RegisterVehicleController {
         connectorWarningLabel.setText("");
     }
 
-    public void clearTextFields() {
+    private void clearTextFields() {
         registrationTextBox.setText("");
         yearTextBox.setText("");
         makeTextBox.setText("");

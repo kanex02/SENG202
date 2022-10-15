@@ -38,7 +38,7 @@ public class PlannedJourneyController {
     /**
      * Deletes a journey.
      */
-    @FXML public void deleteJourney() {
+    @FXML private void deleteJourney() {
         if (selectedJourney != null) {
             journeyDAO.deleteJourney(selectedJourney);
             selectedJourney = null;

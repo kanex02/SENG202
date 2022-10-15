@@ -16,10 +16,7 @@ public class Journey {
     private int journeyID;
     private String date;
 
-    public Journey() { }
-
-
-
+    public Journey() {}
     /**
      * initialises private variables.
 

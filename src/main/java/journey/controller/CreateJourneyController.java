@@ -1,10 +1,5 @@
 package journey.controller;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Objects;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,6 +30,12 @@ import journey.repository.JourneyDAO;
 import journey.repository.VehicleDAO;
 import journey.service.CreateJourneyService;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Objects;
+
 
 /**
  * Class to handle creating a journey given a start, end and chargers along the way.
@@ -62,7 +63,7 @@ public class CreateJourneyController {
     private final ArrayList<ImageView> circleIcons = new ArrayList<>();
     private final ArrayList<ImageView> ellipsesIcons = new ArrayList<>();
     // Search after 0.5 seconds
-    PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+    private PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
     private Image ellipses;
     private Image circle;
     private Image closeImage;
@@ -258,7 +259,7 @@ public class CreateJourneyController {
         journeyWarningLabel.setText("");
         //Gets the position of the station in the route from its id
         int i = Integer.parseInt(((Node) event.getSource()).getId().substring(7));
-        mapViewController.setCallback((lat, lng) -> {
+        mainController.getMapViewController().setCallback((lat, lng) -> {
             addWaypointToJourney(lat, lng, i);
             return true;
         }, String.valueOf(i));
@@ -324,7 +325,7 @@ public class CreateJourneyController {
      * Provides all the users vehicles to choose from for a journey.
 
      */
-    public void populateVehicleDropdown() {
+    private void populateVehicleDropdown() {
         Vehicle[] data = vehicleDAO.getVehicles(mainController.getCurrentUser());
         ObservableList<String> vehicles = FXCollections.observableArrayList();
         for (Vehicle vehicle : data) {

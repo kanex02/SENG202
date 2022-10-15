@@ -32,8 +32,7 @@ public class NotesController {
 
      * @param event submit notes button clicked
      */
-    @FXML
-    private void submitNotes(Event event) {
+    @FXML private void submitNotes(Event event) {
         notesSuccess.setText("");
         notesWarning.setText("");
         String stationNote = stationDetailTextArea.getText();
@@ -63,7 +62,7 @@ public class NotesController {
     /**
      * Runs all functionality to update the notes panel for a newly selected station.
      */
-    public void updateNote() {
+    private void updateNote() {
         if (mainController.getSelectedStation() != -1) {
             Station currStation = stationDAO.queryStation(mainController.getSelectedStation());
             updateStationNoteAddr(currStation);
@@ -79,7 +78,7 @@ public class NotesController {
 
      * @param note The note object to display
      */
-    public void updateFavourite(Note note) {
+    private void updateFavourite(Note note) {
         boolean favourite = note.getFavourite();
         favouriteCheckBox.setSelected(favourite);
     }
@@ -89,7 +88,7 @@ public class NotesController {
 
      * @param note The note object to display
      */
-    public void updateRatings(Note note) {
+    private void updateRatings(Note note) {
         int rating = note.getRating();
         stationRating.setRating(rating);
     }
@@ -97,7 +96,7 @@ public class NotesController {
     /**
      * Sets Note text for a given charger based on the current station selected.
      */
-    public void updateNoteText(Note note) {
+    private void updateNoteText(Note note) {
         String noteText = note.getNote();
         stationDetailTextArea.setText(noteText);
     }
@@ -106,7 +105,7 @@ public class NotesController {
      * Sets the address of station in the notes panel when clicked.
      * Also resets notesSuccess/Warning.
      */
-    public void updateStationNoteAddr(Station currStation) {
+    private void updateStationNoteAddr(Station currStation) {
         if (currStation != null) {
             String addr = currStation.getReadableAddress();
             notesSuccess.setText("");

@@ -1,7 +1,5 @@
 package journey.controller;
 
-import java.io.BufferedInputStream;
-import java.util.Objects;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -10,6 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.io.BufferedInputStream;
+import java.util.Objects;
 
 
 /**
@@ -76,7 +77,7 @@ public class HelpController {
 
      * @param helpStage current stage
      */
-    void init(Stage helpStage, Stage mainStage) {
+    public void init(Stage helpStage, Stage mainStage) {
         this.stage = helpStage;
         stage.setMinHeight(600);
         stage.setMinWidth(915);

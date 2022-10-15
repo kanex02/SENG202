@@ -17,12 +17,10 @@ import java.util.ArrayList;
  */
 public class VehicleDAO {
     private final DatabaseManager databaseManager;
-    UserDAO userDAO;
     private static final Logger log = LogManager.getLogger();
 
     public VehicleDAO() {
         databaseManager = DatabaseManager.getInstance();
-        userDAO = new UserDAO();
     }
 
     /**

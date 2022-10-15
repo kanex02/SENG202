@@ -6,7 +6,7 @@ package journey.data;
  * @author Daniel Neal
  */
 public class GeoCodeResult {
-    String address;
+    private String address;
 
     /**
      * Creates a new geocode result with the given address.

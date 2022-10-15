@@ -83,7 +83,7 @@ public class EditVehicleController {
 
      * @return whether result passed error checking or not (true/false).
      */
-    public boolean isValid() {
+    private boolean isValid() {
         boolean valid = true;
         String registration = registrationTextBox.getText();
         String year = yearTextBox.getText();
@@ -103,7 +103,7 @@ public class EditVehicleController {
             regWarningLabel.setText("Cannot be more than 6 characters");
             valid = false;
         } else if (vehicleDAO.queryVehicle(registration,
-                profileController.getMyProfileController().getCurrentUser().getId()) != null) {
+                profileController.getProfileMainController().getCurrentUser().getId()) != null) {
             regWarningLabel.setText("A vehicle with this registration already exists for this user!");
             valid = false;
         }
@@ -171,7 +171,7 @@ public class EditVehicleController {
      * Delete the old version of the vehicle and create a new vehicle in the database with the updated
      * values. If invalid enter old vehicle back into the database.
      */
-    @FXML public void saveVehicle() {
+    @FXML private void saveVehicle() {
         regWarningLabel.setText("");
         makeWarningLabel.setText("");
         modelWarningLabel.setText("");
@@ -179,7 +179,7 @@ public class EditVehicleController {
         currentWarningLabel.setText("");
         connectorWarningLabel.setText("");
         vehicleDAO.removeVehicle(currentVehicle.getRegistration(),
-                profileController.getMyProfileController().getCurrentUser().getId());
+                profileController.getProfileMainController().getCurrentUser().getId());
         if (isValid()) {
             String reg = registrationTextBox.getText();
             String make = makeTextBox.getText();
@@ -191,20 +191,20 @@ public class EditVehicleController {
             String current = chargerTypeChoice;
             String connector = connectorTypeChoice;
             Vehicle newVehicle = new Vehicle(intYear, make, model, current, reg, connector);
-            vehicleDAO.setVehicle(newVehicle, profileController.getMyProfileController().getCurrentUser());
+            vehicleDAO.setVehicle(newVehicle, profileController.getProfileMainController().getCurrentUser());
             profileController.setVehicle();
             profileController.setVehicles();
-            profileController.getMyProfileController().viewRegisterVehicles();
+            profileController.getProfileMainController().viewRegisterVehicles();
         } else {
-            vehicleDAO.setVehicle(currentVehicle, profileController.getMyProfileController().getCurrentUser());
+            vehicleDAO.setVehicle(currentVehicle, profileController.getProfileMainController().getCurrentUser());
         }
     }
 
     /**
      * Cancels changes made to vehicle and returns to register vehicle screen.
      */
-    @FXML public void cancelChanges() {
-        profileController.getMyProfileController().viewRegisterVehicles();
+    @FXML private void cancelChanges() {
+        profileController.getProfileMainController().viewRegisterVehicles();
     }
 
 
@@ -219,7 +219,7 @@ public class EditVehicleController {
         chargerBox.setItems(chargerTypeOptions);
         connectorBox.setItems(connectorTypeOptions);
         this.currentVehicle = vehicleDAO.getSelectedVehicle(
-                profileController.getMyProfileController().getCurrentUser());
+                profileController.getProfileMainController().getCurrentUser());
         if (currentVehicle != null) {
             fillCurrentVehicle();
         }
