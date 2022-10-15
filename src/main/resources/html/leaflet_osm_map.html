@@ -219,10 +219,10 @@
                  */
                 let m = new L.Marker([latlng.lat, latlng.lng], {icon: redIcon})
                 m.bindPopup(buttonDialog).on("popupopen", (a) => {
-                    var popUp = a.target.getPopup();
+                    var popUp = a.target.getPopup()
 
                     popUp.getElement().querySelector(".addToRoute").addEventListener("click", e =>
-                    {javaScriptBridge.addToRoute(lat, lng);});
+                    {javaScriptBridge.addToRoute(latlng.lat, latlng.lng);});
 
                 });
 
