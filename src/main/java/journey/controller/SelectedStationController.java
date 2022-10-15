@@ -35,32 +35,9 @@ public class SelectedStationController {
     private Station selectedStation;
 
     /**
-     * Fills all fields with the selected station's information.
-     * (With readability changes e.g true->yes).
+     * Checks if a charging station
      */
-    private void fillFields() {
-        addressField.setText(selectedStation.getAddress());
-        nameField.setText(selectedStation.getName());
-        operatorField.setText(selectedStation.getOperator());
-        currentField.setText(selectedStation.getCurrentType());
-        carparkField.setText(Integer.toString(selectedStation.getCarParkCount()));
-        int time = selectedStation.getMaxTime();
-        if (time == 0) {
-            timeLimitField.setText("Unlimited");
-        } else {
-            timeLimitField.setText(Integer.toString(time));
-        }
-        boolean chargeCost = selectedStation.getHasChargingCost();
-        costField.setText(chargeCost ? "Yes" : "No");
-        boolean parkCost = selectedStation.getHasCarParkCost();
-        parkingCostField.setText(parkCost ? "Yes" : "No");
-        Note notes = noteDAO.getNoteFromStation(selectedStation, mainController.getCurrentUser());
-        favouritedField.setText(notes.getFavourite() ? "Yes" : "No");
-        if (notes.getRating() != 0) {
-            ratingField.setText(Integer.toString(notes.getRating()));
-        } else {
-            ratingField.setText("Not yet rated");
-        }
+    private ObservableList<String> getConnsInnoperative() {
         String[] connectors = selectedStation.getConnectors();
         boolean inoperative = false;
         ObservableList<String> conns = FXCollections.observableArrayList();
@@ -76,16 +53,47 @@ public class SelectedStationController {
                 } else {
                     conn = (connectors[counter-2].substring(3) + ":" + connectors[counter-1] + ":" + connectors[counter].substring(0, 1));
                 }
-                conn.substring(0, conn.length()-2);
                 conns.add(conn);
             }
             counter++;
+
         }
         if (inoperative) {
             operationalWarning.setText("WARNING: This station may have inoperative chargers!");
         } else {
             operationalWarning.setText("");
         }
+        return conns;
+    }
+    /**
+     * Fills all fields with the selected station's information.
+     * (With readability changes e.g true->yes).
+     */
+    private void fillFields() {
+        addressField.setText(selectedStation.getAddress());
+        nameField.setText(selectedStation.getName());
+        operatorField.setText(selectedStation.getOperator());
+        currentField.setText(selectedStation.getCurrentType());
+        carparkField.setText(Integer.toString(selectedStation.getCarParkCount()));
+        int time = selectedStation.getMaxTime();
+        if (time == 0) {
+            timeLimitField.setText("Unlimited");
+        } else {
+            timeLimitField.setText(Integer.toString(time));
+        }
+        boolean chargeCost = selectedStation.hasChargingCost();
+        costField.setText(chargeCost ? "Yes" : "No");
+        boolean parkCost = selectedStation.getHasCarParkCost();
+        parkingCostField.setText(parkCost ? "Yes" : "No");
+        Note notes = noteDAO.getNoteFromStation(selectedStation, mainController.getCurrentUser());
+        favouritedField.setText(notes.getFavourite() ? "Yes" : "No");
+        if (notes.getRating() != 0) {
+            ratingField.setText(Integer.toString(notes.getRating()));
+        } else {
+            ratingField.setText("Not yet rated");
+        }
+
+        ObservableList<String> conns = getConnsInnoperative();
         connectorsList.getItems().clear();
         connectorsList.getItems().addAll(conns);
 

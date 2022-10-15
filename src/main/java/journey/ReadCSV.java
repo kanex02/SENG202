@@ -16,6 +16,7 @@ import java.util.List;
 public class ReadCSV {
     private static final Logger log = LogManager.getLogger();
 
+    private ReadCSV() {}
     /**
      * Imports data into the database.
      */
@@ -60,7 +61,7 @@ public class ReadCSV {
                     s.getAddress(),
                     s.isIs24Hours(),
                     s.getCarParkCount(),
-                    s.isHasCarParkCost(),
+                    s.getHasCarParkCost(),
                     s.getMaxTime(),
                     s.getHasTouristAttraction(),
                     s.getLatitude(),
@@ -69,7 +70,7 @@ public class ReadCSV {
                     s.getDateFirstOperational(),
                     s.getNumberOfConnectors(),
                     s.getConnectors(),
-                    s.isHasChargingCost());
+                    s.hasChargingCost());
         }
     }
 }

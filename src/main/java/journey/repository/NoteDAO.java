@@ -31,7 +31,6 @@ public class NoteDAO {
      * @param note The note to send to the database.
      */
     public void setNote(Note note, User user) {
-        Connection conn = null;
 
         String noteString = note.getNote();
         Station currStation = note.getStation();
@@ -41,40 +40,43 @@ public class NoteDAO {
         int stationID = currStation.getOBJECTID();
         int userID = user.getId();
 
-
+        Connection conn = null;
         try {
             conn = databaseManager.connect();
             // Query database to see if a note exists
             String findNoteQuery = "SELECT * FROM Notes WHERE station_id = ? AND user_id = ?";
-            PreparedStatement findNoteStatement = conn.prepareStatement(findNoteQuery);
-            findNoteStatement.setInt(1, stationID);
-            findNoteStatement.setInt(2, userID);
-            ResultSet findNoteSet = findNoteStatement.executeQuery();
+            try (PreparedStatement findNoteStatement = conn.prepareStatement(findNoteQuery)) {
+                findNoteStatement.setInt(1, stationID);
+                findNoteStatement.setInt(2, userID);
+                ResultSet findNoteSet = findNoteStatement.executeQuery();
 
-            /*
-             * If result set is empty there isn't a note for the station yet
-             * In this case we just insert a new note into the station
-             */
-            if (!findNoteSet.isBeforeFirst()) {
-                String insertQuery = "INSERT INTO notes VALUES (?,?,?,?,?,?)";
-                PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
-                insertStatement.setInt(2, userID);
-                insertStatement.setInt(3, stationID);
-                insertStatement.setString(4, noteString);
-                insertStatement.setInt(5, rating);
-                insertStatement.setBoolean(6, favourite);
-                insertStatement.execute();
-            } else {
-                // A note exists, therefore we update it
-                String updateQuery = "UPDATE Notes SET note = ?, rating = ?, "
-                        + "favourited = ? WHERE station_ID = ? AND user_ID = ?";
-                PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
-                updateStatement.setString(1, noteString); // Updating the note field with the new note string.
-                updateStatement.setInt(2, rating);
-                updateStatement.setBoolean(3, favourite);
-                updateStatement.setInt(4, stationID);
-                updateStatement.setInt(5, userID);
-                updateStatement.execute();
+                /*
+                 * If result set is empty there isn't a note for the station yet
+                 * In this case we just insert a new note into the station
+                 */
+                if (!findNoteSet.isBeforeFirst()) {
+                    String insertQuery = "INSERT INTO notes VALUES (?,?,?,?,?,?)";
+                    try (PreparedStatement insertStatement = conn.prepareStatement(insertQuery)) {
+                        insertStatement.setInt(2, userID);
+                        insertStatement.setInt(3, stationID);
+                        insertStatement.setString(4, noteString);
+                        insertStatement.setInt(5, rating);
+                        insertStatement.setBoolean(6, favourite);
+                        insertStatement.execute();
+                    }
+                } else {
+                    // A note exists, therefore we update it
+                    String updateQuery = "UPDATE Notes SET note = ?, rating = ?, "
+                            + "favourited = ? WHERE station_ID = ? AND user_ID = ?";
+                    try (PreparedStatement updateStatement = conn.prepareStatement(updateQuery)) {
+                        updateStatement.setString(1, noteString); // Updating the note field with the new note string.
+                        updateStatement.setInt(2, rating);
+                        updateStatement.setBoolean(3, favourite);
+                        updateStatement.setInt(4, stationID);
+                        updateStatement.setInt(5, userID);
+                        updateStatement.execute();
+                    }
+                }
             }
         } catch (SQLException e) {
             log.error(e);
@@ -99,21 +101,21 @@ public class NoteDAO {
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Notes WHERE station_ID = ? AND user_ID = ?";
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, stationID);
-            ps.setInt(2, userID);
-            ResultSet resultSet = ps.executeQuery();
-            // If there is no item in result set we disconnect first and return an empty note
-            if (!resultSet.isBeforeFirst()) {
-                return new Note(null, null, 0, false);
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ps.setInt(1, stationID);
+                ps.setInt(2, userID);
+                ResultSet resultSet = ps.executeQuery();
+                // If there is no item in result set we disconnect first and return an empty note
+                if (!resultSet.isBeforeFirst()) {
+                    return new Note(null, null, 0, false);
+                }
+
+                String stationNote = resultSet.getString(4);
+                int stationRating = resultSet.getInt(5);
+                boolean stationFavourited = resultSet.getBoolean(6);
+
+                return new Note(station, stationNote, stationRating, stationFavourited);
             }
-
-            String stationNote = resultSet.getString(4);
-            int stationRating = resultSet.getInt(5);
-            boolean stationFavourited = resultSet.getBoolean(6);
-
-            return new Note(station, stationNote, stationRating, stationFavourited);
-
         }  catch (SQLException e) {
             log.error(e);
         } finally {

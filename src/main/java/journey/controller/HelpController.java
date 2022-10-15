@@ -20,7 +20,7 @@ public class HelpController {
     @FXML private javafx.scene.image.ImageView helpImage;
     @FXML private ChoiceBox<String> helpBoxSearch;
     private Stage stage;
-
+    
     private static final ObservableList<String> helpOptions =
             FXCollections.observableArrayList("Search and Filter", "Record Notes", "Plan a Journey",
                     "Planned Journeys", "Register a Vehicle");
@@ -58,8 +58,6 @@ public class HelpController {
      */
     private void changeImage(String image) {
         switch (image) {
-            default -> setHelpImage("");
-
             case "Search and Filter" -> setHelpImage("/images/Search.jpg");
 
             case "Record Notes" -> setHelpImage("/images/Notes.jpg");
@@ -69,6 +67,8 @@ public class HelpController {
             case "Planned Journeys" -> setHelpImage("/images/Planned.jpg");
 
             case "Register a Vehicle" -> setHelpImage("/images/RegisterVehicle.jpg");
+
+            default -> setHelpImage("");
         }
     }
 

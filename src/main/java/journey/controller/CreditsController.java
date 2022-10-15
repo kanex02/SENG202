@@ -56,7 +56,7 @@ public abstract class CreditsController extends Application {
      */
     public void init(Stage stage) {
         stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (!isNowFocused) {
+            if (Boolean.FALSE.equals(isNowFocused)) {
                 stage.close();
             }
         });

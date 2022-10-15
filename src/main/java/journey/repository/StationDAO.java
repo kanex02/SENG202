@@ -1,13 +1,5 @@
 package journey.repository;
 
-import static journey.Utils.convertArrayToString;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import journey.Utils;
@@ -15,6 +7,11 @@ import journey.data.Station;
 import journey.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.sql.*;
+import java.util.ArrayList;
+
+import static journey.Utils.convertArrayToString;
 
 
 /**
@@ -39,21 +36,22 @@ public class StationDAO {
         try {
             String sqlQuery = "SELECT * FROM Stations WHERE ID = ?";
             conn = databaseManager.connect();
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, id);
-            ResultSet resultSet = ps.executeQuery();
-            // Create a new station object.
-            return new Station(resultSet.getInt("ID"),
-                    resultSet.getString("name"), resultSet.getString("operator"),
-                    resultSet.getString("owner"), resultSet.getString("address"),
-                    resultSet.getBoolean("is24Hours"), resultSet.getInt("carParkCount"),
-                    resultSet.getBoolean("hasCarParkCost"), resultSet.getInt("maxTimeLimit"),
-                    resultSet.getBoolean("hasTouristAttraction"), resultSet.getFloat("latitude"),
-                    resultSet.getFloat("longitude"), resultSet.getString("currentType"),
-                    resultSet.getString("dateFirstOperational"),
-                    resultSet.getInt("numberOfConnectors"),
-                    (resultSet.getString("connectorsList")).split(":"),
-                    resultSet.getBoolean("hasChargingCost"));
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ps.setInt(1, id);
+                ResultSet resultSet = ps.executeQuery();
+                // Create a new station object.
+                return new Station(resultSet.getInt("ID"),
+                        resultSet.getString("name"), resultSet.getString("operator"),
+                        resultSet.getString("owner"), resultSet.getString("address"),
+                        resultSet.getBoolean("is24Hours"), resultSet.getInt("carParkCount"),
+                        resultSet.getBoolean("hasCarParkCost"), resultSet.getInt("maxTimeLimit"),
+                        resultSet.getBoolean("hasTouristAttraction"), resultSet.getFloat("latitude"),
+                        resultSet.getFloat("longitude"), resultSet.getString("currentType"),
+                        resultSet.getString("dateFirstOperational"),
+                        resultSet.getInt("numberOfConnectors"),
+                        (resultSet.getString("connectorsList")).split(":"),
+                        resultSet.getBoolean("hasChargingCost"));
+            }
         } catch (SQLException e) {
             log.error(e);
         } finally {
@@ -134,7 +132,7 @@ public class StationDAO {
                 station.getAddress(),
                 station.isIs24Hours(),
                 station.getCarParkCount(),
-                station.isHasCarParkCost(),
+                station.getHasCarParkCost(),
                 station.getMaxTime(),
                 station.getHasTouristAttraction(),
                 station.getLatitude(),
@@ -143,7 +141,7 @@ public class StationDAO {
                 station.getDateFirstOperational(),
                 station.getNumberOfConnectors(),
                 station.getConnectors(),
-                station.isHasChargingCost());
+                station.hasChargingCost());
     }
 
     /**

@@ -71,7 +71,7 @@ public class ProfileController {
             String newName = editName.getText();
             int id = profileMainController.getCurrentUser().getId();
 
-            if (!LoginService.checkUser(newName)) {
+            if (Boolean.FALSE.equals(LoginService.checkUser(newName))) {
                 nameWarning.setText("Name cannot contain digits or special characters");
             } else if (userDAO.nameInDB(newName) && !newName.equals(profileMainController.getCurrentUser().getName())) {
                 nameWarning.setText("This name is already in use, please pick another!");

@@ -229,14 +229,9 @@ public class Station {
         return carParkCount;
     }
 
-    public boolean isHasCarParkCost() {
-        return hasCarParkCost;
-    }
-
     public String getMaxTimeLimit() {
         return maxTimeLimit;
     }
-
 
     public Boolean getHasTouristAttraction() {
         return hasTouristAttraction;
@@ -282,10 +277,6 @@ public class Station {
         return connectorsList;
     }
 
-    public boolean isHasChargingCost() {
-        return hasChargingCost;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -314,7 +305,7 @@ public class Station {
         return hasCarParkCost;
     }
 
-    public Boolean getHasChargingCost() {
+    public Boolean hasChargingCost() {
         return hasChargingCost;
     }
 
@@ -324,26 +315,26 @@ public class Station {
      * @return longDes a long description of itself
      */
     public String getLongDescription() {
-        String longDes = String.format("Name: %s\nOperator: %s\nOwner: %s\nAddress: %s\nNumber Of Car Parks: %s\n",
+        String longDes = String.format("Name: %s%nOperator: %s%nOwner: %s%nAddress: %s%nNumber Of Car Parks: %s%n",
                 name, operator, owner, address, carParkCount);
-        if (hasCarParkCost) {
+        if (Boolean.TRUE.equals(hasCarParkCost)) {
             longDes += "Has free parking\n";
         } else {
             longDes += "Doesn't have free parking\n";
         }
-        if (is24Hours) {
+        if (Boolean.TRUE.equals(is24Hours)) {
             longDes += "24 Hour parking available\n";
         }
-        if (maxTime == 0) {
+        if (Boolean.TRUE.equals(maxTime == 0)) {
             longDes += "Unlimited time limit\n";
         } else {
             longDes += "Time limit: " + maxTime + "\n";
         }
-        if (hasTouristAttraction) {
+        if (Boolean.TRUE.equals(hasTouristAttraction)) {
             longDes += "Has tourist attractions nearby\n";
         }
-        longDes += String.format("Current Type: %s\nNumber of Connectors: %s\n", currentType, numberOfConnectors);
-        if (hasChargingCost) {
+        longDes += String.format("Current Type: %s%nNumber of Connectors: %s%n", currentType, numberOfConnectors);
+        if (Boolean.TRUE.equals(hasChargingCost)) {
             longDes += "Not free charging\n";
         }
         return longDes;
