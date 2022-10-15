@@ -36,21 +36,22 @@ public class StationDAO {
         try {
             String sqlQuery = "SELECT * FROM Stations WHERE ID = ?";
             conn = databaseManager.connect();
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, id);
-            ResultSet resultSet = ps.executeQuery();
-            // Create a new station object.
-            return new Station(resultSet.getInt("ID"),
-                    resultSet.getString("name"), resultSet.getString("operator"),
-                    resultSet.getString("owner"), resultSet.getString("address"),
-                    resultSet.getBoolean("is24Hours"), resultSet.getInt("carParkCount"),
-                    resultSet.getBoolean("hasCarParkCost"), resultSet.getInt("maxTimeLimit"),
-                    resultSet.getBoolean("hasTouristAttraction"), resultSet.getFloat("latitude"),
-                    resultSet.getFloat("longitude"), resultSet.getString("currentType"),
-                    resultSet.getString("dateFirstOperational"),
-                    resultSet.getInt("numberOfConnectors"),
-                    (resultSet.getString("connectorsList")).split(":"),
-                    resultSet.getBoolean("hasChargingCost"));
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ps.setInt(1, id);
+                ResultSet resultSet = ps.executeQuery();
+                // Create a new station object.
+                return new Station(resultSet.getInt("ID"),
+                        resultSet.getString("name"), resultSet.getString("operator"),
+                        resultSet.getString("owner"), resultSet.getString("address"),
+                        resultSet.getBoolean("is24Hours"), resultSet.getInt("carParkCount"),
+                        resultSet.getBoolean("hasCarParkCost"), resultSet.getInt("maxTimeLimit"),
+                        resultSet.getBoolean("hasTouristAttraction"), resultSet.getFloat("latitude"),
+                        resultSet.getFloat("longitude"), resultSet.getString("currentType"),
+                        resultSet.getString("dateFirstOperational"),
+                        resultSet.getInt("numberOfConnectors"),
+                        (resultSet.getString("connectorsList")).split(":"),
+                        resultSet.getBoolean("hasChargingCost"));
+            }
         } catch (SQLException e) {
             log.error(e);
         } finally {
