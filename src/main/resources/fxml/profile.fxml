@@ -9,12 +9,12 @@
    <children>
       <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0" prefWidth="767.0" style="-fx-background-color: white;">
          <children>
-            <Label layoutX="-1.0" layoutY="13.0" text="Name:">
+            <Label layoutX="12.0" layoutY="13.0" text="Name:">
                <font>
                   <Font name="Roboto Bold" size="22.0" />
                </font>
             </Label>
-            <Label layoutX="1.0" layoutY="205.0" text="Vehicles:">
+            <Label layoutX="12.0" layoutY="205.0" text="Vehicles:">
                <font>
                   <Font name="Roboto Bold" size="22.0" />
                </font>
@@ -28,7 +28,10 @@
                </font>
             </Label>
              <TableView fx:id="vehicleTable" layoutX="23.0" layoutY="252.0" prefHeight="269.0" prefWidth="721.0" stylesheets="@../gui/tableStyle.css" VBox.vgrow="ALWAYS">
-                 <columns>
+                 <placeholder>
+                    <Label text="You do not have any vehicles yet!" />
+                 </placeholder>
+                <columns>
                      <TableColumn fx:id="registrationCol" text="Registration" />
                      <TableColumn fx:id="makeCol" prefWidth="55.0" text="Make" />
                      <TableColumn fx:id="modelCol" prefWidth="89.0" text="Model" />
@@ -40,7 +43,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
              </TableView>
-            <Label layoutY="113.0" prefHeight="28.0" prefWidth="169.0" text="Current Vehicle:">
+            <Label layoutX="12.0" layoutY="113.0" prefHeight="28.0" prefWidth="169.0" text="Current Vehicle:">
                <font>
                   <Font name="Roboto Bold" size="22.0" />
                </font>
@@ -71,6 +74,7 @@
                   <Font size="11.0" />
                </font>
             </Label>
+            <Button fx:id="goBackButton" layoutX="600.0" layoutY="115.0" mnemonicParsing="false" onAction="#goBackButton" stylesheets="@../gui/buttons.css" text="Go back" />
          </children>
       </Pane>
    </children>

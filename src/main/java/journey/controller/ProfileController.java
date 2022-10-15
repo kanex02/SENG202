@@ -32,8 +32,10 @@ public class ProfileController {
     @FXML private TableColumn<Vehicle, String> chargerTypeCol;
     @FXML private TableColumn<Vehicle, String> connectorTypeCol;
     @FXML private TableView<Vehicle> vehicleTable;
+    @FXML private Button goBackButton;
 
     private boolean editing = false;
+    private boolean confirming = true;
     private final UserDAO userDAO = new UserDAO();
 
     public ProfileMainController getMyProfileController() {
@@ -114,11 +116,31 @@ public class ProfileController {
      * Delete the currently selected vehicle from the database.
      */
     @FXML public void deleteCurrentVehicle() {
-        String reg = vehicleDAO.getSelectedVehicle(profileMainController.getCurrentUser()).getRegistration();
-        vehicleDAO.removeVehicle(reg, profileMainController.getCurrentUser().getId());
-        setVehicles();
-        setVehicle();
-        makeButtonsInvisible();
+        if (confirming) {
+            deleteCurrentVehicle.setText("Confirm delete?");
+            goBackButton.setVisible(true);
+            confirming = false;
+        } else {
+            String reg = vehicleDAO.getSelectedVehicle(profileMainController.getCurrentUser()).getRegistration();
+            vehicleDAO.removeVehicle(reg, profileMainController.getCurrentUser().getId());
+            setVehicles();
+            setVehicle();
+            makeButtonsInvisible();
+            goBackButton();
+            deleteCurrentVehicle.setText("Delete");
+            confirming = true;
+        }
+    }
+
+    /**
+     * Undo the delete call instead of confirming delete
+     */
+    @FXML private void goBackButton() {
+        if (!confirming) {
+            deleteCurrentVehicle.setText("Delete");
+            goBackButton.setVisible(false);
+            confirming = true;
+        }
     }
 
     /**
@@ -144,6 +166,7 @@ public class ProfileController {
     public void makeButtonsInvisible() {
         editCurrentVehicle.setVisible(false);
         deleteCurrentVehicle.setVisible(false);
+        goBackButton.setVisible(false);
     }
 
     /**
