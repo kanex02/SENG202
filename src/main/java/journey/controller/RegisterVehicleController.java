@@ -52,7 +52,7 @@ public class RegisterVehicleController {
     private String chargerTypeChoice;
     private String connectorTypeChoice;
     private VehicleDAO vehicleDAO;
-    private MyProfileController myProfileController;
+    private ProfileMainController profileMainController;
 
     /**
      * Error checking for entering a vehicle.
@@ -78,7 +78,7 @@ public class RegisterVehicleController {
             regWarningLabel.setText("Cannot be more than 6 characters");
             registrationTextBox.setStyle("-fx-background-color: red, #efefef");
             valid = false;
-        } else if (vehicleDAO.queryVehicle(registration, myProfileController.getCurrentUser().getId()) != null) {
+        } else if (vehicleDAO.queryVehicle(registration, profileMainController.getCurrentUser().getId()) != null) {
             regWarningLabel.setText("A vehicle with this registration already exists for this user!");
             registrationTextBox.setStyle("-fx-background-color: red, #efefef");
             valid = false;
@@ -183,10 +183,10 @@ public class RegisterVehicleController {
             successLabel.setText("Successfully registered a vehicle");
             // Send vehicle to database
             try {
-                vehicleDAO.setVehicle(newVehicle, myProfileController.getCurrentUser());
-                myProfileController.setVehicle();
-                myProfileController.getProfileController().makeButtonsVisible();
-                myProfileController.populateVehicleTable();
+                vehicleDAO.setVehicle(newVehicle, profileMainController.getCurrentUser());
+                profileMainController.setVehicle();
+                profileMainController.getProfileController().makeButtonsVisible();
+                profileMainController.populateVehicleTable();
             } catch (Exception e) {
                 log.error(e);
             }
@@ -232,10 +232,10 @@ public class RegisterVehicleController {
     /**
      * Register vehicle controller initialiser.
 
-     * @param myProfileController parent controller
+     * @param profileMainController parent controller
      */
-    public void init(MyProfileController myProfileController) {
-        this.myProfileController = myProfileController;
+    public void init(ProfileMainController profileMainController) {
+        this.profileMainController = profileMainController;
         vehicleDAO = new VehicleDAO();
         chargerBox.setItems(chargerTypeOptions);
         connectorBox.setItems(connectorTypeOptions);

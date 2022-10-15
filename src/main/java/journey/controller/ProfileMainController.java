@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * FXML controller class for the myProfile to be inserted in front of mainPane.
  */
-public class MyProfileController {
+public class ProfileMainController {
 
     @FXML private BorderPane registerVehicleWrapper;
     @FXML private AnchorPane profileWrapper;

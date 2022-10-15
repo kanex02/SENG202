@@ -15,7 +15,7 @@ import journey.service.LoginService;
  * Controller for the profile popup.
  */
 public class ProfileController {
-    private MyProfileController profileController;
+    private ProfileMainController profileMainController;
     private VehicleDAO vehicleDAO;
     @FXML private Label name;
     @FXML private Label vehicle;
@@ -36,22 +36,22 @@ public class ProfileController {
     private boolean editing = false;
     private final UserDAO userDAO = new UserDAO();
 
-    public MyProfileController getMyProfileController() {
-        return profileController;
+    public ProfileMainController getMyProfileController() {
+        return profileMainController;
     }
 
     /**
      * Sets the text field to the name of the current user in the profile box.
      */
     public void setName() {
-        name.setText(profileController.getCurrentUser().getName());
+        name.setText(profileMainController.getCurrentUser().getName());
     }
 
     /**
      * Sets the text field to the registration of the currently used vehicle.
      */
     public void setVehicle() {
-        Vehicle v = vehicleDAO.getSelectedVehicle(profileController.getCurrentUser());
+        Vehicle v = vehicleDAO.getSelectedVehicle(profileMainController.getCurrentUser());
         if (v == null) {
             vehicle.setText("");
         } else {
@@ -66,11 +66,11 @@ public class ProfileController {
     @FXML private void editName() {
         if (editing) { //save the new name
             String newName = editName.getText();
-            int id = profileController.getCurrentUser().getId();
+            int id = profileMainController.getCurrentUser().getId();
 
             if (!LoginService.checkUser(newName)) {
                 nameWarning.setText("Name cannot contain digits or special characters");
-            } else if (userDAO.nameInDB(newName) && !newName.equals(profileController.getCurrentUser().getName())) {
+            } else if (userDAO.nameInDB(newName) && !newName.equals(profileMainController.getCurrentUser().getName())) {
                 nameWarning.setText("This name is already in use, please pick another!");
             } else if (newName.length() > 20) {
                 nameWarning.setText("Name is too long, must be less than 20 characters");
@@ -78,16 +78,16 @@ public class ProfileController {
                 editNameButton.setText("Edit");
                 revertNameChanges.setVisible(false);
                 editName.setVisible(false);
-                if (!newName.equals(profileController.getCurrentUser().getName())) {
+                if (!newName.equals(profileMainController.getCurrentUser().getName())) {
                     userDAO.updateUserName(id, newName);
                 }
-                profileController.setCurrentUser(userDAO.getUser(id));
+                profileMainController.setCurrentUser(userDAO.getUser(id));
                 setName();
                 nameWarning.setText("");
                 editing = false;
             }
         } else { //edit the current name
-            editName.setText(profileController.getCurrentUser().getName());
+            editName.setText(profileMainController.getCurrentUser().getName());
             editNameButton.setText("Save");
             revertNameChanges.setVisible(true);
             editName.setVisible(true);
@@ -99,7 +99,7 @@ public class ProfileController {
      * Resets name changes back to before they had been changed.
      */
     @FXML private void revertNameChanges() {
-        editName.setText(profileController.getCurrentUser().getName());
+        editName.setText(profileMainController.getCurrentUser().getName());
     }
 
     /**
@@ -107,15 +107,15 @@ public class ProfileController {
      * into the register vehicle text boxes.
      */
     @FXML private void editCurrentVehicle() {
-        profileController.loadEditVehicle();
+        profileMainController.loadEditVehicle();
     }
 
     /**
      * Delete the currently selected vehicle from the database.
      */
     @FXML public void deleteCurrentVehicle() {
-        String reg = vehicleDAO.getSelectedVehicle(profileController.getCurrentUser()).getRegistration();
-        vehicleDAO.removeVehicle(reg, profileController.getCurrentUser().getId());
+        String reg = vehicleDAO.getSelectedVehicle(profileMainController.getCurrentUser()).getRegistration();
+        vehicleDAO.removeVehicle(reg, profileMainController.getCurrentUser().getId());
         setVehicles();
         setVehicle();
         makeButtonsInvisible();
@@ -131,7 +131,7 @@ public class ProfileController {
         yearCol.setCellValueFactory(new PropertyValueFactory<>("Year"));
         chargerTypeCol.setCellValueFactory(new PropertyValueFactory<>("ChargerType"));
         connectorTypeCol.setCellValueFactory(new PropertyValueFactory<>("ConnectorType"));
-        Vehicle[] data = vehicleDAO.getVehicles(profileController.getCurrentUser());
+        Vehicle[] data = vehicleDAO.getVehicles(profileMainController.getCurrentUser());
         ObservableList<Vehicle> vehicles = FXCollections.observableArrayList(data);
         vehicleTable.setItems(vehicles);
     }
@@ -149,8 +149,8 @@ public class ProfileController {
     /**
      * Initialises the profile popup with User's registered vehicles in a table view.
      */
-    public void init(MyProfileController profileController) {
-        this.profileController = profileController;
+    public void init(ProfileMainController profileController) {
+        this.profileMainController = profileController;
         vehicleDAO = new VehicleDAO();
         editName.setVisible(false);
         revertNameChanges.setVisible(false);

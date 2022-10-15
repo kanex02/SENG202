@@ -211,10 +211,10 @@ public class EditVehicleController {
     /**
      * initialise the stage with the edit vehicle popup.
 
-     * @param myProfileController instance of the main controller
+     * @param profileMainController instance of the main controller
      */
-    public void init(MyProfileController myProfileController) {
-        this.profileController = myProfileController.getProfileController();
+    public void init(ProfileMainController profileMainController) {
+        this.profileController = profileMainController.getProfileController();
         vehicleDAO = new VehicleDAO();
         chargerBox.setItems(chargerTypeOptions);
         connectorBox.setItems(connectorTypeOptions);

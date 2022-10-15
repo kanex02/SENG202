@@ -115,7 +115,7 @@ public class MainController {
     /**
      * Loads the OpenLayers map view into the tab pane component of main view.
      */
-    public void viewMap() {
+    private void viewMap() {
         try {
             FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map.fxml"));
             Parent mapViewParent = mapViewLoader.load();
@@ -150,7 +150,7 @@ public class MainController {
     /**
      * Loads the table view into the tab pane component of main view.
      */
-    public void viewTable() {
+    private void viewTable() {
         try {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table.fxml"));
             Parent tableViewParent = tableViewLoader.load();
@@ -247,12 +247,12 @@ public class MainController {
      * Brings up the profile popup window when the 'my profile' button is pressed.
 
      */
-    @FXML private void myProfileButton() {
+    @FXML private void viewMyProfile() {
         try {
             FXMLLoader profileLoader = new FXMLLoader(getClass().getResource("/fxml/myProfile.fxml"));
             Parent profileParent = profileLoader.load();
-            MyProfileController myProfileController = profileLoader.getController();
-            myProfileController.init(this, stage, mainPane);
+            ProfileMainController profileMainController = profileLoader.getController();
+            profileMainController.init(this, stage, mainPane);
             mainPane.setCenter(profileParent);
             mainPane.toFront();
             mainPane.setVisible(true);
@@ -278,7 +278,7 @@ public class MainController {
 
      * @param event help button pressed.
      */
-    @FXML private void helpButton(Event event) {
+    @FXML private void viewHelpScreen(Event event) {
         Parent root;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/help.fxml"));
@@ -309,7 +309,7 @@ public class MainController {
     }
 
 
-    @FXML private void openCredits() {
+    @FXML private void viewAttributions() {
         Parent root;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/credits.fxml"));
