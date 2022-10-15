@@ -22,16 +22,12 @@ class JourneyDAOTest {
     static VehicleDAO vehicleDAO;
     static UserDAO userDAO;
     static User user;
-    static Path testDB = Path.of("src/test/resources/test.db");
     static Vehicle vehicle;
     static Journey journey;
 
     @BeforeAll
-    static void initialise() throws IOException {
-        // Make sure that it is a new database
-        Files.deleteIfExists(testDB);
-        databaseManager = new DatabaseManager("src/test/resources/test.db");
-        databaseManager.setup();
+    static void initialise() {
+        databaseManager = DatabaseManager.getInstance();
         journeyDAO = new JourneyDAO();
         vehicleDAO = new VehicleDAO();
         userDAO = new UserDAO();
@@ -56,13 +52,12 @@ class JourneyDAOTest {
     }
 
     @AfterAll
-    static void closeDown() throws IOException, SQLException {
+    static void closeDown() throws SQLException {
         Connection conn = databaseManager.connect();
         Statement s = conn.createStatement();
         s.execute("DELETE FROM Users WHERE name = 'Tester'");
         s.execute("DELETE FROM Vehicles WHERE registration = 'FakeRegUnique'");
         Utils.closeConn(conn);
-        Files.deleteIfExists(testDB);
     }
 
     @Test

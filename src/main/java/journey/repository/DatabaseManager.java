@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 public final class DatabaseManager {
     private final String databasePath;
     private static final Logger log = LogManager.getLogger();
-    private static DatabaseManager instance = null;
+    private static DatabaseManager instance;
 
     /**
      * Constructs a new database manager.
@@ -42,7 +42,6 @@ public final class DatabaseManager {
     public DatabaseManager(String url) {
         this.databasePath = url;
         setup();
-        instance = this;
     }
 
 
