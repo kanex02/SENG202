@@ -16,6 +16,7 @@ import java.util.List;
 public class ReadCSV {
     private static final Logger log = LogManager.getLogger();
 
+    private ReadCSV() {}
     /**
      * Imports data into the database.
      */

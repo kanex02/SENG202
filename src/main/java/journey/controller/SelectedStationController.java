@@ -35,6 +35,38 @@ public class SelectedStationController {
     private Station selectedStation;
 
     /**
+     * Checks if a charging station
+     */
+    private ObservableList<String> getConnsInnoperative() {
+        String[] connectors = selectedStation.getConnectors();
+        boolean inoperative = false;
+        ObservableList<String> conns = FXCollections.observableArrayList();
+        int counter = 1;
+        for (String connector: connectors) {
+            if (!inoperative) {
+                inoperative = connector.contains("Unknown") || connector.contains("Inoperative");
+            }
+            if (counter % 2 == 0) {
+                String conn = null;
+                if (counter == 2) {
+                    conn = (connectors[counter-2] + ":" + connectors[counter-1] + ":" + connectors[counter].substring(0, 1));
+                } else {
+                    conn = (connectors[counter-2].substring(3) + ":" + connectors[counter-1] + ":" + connectors[counter].substring(0, 1));
+                }
+                conn.substring(0, conn.length()-2);
+                conns.add(conn);
+            }
+            counter++;
+
+        }
+        if (inoperative) {
+            operationalWarning.setText("WARNING: This station may have inoperative chargers!");
+        } else {
+            operationalWarning.setText("");
+        }
+        return conns;
+    }
+    /**
      * Fills all fields with the selected station's information.
      * (With readability changes e.g true->yes).
      */
@@ -61,31 +93,8 @@ public class SelectedStationController {
         } else {
             ratingField.setText("Not yet rated");
         }
-        String[] connectors = selectedStation.getConnectors();
-        boolean inoperative = false;
-        ObservableList<String> conns = FXCollections.observableArrayList();
-        int counter = 1;
-        for (String connector: connectors) {
-            if (!inoperative) {
-                inoperative = connector.contains("Unknown") || connector.contains("Inoperative");
-            }
-            if (counter % 2 == 0) {
-                String conn = null;
-                if (counter == 2) {
-                    conn = (connectors[counter-2] + ":" + connectors[counter-1] + ":" + connectors[counter].substring(0, 1));
-                } else {
-                    conn = (connectors[counter-2].substring(3) + ":" + connectors[counter-1] + ":" + connectors[counter].substring(0, 1));
-                }
-                conn.substring(0, conn.length()-2);
-                conns.add(conn);
-            }
-            counter++;
-        }
-        if (inoperative) {
-            operationalWarning.setText("WARNING: This station may have inoperative chargers!");
-        } else {
-            operationalWarning.setText("");
-        }
+
+        ObservableList<String> conns = getConnsInnoperative();
         connectorsList.getItems().clear();
         connectorsList.getItems().addAll(conns);
 

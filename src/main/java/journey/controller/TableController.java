@@ -33,7 +33,7 @@ public class TableController {
 
     @FXML private TableView<Station> stationTable;
     @FXML private AnchorPane tableParent;
-
+    private static final String UNLIMITED = "Unlimited"; 
     private MainController mainController;
 
     /**
@@ -42,10 +42,10 @@ public class TableController {
     public void getData() {
         // Custom filtering for values of unlimited within the time limit column.
         timeLimitCol.setComparator((s, t1) -> {
-            if (s.equals("Unlimited")) {
+            if (s.equals(UNLIMITED)) {
                 return 1;
             }
-            if (t1.equals("Unlimited")) {
+            if (t1.equals(UNLIMITED)) {
                 return -1;
             }
             int firstIntegerValue = Integer.parseInt(s);
@@ -59,16 +59,16 @@ public class TableController {
         connectorsCol.setCellValueFactory(new PropertyValueFactory<>("numberOfConnectors"));
         currentTypeCol.setCellValueFactory(new PropertyValueFactory<>("currentType"));
         isFreePark.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().isHasCarParkCost() ? "Yes" : "No"));
+                new SimpleStringProperty(cellData.getValue().getHasCarParkCost() ? "Yes" : "No"));
         isFreeCharge.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().isHasChargingCost() ? "Yes" : "No"));
+                new SimpleStringProperty(cellData.getValue().getHasChargingCost() ? "Yes" : "No"));
         latCol.setCellValueFactory(new PropertyValueFactory<>("latitude"));
         longCol.setCellValueFactory(new PropertyValueFactory<>("longitude"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         operatorCol.setCellValueFactory(new PropertyValueFactory<>("operator"));
         timeLimitCol.setCellValueFactory(cellData -> {
             int value = cellData.getValue().getMaxTime();
-            return new SimpleStringProperty(value == 0 ? "Unlimited" : Integer.toString(value));
+            return new SimpleStringProperty(value == 0 ? UNLIMITED : Integer.toString(value));
         });
         ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
         favouriteCol.setCellValueFactory(cellData ->

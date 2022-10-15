@@ -1,19 +1,16 @@
 package journey.repository;
 
+import journey.ReadCSV;
+import journey.Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import journey.ReadCSV;
-import journey.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.sql.*;
 
 
 /**
@@ -56,7 +53,7 @@ public final class DatabaseManager {
             String url = "jdbc:sqlite:".concat(databasePath);
             conn = DriverManager.getConnection(url);
             log.info("Connected to database.");
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             log.fatal(e);
         }
         return conn;
@@ -89,7 +86,6 @@ public final class DatabaseManager {
                 Utils.closeConn(conn);
             }
         }
-
         return instance;
     }
 

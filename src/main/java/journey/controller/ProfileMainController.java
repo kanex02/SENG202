@@ -104,9 +104,9 @@ public class ProfileMainController {
             FXMLLoader profileLoader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
             Parent profileParent = profileLoader.load();
 
-            ProfileController profileController = profileLoader.getController();
-            this.profileController = profileController;
-            profileController.init(this);
+            ProfileController profileControl = profileLoader.getController();
+            profileControl.init(this);
+            this.profileController = profileControl;
             profileWrapper.getChildren().add(profileParent);
             AnchorPane.setTopAnchor(profileParent, 0d);
             AnchorPane.setBottomAnchor(profileParent, 0d);

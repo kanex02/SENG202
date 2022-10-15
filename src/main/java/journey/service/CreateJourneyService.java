@@ -1,13 +1,13 @@
 package journey.service;
 
-import journey.Utils;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service class to extract testable methods for journey planning.
  */
 public class CreateJourneyService {
+
+    private CreateJourneyService() {}
     /**
      * Checks if a journey with the given parameters is valid. Note that a start
      * or end point of (0, 0) is considered invalid, but this is considered acceptable
@@ -17,7 +17,8 @@ public class CreateJourneyService {
      * @param waypoints waypoints of journey
      * @return whether the inputs are valid, in the same order as the function params.
      */
-    public static String checkJourney(String vehicle, ArrayList<String> waypoints) {
+
+    public static String checkJourney(String vehicle, List<String> waypoints) {
         String valid = "";
         String start = waypoints.get(0);
         String end = waypoints.get(waypoints.size()-1);

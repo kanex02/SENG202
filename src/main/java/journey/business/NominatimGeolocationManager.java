@@ -25,7 +25,7 @@ import java.net.http.HttpResponse;
  */
 public class NominatimGeolocationManager {
     private static final Logger log = LogManager.getLogger();
-
+    private static final String REQGEOERROR = "Error requesting geolocation";
     /**
      * Runs a query with the address given and finds the most applicable lat, lng co-ordinates.
 
@@ -54,8 +54,11 @@ public class NominatimGeolocationManager {
             float lat = (float) Double.parseDouble((String) bestResult.get("lat"));
             float lng = (float) Double.parseDouble((String) bestResult.get("lon"));
             return new GeoLocationResult(lat, lng);
-        } catch (IOException | ParseException | InterruptedException e) {
-            log.error("Error requesting geolocation", e);
+        } catch (IOException | ParseException e) {
+            log.error(REQGEOERROR, e);
+        } catch (InterruptedException ie) {
+            log.error(REQGEOERROR, ie);
+            Thread.currentThread().interrupt();
         }
         return new GeoLocationResult(0, 0);
     }
@@ -81,11 +84,11 @@ public class NominatimGeolocationManager {
             // Parsing the json response to get the address
             JSONParser parser = new JSONParser();
             JSONObject results = (JSONObject)  parser.parse(response.body());
-            return new GeoCodeResult(((String) results.get("display_name")).replaceAll(", New Zealand / Aotearoa", ""));
+            return new GeoCodeResult(((String) results.get("display_name")).replace(", New Zealand / Aotearoa", ""));
         } catch (IOException | ParseException e) {
-            log.error("Error requesting geolocation", e);
+            log.error(REQGEOERROR, e);
         } catch (InterruptedException ie) {
-            log.error("Error requesting geolocation", ie);
+            log.error(REQGEOERROR, ie);
             Thread.currentThread().interrupt();
         }
         return new GeoCodeResult("");
