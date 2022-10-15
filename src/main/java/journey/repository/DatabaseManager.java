@@ -1,7 +1,6 @@
 package journey.repository;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -42,6 +41,8 @@ public final class DatabaseManager {
      */
     public DatabaseManager(String url) {
         this.databasePath = url;
+        setup();
+        instance = this;
     }
 
 
@@ -98,7 +99,7 @@ public final class DatabaseManager {
     /**
      * Sets up the database if not yet set up.
      */
-    public void setup() throws SQLException, IOException {
+    public void setup() {
 
         // Create a new table.
         // Note: Order of stations in a journey is done by a 'order' column.
@@ -115,7 +116,7 @@ public final class DatabaseManager {
             statement.executeBatch();
             log.info("DatabaseManager setup.");
         } catch (Exception e) {
-            log.error(e);
+            log.fatal(e);
         } finally {
             Utils.closeConn(conn);
         }

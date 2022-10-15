@@ -4,6 +4,8 @@ import journey.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -22,10 +24,17 @@ class DatabaseManagerTest {
         Utils.closeConn(conn);
     }
 
+
     @Test
-    void setup() throws SQLException, IOException {
+    void setup() throws IOException {
+        // Make sure that it is a new database
+        Path testDB = Path.of("src/test/resources/test.db");
+        Files.deleteIfExists(testDB);
         databaseManager = new DatabaseManager("src/test/resources/test.db");
         databaseManager.setup();
-        assertNotNull(databaseManager.connect());
+        Connection conn = databaseManager.connect();
+        assertNotNull(conn);
+        Utils.closeConn(conn);
+        Files.deleteIfExists(testDB);
     }
 }

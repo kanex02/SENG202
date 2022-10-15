@@ -25,26 +25,6 @@ public class JourneyDAO {
         databaseManager = DatabaseManager.getInstance();
     }
 
-    /**
-     * Gets number of journeys from the database.
-
-     * @return number of journeys in the database.
-     */
-    public int getNumberOfJourneys() {
-        Connection conn = null;
-        int count = 0;
-        try {
-            conn = databaseManager.connect();
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM Journeys");
-            count = rs.getInt(1);
-        } catch (SQLException e) {
-            log.error(e);
-        } finally {
-            Utils.closeConn(conn);
-        }
-        return count;
-    }
 
     /**
      * Gets all the journeys inputted by the user.
@@ -104,9 +84,12 @@ public class JourneyDAO {
             insertStatement.setString(6, journey.getDate());
             insertStatement.execute();
 
+            ResultSet rs = conn.prepareStatement("SELECT last_insert_rowid()").executeQuery();
+            int id = rs.getInt(1);
+
             Statement statement = conn.createStatement();
             for (int i = 0; i < journey.getWaypoints().size(); i++) {
-                String sql = "INSERT INTO JourneyWaypoints VALUES (" + getNumberOfJourneys() + ", '"
+                String sql = "INSERT INTO JourneyWaypoints VALUES (" + id + ", '"
                         + journey.getWaypoints().get(i) + "', "
                         + i + ");";
                 statement.addBatch(sql);
