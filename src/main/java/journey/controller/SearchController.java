@@ -70,6 +70,8 @@ public class SearchController {
             }
             connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
             connectorsList = selectedConnectors;
+        } else {
+            warningLabel.setText("You have not got any vehicle selected!");
         }
     }
 
