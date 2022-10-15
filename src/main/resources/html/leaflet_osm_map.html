@@ -214,9 +214,6 @@
 
                 let buttonDialog = getButtonHTML(address);
 
-                /* TODO: Add param onClick so that any marker clicked will set the address into start.
-                 * Also when click off marker it gets deleted.
-                 */
                 let m = new L.Marker([latlng.lat, latlng.lng], {icon: redIcon})
                 m.bindPopup(buttonDialog).on("popupopen", (a) => {
                     var popUp = a.target.getPopup()
@@ -242,6 +239,14 @@
         map.addLayer(markers);
 
     }
+
+    /**
+     * Adds a marker to the map.
+
+     * @param lat latitude
+     * @param lng longitude
+     * @param label label of the marker (integers are reserved for journey planning)
+     */
     function addMiscMarker(lat, lng, label) {
 
         let searchPopupText = '<html>\n<body>\n<p style="text-align:center;">Range Marker</p>\n</body>\n' +
@@ -251,23 +256,16 @@
             miscMarkers[label].remove(map);
         }
 
+        // Check if the misc marker needs the default green icon, or if the label is an
+        // integer (used for journey mapping), checks for whether it is the end marker.
         let icon;
-        switch (label) {
-            case 'start':
-                icon = startIcon;
-                break;
-            case 'end':
+        icon = greenIcon;
+        if (Number.isInteger(Number(label))) {
+            removeRoute();
+            if (!routeMapped && Number(label) === 1) {
                 icon = endIcon;
-                break;
-            default:
-                icon = greenIcon;
-                if (Number.isInteger(Number(label))) {
-                    removeRoute();
-                    if (!routeMapped && Number(label) === 1) {
-                        icon = endIcon;
-                    } else
-                    icon = startIcon;
-                }
+            } else
+            icon = startIcon;
         }
 
         let m = new L.Marker(L.latLng(lat, lng), {icon: icon, draggable: true});
@@ -275,6 +273,7 @@
         miscMarkers[label] = m;
 
 
+        // Update java when markers are dragged
         m.on('dragend', function(event) {
             var latlng = event.target.getLatLng();
             javaScriptBridge.changeLatLongFromClick(latlng.lat, latlng.lng, label);
@@ -287,6 +286,9 @@
         m.addTo(map);
     }
 
+    /**
+     * Clears all waypoints for journey planning
+     */
     function clearWaypoints() {
         for (const [key, value] of Object.entries(miscMarkers)) {
             if (Number.isInteger(Number(key))) {
@@ -296,6 +298,11 @@
         }
     }
 
+    /**
+     * Clears a specific marker
+
+     * @param label label of the marker
+     */
     function clearMiscMarker(label) {
         if (miscMarkers[label] !== undefined) {
             miscMarkers[label].remove(map);
@@ -305,6 +312,7 @@
 
     /**
      * Adds a circle to indicate the range of search from the lat and lng.
+
      * @param lat latitude to place center of circle at
      * @param lng longitude to place center of circle at
      * @param radius radius of the circle
@@ -329,7 +337,7 @@
     }
 
     /**
-     * Clears the range indicator circle from the map
+     * Clears the range indicator circle from the map.
      */
     function removeRangeIndicator() {
 
@@ -340,7 +348,8 @@
     }
 
     /**
-     * Adds a marker to the map and stores it in the markers array for later use (e.g. removal)
+     * Adds a marker to the map and stores it in the markers array for later use (e.g. removal).
+
      * @param id id of marker
      * @param title tooltip to display on hover
      * @param lat latitude to place marker at
@@ -408,7 +417,7 @@
     }
 
     /**
-     * Displays the basic example route between two points using UCs OSRM server
+     * Adds the route stored in previousRoute to the map.
      */
     function addRoute() {
         if (previousRoute !== []) {
@@ -458,7 +467,10 @@
                 }
             });
 
+            // Store the current waypoints, to be checked against later
             prevWaypoints = getLatLngs(route.getWaypoints());
+
+            // Updates java on route changed
             route.on("routesfound", () => {
                 insertMarker(route.getWaypoints());
             })
@@ -467,10 +479,18 @@
         }
     }
 
+    /**
+     * Updates the java when the route is edited.
+
+     * @param currWaypoints the current waypoints in the route
+     */
     function insertMarker(currWaypoints) {
+        // For each current marker, check if it is different to the one stored previously.
         for (let i = 0; i < currWaypoints.length; i++) {
             if (!(currWaypoints[i].latLng.lat === prevWaypoints[i].lat &&
                 currWaypoints[i].latLng.lng === prevWaypoints[i].lng)) {
+                // If a waypoint is different, check if the length of waypoints is the same - that will determine
+                // whether a marker was updated or inserted.
                 let waypoint = currWaypoints[i];
                 if (currWaypoints.length !== prevWaypoints.length) {
                     javaScriptBridge.insertWaypoint(waypoint.latLng.lat, waypoint.latLng.lng, i);
@@ -483,6 +503,12 @@
         }
     }
 
+    /**
+     * Helper function to get a list of lat and longs from waypoints
+
+     * @param wps waypoints to process
+     * @returns {[]} the lat and longs of the waypoint
+     */
     function getLatLngs(wps) {
         arrayOut = [];
         for (let i = 0; i < wps.length; i++) {
