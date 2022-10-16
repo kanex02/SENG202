@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import journey.Utils;
 import journey.data.Vehicle;
 import journey.repository.VehicleDAO;
+import journey.service.VehicleService;
 
 import java.util.Objects;
 
@@ -35,6 +36,12 @@ public class EditVehicleController {
     private ProfileController profileController;
     private VehicleDAO vehicleDAO;
     private Vehicle currentVehicle;
+    private String currentError;
+    private String connectorError;
+    private String regError;
+    private String makeError;
+    private String modelError;
+    private String yearError;
 
     private static final ObservableList<String> chargerTypeOptions =
             FXCollections.observableArrayList(
@@ -80,152 +87,46 @@ public class EditVehicleController {
     }
 
     /**
-     * Check a vehicle's registration input is valid.
-
-     * @param valid input is valid.
-     * @return if input is valid.
+     * Display warning labels for invalid input.
      */
-    private boolean regValid(boolean valid) {
-        String registration = registrationTextBox.getText();
-        if (Objects.equals(registration, "")) {
-            regWarningLabel.setText("Please enter a registration");
-            registrationTextBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        } else if (!registration.matches(Utils.getCharacterDigit())) {
-            regWarningLabel.setText("Cannot contain special characters");
-            registrationTextBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        } else if (registration.length() > 6) {
-            regWarningLabel.setText("Cannot be more than 6 characters");
-            registrationTextBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        } else if (vehicleDAO.queryVehicle(registration, 
-                profileController.getProfileMainController().getCurrentUser().getId()) != null) {
-            regWarningLabel.setText("A vehicle with this registration already exists for this user!");
-            registrationTextBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        }
-        return valid;
-    }
+    private void displayErrors() {
+        Vehicle exists = vehicleDAO.queryVehicle(registrationTextBox.getText(),
+                profileController.getProfileMainController().getCurrentUser().getId());
 
-    /**
-     * Check a vehicle's make and model input is valid.
-
-     * @param valid input is valid.
-     * @return if input is valid.
-     */
-    private boolean makeModelValid(boolean valid) {
-        String make = makeTextBox.getText();
-        String model = modelTextBox.getText();
-        //make validation
-        if (!make.matches(Utils.getCharacterOnly())) {
-            makeWarningLabel.setText("Cannot contain digits or special characters");
-            makeTextBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        } else if (make.equals("")) {
-            makeWarningLabel.setText("Please enter a model");
-            makeTextBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        } else if (make.length() > 20) {
-            makeWarningLabel.setText("Make cannot be more than 20 characters long");
-            makeTextBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        }
-        //model validation
-        if (!model.matches(Utils.getCharacterDigit())) {
-            modelWarningLabel.setText("Cannot contain special characters");
-            modelTextBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        } else if (model.equals("")) {
-            modelWarningLabel.setText("Please enter a model");
-            modelTextBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        } else if (model.length() > 20) {
-            modelWarningLabel.setText("Model cannot be more than 20 characters long");
-            modelTextBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        }
-        return valid;
-    }
-
-    /**
-     * Check a vehicle's year input is valid.
-
-     * @param valid input is valid.
-     * @return if input is valid.
-     */
-    private boolean yearValid(boolean valid) {
-        String year = yearTextBox.getText();
-        int intYear;
-        if (year.equals("")) {
-            yearWarningLabel.setText("Please enter a year");
-            yearTextBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        } else {
-            if (Utils.isInt(year)) {
-                intYear = Integer.parseInt(year);
-                String date = Utils.getDate();
-                int currentYear = Integer.parseInt(date.split("/")[2]);
-                if (intYear > currentYear || intYear < 1996) {
-                    yearWarningLabel.setText("Year is out of range");
-                    yearTextBox.setStyle(WARNINGCOLOUR);
-                    valid = false;
-                }
-            } else {
-                yearWarningLabel.setText("Year must be an integer");
-                yearTextBox.setStyle(WARNINGCOLOUR);
-                valid = false;
-            }
-        }
-        return valid;
-    }
-
-    /**
-     * Check a vehicle's current and connectors input is valid.
-
-     * @param valid input is valid.
-     * @return if input is valid.
-     */
-    private boolean currentConnectorValid(boolean valid) {
-        //current validation
-        if (chargerTypeChoice == null || chargerTypeChoice.equals("")) {
-            currentWarningLabel.setText("Please select a current type");
-            chargerBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        }
-
-        //connector validation
-        if (connectorTypeChoice == null || connectorTypeChoice.equals("")) {
-            connectorWarningLabel.setText("Please select a connector type");
-            connectorBox.setStyle(WARNINGCOLOUR);
-            valid = false;
-        }
-        return valid;
-    }
-
-    /**
-     * Error checking for entering a vehicle.
-
-     * @return whether result passed error checking or not (true/false).
-     */
-    private boolean isValid() {
-        boolean valid = true;
         chargerTypeChoice();
         connectorTypeChoice();
+        currentError = VehicleService.currentValid(chargerTypeChoice);
+        connectorError = VehicleService.connectorValid(connectorTypeChoice);
+        regError = VehicleService.regValid(registrationTextBox.getText(), exists);
+        makeError = VehicleService.makeValid(makeTextBox.getText());
+        modelError = VehicleService.modelValid(modelTextBox.getText());
+        yearError = VehicleService.yearValid(yearTextBox.getText());
 
-        //registration validation
-        valid = regValid(valid);
+        currentWarningLabel.setText(currentError);
+        connectorWarningLabel.setText(connectorError);
+        regWarningLabel.setText(regError);
+        makeWarningLabel.setText(makeError);
+        modelWarningLabel.setText(modelError);
+        yearWarningLabel.setText(yearError);
 
-        //make and model validation
-        valid = makeModelValid(valid);
-
-        //year validation
-        valid = yearValid(valid);
-
-        //current and connector validation
-        valid = currentConnectorValid(valid);
-
-        return valid;
+        if (!regError.equals("")) {
+            registrationTextBox.setStyle(WARNINGCOLOUR);
+        }
+        if (!makeError.equals("")) {
+            makeTextBox.setStyle(WARNINGCOLOUR);
+        }
+        if (!modelError.equals("")) {
+            modelTextBox.setStyle(WARNINGCOLOUR);
+        }
+        if (!yearError.equals("")) {
+            yearTextBox.setStyle(WARNINGCOLOUR);
+        }
+        if (!connectorError.equals("")) {
+            connectorBox.setStyle(WARNINGCOLOUR);
+        }
+        if (!currentError.equals("")) {
+            chargerBox.setStyle(WARNINGCOLOUR);
+        }
     }
 
 
@@ -243,7 +144,9 @@ public class EditVehicleController {
         connectorWarningLabel.setText("");
         vehicleDAO.removeVehicle(currentVehicle.getRegistration(),
                 profileController.getProfileMainController().getCurrentUser().getId());
-        if (isValid()) {
+        displayErrors();
+        boolean valid = VehicleService.isValid(regError, makeError, modelError, yearError, currentError, connectorError);
+        if (valid) {
             String reg = registrationTextBox.getText();
             String make = makeTextBox.getText();
             String model = modelTextBox.getText();
