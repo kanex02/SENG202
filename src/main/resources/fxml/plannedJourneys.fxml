@@ -13,14 +13,14 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
         </rowConstraints>
-        <TableView fx:id="journeyTable" minWidth="0.0" prefHeight="265.0" prefWidth="350.0" stylesheets="@../gui/tableStyle.css" GridPane.vgrow="ALWAYS">
+        <TableView fx:id="journeyTable" minWidth="0.0" prefHeight="265.0" prefWidth="350.0" styleClass="plannedJourneys" stylesheets="@../gui/tableStyle.css" GridPane.vgrow="ALWAYS">
             <placeholder>
                 <Label text="You have not planned any journeys yet!" />
             </placeholder>
             <columns>
-                <TableColumn fx:id="dateCol" prefWidth="101.0" text="Date Created" />
-                <TableColumn fx:id="vehicleCol" minWidth="3.0" prefWidth="76.0" text="Vehicle" />
-                <TableColumn fx:id="startCol" prefWidth="59.0" text="Start" />
+                <TableColumn fx:id="dateCol" prefWidth="86.0" text="Date" />
+                <TableColumn fx:id="vehicleCol" minWidth="3.0" prefWidth="67.0" text="Vehicle" />
+                <TableColumn fx:id="startCol" prefWidth="104.0" text="Start" />
                 <TableColumn fx:id="endCol" prefWidth="70.0" text="End" />
             </columns>
           <columnResizePolicy>

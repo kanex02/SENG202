@@ -36,7 +36,15 @@ public class PlannedJourneyController {
     public void setJourneys() {
         Journey[] data = journeyDAO.getPlannedJourneys(mainController.getCurrentUser());
         ObservableList<Journey> journeys = FXCollections.observableArrayList(data);
+        for (Journey journey : journeys) {
+            journey.setStart(clipAtComma(journey.getStart()));
+            journey.setEnd(clipAtComma((journey.getEnd())));
+        }
         journeyTable.setItems(journeys);
+    }
+
+    private String clipAtComma(String str) {
+        return str.split(",")[0];
     }
 
     /**

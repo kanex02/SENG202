@@ -85,7 +85,10 @@ public class LoginController {
         String name = nameTextBox.getText();
         registerWarningLabel.setText("");
         Boolean valid = LoginService.checkUser(name);
-        if (Boolean.FALSE.equals(valid)) {
+        if (name.equals("")) {
+            registerWarningLabel.setText("You have not entered a name.");
+            nameTextBox.setStyle(colourRed);
+        } else if (Boolean.FALSE.equals(valid)) {
             registerWarningLabel.setText("Your name cannot contain any digits or special characters!");
             nameTextBox.setStyle(colourRed);
         } else if (name.equals("")) {

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane fx:id="tableParent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="308.0" prefWidth="2733.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.TableController">
-   <TableView fx:id="stationTable" minWidth="0.0" prefHeight="308.0" prefWidth="2733.0" stylesheets="@../gui/tableStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+   <TableView fx:id="stationTable" minWidth="0.0" prefHeight="308.0" prefWidth="2733.0" styleClass="otherTables" stylesheets="@../gui/tableStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <columns>
          <TableColumn fx:id="addressCol" prefWidth="467.0" text="Address" />
          <TableColumn fx:id="favouriteCol" prefWidth="155.0" text="Favourite" />
