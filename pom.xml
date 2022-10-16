@@ -5,7 +5,7 @@
   <groupId>seng202.team4</groupId>
   <artifactId>journey</artifactId>
   <packaging>jar</packaging>
-  <version>deliverable-2.0</version>
+  <version>deliverable-3.0</version>
 
   <name>journey</name>
   <url>http://maven.apache.org</url>
