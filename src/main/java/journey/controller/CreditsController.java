@@ -48,6 +48,9 @@ public class CreditsController extends Application {
     @FXML private void closeIcons() {
         openLink("https://www.flaticon.com/free-icons/close");
     }
+    @FXML private void logOutIcons() {
+        openLink("https://www.flaticon.com/free-icons/logout");
+    }
 
     /**
      * Initialises credits controller.
