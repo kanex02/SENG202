@@ -128,6 +128,12 @@ public class CreateJourneyController {
         updateJourneyList(position);
     }
 
+    /**
+     * Adds a waypoint to a journey given the lat and lng and the position of the stop
+     * @param lat The latitude of the waypoint
+     * @param lng The longitude of the waypoint
+     * @param position The position in the journey
+     */
     private void addWaypointToJourney(Double lat, Double lng, int position) {
         if (position >= 2 && position >= waypoints.size()) {
             journeyPane.getChildren().add(nthWaypoint(position));
@@ -142,6 +148,11 @@ public class CreateJourneyController {
         updateJourneyList(position);
     }
 
+    /**
+     * Updates the journey list by retrieving the waypoint at the given position and
+     * updating the test for the waypoint addresses
+     * @param position The position of the waypoint to update in the journey
+     */
     private void updateJourneyList(int position) {
         String waypoint = waypoints.get(position);
         String[] latLng = waypoint.split("#");
@@ -149,6 +160,9 @@ public class CreateJourneyController {
         waypointAddresses.get(position).setText(address);
     }
 
+    /**
+     * Helper function that deletes an icon
+     */
     private void deleteIcon() {
         iconPane.getChildren().remove(circleIcons.remove(0));
         iconPane.getChildren().remove(ellipsesIcons.remove(0));
@@ -161,6 +175,10 @@ public class CreateJourneyController {
         destination.setLayoutY(destination.getLayoutY() - 60);
     }
 
+    /**
+     * Helper function that adds an icon to the plan a journey panel.
+     * @param i index of the icon to add
+     */
     private void addIcon(int i) {
         destination.setLayoutY(destination.getLayoutY() + 60);
         ImageView circleView = new ImageView();
@@ -187,6 +205,11 @@ public class CreateJourneyController {
         iconPane.getChildren().add(ellipsesView);
     }
 
+    /**
+     * Produces an anchor pane at the index i and reshuffles the rest.
+     * @param i the index of the anchor pane.
+     * @return anchor pane
+     */
     private AnchorPane nthWaypoint(int i) {
         addIcon(i);
         ImageView cancel1 = new ImageView(closeImage);
@@ -256,6 +279,10 @@ public class CreateJourneyController {
         return stationRow;
     }
 
+    /**
+     * Gets the position of the station in the route when clicked from its id and sets the callback function.
+     * @param event JavaFX event
+     */
     @FXML private void clickNth(Event event) {
         journeyWarningLabel.setStyle(TEXT_FILL_RED);
         journeyWarningLabel.setText("");
@@ -267,6 +294,11 @@ public class CreateJourneyController {
         }, String.valueOf(i));
     }
 
+    /**
+     * Called as callback when there is a change in one of the journey test boxes.
+     * Runs all necessary operations to get the address.
+     * @param i position of the marker in the journey.
+     */
     private void typeNth(int i) {
         journeyWarningLabel.setStyle(TEXT_FILL_RED);
         journeyWarningLabel.setText("");
@@ -285,11 +317,20 @@ public class CreateJourneyController {
         }
     }
 
+    /**
+     * Wrapper function to call removeNth(int index).
+     * Used to get the index.
+     * @param event JavaFX event
+     */
     @FXML private void removeNth(ActionEvent event) {
         int index = Integer.parseInt((String) ((Node) event.getSource()).getUserData());
         removeNth(index);
     }
 
+    /**
+     * Removes the nth waypoint from the journey.
+     * @param index index of the waypoint
+     */
     private void removeNth(int index) {
         if (waypoints.size() <= 2) {
             waypoints.set(index, "");

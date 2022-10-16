@@ -77,6 +77,9 @@ public class ProfileMainController {
         }
     }
 
+    /**
+     * Redirects user back to log in screen when logout button pressed.
+     */
     @FXML private void logoutButton() {
         try {
             FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
@@ -161,6 +164,9 @@ public class ProfileMainController {
         }
     }
 
+    /**
+     * Sets the images for the profile screen.
+     */
     private void setImages() {
         Image img = new Image(
                 new BufferedInputStream(
