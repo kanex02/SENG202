@@ -5,7 +5,7 @@ package journey.data;
  */
 public class Note {
     private Station station;
-    private String note;
+    private String theNote;
     private boolean favourite;
     private int rating;
 
@@ -21,7 +21,7 @@ public class Note {
      */
     public Note(Station station, String note, int rating, boolean favourite) {
         this.station = station;
-        this.note = note;
+        this.theNote = note;
         this.rating = rating;
         this.favourite = favourite;
     }
@@ -43,10 +43,10 @@ public class Note {
     }
 
     public String getNote() {
-        return note;
+        return theNote;
     }
 
     public void setNote(String note) {
-        this.note = note;
+        this.theNote = note;
     }
 }

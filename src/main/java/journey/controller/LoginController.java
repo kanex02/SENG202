@@ -44,6 +44,7 @@ public class LoginController {
     @FXML private Label loginWarningLabel;
     @FXML private Label registerWarningLabel;
     @FXML private ImageView journeyIcon;
+    private String colourRed = "-fx-border-color: red";
 
     /**
      * Register a user and add them to the user database
@@ -66,8 +67,8 @@ public class LoginController {
     private void populateUserDropDown() {
         User[] data = userDAO.getUsers();
         ObservableList<String> users = FXCollections.observableArrayList();
-        for (User user : data) {
-            String newString = user.getName();
+        for (User thisUser : data) {
+            String newString = thisUser.getName();
             users.add(newString);
         }
         users.add("");
@@ -84,18 +85,18 @@ public class LoginController {
         String name = nameTextBox.getText();
         registerWarningLabel.setText("");
         Boolean valid = LoginService.checkUser(name);
-        if (!valid) {
+        if (Boolean.FALSE.equals(valid)) {
             registerWarningLabel.setText("Your name cannot contain any digits or special characters!");
-            nameTextBox.setStyle("-fx-border-color: red");
+            nameTextBox.setStyle(colourRed);
         } else if (name.equals("")) {
             registerWarningLabel.setText("Please enter a name or select from dropdown");
-            nameTextBox.setStyle("-fx-border-color: red");
+            nameTextBox.setStyle(colourRed);
         } else if (userDAO.nameInDB(name)) {
             registerWarningLabel.setText("A user with that name already exists!");
-            nameTextBox.setStyle("-fx-border-color: red");
+            nameTextBox.setStyle(colourRed);
         } else if (name.length() > 15) {
             registerWarningLabel.setText("Your name cannot be longer than 15 characters!");
-            nameTextBox.setStyle("-fx-border-color: red");
+            nameTextBox.setStyle(colourRed);
         } else {
             user = userDAO.setCurrentUser(name);
             stage.setTitle("Loading...");
@@ -128,7 +129,7 @@ public class LoginController {
             stage.setTitle("Loading...");
             Platform.runLater(this::switchToMain);
         } else {
-            nameChoiceBox.setStyle("-fx-border-color: red");
+            nameChoiceBox.setStyle(colourRed);
             loginWarningLabel.setText("Please select from dropdown or register new user");
         }
     }

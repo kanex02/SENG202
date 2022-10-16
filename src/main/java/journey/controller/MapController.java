@@ -33,7 +33,6 @@ public class MapController {
     @FXML private Button toggleRouteButton;
     @FXML private AnchorPane legendWrapper;
     @FXML private Button legendButton;
-    private WebEngine webEngine;
     private JavaScriptBridge javaScriptBridge;
     private JSObject javaScriptConnector;
     private boolean routeDisplayed = false;
@@ -109,7 +108,7 @@ public class MapController {
      * Initialises map.
      */
     private void initMap() {
-        webEngine = webView.getEngine();
+        WebEngine webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
         //Load the html file directly into the web engine for relative paths.
         webEngine.load(Objects.requireNonNull(getClass().getClassLoader()
@@ -150,7 +149,7 @@ public class MapController {
      * @param journey Journey to map
      */
     public void mapJourney(Journey journey) {
-        ArrayList<String> waypoints = journey.getWaypoints();
+        ArrayList<String> waypoints = (ArrayList<String>) journey.getWaypoints();
         if (waypoints.size() >= 2) {
             String waypointString = Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
             javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2), false);
@@ -265,7 +264,7 @@ public class MapController {
      * @param station station object to be added
      */
     private void addStationMark(Station station) {
-        javaScriptConnector.call("addMarker", station.getOBJECTID(),
+        javaScriptConnector.call("addMarker", station.getObjectid(),
                 station.getShortDescription(), station.getLatitude(), station.getLongitude(), station.getFavourite());
     }
 

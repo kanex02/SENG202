@@ -47,82 +47,95 @@ public class RegisterVehicleController {
     @FXML private TextField yearTextBox;
     @FXML private TextField makeTextBox;
     @FXML private TextField modelTextBox;
-
-
-
+    private static final String WARNINGCOLOUR = "-fx-background-color: red, #efefef";
+    private static final String ERRORTEXTBOXSTYLE = "-fx-background-color: #b9b9b9, #efefef";
     private String chargerTypeChoice;
     private String connectorTypeChoice;
     private VehicleDAO vehicleDAO;
     private ProfileMainController profileMainController;
 
     /**
-     * Error checking for entering a vehicle.
+     * Check a vehicle's registration input is valid.
 
-     * @return whether result passed error checking or not (true/false).
+     * @param valid input is valid.
+     * @return if input is valid.
      */
-    private boolean isValid() {
-        boolean valid = true;
+    private boolean regValid(boolean valid) {
         String registration = registrationTextBox.getText();
-        chargerTypeChoice();
-        connectorTypeChoice();
-
-        //registration validation
         if (Objects.equals(registration, "")) {
             regWarningLabel.setText("Please enter a registration");
-            registrationTextBox.setStyle("-fx-background-color: red, #efefef");
+            registrationTextBox.setStyle(WARNINGCOLOUR);
             valid = false;
         } else if (!registration.matches(Utils.getCharacterDigit())) {
             regWarningLabel.setText("Cannot contain special characters");
-            registrationTextBox.setStyle("-fx-background-color: red, #efefef");
+            registrationTextBox.setStyle(WARNINGCOLOUR);
             valid = false;
         } else if (registration.length() > 6) {
             regWarningLabel.setText("Cannot be more than 6 characters");
-            registrationTextBox.setStyle("-fx-background-color: red, #efefef");
+            registrationTextBox.setStyle(WARNINGCOLOUR);
             valid = false;
-        } else if (vehicleDAO.queryVehicle(registration, profileMainController.getCurrentUser().getId()) != null) {
+        } else if (vehicleDAO.queryVehicle(registration,
+                profileMainController.getCurrentUser().getId()) != null) {
             regWarningLabel.setText("A vehicle with this registration already exists for this user!");
-            registrationTextBox.setStyle("-fx-background-color: red, #efefef");
+            registrationTextBox.setStyle(WARNINGCOLOUR);
             valid = false;
         }
+        return valid;
+    }
 
+
+    /**
+     * Check a vehicle's make and model input is valid.
+
+     * @param valid input is valid.
+     * @return if input is valid.
+     */
+    private boolean makeModelValid(boolean valid) {
         String make = makeTextBox.getText();
+        String model = modelTextBox.getText();
         //make validation
         if (!make.matches(Utils.getCharacterOnly())) {
             makeWarningLabel.setText("Cannot contain digits or special characters");
-            makeTextBox.setStyle("-fx-background-color: red, #efefef");
+            makeTextBox.setStyle(WARNINGCOLOUR);
             valid = false;
         } else if (make.equals("")) {
             makeWarningLabel.setText("Please enter a model");
-            makeTextBox.setStyle("-fx-background-color: red, #efefef");
+            makeTextBox.setStyle(WARNINGCOLOUR);
             valid = false;
         } else if (make.length() > 20) {
             makeWarningLabel.setText("Make cannot be more than 20 characters long");
-            makeTextBox.setStyle("-fx-background-color: red, #efefef");
+            makeTextBox.setStyle(WARNINGCOLOUR);
             valid = false;
         }
-
-        String model = modelTextBox.getText();
         //model validation
         if (!model.matches(Utils.getCharacterDigit())) {
             modelWarningLabel.setText("Cannot contain special characters");
-            modelTextBox.setStyle("-fx-background-color: red, #efefef");
+            modelTextBox.setStyle(WARNINGCOLOUR);
             valid = false;
         } else if (model.equals("")) {
             modelWarningLabel.setText("Please enter a model");
-            modelTextBox.setStyle("-fx-background-color: red, #efefef");
+            modelTextBox.setStyle(WARNINGCOLOUR);
             valid = false;
         } else if (model.length() > 20) {
             modelWarningLabel.setText("Model cannot be more than 20 characters long");
-            modelTextBox.setStyle("-fx-background-color: red, #efefef");
+            modelTextBox.setStyle(WARNINGCOLOUR);
             valid = false;
         }
+        return valid;
+    }
 
+    /**
+     * Check a vehicle's year input is valid.
+
+     * @param valid input is valid.
+     * @return if input is valid.
+     */
+    private boolean yearValid(boolean valid) {
         String year = yearTextBox.getText();
-        //year validation
         int intYear;
         if (year.equals("")) {
             yearWarningLabel.setText("Please enter a year");
-            yearTextBox.setStyle("-fx-background-color: red, #efefef");
+            yearTextBox.setStyle(WARNINGCOLOUR);
             valid = false;
         } else {
             if (Utils.isInt(year)) {
@@ -131,30 +144,63 @@ public class RegisterVehicleController {
                 int currentYear = Integer.parseInt(date.split("/")[2]);
                 if (intYear > currentYear || intYear < 1996) {
                     yearWarningLabel.setText("Year is out of range");
-                    yearTextBox.setStyle("-fx-background-color: red, #efefef");
+                    yearTextBox.setStyle(WARNINGCOLOUR);
                     valid = false;
                 }
             } else {
                 yearWarningLabel.setText("Year must be an integer");
-                yearTextBox.setStyle("-fx-background-color: red, #efefef");
+                yearTextBox.setStyle(WARNINGCOLOUR);
                 valid = false;
             }
         }
+        return valid;
+    }
 
+    /**
+     * Check a vehicle's current and connectors input is valid.
+
+     * @param valid input is valid.
+     * @return if input is valid.
+     */
+    private boolean currentConnectorValid(boolean valid) {
         //current validation
         if (chargerTypeChoice == null || chargerTypeChoice.equals("")) {
             currentWarningLabel.setText("Please select a current type");
-            chargerBox.setStyle("-fx-background-color: red, #efefef");
+            chargerBox.setStyle(WARNINGCOLOUR);
             valid = false;
         }
 
         //connector validation
         if (connectorTypeChoice == null || connectorTypeChoice.equals("")) {
             connectorWarningLabel.setText("Please select a connector type");
-            connectorBox.setStyle("-fx-background-color: red, #efefef");
+            connectorBox.setStyle(WARNINGCOLOUR);
             valid = false;
         }
-        successLabel.setText("");
+        return valid;
+    }
+
+    /**
+     * Error checking for entering a vehicle.
+
+     * @return whether result passed error checking or not (true/false).
+     */
+    private boolean isValid() {
+        boolean valid = true;
+        chargerTypeChoice();
+        connectorTypeChoice();
+
+        //registration validation
+        valid = regValid(valid);
+
+        //make and model validation
+        valid = makeModelValid(valid);
+
+        //year validation
+        valid = yearValid(valid);
+
+        //current and connector validation
+        valid = currentConnectorValid(valid);
+
         return valid;
     }
 
@@ -243,32 +289,32 @@ public class RegisterVehicleController {
 
         // Set listeners for text boxes to clear the warnings
         registrationTextBox.textProperty().addListener(((observableValue, s, t1) -> {
-            registrationTextBox.setStyle("-fx-background-color: #b9b9b9, #efefef");
+            registrationTextBox.setStyle(ERRORTEXTBOXSTYLE);
             regWarningLabel.setText("");
         }));
 
         makeTextBox.textProperty().addListener(((observableValue, s, t1) -> {
-            makeTextBox.setStyle("-fx-background-color: #b9b9b9, #efefef");
+            makeTextBox.setStyle(ERRORTEXTBOXSTYLE);
             makeWarningLabel.setText("");
         }));
 
         modelTextBox.textProperty().addListener(((observableValue, s, t1) -> {
-            modelTextBox.setStyle("-fx-background-color: #b9b9b9, #efefef");
+            modelTextBox.setStyle(ERRORTEXTBOXSTYLE);
             modelWarningLabel.setText("");
         }));
 
         yearTextBox.textProperty().addListener(((observableValue, s, t1) -> {
-            yearTextBox.setStyle("-fx-background-color: #b9b9b9, #efefef");
+            yearTextBox.setStyle(ERRORTEXTBOXSTYLE);
             yearWarningLabel.setText("");
         }));
 
         chargerBox.getSelectionModel().selectedItemProperty().addListener(((observableValue, s, t1) -> {
-            chargerBox.setStyle("-fx-background-color: #b9b9b9, #efefef");
+            chargerBox.setStyle(ERRORTEXTBOXSTYLE);
             currentWarningLabel.setText("");
         }));
 
         connectorBox.getSelectionModel().selectedItemProperty().addListener(((observableValue, s, t1) -> {
-            connectorBox.setStyle("-fx-background-color: #b9b9b9, #efefef");
+            connectorBox.setStyle(ERRORTEXTBOXSTYLE);
             connectorWarningLabel.setText("");
         }));
     }

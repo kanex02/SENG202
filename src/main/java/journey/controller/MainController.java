@@ -129,10 +129,10 @@ public class MainController {
      * @param favourite t/f if favourite or not.
      */
     public void updateFavourite(Station station, boolean favourite) {
-        int stationID = station.getOBJECTID();
+        int stationID = station.getObjectid();
         Station[] allStations = stationsService.getAllStations();
         for (Station s : allStations) {
-            if (s.getOBJECTID() == stationID) {
+            if (s.getObjectid() == stationID) {
                 s.setFavourite(favourite);
             }
         }
@@ -171,9 +171,9 @@ public class MainController {
             Parent plannedJourneysViewParent = plannedJourneysLoader.load();
 
 
-            PlannedJourneyController plannedJourneyController = plannedJourneysLoader.getController();
-            this.plannedJourneyController = plannedJourneyController;
-            plannedJourneyController.init(this);
+            PlannedJourneyController plannedJourneyControl = plannedJourneysLoader.getController();
+            plannedJourneyControl.init(this);
+            this.plannedJourneyController = plannedJourneyControl;
             ((ScrollPane) plannedJourneyPane.getContent()).setContent(plannedJourneysViewParent);
             ((AnchorPane) plannedJourneysViewParent).prefHeightProperty().bind(
                     ((ScrollPane) plannedJourneyPane.getContent()).heightProperty());
@@ -191,9 +191,9 @@ public class MainController {
             FXMLLoader selectedStationLoader = new FXMLLoader(getClass().getResource("/fxml/selectedStation.fxml"));
             Parent selectedStationParent = selectedStationLoader.load();
 
-            SelectedStationController selectedStationController = selectedStationLoader.getController();
-            selectedStationController.init(this);
-            this.selectedStationController = selectedStationController;
+            SelectedStationController selectedStationControl = selectedStationLoader.getController();
+            selectedStationControl.init(this);
+            this.selectedStationController = selectedStationControl;
             // You may want to access this component by id instead of accessing and casting from its parent
             ((ScrollPane) selectedStationTitledPane.getContent()).setContent(selectedStationParent);
 

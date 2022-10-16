@@ -1,13 +1,14 @@
 package journey.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 import journey.Utils;
 import journey.data.QueryStation;
 import journey.data.Station;
 import journey.data.User;
 import journey.repository.StationDAO;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 
 /**
@@ -87,7 +88,7 @@ public class StationsService {
         //time limit check
         if (!timeLimit.equals("")) {
             if (!Utils.isInt(timeLimit)) {
-                errors.append("Time limit must be a positive integer!\n");
+                errors.append("Time limit must be a number!\n");
             } else if (Integer.parseInt(timeLimit) < 0) {
                 errors.append("Time limit must be a positive integer!\n");
             }
@@ -109,6 +110,46 @@ public class StationsService {
         return errors.toString();
     }
 
+    private void filterByConnector(QueryStation queryStation, ArrayList<Station> result) {
+        String[] connectors = queryStation.getConnectors();
+
+        if (connectors != null && connectors.length > 0) {
+            //remove if the set difference between the query station and result station is 0. (No overlap)
+
+            ArrayList<Station> toRemove = new ArrayList<>();
+            for (Station station : result) {
+                String[] stationConnectors = station.getConnectors();
+
+                boolean hasConnector = hasConnector(queryStation, stationConnectors);
+
+                if (!hasConnector) {
+                    toRemove.add(station);
+                }
+            }
+            for (Station station : toRemove) {
+                result.remove(station);
+            }
+        }
+    }
+
+    /**
+     * Returns whether a query station's connectors overlaps with an actual station's.
+
+     * @param queryStation query station.
+     * @param stationConnectors station to check.
+     * @return has overlap.
+     */
+    private boolean hasConnector(QueryStation queryStation, String[] stationConnectors) {
+        for (String connector : queryStation.getConnectors()) {
+            for (String stationConnector : stationConnectors) {
+                if (stationConnector.contains(connector)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Filter by a QueryStation.
 
@@ -128,7 +169,7 @@ public class StationsService {
         }
         int maxTime = queryStation.getMaxTime();
         if (maxTime > 0) {
-            result.removeIf(station -> station.getMaxTime() < maxTime && !(station.getMaxTime() == 0));
+            result.removeIf(station -> station.getMaxTime() < maxTime && station.getMaxTime() != 0);
         }
         String currentType = queryStation.getCurrentType();
         if (!Objects.equals(currentType, "") && currentType != null) {
@@ -139,35 +180,7 @@ public class StationsService {
         if (favourite) {
             result.removeIf(station -> !(station.getFavourite()));
         }
-        String[] connectors = queryStation.getConnectors();
-        if (connectors != null && connectors.length > 0) {
-            //remove if the set difference between the query station and result station is 0. (No overlap)
-
-            ArrayList<Station> toRemove = new ArrayList<>();
-            for (Station station : result) {
-                String[] stationConnectors = station.getConnectors();
-
-                boolean hasConnector = false;
-
-                filterConnector:
-                for (String connector : queryStation.getConnectors()) {
-                    for (String stationConnector : stationConnectors) {
-                        if (stationConnector.contains(connector)) {
-                            hasConnector = true;
-                            break filterConnector;
-                        }
-                    }
-                }
-
-                if (!hasConnector) {
-                    toRemove.add(station);
-                }
-            }
-            for (Station station : toRemove) {
-                result.remove(station);
-            }
-
-        }
+        filterByConnector(queryStation, result);
         Boolean attractions = queryStation.getHasTouristAttraction();
         if (attractions != null) {
             if (attractions) {
@@ -182,5 +195,7 @@ public class StationsService {
 
         return result.toArray(Station[]::new);
     }
+
+
 
 }

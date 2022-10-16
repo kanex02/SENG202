@@ -54,7 +54,6 @@ public class CreateJourneyController {
     @FXML private Label journeyWarningLabel;
 
     private MainController mainController;
-    private MapController mapViewController;
     private JourneyDAO journeyDAO;
     private VehicleDAO vehicleDAO;
     private final ArrayList<String> waypoints = new ArrayList<>();
@@ -67,15 +66,18 @@ public class CreateJourneyController {
     private Image ellipses;
     private Image circle;
     private Image closeImage;
+    private String textFillRed = "-fx-text-fill: red";
     private final String textCss = (new File(Objects.requireNonNull(
             getClass().getClassLoader().getResource("gui/textFields.css"))
             .getFile()))
             .toURI().toString();
-    private final DropShadow dropShadow = new DropShadow() {{
-                setBlurType(BlurType.ONE_PASS_BOX);
-                setOffsetY(4);
-                setColor(new Color(0.23, 0.23, 0.23, 0.25));
-        }};
+    private static final DropShadow DROPSHADOW = new DropShadow();
+
+    static {
+            DROPSHADOW.setBlurType(BlurType.ONE_PASS_BOX);
+            DROPSHADOW.setOffsetY(4);
+            DROPSHADOW.setColor(new Color(0.23, 0.23, 0.23, 0.25));
+        }
 
     /**
      * Adds a new waypoint at the end of the current list.
@@ -232,7 +234,7 @@ public class CreateJourneyController {
         });
         // Search on focus lost
         address.focusedProperty().addListener((observableValue, oldBool, newBool) -> {
-            if (!newBool) {
+            if (Boolean.FALSE.equals(newBool)) {
                 typeNth(i);
             }
         });
@@ -242,7 +244,7 @@ public class CreateJourneyController {
         removeWaypoint.setStyle("-fx-background-color: #FFFFFF;");
         removeWaypoint.setGraphic(cancel1);
         removeWaypoint.setSnapToPixel(true);
-        removeWaypoint.setEffect(dropShadow);
+        removeWaypoint.setEffect(DROPSHADOW);
         removeWaypoint.setUserData(String.valueOf(i));
         removeWaypoint.setOnAction(this::removeNth);
         AnchorPane.setRightAnchor(removeWaypoint, 0d);
@@ -255,7 +257,7 @@ public class CreateJourneyController {
     }
 
     @FXML private void clickNth(Event event) {
-        journeyWarningLabel.setStyle("-fx-text-fill: red");
+        journeyWarningLabel.setStyle(textFillRed);
         journeyWarningLabel.setText("");
         //Gets the position of the station in the route from its id
         int i = Integer.parseInt(((Node) event.getSource()).getId().substring(7));
@@ -266,7 +268,8 @@ public class CreateJourneyController {
     }
 
     private void typeNth(int i) {
-        journeyWarningLabel.setStyle("-fx-text-fill: red");
+        mainController.getMapViewController().setCallback(null, null);
+        journeyWarningLabel.setStyle(textFillRed);
         journeyWarningLabel.setText("");
         String address = waypointAddresses.get(i).getText();
 
@@ -339,7 +342,7 @@ public class CreateJourneyController {
      * Ensures all fields are filled and valid then adds the filed journey.
      */
     @FXML private void addJourney() {
-        journeyWarningLabel.setStyle("-fx-text-fill: red");
+        journeyWarningLabel.setStyle(textFillRed);
         journeyWarningLabel.setText("");
         String warnings = CreateJourneyService.checkJourney(selectVehicleComboBox.getValue(),
                 waypoints);
@@ -373,7 +376,7 @@ public class CreateJourneyController {
     /**
      * initialise all the images and insert close buttons into the buttons.
      */
-    private void init_images() {
+    private void initImages() {
         circleIcons.add(firstCircle);
         ellipsesIcons.add(firstEllipses);
 
@@ -414,7 +417,6 @@ public class CreateJourneyController {
      */
     public void init(MainController mainController) {
         this.mainController = mainController;
-        this.mapViewController = mainController.getMapViewController();
         this.journeyDAO = new JourneyDAO();
         this.vehicleDAO = new VehicleDAO();
 
@@ -432,7 +434,7 @@ public class CreateJourneyController {
             }
         });
         address0.focusedProperty().addListener((observableValue, oldBool, newBool) -> {
-            if (!newBool) {
+            if (Boolean.FALSE.equals(newBool)) {
                 typeNth(0);
             }
         });
@@ -443,11 +445,11 @@ public class CreateJourneyController {
             }
         });
         address1.focusedProperty().addListener((observableValue, oldBool, newBool) -> {
-            if (!newBool) {
+            if (Boolean.FALSE.equals(newBool)) {
                 typeNth(1);
             }
         });
-        init_images();
+        initImages();
         waypointRows.add(row1);
         waypointRows.add(row2);
 
@@ -460,7 +462,7 @@ public class CreateJourneyController {
         }
 
         selectVehicleComboBox.setOnMouseClicked(mouseEvent -> {
-            journeyWarningLabel.setStyle("-fx-text-fill: red");
+            journeyWarningLabel.setStyle(textFillRed);
             journeyWarningLabel.setText("");
         });
 

@@ -7,6 +7,8 @@ import journey.Utils;
  */
 public class LoginService {
 
+
+    private LoginService() {}
     /**
      * Checks that a name is valid.
 

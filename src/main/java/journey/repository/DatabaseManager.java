@@ -1,19 +1,16 @@
 package journey.repository;
 
+import journey.ReadCSV;
+import journey.Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import journey.ReadCSV;
-import journey.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.sql.*;
 
 
 /**
@@ -56,7 +53,7 @@ public final class DatabaseManager {
             String url = "jdbc:sqlite:".concat(databasePath);
             conn = DriverManager.getConnection(url);
             log.info("Connected to database.");
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             log.fatal(e);
         }
         return conn;
@@ -70,26 +67,30 @@ public final class DatabaseManager {
     public static DatabaseManager getInstance() {
         if (instance == null) {
             instance = new DatabaseManager();
+            Boolean noDB = null;
             Connection conn = null;
-            boolean noDB;
             try {
                 conn = instance.connect();
-                Statement statement = conn.createStatement();
-                ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM main.sqlite_master "
-                        + "WHERE name = 'Stations'");
-                noDB = (rs.getInt(1) == 0);
-                Utils.closeConn(conn);
-                if (noDB) {
-                    instance.setup();
-                    ReadCSV.readStations();
+                if (conn != null) {
+                    try (Statement statement = conn.createStatement()) {
+                        ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM main.sqlite_master "
+                                + "WHERE name = 'Stations'");
+                        noDB = (rs.getInt(1) == 0);
+                    }
                 }
+                Utils.closeConn(conn);
             } catch (Exception e) {
                 log.error(e);
             } finally {
                 Utils.closeConn(conn);
             }
-        }
 
+            // Sets up the instance and imports data if the database is not already set up
+            if (noDB != null && noDB) {
+                instance.setup();
+                ReadCSV.readStations();
+            }
+        }
         return instance;
     }
 
@@ -108,12 +109,13 @@ public final class DatabaseManager {
             String[] statements = setupSQL.split("--Break");
             conn = connect();
             assert (conn != null);
-            Statement statement = conn.createStatement();
-            for (String line : statements) {
-                statement.addBatch(line);
+            try (Statement statement = conn.createStatement()) {
+                for (String line : statements) {
+                    statement.addBatch(line);
+                }
+                statement.executeBatch();
+                log.info("DatabaseManager setup.");
             }
-            statement.executeBatch();
-            log.info("DatabaseManager setup.");
         } catch (Exception e) {
             log.fatal(e);
         } finally {

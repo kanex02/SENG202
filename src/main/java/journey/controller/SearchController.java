@@ -70,6 +70,8 @@ public class SearchController {
             }
             connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
             connectorsList = selectedConnectors;
+        } else {
+            warningLabel.setText("You have not got any vehicle selected!");
         }
     }
 
@@ -83,7 +85,7 @@ public class SearchController {
         for (CustomMenuItem customMenuItem : connectors) {
             CheckBox connector = (CheckBox) customMenuItem.getContent();
             connector.selectedProperty().addListener(((observableValue, oldValue, newValue) -> {
-                if (newValue) {
+                if (Boolean.TRUE.equals(newValue)) {
                     selectedConnectors.add(connector.getText());
                     connectorsMenu.setText(Utils.convertArrayListToString(selectedConnectors, ", "));
                 } else {
@@ -132,12 +134,10 @@ public class SearchController {
      */
     public void addRangeIndicator(double lat, double lng) {
         String range = distanceSearch.getText();
-        if (!range.isBlank()) {
-            if (Utils.isInt(range) && !(Integer.parseInt(range) < 0 || Integer.parseInt(range) > 1600)) {
-                int radius = Integer.parseInt(range);
-                mainController.getMapViewController().addRangeIndicator(lat, lng, radius);
-            }
-
+        if (!range.isBlank() && Utils.isInt(range) && !(Integer.parseInt(range) < 0
+                || Integer.parseInt(range) > 1600)) {
+            int radius = Integer.parseInt(range);
+            mainController.getMapViewController().addRangeIndicator(lat, lng, radius);
         }
     }
 
@@ -307,7 +307,7 @@ public class SearchController {
     /**
      * Initialises choice boxes and their options.
      */
-    private void choiceBox_init() {
+    private void choiceBoxInit() {
         currentSearch.setItems(chargerTypeSearchOptions);
         currentSearch.setValue("");
 
@@ -327,7 +327,7 @@ public class SearchController {
         this.stationsService = mainController.getStationsService();
 
         stationDAO = new StationDAO();
-        choiceBox_init();
+        choiceBoxInit();
 
         rangeHelpLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         rangeHelpLabel.setGraphic(rangeHelpImage);

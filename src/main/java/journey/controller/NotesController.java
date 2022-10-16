@@ -68,9 +68,9 @@ public class NotesController {
      */
     private void updateNote() {
         if (mainController.getSelectedStation() != -1) {
-            Station currStation = stationDAO.queryStation(mainController.getSelectedStation());
-            updateStationNoteAddr(currStation);
-            Note note = noteDAO.getNoteFromStation(currStation, mainController.getCurrentUser());
+            Station currentStation = stationDAO.queryStation(mainController.getSelectedStation());
+            updateStationNoteAddr(currentStation);
+            Note note = noteDAO.getNoteFromStation(currentStation, mainController.getCurrentUser());
             updateNoteText(note);
             updateFavourite(note);
             updateRatings(note);
