@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="540.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
+<AnchorPane prefHeight="540.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
    <children>
       <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0" prefWidth="767.0" style="-fx-background-color: white;">
          <children>
@@ -74,7 +74,7 @@
                   <Font size="11.0" />
                </font>
             </Label>
-            <Button fx:id="goBackButton" layoutX="600.0" layoutY="115.0" mnemonicParsing="false" onAction="#goBackButton" stylesheets="@../gui/buttons.css" text="Go back" />
+            <Button fx:id="goBackButton" layoutX="594.0" layoutY="114.0" mnemonicParsing="false" onAction="#goBackButton" stylesheets="@../gui/buttons.css" text="Go back" />
          </children>
       </Pane>
    </children>

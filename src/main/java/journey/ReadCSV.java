@@ -34,6 +34,7 @@ public class ReadCSV {
             .build()
             .parse();
 
+        StationDAO stationDAO = new StationDAO();
         for (Station s : beans) {
             String connectors = s.getConnectorsList();
             connectors = connectors.substring(1, connectors.length() - 1);
@@ -52,25 +53,7 @@ public class ReadCSV {
             s.setRating(0);
             s.setFavourite(false);
 
-            StationDAO stationDAO = new StationDAO();
-
-            stationDAO.createStation(s.getObjectid(),
-                    s.getName(),
-                    s.getOperator(),
-                    s.getOwner(),
-                    s.getAddress(),
-                    s.isIs24Hours(),
-                    s.getCarParkCount(),
-                    s.hasCarParkCost(),
-                    s.getMaxTime(),
-                    s.getHasTouristAttraction(),
-                    s.getLatitude(),
-                    s.getLongitude(),
-                    s.getCurrentType(),
-                    s.getDateFirstOperational(),
-                    s.getNumberOfConnectors(),
-                    s.getConnectors(),
-                    s.hasChargingCost());
+            stationDAO.insertStation(s);
         }
     }
 }

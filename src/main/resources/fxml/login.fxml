@@ -7,7 +7,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="wholeScene" maxHeight="500.0" maxWidth="800.0" minHeight="500.0" minWidth="800.0" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.LoginController">
+<AnchorPane fx:id="wholeScene" maxHeight="500.0" maxWidth="800.0" minHeight="500.0" minWidth="800.0" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.LoginController">
    <GridPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #88B181;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <columnConstraints>
          <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="300.0" prefWidth="300.0" />
@@ -29,7 +29,7 @@
                </InnerShadow>
             </effect>
          </TextField>
-         <Button layoutX="82.0" layoutY="76.0" mnemonicParsing="false" onAction="#register" prefHeight="35.0" prefWidth="215.0" stylesheets="@../gui/buttons.css" text="CREATE ACCOUNT" />
+         <Button fx:id="registerButton" layoutX="82.0" layoutY="76.0" mnemonicParsing="false" onAction="#register" prefHeight="35.0" prefWidth="215.0" stylesheets="@../gui/buttons.css" text="CREATE ACCOUNT" />
          <Label fx:id="registerWarningLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="121.0" prefHeight="16.0" prefWidth="385.0" textAlignment="CENTER" textFill="#dd0000" textOverrun="CLIP" />
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">

@@ -64,84 +64,58 @@ public class StationDAO {
      * Inserts all features of the station into the database.
      * Is seperated into params instead of a station object for easy transfer from ReadCSV -> StationDAO
 
-     * @param id station id
-     * @param name station name
-     * @param operator station operator
-     * @param owner station owner
-     * @param address station address
-     * @param is24Hours whether station is open 24/7
-     * @param carParkCount how many car parks station has
-     * @param hasCarparkCost whether station carpark costs to park at
-     * @param maxTimeLimit maximum time allowed at station
-     * @param hasTouristAttraction whether there are tourist attractions nearby
-     * @param latitude stations latitude
-     * @param longitude stations longitude
-     * @param currentType stations current type
-     * @param dateFirstOperational date station was first operational
-     * @param numberOfConnectors number of connectors available to charge with
-     * @param connectorsList list of connectors
-     * @param hasChargingCost cost of charging
+     * @param station the station to insert
      */
-    public void createStation(int id, String name, String operator, String owner, String address,
-                              Boolean is24Hours, int carParkCount, Boolean hasCarparkCost, int maxTimeLimit,
-                              Boolean hasTouristAttraction, double latitude, double longitude, String currentType,
-                              String dateFirstOperational, int numberOfConnectors, String[] connectorsList,
-                              Boolean hasChargingCost) {
+    public void insertStation(Station station) {
+        int id = station.getObjectid();
+        String name = station.getName();
+        String operator = station.getOperator();
+        String owner = station.getOwner();
+        String address = station.getAddress();
+        boolean is24Hours = station.isIs24Hours();
+        int carParkCount = station.getCarParkCount();
+        boolean hasCarparkCost = station.hasCarParkCost();
+        int maxTimeLimit = station.getMaxTime();
+        boolean hasTouristAttraction = station.getHasTouristAttraction();
+        double latitude = station.getLatitude();
+        double longitude = station.getLongitude();
+        String currentType = station.getCurrentType();
+        String dateFirstOperational = station.getDateFirstOperational();
+        int numberOfConnectors = station.getNumberOfConnectors();
+        String[] connectorsList = station.getConnectors();
+        Boolean hasChargingCost = station.hasChargingCost();
+
         //Creates new station in database.
         Connection conn = null;
 
         try {
             conn = databaseManager.connect();
             String sqlQuery = "INSERT INTO Stations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, id);
-            ps.setString(2, name);
-            ps.setString(3, operator);
-            ps.setString(4, owner);
-            ps.setString(5, address);
-            ps.setBoolean(6, is24Hours);
-            ps.setInt(7, carParkCount);
-            ps.setBoolean(8, hasCarparkCost);
-            ps.setInt(9, maxTimeLimit);
-            ps.setBoolean(10, hasTouristAttraction);
-            ps.setDouble(11, latitude);
-            ps.setDouble(12, longitude);
-            ps.setString(13, currentType);
-            ps.setString(14, dateFirstOperational);
-            ps.setInt(15, numberOfConnectors);
-            ps.setString(16, convertArrayToString(connectorsList, "//"));
-            ps.setBoolean(17, hasChargingCost);
-            ps.execute();
+            try (PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.setString(2, name);
+                preparedStatement.setString(3, operator);
+                preparedStatement.setString(4, owner);
+                preparedStatement.setString(5, address);
+                preparedStatement.setBoolean(6, is24Hours);
+                preparedStatement.setInt(7, carParkCount);
+                preparedStatement.setBoolean(8, hasCarparkCost);
+                preparedStatement.setInt(9, maxTimeLimit);
+                preparedStatement.setBoolean(10, hasTouristAttraction);
+                preparedStatement.setDouble(11, latitude);
+                preparedStatement.setDouble(12, longitude);
+                preparedStatement.setString(13, currentType);
+                preparedStatement.setString(14, dateFirstOperational);
+                preparedStatement.setInt(15, numberOfConnectors);
+                preparedStatement.setString(16, convertArrayToString(connectorsList, "//"));
+                preparedStatement.setBoolean(17, hasChargingCost);
+                preparedStatement.execute();
+            }
         } catch (SQLException e) {
             log.error(e);
         } finally {
             Utils.closeConn(conn);
         }
-    }
-
-    /**
-     * Inserts a station into the database.
-
-     * @param station station to insert
-     */
-    public void insertStation(Station station) {
-        createStation(station.getObjectid(),
-                station.getName(),
-                station.getOperator(),
-                station.getOwner(),
-                station.getAddress(),
-                station.isIs24Hours(),
-                station.getCarParkCount(),
-                station.hasCarParkCost(),
-                station.getMaxTime(),
-                station.getHasTouristAttraction(),
-                station.getLatitude(),
-                station.getLongitude(),
-                station.getCurrentType(),
-                station.getDateFirstOperational(),
-                station.getNumberOfConnectors(),
-                station.getConnectors(),
-                station.hasChargingCost());
     }
 
     /**
@@ -157,10 +131,11 @@ public class StationDAO {
             conn = databaseManager.connect();
             String stationQuery = "SELECT * FROM Stations "
                     + "left outer join (select * from Notes where user_ID = ?) on Stations.id = station_ID";
-            PreparedStatement ps = conn.prepareStatement(stationQuery);
-            ps.setInt(1, user.getId());
-            ResultSet rs = ps.executeQuery();
-            Utils.insertRsIntoArray(rs, res);
+            try (PreparedStatement preparedStatement = conn.prepareStatement(stationQuery)) {
+                preparedStatement.setInt(1, user.getId());
+                ResultSet rs = preparedStatement.executeQuery();
+                Utils.insertRsIntoArray(rs, res);
+            }
         } catch (SQLException e) {
             log.error(e);
         }
@@ -179,10 +154,11 @@ public class StationDAO {
                 FXCollections.observableArrayList("");
         try {
             conn = databaseManager.connect();
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT DISTINCT operator FROM Stations");
-            while (rs.next()) {
-                operators.add(rs.getString("operator"));
+            try (Statement statement = conn.createStatement()) {
+                ResultSet rs = statement.executeQuery("SELECT DISTINCT operator FROM Stations");
+                while (rs.next()) {
+                    operators.add(rs.getString("operator"));
+                }
             }
         } catch (SQLException e) {
             log.error(e);

@@ -34,24 +34,26 @@ public class VehicleDAO {
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Vehicles WHERE user_ID = ? AND Registration = ?";
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, user.getId());
-            ps.setString(2, v.getRegistration());
-            ResultSet resultSet = ps.executeQuery();
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ps.setInt(1, user.getId());
+                ps.setString(2, v.getRegistration());
+                ResultSet resultSet = ps.executeQuery();
 
-            // If there is no item in result set we disconnect first and return an empty note
-            if (!resultSet.isBeforeFirst()) {
-                String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?,?,?)";
-                PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
-                insertStatement.setString(1, v.getRegistration());
-                insertStatement.setInt(2, user.getId());
-                insertStatement.setInt(3, v.getYear());
-                insertStatement.setString(4, v.getMake());
-                insertStatement.setString(5, v.getModel());
-                insertStatement.setString(6, v.getChargerType());
-                insertStatement.setString(7, v.getConnectorType());
-                insertStatement.setBoolean(8, selected);
-                insertStatement.execute();
+                // If there is no item in result set we disconnect first and return an empty note
+                if (!resultSet.isBeforeFirst()) {
+                    String insertQuery = "INSERT INTO Vehicles VALUES (?,?,?,?,?,?,?,?)";
+                    try (PreparedStatement insertStatement = conn.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, v.getRegistration());
+                        insertStatement.setInt(2, user.getId());
+                        insertStatement.setInt(3, v.getYear());
+                        insertStatement.setString(4, v.getMake());
+                        insertStatement.setString(5, v.getModel());
+                        insertStatement.setString(6, v.getChargerType());
+                        insertStatement.setString(7, v.getConnectorType());
+                        insertStatement.setBoolean(8, selected);
+                        insertStatement.execute();
+                    }
+                }
             }
         } catch (SQLException e) {
             log.error(e);
@@ -71,13 +73,14 @@ public class VehicleDAO {
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Vehicles WHERE User_ID = ?";
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, user.getId());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                res.add(new Vehicle(rs.getInt("Year"), rs.getString("Make"),
-                        rs.getString("Model"), rs.getString("ChargerType"),
-                        rs.getString("Registration"), rs.getString("ConnectorType")));
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ps.setInt(1, user.getId());
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    res.add(new Vehicle(rs.getInt("Year"), rs.getString("Make"),
+                            rs.getString("Model"), rs.getString("ChargerType"),
+                            rs.getString("Registration"), rs.getString("ConnectorType")));
+                }
             }
         } catch (SQLException e) {
             log.error(e);
@@ -98,14 +101,15 @@ public class VehicleDAO {
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Vehicles WHERE User_ID = ? and selected = ?";
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, user.getId());
-            ps.setBoolean(2, true);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                v = new Vehicle(rs.getInt("Year"), rs.getString("Make"),
-                        rs.getString("Model"), rs.getString("ChargerType"),
-                        rs.getString("Registration"), rs.getString("ConnectorType"));
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ps.setInt(1, user.getId());
+                ps.setBoolean(2, true);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    v = new Vehicle(rs.getInt("Year"), rs.getString("Make"),
+                            rs.getString("Model"), rs.getString("ChargerType"),
+                            rs.getString("Registration"), rs.getString("ConnectorType"));
+                }
             }
         } catch (SQLException e) {
             log.error(e);
@@ -126,18 +130,20 @@ public class VehicleDAO {
         try {
             conn = databaseManager.connect();
             String sqlQuery = "UPDATE Vehicles SET selected = ? WHERE User_ID = ? and registration = ?";
-            PreparedStatement ps1 = conn.prepareStatement(sqlQuery);
-            ps1.setBoolean(1, true);
-            ps1.setInt(2, user.getId());
-            ps1.setString(3, newSelection);
-            ps1.executeUpdate();
+            try (PreparedStatement ps1 = conn.prepareStatement(sqlQuery)) {
+                ps1.setBoolean(1, true);
+                ps1.setInt(2, user.getId());
+                ps1.setString(3, newSelection);
+                ps1.executeUpdate();
 
-            if (oldSelection != null) {
-                PreparedStatement ps2 = conn.prepareStatement(sqlQuery);
-                ps2.setBoolean(1, false);
-                ps2.setInt(2, user.getId());
-                ps2.setString(3, oldSelection.getRegistration());
-                ps2.executeUpdate();
+                if (oldSelection != null) {
+                    try (PreparedStatement ps2 = conn.prepareStatement(sqlQuery)) {
+                        ps2.setBoolean(1, false);
+                        ps2.setInt(2, user.getId());
+                        ps2.setString(3, oldSelection.getRegistration());
+                        ps2.executeUpdate();
+                    }
+                }
             }
         } catch (SQLException e) {
             log.error(e);
@@ -160,15 +166,16 @@ public class VehicleDAO {
         try {
             String sqlQuery = "SELECT * FROM Vehicles WHERE registration = ? and user_ID = ?";
             conn = databaseManager.connect();
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setString(1, registration);
-            ps.setInt(2, currentUser);
-            ResultSet resultSet = ps.executeQuery();
-            // Create a new station object.
-            while (resultSet.next()) {
-                vehicle = new Vehicle(resultSet.getInt("year"), resultSet.getString("make"),
-                        resultSet.getString("model"), resultSet.getString("chargerType"),
-                        resultSet.getString("registration"), resultSet.getString("connectorType"));
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ps.setString(1, registration);
+                ps.setInt(2, currentUser);
+                ResultSet resultSet = ps.executeQuery();
+                // Create a new station object.
+                while (resultSet.next()) {
+                    vehicle = new Vehicle(resultSet.getInt("year"), resultSet.getString("make"),
+                            resultSet.getString("model"), resultSet.getString("chargerType"),
+                            resultSet.getString("registration"), resultSet.getString("connectorType"));
+                }
             }
         } catch (SQLException e) {
             log.error(e);
@@ -189,10 +196,11 @@ public class VehicleDAO {
         try {
             String sqlQuery = "DELETE FROM Vehicles WHERE registration = ? and user_ID = ?";
             conn = databaseManager.connect();
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setString(1, reg);
-            ps.setInt(2, userID);
-            ps.executeUpdate();
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ps.setString(1, reg);
+                ps.setInt(2, userID);
+                ps.executeUpdate();
+            }
         } catch (SQLException e) {
             log.error(e);
         } finally {
