@@ -1,8 +1,5 @@
 package journey.controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.SetChangeListener;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -377,15 +374,12 @@ public class MainController {
      * table view and the map view so that it is consistent.
      */
     public void setTabListener() {
-        mainTabs.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                final int tablePaneNum = 1;
-                int selectedPane = t1.intValue();
+        mainTabs.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> {
+            final int tablePaneNum = 1;
+            int selectedPane = t1.intValue();
 
-                if (selectedPane == tablePaneNum) {
-                    tableController.clearSelections();
-                }
+            if (selectedPane == tablePaneNum) {
+                tableController.clearSelections();
             }
         });
     }

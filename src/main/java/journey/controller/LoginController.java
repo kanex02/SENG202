@@ -44,7 +44,7 @@ public class LoginController {
     @FXML private Label loginWarningLabel;
     @FXML private Label registerWarningLabel;
     @FXML private ImageView journeyIcon;
-    private String colourRed = "-fx-border-color: red";
+    private static final String COLOUR_RED = "-fx-border-color: red";
 
     /**
      * Register a user and add them to the user database
@@ -85,21 +85,18 @@ public class LoginController {
         String name = nameTextBox.getText();
         registerWarningLabel.setText("");
         Boolean valid = LoginService.checkUser(name);
-        if (name.equals("")) {
-            registerWarningLabel.setText("You have not entered a name.");
-            nameTextBox.setStyle(colourRed);
-        } else if (Boolean.FALSE.equals(valid)) {
+        if (Boolean.FALSE.equals(valid)) {
             registerWarningLabel.setText("Your name cannot contain any digits or special characters!");
-            nameTextBox.setStyle(colourRed);
+            nameTextBox.setStyle(COLOUR_RED);
         } else if (name.equals("")) {
             registerWarningLabel.setText("Please enter a name or select from dropdown");
-            nameTextBox.setStyle(colourRed);
+            nameTextBox.setStyle(COLOUR_RED);
         } else if (userDAO.nameInDB(name)) {
             registerWarningLabel.setText("A user with that name already exists!");
-            nameTextBox.setStyle(colourRed);
+            nameTextBox.setStyle(COLOUR_RED);
         } else if (name.length() > 15) {
             registerWarningLabel.setText("Your name cannot be longer than 15 characters!");
-            nameTextBox.setStyle(colourRed);
+            nameTextBox.setStyle(COLOUR_RED);
         } else {
             user = userDAO.setCurrentUser(name);
             stage.setTitle("Loading...");
@@ -132,7 +129,7 @@ public class LoginController {
             stage.setTitle("Loading...");
             Platform.runLater(this::switchToMain);
         } else {
-            nameChoiceBox.setStyle(colourRed);
+            nameChoiceBox.setStyle(COLOUR_RED);
             loginWarningLabel.setText("Please select from dropdown or register new user");
         }
     }
