@@ -36,10 +36,10 @@ public class VehicleService {
      */
     public static String makeValid(String make) {;
         String error = "";
-        if (!make.matches(Utils.getCharacterOnly())) {
+        if (make.equals("")) {
+            error = "Please enter a make";
+        } else if (!make.matches(Utils.getCharacterOnly())) {
             error = "Cannot contain digits or special characters";
-        } else if (make.equals("")) {
-            error = "Please enter a model";
         } else if (make.length() > 20) {
             error = "Make cannot be more than 20 characters long";
         }
@@ -54,10 +54,10 @@ public class VehicleService {
      */
     public static String modelValid(String model) {
         String error = "";
-        if (!model.matches(Utils.getCharacterDigit())) {
-            error = "Cannot contain special characters";
-        } else if (model.equals("")) {
+        if (model.equals("")) {
             error = "Please enter a model";
+        } else if (!model.matches(Utils.getCharacterDigit())) {
+            error = "Cannot contain special characters";
         } else if (model.length() > 20) {
             error = "Model cannot be more than 20 characters long";
         }
