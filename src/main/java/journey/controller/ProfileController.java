@@ -6,14 +6,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import journey.data.Vehicle;
 import journey.repository.UserDAO;
 import journey.repository.VehicleDAO;
 import journey.service.LoginService;
-
-import java.io.BufferedInputStream;
-import java.util.Objects;
 
 /**
  * Controller for the profile popup.

@@ -1,5 +1,8 @@
 package journey.controller;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,9 +20,6 @@ import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
 
 
 /**
@@ -148,7 +148,7 @@ public class MapController {
      * @param journey Journey to map
      */
     public void mapJourney(Journey journey) {
-        ArrayList<String> waypoints = (ArrayList<String>) journey.getWaypoints();
+        List<String> waypoints = journey.getWaypoints();
         if (waypoints.size() >= 2) {
             String waypointString = Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
             javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2), false);

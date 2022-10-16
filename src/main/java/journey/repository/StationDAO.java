@@ -40,17 +40,25 @@ public class StationDAO {
                 ps.setInt(1, id);
                 ResultSet resultSet = ps.executeQuery();
                 // Create a new station object.
-                return new Station(resultSet.getInt("ID"),
-                        resultSet.getString("name"), resultSet.getString("operator"),
-                        resultSet.getString("owner"), resultSet.getString("address"),
-                        resultSet.getBoolean("is24Hours"), resultSet.getInt("carParkCount"),
-                        resultSet.getBoolean("hasCarParkCost"), resultSet.getInt("maxTimeLimit"),
-                        resultSet.getBoolean("hasTouristAttraction"), resultSet.getFloat("latitude"),
-                        resultSet.getFloat("longitude"), resultSet.getString("currentType"),
-                        resultSet.getString("dateFirstOperational"),
-                        resultSet.getInt("numberOfConnectors"),
-                        (resultSet.getString("connectorsList")).split(":"),
-                        resultSet.getBoolean("hasChargingCost"));
+                Station station = new Station();
+                station.setObjectid(resultSet.getInt("ID"));
+                station.setName(resultSet.getString("name"));
+                station.setOperator(resultSet.getString("operator"));
+                station.setOwner(resultSet.getString("owner"));
+                station.setAddress(resultSet.getString("address"));
+                station.setIs24Hours(resultSet.getBoolean("is24Hours"));
+                station.setCarParkCount(resultSet.getInt("carParkCount"));
+                station.setHasCarParkCost(resultSet.getBoolean("hasCarParkCost"));
+                station.setMaxTime(resultSet.getInt("maxTimeLimit"));
+                station.setHasTouristAttraction(resultSet.getBoolean("hasTouristAttraction"));
+                station.setLatitude(resultSet.getFloat("latitude"));
+                station.setLongitude(resultSet.getFloat("longitude"));
+                station.setCurrentType(resultSet.getString("currentType"));
+                station.setDateFirstOperational(resultSet.getString("dateFirstOperational"));
+                station.setNumberOfConnectors(resultSet.getInt("numberOfConnectors"));
+                station.setConnectors((resultSet.getString("connectorsList")).split(":"));
+                station.setHasTouristAttraction(resultSet.getBoolean("hasChargingCost"));
+                return station;
             }
         } catch (SQLException e) {
             log.error(e);
@@ -72,18 +80,23 @@ public class StationDAO {
         String operator = station.getOperator();
         String owner = station.getOwner();
         String address = station.getAddress();
-        boolean is24Hours = station.isIs24Hours();
+        boolean is24Hours = (station.isIs24Hours() != null && station.isIs24Hours());
         int carParkCount = station.getCarParkCount();
-        boolean hasCarparkCost = station.hasCarParkCost();
+        boolean hasCarparkCost = (station.hasCarParkCost() != null && station.hasCarParkCost());
         int maxTimeLimit = station.getMaxTime();
-        boolean hasTouristAttraction = station.getHasTouristAttraction();
+        boolean hasTouristAttraction = (station.getHasTouristAttraction() != null && station.getHasTouristAttraction());
         double latitude = station.getLatitude();
         double longitude = station.getLongitude();
         String currentType = station.getCurrentType();
         String dateFirstOperational = station.getDateFirstOperational();
         int numberOfConnectors = station.getNumberOfConnectors();
-        String[] connectorsList = station.getConnectors();
-        Boolean hasChargingCost = station.hasChargingCost();
+        String[] connectorsList;
+        if (station.getConnectors() != null) {
+            connectorsList = station.getConnectors();
+        } else {
+            connectorsList = new String[0];
+        }
+        boolean hasChargingCost = (station.hasChargingCost() != null && station.hasChargingCost());
 
         //Creates new station in database.
         Connection conn = null;

@@ -1,13 +1,13 @@
 package journey.service;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CreateJourneyServiceTest {
+class CreateJourneyServiceTest {
 
     @Test
     void checkJourneyVehicleTest() {
@@ -15,7 +15,7 @@ public class CreateJourneyServiceTest {
         waypoints.add("start");
         waypoints.add("end");
         String error = CreateJourneyService.checkJourney(null, waypoints);
-        assertEquals(error, "No vehicle selected!\n");
+        assertEquals("No vehicle selected!\n", error);
     }
 
     @Test
@@ -24,6 +24,6 @@ public class CreateJourneyServiceTest {
         waypoints.add("start");
         waypoints.add("");
         String error = CreateJourneyService.checkJourney("registration", waypoints);
-        assertEquals(error, "Invalid journey!\n");
+        assertEquals("Invalid journey!\n", error);
     }
 }

@@ -322,8 +322,6 @@ public class MainController {
             creditStage.setX((bounds.getWidth() - creditStage.getWidth()) * 1.0f / 2);
             creditStage.setY((bounds.getHeight() - creditStage.getHeight()) * 1.0f / 3);
 
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

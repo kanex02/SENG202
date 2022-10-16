@@ -7,6 +7,10 @@ import java.util.Objects;
 
 public class VehicleService {
 
+    private VehicleService() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Check a vehicle's registration input is valid.
 
@@ -34,7 +38,7 @@ public class VehicleService {
      * @param make make to be validated.
      * @return error string.
      */
-    public static String makeValid(String make) {;
+    public static String makeValid(String make) {
         String error = "";
         if (make.equals("")) {
             error = "Please enter a make";
@@ -124,10 +128,6 @@ public class VehicleService {
      * @return whether result passed error checking or not (true/false).
      */
     public static boolean isValid(String regError, String makeError, String modelError, String yearError, String currentError, String connectorError) {
-        if (regError.equals("") && makeError.equals("") && modelError.equals("") && yearError.equals("") && currentError.equals("") && connectorError.equals("")) {
-            return true;
-        } else {
-            return false;
-        }
+        return regError.equals("") && makeError.equals("") && modelError.equals("") && yearError.equals("") && currentError.equals("") && connectorError.equals("");
     }
 }
