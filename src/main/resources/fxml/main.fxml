@@ -18,9 +18,9 @@
                       <columnConstraints>
                           <ColumnConstraints hgrow="NEVER" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
                           <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="726.0" />
-                          <ColumnConstraints hgrow="NEVER" maxWidth="160.0" minWidth="55.0" prefWidth="117.0" />
-                          <ColumnConstraints hgrow="NEVER" maxWidth="143.0" minWidth="66.0" prefWidth="109.0" />
-                          <ColumnConstraints hgrow="NEVER" maxWidth="129.0" minWidth="95.0" prefWidth="129.0" />
+                          <ColumnConstraints hgrow="NEVER" maxWidth="160.0" minWidth="55.0" prefWidth="110.0" />
+                          <ColumnConstraints hgrow="NEVER" maxWidth="143.0" minWidth="66.0" prefWidth="110.0" />
+                          <ColumnConstraints hgrow="NEVER" maxWidth="130.0" minWidth="95.0" prefWidth="129.0" />
                       </columnConstraints>
                       <rowConstraints>
                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -32,7 +32,7 @@
                               </color>
                           </DropShadow>
                       </effect>
-                      <Button alignment="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#viewHelpScreen" prefHeight="30.0" prefWidth="100.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="Help" textFill="WHITE" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                      <Button alignment="CENTER" minWidth="110.0" mnemonicParsing="false" onAction="#viewHelpScreen" prefHeight="30.0" prefWidth="110.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="Help" textFill="WHITE" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                           <font>
                               <Font name="Roboto" size="16.0" />
                           </font>
@@ -42,7 +42,7 @@
                               </HBox>
                           </graphic>
                       </Button>
-                      <Button alignment="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#viewMyProfile" prefHeight="30.0" prefWidth="120.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="My Profile" textFill="WHITE" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                      <Button alignment="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#viewMyProfile" prefHeight="30.0" prefWidth="130.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="My Profile" textFill="WHITE" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                           <font>
                               <Font name="Roboto" size="16.0" />
                           </font>
@@ -54,7 +54,7 @@
                       </Button>
                       <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="45.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" GridPane.halignment="CENTER" />
                       <ImageView fx:id="journeyIcon" fitHeight="40.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-                      <Button alignment="CENTER" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: transparent;" text="Home" textFill="#3b3b3b" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                      <Button alignment="CENTER" minWidth="100.0" mnemonicParsing="false" prefWidth="110.0" style="-fx-background-color: transparent;" text="Home" textFill="#3b3b3b" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                           <font>
                               <Font name="Roboto" size="16.0" />
                           </font>
@@ -68,8 +68,8 @@
               </top>
               <center>
                   <TabPane fx:id="mainTabs" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" stylesheets="@../gui/tabs.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-                      <Tab fx:id="mapTab" closable="false" text="Map">
-                          <AnchorPane fx:id="mapPaneWrapper" prefHeight="635.0">
+                      <Tab closable="false" text="Map">
+                          <AnchorPane prefHeight="635.0">
                               <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                                   <BorderPane fx:id="mapPane" prefHeight="320.0" prefWidth="367.0" VBox.vgrow="ALWAYS" />
                               </VBox>
@@ -90,7 +90,7 @@
                                           <ImageView fx:id="searchIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                       </HBox>
                                   </graphic>
-                                  <ScrollPane fx:id="searchWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                                   </ScrollPane>
                               </TitledPane>
@@ -100,7 +100,7 @@
                                           <ImageView fx:id="notesIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                       </HBox>
                                   </graphic>
-                                  <ScrollPane fx:id="notesWrapper" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                                   </ScrollPane>
                               </TitledPane>
@@ -118,7 +118,7 @@
                                           <ImageView fx:id="plannedIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                                       </HBox>
                                   </graphic>
-                                  <ScrollPane fx:id="plannedJourneysWrapper" fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
+                                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #efefef;">
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                                   </ScrollPane>
                               </TitledPane>

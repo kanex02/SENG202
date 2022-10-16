@@ -28,7 +28,6 @@ import java.util.Objects;
  * @author Morgan English with changes/additions from Daniel Neal
  */
 public class MapController {
-    @FXML private AnchorPane wholeScene;
     @FXML private WebView webView;
     @FXML private Button toggleRouteButton;
     @FXML private AnchorPane legendWrapper;

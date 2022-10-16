@@ -62,11 +62,11 @@ public class CreateJourneyController {
     private final ArrayList<ImageView> circleIcons = new ArrayList<>();
     private final ArrayList<ImageView> ellipsesIcons = new ArrayList<>();
     // Search after 0.5 seconds
-    private PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+    private final PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
     private Image ellipses;
     private Image circle;
     private Image closeImage;
-    private String textFillRed = "-fx-text-fill: red";
+    private static final String TEXT_FILL_RED = "-fx-text-fill: red";
     private final String textCss = (new File(Objects.requireNonNull(
             getClass().getClassLoader().getResource("gui/textFields.css"))
             .getFile()))
@@ -227,7 +227,7 @@ public class CreateJourneyController {
         HBox.setHgrow(address, Priority.ALWAYS);
         HBox.setMargin(address, new Insets(0, 10, 0, 0));
         address.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if ((int) keyEvent.getCharacter().charAt(0) == 13) {
+            if (keyEvent.getCharacter().charAt(0) == 13) {
                 pause.setOnFinished(event -> typeNth(i));
                 pause.playFromStart();
             }
@@ -257,7 +257,7 @@ public class CreateJourneyController {
     }
 
     @FXML private void clickNth(Event event) {
-        journeyWarningLabel.setStyle(textFillRed);
+        journeyWarningLabel.setStyle(TEXT_FILL_RED);
         journeyWarningLabel.setText("");
         //Gets the position of the station in the route from its id
         int i = Integer.parseInt(((Node) event.getSource()).getId().substring(7));
@@ -268,12 +268,12 @@ public class CreateJourneyController {
     }
 
     private void typeNth(int i) {
-        //mainController.getMapViewController().setCallback(null, null);
-        journeyWarningLabel.setStyle(textFillRed);
+        journeyWarningLabel.setStyle(TEXT_FILL_RED);
         journeyWarningLabel.setText("");
         String address = waypointAddresses.get(i).getText();
 
         if (!address.isBlank()) {
+            mainController.getMapViewController().setCallback(null, null);
             String latLngString = Utils.locToLatLng(address);
 
             if (!latLngString.equals("0.0#0.0")) {
@@ -342,7 +342,7 @@ public class CreateJourneyController {
      * Ensures all fields are filled and valid then adds the filed journey.
      */
     @FXML private void addJourney() {
-        journeyWarningLabel.setStyle(textFillRed);
+        journeyWarningLabel.setStyle(TEXT_FILL_RED);
         journeyWarningLabel.setText("");
         String warnings = CreateJourneyService.checkJourney(selectVehicleComboBox.getValue(),
                 waypoints);
@@ -428,7 +428,7 @@ public class CreateJourneyController {
 
         address0.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
             // The keyCode is UNDEFINED and comparing strings doesn't work
-            if ((int) keyEvent.getCharacter().charAt(0) == 13) {
+            if (keyEvent.getCharacter().charAt(0) == 13) {
                 pause.setOnFinished(event -> typeNth(0));
                 pause.playFromStart();
             }
@@ -439,7 +439,7 @@ public class CreateJourneyController {
             }
         });
         address1.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            if ((int) keyEvent.getCharacter().charAt(0) == 13) {
+            if (keyEvent.getCharacter().charAt(0) == 13) {
                 pause.setOnFinished(event -> typeNth(1));
                 pause.playFromStart();
             }
@@ -462,7 +462,7 @@ public class CreateJourneyController {
         }
 
         selectVehicleComboBox.setOnMouseClicked(mouseEvent -> {
-            journeyWarningLabel.setStyle(textFillRed);
+            journeyWarningLabel.setStyle(TEXT_FILL_RED);
             journeyWarningLabel.setText("");
         });
 

@@ -47,11 +47,11 @@ public class SelectedStationController {
                 inoperative = connector.contains("Unknown") || connector.contains("Inoperative");
             }
             if (counter % 2 == 0) {
-                String conn = null;
+                String conn;
                 if (counter == 2) {
-                    conn = (connectors[counter-2] + ":" + connectors[counter-1] + ":" + connectors[counter].substring(0, 1));
+                    conn = (connectors[counter-2] + ":" + connectors[counter-1] + ":" + connectors[counter].charAt(0));
                 } else {
-                    conn = (connectors[counter-2].substring(3) + ":" + connectors[counter-1] + ":" + connectors[counter].substring(0, 1));
+                    conn = (connectors[counter-2].substring(3) + ":" + connectors[counter-1] + ":" + connectors[counter].charAt(0));
                 }
                 conns.add(conn);
             }

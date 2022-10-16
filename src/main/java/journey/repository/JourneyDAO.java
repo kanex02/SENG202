@@ -39,25 +39,27 @@ public class JourneyDAO {
 
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Journeys WHERE User_ID = ?";
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, user.getId());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                res.add(new Journey(rs.getInt("ID"),
-                        rs.getString("vehicle_ID"), rs.getInt("user_ID"),
-                        rs.getString("date"), rs.getString("start"),
-                        rs.getString("end")));
+            try (PreparedStatement preparedStatement  = conn.prepareStatement(sqlQuery)) {
+                preparedStatement.setInt(1, user.getId());
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    res.add(new Journey(rs.getInt("ID"),
+                            rs.getString("vehicle_ID"), rs.getInt("user_ID"),
+                            rs.getString("date"), rs.getString("start"),
+                            rs.getString("end")));
+                }
             }
             for (Journey journey : res) {
                 ArrayList<String> waypoints = new ArrayList<>();
                 String stationsQuery = "SELECT * FROM JourneyWaypoints WHERE journey_ID = ? ORDER BY number";
-                PreparedStatement preparedStatement = conn.prepareStatement(stationsQuery);
-                preparedStatement.setInt(1, journey.getJourneyID());
-                ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    waypoints.add(resultSet.getString("waypoint"));
+                try (PreparedStatement preparedStatement = conn.prepareStatement(stationsQuery)) {
+                    preparedStatement.setInt(1, journey.getJourneyID());
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    while (resultSet.next()) {
+                        waypoints.add(resultSet.getString("waypoint"));
+                    }
+                    journey.setWaypoints(waypoints);
                 }
-                journey.setWaypoints(waypoints);
             }
         } catch (SQLException e) {
             log.error(e);
@@ -76,25 +78,29 @@ public class JourneyDAO {
         try {
             conn = databaseManager.connect();
             String insertQuery = "INSERT INTO Journeys VALUES (?,?,?,?,?,?)";
-            PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
-            insertStatement.setString(2, journey.getStart());
-            insertStatement.setString(3, journey.getEnd());
-            insertStatement.setInt(4, journey.getUserID());
-            insertStatement.setString(5, journey.getVehicleRegistration());
-            insertStatement.setString(6, journey.getDate());
-            insertStatement.execute();
-
-            ResultSet rs = conn.prepareStatement("SELECT last_insert_rowid()").executeQuery();
-            int id = rs.getInt(1);
-
-            Statement statement = conn.createStatement();
-            for (int i = 0; i < journey.getWaypoints().size(); i++) {
-                String sql = "INSERT INTO JourneyWaypoints VALUES (" + id + ", '"
-                        + journey.getWaypoints().get(i) + "', "
-                        + i + ");";
-                statement.addBatch(sql);
+            try (PreparedStatement preparedStatement  = conn.prepareStatement(insertQuery)) {
+                preparedStatement.setString(2, journey.getStart());
+                preparedStatement.setString(3, journey.getEnd());
+                preparedStatement.setInt(4, journey.getUserID());
+                preparedStatement.setString(5, journey.getVehicleRegistration());
+                preparedStatement.setString(6, journey.getDate());
+                preparedStatement.execute();
             }
-            statement.executeBatch();
+            int id;
+            try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT last_insert_rowid()")) {
+                ResultSet rs = preparedStatement.executeQuery();
+                id = rs.getInt(1);
+            }
+
+            try (Statement statement = conn.createStatement()) {
+                for (int i = 0; i < journey.getWaypoints().size(); i++) {
+                    String sql = "INSERT INTO JourneyWaypoints VALUES (" + id + ", '"
+                            + journey.getWaypoints().get(i) + "', "
+                            + i + ");";
+                    statement.addBatch(sql);
+                }
+                statement.executeBatch();
+            }
         } catch (SQLException e) {
             log.error(e);
         }
@@ -111,8 +117,15 @@ public class JourneyDAO {
         try {
             conn = databaseManager.connect();
             int id = journey.getJourneyID();
-            conn.prepareStatement("DELETE FROM JourneyWaypoints WHERE journey_ID = " + id).execute();
-            conn.prepareStatement("DELETE FROM Journeys WHERE ID = " + id).execute();
+            try (PreparedStatement preparedStatement  = conn.prepareStatement(
+                    "DELETE FROM JourneyWaypoints WHERE journey_ID = " + id)) {
+                preparedStatement.execute();
+            }
+            try (PreparedStatement preparedStatement = conn.prepareStatement(
+                    "DELETE FROM Journeys WHERE ID = " + id
+            )) {
+                preparedStatement.execute();
+            }
         } catch (SQLException e) {
             log.error(e);
         }
