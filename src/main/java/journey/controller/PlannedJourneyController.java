@@ -3,6 +3,7 @@ package journey.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -21,10 +22,13 @@ public class PlannedJourneyController {
     @FXML private TableColumn<Journey, String> dateCol;
     @FXML private TableView<Journey> journeyTable;
     @FXML private AnchorPane tableParent;
+    @FXML private Button deleteJourney;
+    @FXML private Button goBack;
 
     private MainController mainController;
     private JourneyDAO journeyDAO;
     private Journey selectedJourney;
+    private boolean confirming = true;
 
     /**
      * Imports the data.
@@ -40,9 +44,29 @@ public class PlannedJourneyController {
      */
     @FXML private void deleteJourney() {
         if (selectedJourney != null) {
-            journeyDAO.deleteJourney(selectedJourney);
-            selectedJourney = null;
-            setJourneys();
+            if (confirming) {
+                deleteJourney.setText("Confirm delete?");
+                goBack.setVisible(true);
+                confirming = false;
+            } else {
+                journeyDAO.deleteJourney(selectedJourney);
+                selectedJourney = null;
+                setJourneys();
+                goBack.setVisible(false);
+                deleteJourney.setText("Delete selected journey");
+                confirming = true;
+            }
+        }
+    }
+
+    /**
+     * Undo
+     */
+    @FXML private void goBack() {
+        if (!confirming) {
+            deleteJourney.setText("Delete");
+            goBack.setVisible(false);
+            confirming = true;
         }
     }
 
@@ -58,6 +82,8 @@ public class PlannedJourneyController {
     public void init(MainController mainController) {
         this.mainController = mainController;
         journeyDAO = new JourneyDAO();
+
+        goBack.setVisible(false);
 
         dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         vehicleCol.setCellValueFactory(new PropertyValueFactory<>("vehicleRegistration"));
