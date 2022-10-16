@@ -1,17 +1,15 @@
 package journey.repository;
 
-import journey.data.QueryStation;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import journey.data.Station;
 import journey.Utils;
 import journey.data.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,24 +50,27 @@ class StationDAOTest {
 
         //Using -1 for ID to avoid clashes
         s.execute("DELETE FROM Stations WHERE ID = -1");
-        stationDAO.createStation(-1,
-                "insertStationTest",
-                "rotarepo",
-                "Krane",
-                "10 Downing Street",
-                true,
-                4,
-                true,
-                120,
-                true,
-                0f,
-                0f,
-                "AC",
-                "date",
-                2,
-                new String[]{""},
-                true
-        );
+        Station station = new Station();
+        station.setObjectid(-1);
+        station.setName("insertStationTest");
+        station.setOperator("rotarepo");
+        station.setOwner("Krane");
+        station.setAddress("10 Downing Street");
+        station.setIs24Hours(true);
+        station.setCarParkCount(4);
+        station.setHasCarParkCost(true);
+        station.setMaxTime(120);
+        station.setHasTouristAttraction(true);
+        station.setLatitude(0f);
+        station.setLongitude(0f);
+        station.setCurrentType("AC");
+        station.setDateFirstOperational("date");
+        station.setNumberOfConnectors(2);
+        station.setConnectors(new String[]{""});
+        station.setHasChargingCost(true);
+        station.setRating(0);
+        station.setFavourite(false);
+        stationDAO.insertStation(station);
         ResultSet rs = s.executeQuery("SELECT * FROM Stations WHERE ID = -1");
         rs.next();
         assertEquals("Krane", rs.getString("owner"));
@@ -109,7 +110,7 @@ class StationDAOTest {
         rs.next();
 
         assertEquals("Krane", rs.getString("owner"));
-        assertEquals(false, rs.getBoolean("hasChargingCost"));
+        assertFalse(rs.getBoolean("hasChargingCost"));
 
         s.execute("DELETE FROM Stations WHERE ID = -1");
     }
@@ -126,7 +127,6 @@ class StationDAOTest {
 
     @Test
     void testQueryEmpty() throws SQLException {
-        QueryStation queryStation = new QueryStation();
         Station[] stations = stationDAO.getAll(user);
         databaseManager = DatabaseManager.getInstance();
         conn = databaseManager.connect();
@@ -141,26 +141,29 @@ class StationDAOTest {
         conn = databaseManager.connect();
         Statement s = conn.createStatement();
         s.execute("DELETE FROM Stations WHERE ID = -1");
-        stationDAO.createStation(-1,
-            "queryTest1",
-            "rotarepo",
-            "Krane",
-            "10 Downing Street",
-            true,
-            4,
-            true,
-            120,
-            true,
-            0f,
-            0f,
-            "AC",
-            "date",
-            2,
-            new String[] {""},
-            true
-        );
-        Station station = stationDAO.queryStation(-1);
-        assertEquals("Krane", station.getOwner());
+        Station station = new Station();
+        station.setObjectid(-1);
+        station.setName("insertStationTest");
+        station.setOperator("rotarepo");
+        station.setOwner("Krane");
+        station.setAddress("10 Downing Street");
+        station.setIs24Hours(true);
+        station.setCarParkCount(4);
+        station.setHasCarParkCost(true);
+        station.setMaxTime(120);
+        station.setHasTouristAttraction(true);
+        station.setLatitude(0f);
+        station.setLongitude(0f);
+        station.setCurrentType("AC");
+        station.setDateFirstOperational("date");
+        station.setNumberOfConnectors(2);
+        station.setConnectors(new String[]{""});
+        station.setHasChargingCost(true);
+        station.setRating(0);
+        station.setFavourite(false);
+        stationDAO.insertStation(station);
+        Station stationRes = stationDAO.queryStation(-1);
+        assertEquals("Krane", stationRes.getOwner());
 
         s.execute("DELETE FROM Stations WHERE ID = -1");
     }
@@ -171,27 +174,30 @@ class StationDAOTest {
         conn = databaseManager.connect();
         Statement s = conn.createStatement();
         s.execute("DELETE FROM Stations WHERE ID = -1");
-        stationDAO.createStation(-1,
-            "queryTest2",
-            "rotarepo",
-            "Krane",
-            "10 Downing Street",
-            true,
-            4,
-            true,
-            120,
-            true,
-            0f,
-            0f,
-            "DC",
-            "date",
-            2,
-            new String[] {""},
-            true
-        );
-        Station station = stationDAO.queryStation(-1);
-        assertEquals(false, station.getFavourite());
-        assertEquals(0, station.getRating());
+        Station station = new Station();
+        station.setObjectid(-1);
+        station.setName("insertStationTest");
+        station.setOperator("rotarepo");
+        station.setOwner("Krane");
+        station.setAddress("10 Downing Street");
+        station.setIs24Hours(true);
+        station.setCarParkCount(4);
+        station.setHasCarParkCost(true);
+        station.setMaxTime(120);
+        station.setHasTouristAttraction(true);
+        station.setLatitude(0f);
+        station.setLongitude(0f);
+        station.setCurrentType("AC");
+        station.setDateFirstOperational("date");
+        station.setNumberOfConnectors(2);
+        station.setConnectors(new String[]{""});
+        station.setHasChargingCost(true);
+        station.setRating(0);
+        station.setFavourite(false);
+        stationDAO.insertStation(station);
+        Station stationRes = stationDAO.queryStation(-1);
+        assertFalse(stationRes.getFavourite());
+        assertEquals(0, stationRes.getRating());
 
         s.execute("DELETE FROM Stations WHERE ID = -1");
     }
@@ -202,27 +208,30 @@ class StationDAOTest {
         conn = databaseManager.connect();
         Statement s = conn.createStatement();
         s.execute("DELETE FROM Stations WHERE ID = -1");
-        stationDAO.createStation(-1,
-            "queryTest3",
-            "rotarepo",
-            "Krane",
-            "10 Downing Street",
-            false,
-            2,
-            false,
-            120,
-            true,
-            0f,
-            0f,
-            "AC",
-            "date",
-            2,
-            new String[] {""},
-            true
-        );
-        Station station = stationDAO.queryStation(-1);
+        Station station = new Station();
+        station.setObjectid(-1);
+        station.setName("insertStationTest");
+        station.setOperator("rotarepo");
+        station.setOwner("Krane");
+        station.setAddress("10 Downing Street");
+        station.setIs24Hours(true);
+        station.setCarParkCount(4);
+        station.setHasCarParkCost(true);
+        station.setMaxTime(120);
+        station.setHasTouristAttraction(true);
+        station.setLatitude(0f);
+        station.setLongitude(0f);
+        station.setCurrentType("AC");
+        station.setDateFirstOperational("date");
+        station.setNumberOfConnectors(2);
+        station.setConnectors(new String[]{""});
+        station.setHasChargingCost(true);
+        station.setRating(0);
+        station.setFavourite(false);
+        stationDAO.insertStation(station);
+        Station stationRes = stationDAO.queryStation(-1);
 
-        assertEquals(120, station.getMaxTime());
+        assertEquals(120, stationRes.getMaxTime());
 
         s.execute("DELETE FROM Stations WHERE ID = -1");
     }

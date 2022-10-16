@@ -35,21 +35,23 @@ public class UserDAO {
             conn = databaseManager.connect();
             String userQuery = "SELECT * FROM Users WHERE name = ?";
 
-            PreparedStatement findUsersStatement = conn.prepareStatement(userQuery);
-            findUsersStatement.setString(1, username);
-            ResultSet findUserSet = findUsersStatement.executeQuery();
+            try (PreparedStatement preparedStatement = conn.prepareStatement(userQuery)) {
+                preparedStatement.setString(1, username);
+                ResultSet findUserSet = preparedStatement.executeQuery();
 
-            /*
-             * If result set is empty there isn't a user, so
-             * we insert a new user into the database.
-             */
-            if (!findUserSet.isBeforeFirst()) {
-                String insertQuery = "INSERT INTO Users VALUES (?,?)";
-                PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
-                insertStatement.setString(2, username); // UserID set to 1 as no users exist yet.
-                insertStatement.execute();
+                /*
+                 * If result set is empty there isn't a user, so
+                 * we insert a new user into the database.
+                 */
+                if (!findUserSet.isBeforeFirst()) {
+                    String insertQuery = "INSERT INTO Users VALUES (?,?)";
+                    try (PreparedStatement preparedStatement1 = conn.prepareStatement(insertQuery)) {
+                        preparedStatement1.setString(2, username); // UserID set to 1 as no users exist yet.
+                        preparedStatement1.execute();
+                    }
+                }
+                user = updateUser(username);
             }
-            user = updateUser(username);
         } catch (SQLException e) {
             log.error(e);
         } finally {
@@ -71,11 +73,12 @@ public class UserDAO {
         Connection conn = null;
         try {
             conn = databaseManager.connect();
-            PreparedStatement statement = conn.prepareStatement(userQuery);
-            statement.setString(1, name);
-            ResultSet res = statement.executeQuery();
-            if (res.next()) {
-                user.setId(res.getInt(1));
+            try (PreparedStatement preparedStatement = conn.prepareStatement(userQuery)) {
+                preparedStatement.setString(1, name);
+                ResultSet res = preparedStatement.executeQuery();
+                if (res.next()) {
+                    user.setId(res.getInt(1));
+                }
             }
         } catch (SQLException e) {
             log.error(e);
@@ -96,10 +99,11 @@ public class UserDAO {
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Users";
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                res.add(new User(rs.getString("name")));
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    res.add(new User(rs.getString("name")));
+                }
             }
         } catch (SQLException e) {
             log.error(e);
@@ -120,11 +124,12 @@ public class UserDAO {
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT name FROM Users where name = ? ";
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                inDB = true;
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ps.setString(1, name);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    inDB = true;
+                }
             }
         } catch (SQLException e) {
             log.error(e);
@@ -144,10 +149,11 @@ public class UserDAO {
         try {
             conn = databaseManager.connect();
             String sqlQuery = "UPDATE Users SET name = ? WHERE id = ?";
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setString(1, newName);
-            ps.setInt(2, id);
-            ps.executeUpdate();
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ps.setString(1, newName);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+            }
         } catch (SQLException e) {
             log.error(e);
         }
@@ -165,14 +171,14 @@ public class UserDAO {
         try {
             conn = databaseManager.connect();
             String sqlQuery = "SELECT * FROM Users WHERE id = ?";
-            PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setInt(1, id);
-            ResultSet resultSet = ps.executeQuery();
+            try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+                ps.setInt(1, id);
+                ResultSet resultSet = ps.executeQuery();
 
-            User user = new User(resultSet.getString("name"));
-            user.setId(id);
-            return user;
-            // Create a new station object.
+                User user = new User(resultSet.getString("name"));
+                user.setId(id);
+                return user;
+            }
         } catch (SQLException e) {
             log.error(e);
         }
