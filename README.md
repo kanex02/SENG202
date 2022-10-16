@@ -25,7 +25,7 @@ These instructions will get a copy of the application running on your local mach
 IntelliJ has built-in support for importing projects directly from Version Control Systems (VCS) like GitLab.
 To download and import your project:
 
-- Launch IntelliJ and chose `Get from VCS` from the start-up window.
+- Launch IntelliJ and choose `Get from VCS` from the start-up window.
 - Input the URL of the project e.g. `https://eng-git.canterbury.ac.nz/seng202-2022/team-4`.
 
 **Note:** *If you run into dependency issues when running the app or the Maven pop up doesn't appear then open the Maven sidebar and click the Refresh icon labeled 'Reimport All Maven Projects'.*
