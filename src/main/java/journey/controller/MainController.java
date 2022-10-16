@@ -1,5 +1,8 @@
 package journey.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.SetChangeListener;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -360,9 +363,32 @@ public class MainController {
         return mapViewController;
     }
 
+    /**
+     * Switches the main tab view so that the map is in focus.
+     */
     public void openMap() {
         mainTabs.getSelectionModel().select(0);
     }
+
+    /**
+     * Used to initialize the event listener for switching tabs
+     * This is mainly used for bringing the selected station marker between
+     * table view and the map view so that it is consistent.
+     */
+    public void setTabListener() {
+        mainTabs.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                final int tablePaneNum = 1;
+                int selectedPane = t1.intValue();
+
+                if (selectedPane == tablePaneNum) {
+                    tableController.clearSelections();
+                }
+            }
+        });
+    }
+
 
     /**
      * Inserts the recordJourney fxml component into an anchor pane in the main controller.
@@ -409,6 +435,12 @@ public class MainController {
     public void setPrevMarkerFavourite() {
         mapViewController.setPrevMarkerFavourite();
     }
+
+    /**
+     * Called to set the ID of the selected station.
+     * Used to pass selected station from table view.
+     */
+    public void setSelectedStationID(int id, boolean favourite) { mapViewController.setSelectedStationID(id, favourite); }
 
     /**
      * Inserts the viewNotes fxml component into an anchor pane in the main controller.
@@ -506,6 +538,7 @@ public class MainController {
         icons = new ArrayList<>(asList(helpIcon, homeIcon, profileIcon, journeyIcon,
                 searchIcon, notesIcon, planIcon, plannedIcon, chargerIcon));
         initImages();
+        setTabListener();
         viewMap();
         viewTable();
         viewPrevJourneysTable();

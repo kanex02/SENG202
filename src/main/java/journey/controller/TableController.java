@@ -79,6 +79,12 @@ public class TableController {
         stationTable.setItems(stations);
     }
 
+
+    public void clearSelections() {
+        stationTable.getSelectionModel().clearSelection();
+    }
+
+
     /**
      * Initialises the table.
      */
@@ -89,7 +95,11 @@ public class TableController {
         stationTable.maxHeightProperty().bind(tableParent.heightProperty());
 
         stationTable.getSelectionModel().selectedItemProperty().addListener(
-                (observableValue, oldStation, newStation) -> mainController.setSelectedStation(newStation.getObjectid())
-        );
+                (observableValue, oldStation, newStation) -> {
+                    if (newStation != null) {
+                        mainController.setSelectedStation(newStation.getObjectid());
+                        mainController.setSelectedStationID(newStation.getObjectid(), newStation.getFavourite());
+                    }
+                });
     }
 }

@@ -168,6 +168,12 @@ public class MapController {
     }
 
     /**
+     * Sets the selected station id to the currently selected station.
+     * @param id the id of the selected station
+     */
+    public void setSelectedStationID(int id, boolean favourite) { javaScriptConnector.call("setSelectedMarkerId", id, favourite); }
+
+    /**
      * Map a journey currently being planned.
 
      * @param waypoints the waypoints of the journey
