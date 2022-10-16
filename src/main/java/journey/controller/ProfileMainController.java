@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
@@ -13,7 +14,9 @@ import journey.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * FXML controller class for the myProfile to be inserted in front of mainPane.
@@ -25,6 +28,10 @@ public class ProfileMainController {
 
     private static final Logger log = LogManager.getLogger();
 
+    @FXML private javafx.scene.image.ImageView journeyImage;
+    @FXML private javafx.scene.image.ImageView profileImage;
+    @FXML private javafx.scene.image.ImageView homeImage;
+    @FXML private javafx.scene.image.ImageView logoutImage;
     private MainController mainController;
     private ProfileController profileController = null;
     private Stage stage;
@@ -154,6 +161,28 @@ public class ProfileMainController {
         }
     }
 
+    private void setImages() {
+        Image img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/Journey_Logo.jpeg"))
+                ));
+        (journeyImage).setImage(img);
+        img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/home-svgrepo-com 1.png"))
+                ));
+        (homeImage).setImage(img);
+        img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/logout.png"))
+                ));
+        (logoutImage).setImage(img);
+        img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/user.png"))
+                ));
+        (profileImage).setImage(img);
+    }
     /**
      * Initialise the myProfile controller.
 
@@ -166,6 +195,7 @@ public class ProfileMainController {
         this.stage = stage;
         this.mainPane = mainPane;
         this.currentUser = mainController.getCurrentUser();
+        setImages();
         viewProfile();
         viewRegisterVehicles();
     }
