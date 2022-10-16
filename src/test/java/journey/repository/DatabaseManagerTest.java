@@ -30,7 +30,7 @@ class DatabaseManagerTest {
         // Make sure that it is a new database
         Path testDB = Path.of("src/test/resources/test.db");
         Files.deleteIfExists(testDB);
-        databaseManager = new DatabaseManager("src/test/resources/test.db");
+        databaseManager = DatabaseManager.initialiseWithUrl("src/test/resources/test.db");
         databaseManager.setup();
         Connection conn = databaseManager.connect();
         assertNotNull(conn);

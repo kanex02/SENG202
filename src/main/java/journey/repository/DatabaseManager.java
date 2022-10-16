@@ -1,16 +1,20 @@
 package journey.repository;
 
-import journey.ReadCSV;
-import journey.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.File;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import journey.ReadCSV;
+import journey.Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 
 /**
@@ -31,14 +35,22 @@ public final class DatabaseManager {
         databasePath = jarDir.getParentFile() + "/database.db";
     }
 
+
+    private DatabaseManager(String url) {
+        this.databasePath = url;
+        setup();
+    }
+
     /**
      * Constructs a new database manager from a specified url.
 
      * @param url the desired path to database.
      */
-    public DatabaseManager(String url) {
-        this.databasePath = url;
-        setup();
+    public static DatabaseManager initialiseWithUrl(String url) {
+        if (instance == null) {
+            instance = new DatabaseManager(url);
+        }
+        return instance;
     }
 
 
