@@ -44,39 +44,75 @@ class StationDAOTest {
         assertNotNull(station);
     }
 
-//    @Test
-//    void insertStation() throws SQLException {
-//        databaseManager = DatabaseManager.getInstance();
-//        conn = databaseManager.connect();
-//        Statement s = conn.createStatement();
-//
-//        //Using -1 for ID to avoid clashes
-//        s.execute("DELETE FROM Stations WHERE ID = -1");
-//        stationDAO.createStation(-1,
-//                "insertStationTest",
-//                "rotarepo",
-//                "Krane",
-//                "10 Downing Street",
-//                true,
-//                4,
-//                true,
-//                120,
-//                true,
-//                0f,
-//                0f,
-//                "AC",
-//                "date",
-//                2,
-//                new String[]{""},
-//                true,
-//                0,
-//                false
-//        );
-//        ResultSet rs = s.executeQuery("SELECT * FROM Stations WHERE ID = -1");
-//        rs.next();
-//        assertEquals("Krane", rs.getString("owner"));
-//        s.execute("DELETE FROM Stations WHERE ID = -1");
-//    }
+    @Test
+    void createStation() throws SQLException {
+        databaseManager = DatabaseManager.getInstance();
+        conn = databaseManager.connect();
+        Statement s = conn.createStatement();
+
+        //Using -1 for ID to avoid clashes
+        s.execute("DELETE FROM Stations WHERE ID = -1");
+        stationDAO.createStation(-1,
+                "insertStationTest",
+                "rotarepo",
+                "Krane",
+                "10 Downing Street",
+                true,
+                4,
+                true,
+                120,
+                true,
+                0f,
+                0f,
+                "AC",
+                "date",
+                2,
+                new String[]{""},
+                true
+        );
+        ResultSet rs = s.executeQuery("SELECT * FROM Stations WHERE ID = -1");
+        rs.next();
+        assertEquals("Krane", rs.getString("owner"));
+        s.execute("DELETE FROM Stations WHERE ID = -1");
+    }
+
+    @Test
+    void insertStation() throws SQLException {
+        databaseManager = DatabaseManager.getInstance();
+        conn = databaseManager.connect();
+        Statement s = conn.createStatement();
+
+        // Using -1 for ID to avoid clashes
+        s.execute("DELETE FROM Stations WHERE ID = -1");
+
+        Station station = new Station(-1,
+            "insertStationTest",
+            "rotarepo",
+            "Krane",
+            "11 Downing Street",
+            true,
+            3,
+            false,
+            80,
+            false,
+            0f,
+            0f,
+            "AC",
+            "date",
+            4,
+            new String[]{""},
+            false);
+
+        stationDAO.insertStation(station);
+
+        ResultSet rs = s.executeQuery("SELECT * FROM Stations WHERE ID = -1");
+        rs.next();
+
+        assertEquals("Krane", rs.getString("owner"));
+        assertEquals(false, rs.getBoolean("hasChargingCost"));
+
+        s.execute("DELETE FROM Stations WHERE ID = -1");
+    }
 
     @Test
     void testGetAll() throws SQLException {
@@ -99,73 +135,95 @@ class StationDAOTest {
         assertEquals(rs.getInt(1), stations.length);
     }
 
-//    @Test
-//    void testQuery1() throws SQLException {
-//        databaseManager = DatabaseManager.getInstance();
-//        conn = databaseManager.connect();
-//        Statement s = conn.createStatement();
-//
-//        s.execute("DELETE FROM Stations WHERE ID = -1");
-//        stationDAO.createStation(-1,
-//                "queryTest",
-//                "rotarepo",
-//                "Krane",
-//                "10 Downing Street",
-//                true,
-//                4,
-//                true,
-//                120,
-//                true,
-//                0f,
-//                0f,
-//                "AC",
-//                "date",
-//                2,
-//                new String[]{""},
-//                true,
-//                2,
-//                true
-//        );
-//        QueryStation queryStation = new QueryStation();
-//        queryStation.setName("queryTest");
-//        queryStation.setOperator("rotarepo");
-//        queryStation.setMaxTime(120);
-//        queryStation.setCurrentType("AC");
-//        queryStation.setHasTouristAttraction(true);
-//        int id = stationDAO.query(queryStation)[0].getOBJECTID();
-//        assertEquals(-1, id);
-//
-//        s.execute("DELETE FROM Stations WHERE ID = -1");
-//    }
-//
-//    @Test
-//    void testQuery2() throws SQLException {
-//        databaseManager = DatabaseManager.getInstance();
-//        conn = databaseManager.connect();
-//        Statement s = conn.createStatement();
-//        s.execute("DELETE FROM Stations WHERE ID = -1");
-//        stationDAO.createStation(-1,
-//                "queryTest",
-//                "rotarepo",
-//                "Krane",
-//                "10 Downing Street",
-//                true,
-//                4,
-//                true,
-//                120,
-//                true,
-//                0f,
-//                0f,
-//                "AC",
-//                "date",
-//                2,
-//                new String[]{""},
-//                true,
-//                5,
-//                false
-//        );
-//        Station station = stationDAO.queryStation(-1);
-//        assertEquals("Krane", station.getOwner());
-//
-//        s.execute("DELETE FROM Stations WHERE ID = -1");
+    @Test
+    void testQueryStation() throws SQLException {
+        databaseManager = DatabaseManager.getInstance();
+        conn = databaseManager.connect();
+        Statement s = conn.createStatement();
+        s.execute("DELETE FROM Stations WHERE ID = -1");
+        stationDAO.createStation(-1,
+            "queryTest1",
+            "rotarepo",
+            "Krane",
+            "10 Downing Street",
+            true,
+            4,
+            true,
+            120,
+            true,
+            0f,
+            0f,
+            "AC",
+            "date",
+            2,
+            new String[] {""},
+            true
+        );
+        Station station = stationDAO.queryStation(-1);
+        assertEquals("Krane", station.getOwner());
+
+        s.execute("DELETE FROM Stations WHERE ID = -1");
+    }
+
+    @Test
+    void testQueryStation2() throws SQLException {
+        databaseManager = DatabaseManager.getInstance();
+        conn = databaseManager.connect();
+        Statement s = conn.createStatement();
+        s.execute("DELETE FROM Stations WHERE ID = -1");
+        stationDAO.createStation(-1,
+            "queryTest2",
+            "rotarepo",
+            "Krane",
+            "10 Downing Street",
+            true,
+            4,
+            true,
+            120,
+            true,
+            0f,
+            0f,
+            "DC",
+            "date",
+            2,
+            new String[] {""},
+            true
+        );
+        Station station = stationDAO.queryStation(-1);
+        assertEquals(false, station.getFavourite());
+        assertEquals(0, station.getRating());
+
+        s.execute("DELETE FROM Stations WHERE ID = -1");
+    }
+
+    @Test
+    void testQueryStation3() throws SQLException {
+        databaseManager = DatabaseManager.getInstance();
+        conn = databaseManager.connect();
+        Statement s = conn.createStatement();
+        s.execute("DELETE FROM Stations WHERE ID = -1");
+        stationDAO.createStation(-1,
+            "queryTest3",
+            "rotarepo",
+            "Krane",
+            "10 Downing Street",
+            false,
+            2,
+            false,
+            120,
+            true,
+            0f,
+            0f,
+            "AC",
+            "date",
+            2,
+            new String[] {""},
+            true
+        );
+        Station station = stationDAO.queryStation(-1);
+
+        assertEquals(120, station.getMaxTime());
+
+        s.execute("DELETE FROM Stations WHERE ID = -1");
+    }
 }

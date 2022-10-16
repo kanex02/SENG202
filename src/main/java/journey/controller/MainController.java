@@ -396,8 +396,18 @@ public class MainController {
         createJourneyController.addNewWaypoint(lat, lng);
     }
 
+    /**
+     * Calls the clear search function from map controller
+     */
     public void clearSearchMarkerFromMap() {
         mapViewController.clearSearch();
+    }
+
+    /**
+     * Called to set the previous marker to be favourited.
+     */
+    public void setPrevMarkerFavourite() {
+        mapViewController.setPrevMarkerFavourite();
     }
 
     /**

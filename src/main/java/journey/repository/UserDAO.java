@@ -34,15 +34,15 @@ public class UserDAO {
             conn = databaseManager.connect();
             String userQuery = "SELECT * FROM Users WHERE name = ?";
 
-            PreparedStatement findNoteStatement = conn.prepareStatement(userQuery);
-            findNoteStatement.setString(1, username);
-            ResultSet findNoteSet = findNoteStatement.executeQuery();
+            PreparedStatement findUsersStatement = conn.prepareStatement(userQuery);
+            findUsersStatement.setString(1, username);
+            ResultSet findUserSet = findUsersStatement.executeQuery();
 
             /*
              * If result set is empty there isn't a user, so
              * we insert a new user into the database.
              */
-            if (!findNoteSet.isBeforeFirst()) {
+            if (!findUserSet.isBeforeFirst()) {
                 String insertQuery = "INSERT INTO Users VALUES (?,?)";
                 PreparedStatement insertStatement  = conn.prepareStatement(insertQuery);
                 insertStatement.setString(2, username); // UserID set to 1 as no users exist yet.

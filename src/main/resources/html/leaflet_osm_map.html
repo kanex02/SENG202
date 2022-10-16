@@ -127,7 +127,8 @@
         clearMap: clearMap,
         addRangeIndicator: addRangeIndicator,
         removeRangeIndicator: removeRangeIndicator,
-        clearWaypoints: clearWaypoints
+        clearWaypoints: clearWaypoints,
+        setPrevMarkerFavourite: setPrevMarkerFavourite
     };
 
     function clearMap() {
@@ -308,6 +309,10 @@
             miscMarkers[label].remove(map);
         }
         delete miscMarkers[label];
+    }
+
+    function setPrevMarkerFavourite(favourite) {
+        prevMarkerFavourite = favourite;
     }
 
     /**

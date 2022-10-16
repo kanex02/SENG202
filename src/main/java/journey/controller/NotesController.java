@@ -44,6 +44,11 @@ public class NotesController {
         if (currStation != null && (stationNote != null || rating != 0 || favourite)) {
             // Set the note on the database
             noteDAO.setNote(newNote, mainController.getCurrentUser());
+
+            if (favourite) {
+                mainController.setPrevMarkerFavourite();
+            }
+
             notesSuccess.setText("Added station feedback");
         } else if (currStation == null) {
             notesWarning.setText("No station selected");
@@ -55,7 +60,6 @@ public class NotesController {
            so that the marker icon will update.
         */
         mainController.updateFavourite(currStation, favourite);
-        mainController.refreshSearch();
         event.consume();
     }
 

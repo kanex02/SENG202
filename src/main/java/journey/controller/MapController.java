@@ -161,6 +161,14 @@ public class MapController {
     }
 
     /**
+     * Calls function to set the previous marker to be a favourite so that the colour of the marker is
+     * correct after submitting a note.
+     */
+    public void setPrevMarkerFavourite() {
+        javaScriptConnector.call("setPrevMarkerFavourite", true);
+    }
+
+    /**
      * Map a journey currently being planned.
 
      * @param waypoints the waypoints of the journey

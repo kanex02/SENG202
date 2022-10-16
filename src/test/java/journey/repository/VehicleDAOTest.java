@@ -1,5 +1,6 @@
 package journey.repository;
 
+import java.util.ArrayList;
 import journey.data.User;
 import journey.Utils;
 import journey.data.Vehicle;
@@ -45,7 +46,70 @@ class VehicleDAOTest {
         Vehicle vehicle = new Vehicle(2020, "make", "model", "AC", "FakeRegUnique", "HDMI");
         User user = userDAO.setCurrentUser("Tester");
         vehicleDAO.setVehicle(vehicle, user);
+        Vehicle vehicle1 = new Vehicle(2019, "make", "model", "AC", "FakeRegUnique", "HDMI");
         User user1 = userDAO.setCurrentUser("Tester1");
-        vehicleDAO.setVehicle(vehicle, user1);
+        vehicleDAO.setVehicle(vehicle1, user1);
+
+        Vehicle[] vehicles = vehicleDAO.getVehicles(user1);
+        Vehicle v = vehicles[0];
+
+        assertEquals(2019, v.getYear());
+
     }
+
+    @Test
+    void getVehiclesTest() {
+        Vehicle vehicle = new Vehicle(2020, "make", "model", "DC", "FakeRegUnique1", "CHAdeMO");
+        User currUser = userDAO.setCurrentUser("Tester");
+        vehicleDAO.setVehicle(vehicle, currUser);
+
+        Vehicle[] currUserVehicles = vehicleDAO.getVehicles(currUser);
+        int year = currUserVehicles[0].getYear();
+        String make = currUserVehicles[0].getMake();
+
+        assertEquals(2020, year);
+        assertEquals("make", make);
+    }
+
+    @Test
+    void selectedVehicleNotNull() {
+
+        Vehicle vehicle = new Vehicle(2020, "make", "model", "DC", "FakeRegUnique2", "CHAdeMO");
+        User currUser = userDAO.setCurrentUser("Tester");
+
+        vehicleDAO.setVehicle(vehicle, currUser);
+
+        Vehicle selectedVehicle = vehicleDAO.getSelectedVehicle(currUser);
+        assertNotNull(selectedVehicle);
+
+    }
+
+    @Test
+    void selectedVehicleTest() {
+
+        Vehicle vehicle = new Vehicle(2019, "make", "model", "AC", "FakeRegUnique3", "CHAdeMO");
+        User currUser = userDAO.setCurrentUser("Tester");
+
+        vehicleDAO.setVehicle(vehicle, currUser);
+
+        Vehicle selectedVehicle = vehicleDAO.getSelectedVehicle(currUser);
+
+        assertEquals(vehicle.getYear(), selectedVehicle.getYear());
+    }
+
+    @Test
+    void getEmptySelectedStation() {
+
+        Vehicle vehicle = new Vehicle(2020, "make", "model", "DC", "FakeRegUnique2", "CHAdeMO");
+        User currUser = userDAO.setCurrentUser("Tester");
+
+        vehicleDAO.setVehicle(vehicle, currUser);
+        vehicleDAO.changeSelectedVehicle(currUser, vehicle.getRegistration());
+
+        Vehicle selectedVehicle = vehicleDAO.getSelectedVehicle(currUser);
+
+        assertNull(selectedVehicle);
+
+    }
+
 }

@@ -86,7 +86,7 @@ public class NoteDAO {
 
 
     /**
-     * Gets not from give station.
+     * Gets a note from the given station and user.
      *
      * @param station station to get notes from.
      * @return note from station.
