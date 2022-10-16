@@ -146,6 +146,16 @@
                      <Font name="Roboto" size="12.0" />
                   </font>
                </Hyperlink>
+                <Label layoutX="12.0" layoutY="215.0" text="LogOut icons created by Freepik - Flaticon">
+                    <font>
+                        <Font name="Roboto" size="13.0" />
+                    </font>
+                </Label>
+                <Hyperlink layoutX="360.0" layoutY="219.0" onAction="#logOutIcons" prefHeight="22.0" prefWidth="231.0" text="close icons" underline="true">
+                    <font>
+                        <Font name="Roboto" size="12.0" />
+                    </font>
+                </Hyperlink>
             </children></AnchorPane>
       </center>
     </BorderPane>
