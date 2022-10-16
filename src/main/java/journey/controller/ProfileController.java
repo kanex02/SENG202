@@ -103,6 +103,10 @@ public class ProfileController {
      */
     @FXML private void revertNameChanges() {
         editName.setText(profileMainController.getCurrentUser().getName());
+        editNameButton.setText("Edit");
+        revertNameChanges.setVisible(false);
+        editName.setVisible(false);
+        editing = false;
     }
 
     /**

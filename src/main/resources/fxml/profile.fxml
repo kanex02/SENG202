@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="540.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
+<AnchorPane prefHeight="540.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="journey.controller.ProfileController">
    <children>
       <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0" prefWidth="767.0" style="-fx-background-color: white;">
          <children>
@@ -68,7 +68,7 @@
                <font>
                   <Font size="16.0" />
                </font></TextField>
-            <Button fx:id="revertNameChanges" layoutX="472.0" layoutY="18.0" mnemonicParsing="false" onAction="#revertNameChanges" stylesheets="@../gui/buttons.css" text="Revert" />
+            <Button fx:id="revertNameChanges" layoutX="472.0" layoutY="18.0" mnemonicParsing="false" onAction="#revertNameChanges" stylesheets="@../gui/buttons.css" text="Cancel" />
             <Label fx:id="nameWarning" layoutX="88.0" layoutY="48.0" prefHeight="16.0" prefWidth="444.0" textFill="#d70000">
                <font>
                   <Font size="11.0" />
