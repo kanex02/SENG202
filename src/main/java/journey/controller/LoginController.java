@@ -94,8 +94,8 @@ public class LoginController {
         } else if (userDAO.nameInDB(name)) {
             registerWarningLabel.setText("A user with that name already exists!");
             nameTextBox.setStyle(COLOUR_RED);
-        } else if (name.length() > 15) {
-            registerWarningLabel.setText("Your name cannot be longer than 15 characters!");
+        } else if (name.length() > 20) {
+            registerWarningLabel.setText("Name is too long, must be less than 20 characters!");
             nameTextBox.setStyle(COLOUR_RED);
         } else {
             user = userDAO.setCurrentUser(name);
@@ -170,7 +170,7 @@ public class LoginController {
     }
 
     /**
-     * Initializes the logo image for the login screen
+     * Initializes the logo image for the login screen.
      */
     private void initImages() {
         Image img = new Image(
