@@ -245,10 +245,6 @@ public class Station {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
     public double getLongitude() {
         return longitude;
     }
@@ -259,10 +255,6 @@ public class Station {
 
     public String getCurrentType() {
         return currentType;
-    }
-
-    public void setCurrentType(String currentType) {
-        this.currentType = currentType;
     }
 
     public String getDateFirstOperational() {
@@ -277,16 +269,8 @@ public class Station {
         return connectorsList;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
     }
 
     public String getOperator() {
@@ -307,6 +291,53 @@ public class Station {
 
     public Boolean hasChargingCost() {
         return hasChargingCost;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCurrentType(String currentType) {
+        this.currentType = currentType;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+    public void setObjectid(int objectid) {
+        this.objectid = objectid;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public void setIs24Hours(Boolean is24Hours) {
+        this.is24Hours = is24Hours;
+    }
+
+    public void setCarParkCount(int carParkCount) {
+        this.carParkCount = carParkCount;
+    }
+
+    public void setHasCarParkCost(Boolean hasCarParkCost) {
+        this.hasCarParkCost = hasCarParkCost;
+    }
+
+    public void setDateFirstOperational(String dateFirstOperational) {
+        this.dateFirstOperational = dateFirstOperational;
+    }
+
+    public void setNumberOfConnectors(int numberOfConnectors) {
+        this.numberOfConnectors = numberOfConnectors;
+    }
+
+    public void setHasChargingCost(Boolean hasChargingCost) {
+        this.hasChargingCost = hasChargingCost;
     }
 
     /**
