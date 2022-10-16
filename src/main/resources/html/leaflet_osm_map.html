@@ -42,6 +42,7 @@
                 className: 'marker-cluster', iconSize: new L.Point(40, 40) });
         }
     });
+    let idMarkers = {};
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let route;
     let routeMapped = false;
@@ -128,7 +129,8 @@
         addRangeIndicator: addRangeIndicator,
         removeRangeIndicator: removeRangeIndicator,
         clearWaypoints: clearWaypoints,
-        setPrevMarkerFavourite: setPrevMarkerFavourite
+        setPrevMarkerFavourite: setPrevMarkerFavourite,
+        setSelectedMarkerId: setSelectedMarkerId
     };
 
     function clearMap() {
@@ -311,8 +313,30 @@
         delete miscMarkers[label];
     }
 
+    /**
+     * Called from main controller to set that the previous marker was a favourite to keep the colours
+     * consistent.
+     * @param favourite boolean whether the prev marker was favourited or not.
+     */
     function setPrevMarkerFavourite(favourite) {
         prevMarkerFavourite = favourite;
+    }
+
+    /**
+     * Called from main controller to set ID of the selected marker when coming from table view
+     * @param id id of the selected marker.
+     */
+    function setSelectedMarkerId(id, favourite) {
+
+        let newSelectedMarker = idMarkers[id];
+
+        changeSelectedMarker(selectedMarker, newSelectedMarker);
+
+        prevMarkerFavourite = favourite;
+        selectedMarkerId = id;
+        selectedMarker = newSelectedMarker;
+
+
     }
 
     /**
@@ -352,8 +376,27 @@
         }
     }
 
+    function changeSelectedMarker(oldMarker, newMarker) {
+        if (oldMarker !== newMarker) {
+            if (oldMarker != null) {
+                if (prevMarkerFavourite) {
+                    oldMarker.setIcon(goldIcon);
+                    prevMarkerFavourite = false;
+                } else {
+                    oldMarker.setIcon(blueIcon);
+                }
+                oldMarker.remove(map);
+                markers.addLayer(oldMarker);
+            }
+
+            newMarker.setIcon(selectedIcon);
+            markers.removeLayer(newMarker);
+            newMarker.addTo(map);
+        }
+    }
+
     /**
-     * Adds a marker to the map and stores it in the markers array for later use (e.g. removal).
+     * Adds a marker to the map and stores it in the idMarkers array for later use (e.g. removal).
 
      * @param id id of marker
      * @param title tooltip to display on hover
@@ -389,36 +432,22 @@
         m.on('click', e => {
             javaScriptBridge.getStationFromClick(id);
             javaScriptBridge.getLatLongFromClick(lat, lng);
-            if(selectedMarker !== e.target)
-            {
-                if (selectedMarker != null) {
-                    if (prevMarkerFavourite) {
-                        selectedMarker.setIcon(goldIcon);
-                        prevMarkerFavourite = false;
-                    } else {
-                        selectedMarker.setIcon(blueIcon);
-                    }
-                    selectedMarker.remove(map);
-                    markers.addLayer(selectedMarker);
-                }
 
-                e.target.setIcon(selectedIcon);
-                markers.removeLayer(e.target);
-                e.target.addTo(map);
+            changeSelectedMarker(selectedMarker, e.target);
 
-                selectedMarker = e.target;
-                selectedMarkerId = id;
+            selectedMarker = e.target;
+            selectedMarkerId = id;
 
-                e.target.openPopup();
+            e.target.openPopup();
 
-                if(favourited) {
-                    prevMarkerFavourite = true;
-                }
+            if(favourited) {
+                prevMarkerFavourite = true;
             }
-
-        })
+        });
 
         markers.addLayer(m);
+
+        idMarkers[id] = m;
     }
 
     /**
