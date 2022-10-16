@@ -213,8 +213,8 @@ public class RegisterVehicleController {
     @FXML private void registerVehicle() {
         //get information about the vehicles and reset to null values
         clearWarnings();
+        successLabel.setText("");
         boolean valid = isValid();
-
         if (valid) {
             chargerTypeChoice();
             connectorTypeChoice();

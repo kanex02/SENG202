@@ -417,7 +417,7 @@ public class MainController {
     }
 
     /**
-     * Calls the clear search function from map controller
+     * Calls the clear search function from map controller.
      */
     public void clearSearchMarkerFromMap() {
         mapViewController.clearSearch();
