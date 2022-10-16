@@ -268,7 +268,7 @@ public class CreateJourneyController {
     }
 
     private void typeNth(int i) {
-        mainController.getMapViewController().setCallback(null, null);
+        //mainController.getMapViewController().setCallback(null, null);
         journeyWarningLabel.setStyle(textFillRed);
         journeyWarningLabel.setText("");
         String address = waypointAddresses.get(i).getText();
