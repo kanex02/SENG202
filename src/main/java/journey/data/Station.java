@@ -13,11 +13,11 @@ import static java.lang.Math.*;
  */
 public class Station {
     @CsvBindByName
-    private float X;
+    private float xLoc;
     @CsvBindByName
-    private float Y;
+    private float yLoc;
     @CsvBindByName
-    private int OBJECTID;
+    private int objectid;
     @CsvBindByName
     private String name;
     @CsvBindByName
@@ -84,7 +84,7 @@ public class Station {
                    int maxTimeLimit, Boolean hasTouristAttraction, float latitude,
                    float longitude, String currentType, String dateFirstOperational,
                    int numberOfConnectors, String[] connectorsList, Boolean hasChargingCost) {
-        this.OBJECTID = id;
+        this.objectid = id;
         this.name = name;
         this.operator = operator;
         this.owner = owner;
@@ -134,7 +134,7 @@ public class Station {
                    float longitude, String currentType, String dateFirstOperational,
                    int numberOfConnectors, String[] connectorsList,
                    Boolean hasChargingCost, int rating, boolean favourite) {
-        this.OBJECTID = id;
+        this.objectid = id;
         this.name = name;
         this.operator = operator;
         this.owner = owner;
@@ -293,15 +293,15 @@ public class Station {
         return operator;
     }
 
-    public int getOBJECTID() {
-        return OBJECTID;
+    public int getObjectid() {
+        return objectid;
     }
 
     public String getShortDescription() {
         return String.format("%s, %s", name, address);
     }
 
-    public Boolean getHasCarParkCost() {
+    public Boolean hasCarParkCost() {
         return hasCarParkCost;
     }
 

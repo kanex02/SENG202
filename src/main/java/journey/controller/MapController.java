@@ -256,7 +256,7 @@ public class MapController {
      * @param station station object to be added
      */
     private void addStationMark(Station station) {
-        javaScriptConnector.call("addMarker", station.getOBJECTID(),
+        javaScriptConnector.call("addMarker", station.getObjectid(),
                 station.getShortDescription(), station.getLatitude(), station.getLongitude(), station.getFavourite());
     }
 

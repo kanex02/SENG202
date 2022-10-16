@@ -12,15 +12,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Provides useful functions for the database.
  */
 public class Utils {
     private static final Logger log = LogManager.getLogger();
-
+    private static final String CHARSPACEREGEX = "[a-z|A-Z| ]+";
+    private static final String CHARNUMREGEX = "[a-z|A-Z|0-9| ]+";
+    private static final String CHARONLYREGEX = "[a-z|A-Z]+";
+    private Utils() {}
     /**
      * Closes the connection, ignoring any SQLException that maybe thrown, either from the connection already being
      * closed or conn being null.
@@ -57,7 +60,7 @@ public class Utils {
      * @param delimiter string to separate each item with
      * @return string representation of array
      */
-    public static String convertArrayListToString(ArrayList<String> arr, String delimiter) {
+    public static String convertArrayListToString(List<String> arr, String delimiter) {
         StringBuilder str = new StringBuilder();
         for (String i : arr) {
             str.append(i).append(delimiter);
@@ -76,7 +79,7 @@ public class Utils {
      * @param res resultant ArrayList being passed into.
      */
 
-    public static void insertRsIntoArray(ResultSet rs, ArrayList<Station> res) {
+    public static void insertRsIntoArray(ResultSet rs, List<Station> res) {
         try {
             while (rs.next()) {
                 res.add(new Station(rs.getInt("ID"),
@@ -146,15 +149,15 @@ public class Utils {
     }
 
     public static String getCharacterSpace() {
-        return "[a-z|A-Z| ]+";
+        return CHARSPACEREGEX;
     }
 
     public static String getCharacterDigit() {
-        return "[a-z|A-Z|0-9| ]+";
+        return CHARNUMREGEX;
     }
 
     public static String getCharacterOnly() {
-        return "[a-z|A-Z]+";
+        return CHARONLYREGEX;
     }
 
 

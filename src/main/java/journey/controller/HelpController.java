@@ -58,7 +58,6 @@ public class HelpController {
      */
     private void changeImage(String image) {
         switch (image) {
-            case "Search and Filter" -> setHelpImage("/images/Search.jpg");
 
             case "Record Notes" -> setHelpImage("/images/Notes.jpg");
 
@@ -68,7 +67,7 @@ public class HelpController {
 
             case "Register a Vehicle" -> setHelpImage("/images/RegisterVehicle.jpg");
 
-            default -> setHelpImage("");
+            default -> setHelpImage("/images/Search.jpg");
         }
     }
 

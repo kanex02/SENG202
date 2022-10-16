@@ -129,10 +129,10 @@ public class MainController {
      * @param favourite t/f if favourite or not.
      */
     public void updateFavourite(Station station, boolean favourite) {
-        int stationID = station.getOBJECTID();
+        int stationID = station.getObjectid();
         Station[] allStations = stationsService.getAllStations();
         for (Station s : allStations) {
-            if (s.getOBJECTID() == stationID) {
+            if (s.getObjectid() == stationID) {
                 s.setFavourite(favourite);
             }
         }

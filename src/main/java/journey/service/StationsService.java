@@ -110,7 +110,7 @@ public class StationsService {
         return errors.toString();
     }
 
-    private ArrayList<Station> filterByConnector(QueryStation queryStation, ArrayList<Station> result) {
+    private void filterByConnector(QueryStation queryStation, ArrayList<Station> result) {
         String[] connectors = queryStation.getConnectors();
 
         if (connectors != null && connectors.length > 0) {
@@ -130,7 +130,6 @@ public class StationsService {
                 result.remove(station);
             }
         }
-        return result;
     }
 
     /**
@@ -181,7 +180,7 @@ public class StationsService {
         if (favourite) {
             result.removeIf(station -> !(station.getFavourite()));
         }
-        result = filterByConnector(queryStation, result);
+        filterByConnector(queryStation, result);
         Boolean attractions = queryStation.getHasTouristAttraction();
         if (attractions != null) {
             if (attractions) {

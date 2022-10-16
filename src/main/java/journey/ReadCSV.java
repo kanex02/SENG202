@@ -54,14 +54,14 @@ public class ReadCSV {
 
             StationDAO stationDAO = new StationDAO();
 
-            stationDAO.createStation(s.getOBJECTID(),
+            stationDAO.createStation(s.getObjectid(),
                     s.getName(),
                     s.getOperator(),
                     s.getOwner(),
                     s.getAddress(),
                     s.isIs24Hours(),
                     s.getCarParkCount(),
-                    s.getHasCarParkCost(),
+                    s.hasCarParkCost(),
                     s.getMaxTime(),
                     s.getHasTouristAttraction(),
                     s.getLatitude(),

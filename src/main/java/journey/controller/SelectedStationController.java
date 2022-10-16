@@ -83,7 +83,7 @@ public class SelectedStationController {
         }
         boolean chargeCost = selectedStation.hasChargingCost();
         costField.setText(chargeCost ? "Yes" : "No");
-        boolean parkCost = selectedStation.getHasCarParkCost();
+        boolean parkCost = selectedStation.hasCarParkCost();
         parkingCostField.setText(parkCost ? "Yes" : "No");
         Note notes = noteDAO.getNoteFromStation(selectedStation, mainController.getCurrentUser());
         favouritedField.setText(notes.getFavourite() ? "Yes" : "No");
