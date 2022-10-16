@@ -167,7 +167,6 @@ public class ProfileController {
     private void makeButtonsInvisible() {
         editCurrentVehicle.setVisible(false);
         deleteCurrentVehicle.setVisible(false);
-        goBackButton.setVisible(false);
     }
 
     /**
@@ -184,6 +183,7 @@ public class ProfileController {
         if (vehicleDAO.getSelectedVehicle(profileController.getCurrentUser()) == null) {
             makeButtonsInvisible();
         }
+        goBackButton.setVisible(false);
 
         vehicleTable.getSelectionModel().selectedItemProperty().addListener(
                 ((ObservableValue<? extends Vehicle> observable, Vehicle oldVehicle, Vehicle newVehicle) -> {

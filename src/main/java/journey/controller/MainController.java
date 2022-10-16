@@ -501,6 +501,8 @@ public class MainController {
 
         // Fill the combo boxes
         this.stage = stage;
+        stage.setMinHeight(1500);
+        stage.setMinWidth(1700);
 
         currentStations = stationDAO.getAll(currentUser);
         icons = new ArrayList<>(asList(helpIcon, homeIcon, profileIcon, journeyIcon,

@@ -155,8 +155,8 @@ public class LoginController {
             mainStage.setScene(scene);
 
             // set the min height and width so the window opens at the correct size
-            mainStage.setMinHeight(650);
-            mainStage.setMinWidth(900);
+            mainStage.setMinHeight(1000);
+            mainStage.setMinWidth(1300);
             Screen screen = Screen.getPrimary();
             Rectangle2D bounds = screen.getVisualBounds();
             mainStage.setX(bounds.getMinX());

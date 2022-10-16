@@ -98,9 +98,13 @@ public class StationsService {
         if (!range.equals("")) {
             if (!Utils.isInt(range)) {
                 errors.append("Range needs to be an integer!\n");
-            } else if (Integer.parseInt(range) < 0 || Integer.parseInt(range) > 1600) {
+            } else if (Integer.parseInt(range) <= 0) {
+                errors.append("Range needs to be a positive integer");
+            } else if (Integer.parseInt(range) >= 1600) {
                 errors.append("Range must be within 1 - 1599!\n");
             }
+        } else {
+            errors.append("You have no range entered");
         }
 
         // range address check
