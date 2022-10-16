@@ -42,8 +42,6 @@ class StationDAOTest {
 
     @Test
     void createStation() throws SQLException {
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
 
         //Using -1 for ID to avoid clashes
@@ -78,8 +76,6 @@ class StationDAOTest {
     @Test
     void testGetAll() throws SQLException {
         Station[] stations = stationDAO.getAll(user);
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
         ResultSet rs = s.executeQuery("SELECT COUNT(*) FROM Stations");
         assertEquals(rs.getInt(1), stations.length);
@@ -88,8 +84,6 @@ class StationDAOTest {
     @Test
     void testQueryEmpty() throws SQLException {
         Station[] stations = stationDAO.getAll(user);
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
         ResultSet rs = s.executeQuery("SELECT COUNT(*) FROM Stations");
         assertEquals(rs.getInt(1), stations.length);
@@ -97,8 +91,6 @@ class StationDAOTest {
 
     @Test
     void testQueryStation() throws SQLException {
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
         s.execute("DELETE FROM Stations WHERE ID = -1");
         Station station = new Station();
@@ -130,8 +122,6 @@ class StationDAOTest {
 
     @Test
     void testQueryStation2() throws SQLException {
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
         s.execute("DELETE FROM Stations WHERE ID = -1");
         Station station = new Station();
@@ -163,8 +153,6 @@ class StationDAOTest {
 
     @Test
     void testQueryStation3() throws SQLException {
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
         s.execute("DELETE FROM Stations WHERE ID = -1");
         Station station = new Station();

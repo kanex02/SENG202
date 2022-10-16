@@ -6,14 +6,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import journey.Utils;
 import journey.data.Vehicle;
 import journey.repository.VehicleDAO;
 import journey.service.VehicleService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Objects;
 
 
 /**

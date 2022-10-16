@@ -35,6 +35,5 @@ class DatabaseManagerTest {
         Connection conn = databaseManager.connect();
         assertNotNull(conn);
         Utils.closeConn(conn);
-        Files.deleteIfExists(testDB);
     }
 }

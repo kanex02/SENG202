@@ -72,7 +72,7 @@ public class TableController {
         });
         ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
         favouriteCol.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getFavourite() ? "Yes" : "No"));
+                new SimpleStringProperty(Boolean.TRUE.equals(cellData.getValue().getFavourite()) ? "Yes" : "No"));
         Station[] data = mainController.getStations();
         ObservableList<Station> stations = FXCollections.observableArrayList(data);
 
