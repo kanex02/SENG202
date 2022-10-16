@@ -20,12 +20,13 @@ These instructions will get a copy of the application running on your local mach
 #### Prerequisites
 - JDK >= 17 [click here to get the latest stable OpenJDK release (as of writing this README)](https://jdk.java.net/18/)
 - Maven [Download](https://maven.apache.org/download.cgi) and [Install](https://maven.apache.org/install.html)
+- IntelliJ [Download](https://www.jetbrains.com/idea/download/#section=linux)
 
 #### Importing project from VCS (Using IntelliJ)
 IntelliJ has built-in support for importing projects directly from Version Control Systems (VCS) like GitLab.
 To download and import your project:
 
-- Launch IntelliJ and chose `Get from VCS` from the start-up window.
+- Launch IntelliJ and choose `Get from VCS` from the start-up window.
 - Input the URL of the project e.g. `https://eng-git.canterbury.ac.nz/seng202-2022/team-4`.
 
 **Note:** *If you run into dependency issues when running the app or the Maven pop up doesn't appear then open the Maven sidebar and click the Refresh icon labeled 'Reimport All Maven Projects'.*
