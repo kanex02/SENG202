@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import javafx.application.Application;
 
-public abstract class CreditsController extends Application {
+public class CreditsController extends Application {
 
     /**
      * Open the given URL in the default browser.
@@ -52,9 +52,11 @@ public abstract class CreditsController extends Application {
     /**
      * Initialises credits controller.
 
-     * @param stage current stage
+     * @param stage
+     * @throws Exception
      */
-    public void init(Stage stage) {
+    @Override
+    public void start(Stage stage) throws Exception {
         stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
             if (Boolean.FALSE.equals(isNowFocused)) {
                 stage.close();

@@ -301,16 +301,15 @@ public class MainController {
 
 
     @FXML private void viewAttributions() {
-        Parent root;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/credits.fxml"));
-            root = loader.load();
+            Parent root = loader.load();
             if (creditStage == null) {
                 creditStage = new Stage();
             }
             CreditsController controller = loader.getController();
             creditStage.setTitle("Credits");
-            controller.init(creditStage);
+            controller.start(creditStage);
             Scene scene = new Scene(root, 1200, 760);
             creditStage.setScene(scene);
             creditStage.setMaxHeight(400);
@@ -324,7 +323,9 @@ public class MainController {
             creditStage.setY((bounds.getHeight() - creditStage.getHeight()) * 1.0f / 3);
 
         } catch (IOException e) {
-            log.error(e);
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -501,8 +502,6 @@ public class MainController {
 
         // Fill the combo boxes
         this.stage = stage;
-        stage.setMinHeight(1500);
-        stage.setMinWidth(1700);
 
         currentStations = stationDAO.getAll(currentUser);
         icons = new ArrayList<>(asList(helpIcon, homeIcon, profileIcon, journeyIcon,
