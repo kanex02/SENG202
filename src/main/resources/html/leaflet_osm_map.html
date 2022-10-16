@@ -133,10 +133,20 @@
         setSelectedMarkerId: setSelectedMarkerId
     };
 
+    /**
+     * Removes the markers from the map.
+     * This only removes markers from the markers cluster layer which means
+     * selected markers and range markers aren't included.
+     */
     function clearMap() {
         markers.clearLayers();
     }
 
+    /**
+     * Maps the given journey on the map
+     * @param waypoints the points on the route
+     * @param editable whether the journey is editable or not.
+     */
     function mapJourney(waypoints, editable) {
         let waypointArray = waypoints.split("//");
         previousRoute = [];
@@ -152,6 +162,13 @@
         addRoute();
     }
 
+    /**
+     * Returns the html for the button dialogs based on the text passed.
+     * Puts the text passed into a paragraph tag and includes a button that adds
+     * the current station to the route.
+     * @param text The address/text to be displayed in the popup
+     * @returns {string} The raw string HTML for the button.
+     */
     function getButtonHTML(text) {
         return '<!DOCTYPE html>\n' +
             '<html>\n' +
@@ -376,6 +393,11 @@
         }
     }
 
+    /**
+     * Given the parameters, changes the currently selected marker on the GUI
+     * @param oldMarker the currently selected marker
+     * @param newMarker the new marker to be selected
+     */
     function changeSelectedMarker(oldMarker, newMarker) {
         if (oldMarker !== newMarker) {
             if (oldMarker != null) {

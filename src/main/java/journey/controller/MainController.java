@@ -252,6 +252,12 @@ public class MainController {
         }
     }
 
+    /**
+     * Inserts a waypoint
+     * @param lat latitude
+     * @param lng longitude
+     * @param position index of the journey
+     */
     public void insertWaypoint(double lat, double lng, int position) {
         createJourneyController.insertWaypoint(lat, lng, position);
     }
@@ -299,7 +305,9 @@ public class MainController {
         event.consume();
     }
 
-
+    /**
+     * Function to open the credits page.
+     */
     @FXML private void viewAttributions() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/credits.fxml"));
@@ -410,6 +418,11 @@ public class MainController {
         createJourneyController.editWaypoint(lat, lng, position);
     }
 
+    /**
+     * Adds a new waypoint. Opens the planJourneyPane first.
+     * @param lat latitude
+     * @param lng longitude
+     */
     public void addNewWaypoint(double lat, double lng) {
         accordionPane.setExpandedPane(planJourneyPane);
         createJourneyController.addNewWaypoint(lat, lng);
@@ -451,6 +464,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Initializes the images for the main view screen.
+     */
     private void initImages() {
         for (int index = 0; index < icons.size(); index++) {
             Image img = new Image(

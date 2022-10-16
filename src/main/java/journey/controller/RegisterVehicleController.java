@@ -135,6 +135,9 @@ public class RegisterVehicleController {
         }
     }
 
+    /**
+     * Clears all the warning labels
+     */
     private void clearWarnings() {
         regWarningLabel.setText("");
         makeWarningLabel.setText("");
@@ -144,6 +147,9 @@ public class RegisterVehicleController {
         connectorWarningLabel.setText("");
     }
 
+    /**
+     * Clears all the text fields
+     */
     private void clearTextFields() {
         registrationTextBox.setText("");
         yearTextBox.setText("");

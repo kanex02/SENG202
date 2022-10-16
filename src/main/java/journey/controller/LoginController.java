@@ -169,6 +169,9 @@ public class LoginController {
 
     }
 
+    /**
+     * Initializes the logo image for the login screen
+     */
     private void initImages() {
         Image img = new Image(
                 new BufferedInputStream(
