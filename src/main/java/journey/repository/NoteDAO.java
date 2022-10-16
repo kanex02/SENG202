@@ -37,7 +37,7 @@ public class NoteDAO {
         int rating = note.getRating();
         boolean favourite = note.getFavourite();
 
-        int stationID = currStation.getOBJECTID();
+        int stationID = currStation.getObjectid();
         int userID = user.getId();
 
         Connection conn = null;
@@ -88,7 +88,7 @@ public class NoteDAO {
 
 
     /**
-     * Gets not from give station.
+     * Gets a note from the given station and user.
      *
      * @param station station to get notes from.
      * @return note from station.
@@ -96,7 +96,7 @@ public class NoteDAO {
     public Note getNoteFromStation(Station station, User user) {
         Connection conn = null;
 
-        int stationID = station.getOBJECTID();
+        int stationID = station.getObjectid();
         int userID = user.getId();
         try {
             conn = databaseManager.connect();

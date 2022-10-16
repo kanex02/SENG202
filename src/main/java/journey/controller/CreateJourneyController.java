@@ -71,11 +71,13 @@ public class CreateJourneyController {
             getClass().getClassLoader().getResource("gui/textFields.css"))
             .getFile()))
             .toURI().toString();
-    private final DropShadow dropShadow = new DropShadow() {{
-                setBlurType(BlurType.ONE_PASS_BOX);
-                setOffsetY(4);
-                setColor(new Color(0.23, 0.23, 0.23, 0.25));
-        }};
+    private static final DropShadow DROPSHADOW = new DropShadow();
+
+    static {
+            DROPSHADOW.setBlurType(BlurType.ONE_PASS_BOX);
+            DROPSHADOW.setOffsetY(4);
+            DROPSHADOW.setColor(new Color(0.23, 0.23, 0.23, 0.25));
+        }
 
     /**
      * Adds a new waypoint at the end of the current list.
@@ -242,7 +244,7 @@ public class CreateJourneyController {
         removeWaypoint.setStyle("-fx-background-color: #FFFFFF;");
         removeWaypoint.setGraphic(cancel1);
         removeWaypoint.setSnapToPixel(true);
-        removeWaypoint.setEffect(dropShadow);
+        removeWaypoint.setEffect(DROPSHADOW);
         removeWaypoint.setUserData(String.valueOf(i));
         removeWaypoint.setOnAction(this::removeNth);
         AnchorPane.setRightAnchor(removeWaypoint, 0d);

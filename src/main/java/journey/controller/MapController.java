@@ -160,6 +160,14 @@ public class MapController {
     }
 
     /**
+     * Calls function to set the previous marker to be a favourite so that the colour of the marker is
+     * correct after submitting a note.
+     */
+    public void setPrevMarkerFavourite() {
+        javaScriptConnector.call("setPrevMarkerFavourite", true);
+    }
+
+    /**
      * Map a journey currently being planned.
 
      * @param waypoints the waypoints of the journey
@@ -256,7 +264,7 @@ public class MapController {
      * @param station station object to be added
      */
     private void addStationMark(Station station) {
-        javaScriptConnector.call("addMarker", station.getOBJECTID(),
+        javaScriptConnector.call("addMarker", station.getObjectid(),
                 station.getShortDescription(), station.getLatitude(), station.getLongitude(), station.getFavourite());
     }
 

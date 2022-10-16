@@ -1,7 +1,5 @@
 package journey.data;
 
-import java.util.ArrayList;
-
 /**
  * User to use the system.
  */

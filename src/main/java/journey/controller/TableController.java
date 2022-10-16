@@ -54,14 +54,14 @@ public class TableController {
         });
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
         attractionCol.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getHasTouristAttraction() ? "Yes" : "No"));
+                new SimpleStringProperty(Boolean.TRUE.equals(cellData.getValue().getHasTouristAttraction()) ? "Yes" : "No"));
         carparksCol.setCellValueFactory(new PropertyValueFactory<>("carParkCount"));
         connectorsCol.setCellValueFactory(new PropertyValueFactory<>("numberOfConnectors"));
         currentTypeCol.setCellValueFactory(new PropertyValueFactory<>("currentType"));
         isFreePark.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getHasCarParkCost() ? "Yes" : "No"));
+                new SimpleStringProperty(Boolean.TRUE.equals(cellData.getValue().hasCarParkCost()) ? "Yes" : "No"));
         isFreeCharge.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().hasChargingCost() ? "Yes" : "No"));
+                new SimpleStringProperty(Boolean.TRUE.equals(cellData.getValue().hasChargingCost()) ? "Yes" : "No"));
         latCol.setCellValueFactory(new PropertyValueFactory<>("latitude"));
         longCol.setCellValueFactory(new PropertyValueFactory<>("longitude"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -89,7 +89,7 @@ public class TableController {
         stationTable.maxHeightProperty().bind(tableParent.heightProperty());
 
         stationTable.getSelectionModel().selectedItemProperty().addListener(
-                (observableValue, oldStation, newStation) -> mainController.setSelectedStation(newStation.getOBJECTID())
+                (observableValue, oldStation, newStation) -> mainController.setSelectedStation(newStation.getObjectid())
         );
     }
 }

@@ -125,14 +125,14 @@ public class StationDAO {
      * @param station station to insert
      */
     public void insertStation(Station station) {
-        createStation(station.getOBJECTID(),
+        createStation(station.getObjectid(),
                 station.getName(),
                 station.getOperator(),
                 station.getOwner(),
                 station.getAddress(),
                 station.isIs24Hours(),
                 station.getCarParkCount(),
-                station.getHasCarParkCost(),
+                station.hasCarParkCost(),
                 station.getMaxTime(),
                 station.getHasTouristAttraction(),
                 station.getLatitude(),
