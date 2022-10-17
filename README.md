@@ -1,7 +1,7 @@
 # Journey
 
 Journey is an electric vehicle charging network support system developed for SENG202 at the University of Canterbury.
-This README file includes some useful information on how to import and run the application using Java and Maven aswell as information about how to use the application for new users.
+This README file includes some useful information on how to import and run the application using Java and Maven as well as information about how to use the application for new users.
 
 ### Authors
 - Tom Barthelmeh
