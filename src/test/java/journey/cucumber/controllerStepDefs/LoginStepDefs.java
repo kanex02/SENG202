@@ -74,7 +74,7 @@ public class LoginStepDefs extends TestFXBase {
     }
 
     @When("I register with username {string}")
-    public void iLoginWithUsernameAndPassword(String username) {
+    public void iLoginWithUsername(String username) {
         clickOn("#nameTextBox");
         write(username);
         clickOn("#registerButton");
