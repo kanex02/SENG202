@@ -43,8 +43,7 @@ class StationServiceTest {
 
     @AfterEach
     void teardown() throws SQLException {
-        Statement s = conn.createStatement();
-        s.execute("DELETE FROM Stations WHERE ID = -1");
+        databaseManager.setup();
         Utils.closeConn(conn);
     }
 

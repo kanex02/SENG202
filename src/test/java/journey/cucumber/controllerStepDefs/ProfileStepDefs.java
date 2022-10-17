@@ -140,6 +140,7 @@ public class ProfileStepDefs extends TestFXBase {
         clickOn("#myProfileButton");
     }
 
+
     @When("I enter the details of the vehicle registration {string} make {string} model {string} " +
             "year {string} charger {string} connector {string}")
     public void iEnterDetailsOfAVehicle(String registration, String make, String model, String year, String charger, String connector) {
@@ -152,6 +153,11 @@ public class ProfileStepDefs extends TestFXBase {
 
         this.vehicle = new Vehicle(this.year, this.make, this.model, this.chargerType, this.registration, this.connectorType);
 
+    }
+
+    @Then("The vehicle is not registered")
+    public void theVehicleIsNotRegistered() {
+        verifyThat("#connectorWarningLabel", Node::isVisible);
     }
 
     @Then("The vehicle is registered")
