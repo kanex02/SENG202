@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import journey.Utils;
@@ -14,8 +15,10 @@ import journey.repository.StationDAO;
 import journey.repository.VehicleDAO;
 import journey.service.StationsService;
 
+import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Controller for search FXML allows searching and error checking on searches for stations.
@@ -34,6 +37,7 @@ public class SearchController {
     @FXML private MenuButton connectorsMenu;
     @FXML private Button placeMarkerButton;
     @FXML private ImageView placeMarkerImage;
+    @FXML private ImageView questionImage;
     @FXML private Button removeMarkerButton;
     @FXML private CheckBox favouritedCheckMark;
     @FXML private ImageView rangeHelpImage;
@@ -319,6 +323,21 @@ public class SearchController {
 
         attractionSearch.setItems(yesNoMaybeSo);
     }
+    /**
+     * Insert images into search fxml.
+     */
+    private void insertImages() {
+        Image img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/question.png"))
+                ));
+        (questionImage).setImage(img);
+        img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/green-marker.png"))
+                ));
+        (placeMarkerImage).setImage(img);
+    }
 
     /**
      * Initialises the search pane.
@@ -331,9 +350,9 @@ public class SearchController {
 
         stationDAO = new StationDAO();
         choiceBoxInit();
-
+        insertImages();
         rangeHelpLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        rangeHelpLabel.setGraphic(rangeHelpImage);
+        rangeHelpLabel.setGraphic(questionImage);
 
         Tooltip rangeHelpTooltip = new Tooltip(
                 "Click the map to place a marker after clicking on the green marker button.");

@@ -102,7 +102,7 @@ public class MapController {
         try {
             FXMLLoader legendLoader = new FXMLLoader(MapController.class.getResource("/fxml/legend.fxml"));
             Parent legendParent = legendLoader.load();
-//            insertLegendImg();
+            ((MapController) legendLoader.getController()).insertLegendImg();
             legendWrapper.getChildren().add(legendParent);
             AnchorPane.setTopAnchor(legendParent, 0d);
             AnchorPane.setBottomAnchor(legendParent, 0d);
@@ -112,8 +112,8 @@ public class MapController {
             showLegend = true;
         } catch (IOException e) {
             log.error(e);
-        }
 
+        }
     }
 
     /**

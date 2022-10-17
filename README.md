@@ -42,7 +42,7 @@ To download and import your project:
 
 # How to use
 
-Please refer to the documentation found in [`doc/User_Manual.pdf`](../master/doc/User_Manual.pdf) to find out more on how to use the application.
+Please refer to the documentation found in [`Journey_User_Guide.pdf`](../User_Guide/Journey_User_Guide.pdf) to find out more on how to use the application.
 
 **No Stations**: *If there are no stations present in the map, deleting the database.db file and the journey.db files will force the system to reimport all stations*
 
