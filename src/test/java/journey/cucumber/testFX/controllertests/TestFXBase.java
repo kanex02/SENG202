@@ -1,5 +1,7 @@
 package journey.cucumber.testFX.controllertests;
 
+import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -27,7 +29,7 @@ public abstract class TestFXBase extends ApplicationTest {
     public abstract void start(Stage stage) throws Exception;
 
     @AfterEach
-    public void afterEachTest() throws TimeoutException, SQLException {
+    public void afterEachTest() throws TimeoutException {
         try {
             FxToolkit.cleanupStages();
         } catch (TimeoutException e) {

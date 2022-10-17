@@ -27,7 +27,7 @@ import static io.cucumber.junit.platform.engine.Constants.*;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features/fx_features")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "seng202.demo.cucumber.controllerStepDefs")
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "journey.cucumber.controllerStepDefs")
 @ConfigurationParameter(key = SNIPPET_TYPE_PROPERTY_NAME, value = "camelcase")
 public class RunCucumberTestFX extends ApplicationTest {
 
