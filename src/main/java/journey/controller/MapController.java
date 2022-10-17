@@ -102,7 +102,7 @@ public class MapController {
         try {
             FXMLLoader legendLoader = new FXMLLoader(MapController.class.getResource("/fxml/legend.fxml"));
             Parent legendParent = legendLoader.load();
-            insertLegendImg();
+//            insertLegendImg();
             legendWrapper.getChildren().add(legendParent);
             AnchorPane.setTopAnchor(legendParent, 0d);
             AnchorPane.setBottomAnchor(legendParent, 0d);

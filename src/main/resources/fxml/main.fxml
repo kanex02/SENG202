@@ -42,7 +42,7 @@
                               </HBox>
                           </graphic>
                       </Button>
-                      <Button alignment="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#viewMyProfile" prefHeight="30.0" prefWidth="130.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="My Profile" textFill="WHITE" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                      <Button fx:id="myProfileButton" alignment="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#viewMyProfile" prefHeight="30.0" prefWidth="130.0" styleClass="menu-button" stylesheets="@../gui/menuButton.css" text="My Profile" textFill="WHITE" wrapText="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                           <font>
                               <Font name="Roboto" size="16.0" />
                           </font>
