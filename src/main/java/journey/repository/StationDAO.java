@@ -57,7 +57,7 @@ public class StationDAO {
                 station.setDateFirstOperational(resultSet.getString("dateFirstOperational"));
                 station.setNumberOfConnectors(resultSet.getInt("numberOfConnectors"));
                 station.setConnectors((resultSet.getString("connectorsList")).split(":"));
-                station.setHasTouristAttraction(resultSet.getBoolean("hasChargingCost"));
+                station.setHasChargingCost(resultSet.getBoolean("hasChargingCost"));
                 return station;
             }
         } catch (SQLException e) {
