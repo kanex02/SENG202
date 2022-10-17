@@ -16,13 +16,6 @@
     <javaFXVersion>17.0.2</javaFXVersion>
     <maven.compiler.source>${javaVersion}</maven.compiler.source>
     <maven.compiler.target>${javaVersion}</maven.compiler.target>
-<!--    headless-->
-<!--    <testfx.robot>awt</testfx.robot>-->
-<!--    <testfx.headless>false</testfx.headless>-->
-<!--    <prism.order>sw</prism.order>-->
-<!--    <prism.text>native</prism.text>-->
-<!--    <java.awt.headless>false</java.awt.headless>-->
-<!--    <headless.geometry>1600x1200-32</headless.geometry>-->
   </properties>
 
   <dependencies>
@@ -173,21 +166,6 @@
       <version>1.1.1</version>
     </dependency>
 </dependencies>
-
-<!--  <profiles>-->
-<!--    <profile>-->
-<!--      <id>headlessTests</id>-->
-<!--      <properties>-->
-<!--        <testfx.robot>glass</testfx.robot>-->
-<!--        <testfx.headless>true</testfx.headless>-->
-<!--        <prism.order>sw</prism.order>-->
-<!--        <prism.text>t2k</prism.text>-->
-<!--        <java.awt.headless>true</java.awt.headless>-->
-<!--        <headless.geometry>1600x1200-32</headless.geometry>-->
-<!--      </properties>-->
-<!--    </profile>-->
-<!--  </profiles>-->
-
   <build>
     <plugins>
       <plugin>
@@ -211,15 +189,9 @@
               cucumber.junit-platform.naming-strategy=long
             </configurationParameters>
           </properties>
-
-<!--          <systemPropertyVariables>-->
-<!--            <testfx.robot>${testfx.robot}</testfx.robot>-->
-<!--            <testfx.headless>${testfx.headless}</testfx.headless>-->
-<!--            <prism.order>${prism.order}</prism.order>-->
-<!--            <prism.text>${prism.text}</prism.text>-->
-<!--            <java.awt.headless>${java.awt.headless}</java.awt.headless>-->
-<!--            <headless.geometry>${headless.geometry}</headless.geometry>-->
-<!--          </systemPropertyVariables>-->
+            <includes>
+                <include>**/*Test*.java</include>
+            </includes>
         </configuration>
       </plugin>
 

@@ -8,21 +8,26 @@ import journey.data.Station;
 import journey.Utils;
 import journey.data.User;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class StationDAOTest {
-    StationDAO stationDAO;
-    DatabaseManager databaseManager;
+    static StationDAO stationDAO;
+    static DatabaseManager databaseManager;
     Connection conn;
     User user;
 
+    @BeforeAll
+    static void initialise() {
+        databaseManager = DatabaseManager.initialiseWithUrl("src/test/resources/test.db");
+        stationDAO = new StationDAO();
+    }
+
     @BeforeEach
     void setUp() {
-        stationDAO = new StationDAO();
-        databaseManager = DatabaseManager.getInstance();
         conn = databaseManager.connect();
         user = new User("USER");
         user.setId(-1);
@@ -35,17 +40,8 @@ class StationDAOTest {
         Utils.closeConn(conn);
     }
 
-    //Check that the database has data
-    @Test
-    void queryStation() {
-        Station station = stationDAO.queryStation(1);
-        assertNotNull(station);
-    }
-
     @Test
     void createStation() throws SQLException {
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
 
         //Using -1 for ID to avoid clashes
@@ -78,48 +74,8 @@ class StationDAOTest {
     }
 
     @Test
-    void insertStation() throws SQLException {
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
-        Statement s = conn.createStatement();
-
-        // Using -1 for ID to avoid clashes
-        s.execute("DELETE FROM Stations WHERE ID = -1");
-
-        Station station = new Station(-1,
-            "insertStationTest",
-            "rotarepo",
-            "Krane",
-            "11 Downing Street",
-            true,
-            3,
-            false,
-            80,
-            false,
-            0f,
-            0f,
-            "AC",
-            "date",
-            4,
-            new String[]{""},
-            false);
-
-        stationDAO.insertStation(station);
-
-        ResultSet rs = s.executeQuery("SELECT * FROM Stations WHERE ID = -1");
-        rs.next();
-
-        assertEquals("Krane", rs.getString("owner"));
-        assertFalse(rs.getBoolean("hasChargingCost"));
-
-        s.execute("DELETE FROM Stations WHERE ID = -1");
-    }
-
-    @Test
     void testGetAll() throws SQLException {
         Station[] stations = stationDAO.getAll(user);
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
         ResultSet rs = s.executeQuery("SELECT COUNT(*) FROM Stations");
         assertEquals(rs.getInt(1), stations.length);
@@ -128,8 +84,6 @@ class StationDAOTest {
     @Test
     void testQueryEmpty() throws SQLException {
         Station[] stations = stationDAO.getAll(user);
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
         ResultSet rs = s.executeQuery("SELECT COUNT(*) FROM Stations");
         assertEquals(rs.getInt(1), stations.length);
@@ -137,8 +91,6 @@ class StationDAOTest {
 
     @Test
     void testQueryStation() throws SQLException {
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
         s.execute("DELETE FROM Stations WHERE ID = -1");
         Station station = new Station();
@@ -170,8 +122,6 @@ class StationDAOTest {
 
     @Test
     void testQueryStation2() throws SQLException {
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
         s.execute("DELETE FROM Stations WHERE ID = -1");
         Station station = new Station();
@@ -196,7 +146,6 @@ class StationDAOTest {
         station.setFavourite(false);
         stationDAO.insertStation(station);
         Station stationRes = stationDAO.queryStation(-1);
-        assertFalse(stationRes.getFavourite());
         assertEquals(0, stationRes.getRating());
 
         s.execute("DELETE FROM Stations WHERE ID = -1");
@@ -204,8 +153,6 @@ class StationDAOTest {
 
     @Test
     void testQueryStation3() throws SQLException {
-        databaseManager = DatabaseManager.getInstance();
-        conn = databaseManager.connect();
         Statement s = conn.createStatement();
         s.execute("DELETE FROM Stations WHERE ID = -1");
         Station station = new Station();

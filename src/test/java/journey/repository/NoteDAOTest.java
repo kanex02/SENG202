@@ -45,26 +45,27 @@ class NoteDAOTest {
     @Test
     void getSetNote() {
         User user = userDAO.setCurrentUser("Tester");
-        Station station = new Station(-1,
-                "insertStationTest",
-                "rotarepo",
-                "Krane",
-                "10 Downing Street",
-                true,
-                4,
-                true,
-                120,
-                true,
-                0f,
-                0f,
-                "AC",
-                "date",
-                2,
-                new String[]{""},
-                true,
-                1,
-                false
-        );
+        Station station = new Station();
+        station.setObjectid(-1);
+        station.setName("insertStationTest");
+        station.setOperator("rotarepo");
+        station.setOwner("Krane");
+        station.setAddress("10 Downing Street");
+        station.setIs24Hours(true);
+        station.setCarParkCount(4);
+        station.setHasCarParkCost(true);
+        station.setMaxTime(120);
+        station.setHasTouristAttraction(true);
+        station.setLatitude(0d);
+        station.setLongitude(0d);
+        station.setCurrentType("AC");
+        station.setDateFirstOperational("date");
+        station.setNumberOfConnectors(2);
+        station.setConnectors(new String[]{""});
+        station.setHasChargingCost(true);
+        station.setRating(1);
+        station.setFavourite(false);
+
         stationDAO.insertStation(station);
         Note note = new Note(station, "testing123", 0, false);
         noteDAO.setNote(note, user);
@@ -75,58 +76,58 @@ class NoteDAOTest {
     @Test
     void getSetExistingNote() {
         User user = userDAO.setCurrentUser("Tester");
-        Station station = new Station(-1,
-                "insertStationTest",
-                "rotarepo",
-                "Krane",
-                "10 Downing Street",
-                true,
-                4,
-                true,
-                120,
-                true,
-                0f,
-                0f,
-                "AC",
-                "date",
-                2,
-                new String[]{""},
-                true,
-                3,
-                true
-        );
+        Station station = new Station();
+        station.setObjectid(-1);
+        station.setName("insertStationTest");
+        station.setOperator("rotarepo");
+        station.setOwner("Krane");
+        station.setAddress("10 Downing Street");
+        station.setIs24Hours(true);
+        station.setCarParkCount(4);
+        station.setHasCarParkCost(true);
+        station.setMaxTime(120);
+        station.setHasTouristAttraction(true);
+        station.setLatitude(0d);
+        station.setLongitude(0d);
+        station.setCurrentType("AC");
+        station.setDateFirstOperational("date");
+        station.setNumberOfConnectors(2);
+        station.setConnectors(new String[]{""});
+        station.setHasChargingCost(true);
+        station.setRating(3);
+        station.setFavourite(true);
         stationDAO.insertStation(station);
-        Note note = new Note(station, "testing123", 0, false);
+        Note note = new Note(station, "firstNote", 0, false);
         noteDAO.setNote(note, user);
-        Note newNote = new Note(station, "testing234", 3, true);
+        Note newNote = new Note(station, "secondNote", 3, true);
         noteDAO.setNote(newNote, user);
         Note result = noteDAO.getNoteFromStation(station, user);
-        assertEquals("testing234", result.getNote());
+        assertEquals("secondNote", result.getNote());
     }
 
     @Test
     void getNoNote() {
         User user = userDAO.setCurrentUser("Tester");
-        Station station = new Station(-1,
-                "insertStationTest",
-                "rotarepo",
-                "Krane",
-                "10 Downing Street",
-                true,
-                4,
-                true,
-                120,
-                true,
-                0f,
-                0f,
-                "AC",
-                "date",
-                2,
-                new String[]{""},
-                true,
-                2,
-                false
-        );
+        Station station = new Station();
+        station.setObjectid(-1);
+        station.setName("insertStationTest");
+        station.setOperator("rotarepo");
+        station.setOwner("Krane");
+        station.setAddress("10 Downing Street");
+        station.setIs24Hours(true);
+        station.setCarParkCount(4);
+        station.setHasCarParkCost(true);
+        station.setMaxTime(120);
+        station.setHasTouristAttraction(true);
+        station.setLatitude(0d);
+        station.setLongitude(0d);
+        station.setCurrentType("AC");
+        station.setDateFirstOperational("date");
+        station.setNumberOfConnectors(2);
+        station.setConnectors(new String[]{""});
+        station.setHasChargingCost(true);
+        station.setRating(1);
+        station.setFavourite(false);
         stationDAO.insertStation(station);
         Note result = noteDAO.getNoteFromStation(station, user);
         assertNull(result.getNote());

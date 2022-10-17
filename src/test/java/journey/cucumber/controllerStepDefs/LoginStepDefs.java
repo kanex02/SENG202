@@ -1,30 +1,29 @@
 package journey.cucumber.controllerStepDefs;
 
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.concurrent.TimeoutException;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import journey.Utils;
 import journey.controller.LoginController;
-import journey.controller.MainController;
-import journey.controller.MapController;
 import journey.cucumber.testFX.controllertests.TestFXBase;
 import journey.gui.MainWindow;
 import journey.repository.DatabaseManager;
-import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
+import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.function.Predicate;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
@@ -54,6 +53,18 @@ public class LoginStepDefs extends TestFXBase {
         Scene scene = new Scene(page);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @After
+    public void afterEachTest() throws TimeoutException {
+        try {
+            FxToolkit.cleanupStages();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        FxToolkit.hideStage();
+        release(new KeyCode[]{});
+        release(new MouseButton[]{});
     }
 
     @Given("I am on the login screen")

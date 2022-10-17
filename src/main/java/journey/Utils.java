@@ -75,22 +75,34 @@ public class Utils {
     /**
      * Converts station result set into a station arraylist.
 
-     * @param rs result set to be converted.
+     * @param resultSet result set to be converted.
      * @param res resultant ArrayList being passed into.
      */
 
-    public static void insertRsIntoArray(ResultSet rs, List<Station> res) {
+    public static void insertRsIntoArray(ResultSet resultSet, List<Station> res) {
         try {
-            while (rs.next()) {
-                res.add(new Station(rs.getInt("ID"),
-                        rs.getString("name"), rs.getString("operator"),
-                        rs.getString("owner"), rs.getString("address"),
-                        rs.getBoolean("is24Hours"), rs.getInt("carParkCount"),
-                        rs.getBoolean("hasCarParkCost"), rs.getInt("maxTimeLimit"),
-                        rs.getBoolean("hasTouristAttraction"), rs.getFloat("latitude"),
-                        rs.getFloat("longitude"), rs.getString("currentType"), rs.getString("dateFirstOperational"),
-                        rs.getInt("numberOfConnectors"), (rs.getString("connectorsList")).split(":"),
-                        rs.getBoolean("hasChargingCost"), rs.getInt("rating"), rs.getBoolean("favourited")));
+            while (resultSet.next()) {
+                Station station = new Station();
+                station.setObjectid(resultSet.getInt("ID"));
+                station.setName(resultSet.getString("name"));
+                station.setOperator(resultSet.getString("operator"));
+                station.setOwner(resultSet.getString("owner"));
+                station.setAddress(resultSet.getString("address"));
+                station.setIs24Hours(resultSet.getBoolean("is24Hours"));
+                station.setCarParkCount(resultSet.getInt("carParkCount"));
+                station.setHasCarParkCost(resultSet.getBoolean("hasCarParkCost"));
+                station.setMaxTime(resultSet.getInt("maxTimeLimit"));
+                station.setHasTouristAttraction(resultSet.getBoolean("hasTouristAttraction"));
+                station.setLatitude(resultSet.getFloat("latitude"));
+                station.setLongitude(resultSet.getFloat("longitude"));
+                station.setCurrentType(resultSet.getString("currentType"));
+                station.setDateFirstOperational(resultSet.getString("dateFirstOperational"));
+                station.setNumberOfConnectors(resultSet.getInt("numberOfConnectors"));
+                station.setConnectors((resultSet.getString("connectorsList")).split(":"));
+                station.setHasTouristAttraction(resultSet.getBoolean("hasChargingCost"));
+                station.setRating(resultSet.getInt("rating"));
+                station.setFavourite(resultSet.getBoolean("favourited"));
+                res.add(station);
             }
         } catch (SQLException e) {
             log.error(e);

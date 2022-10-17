@@ -54,105 +54,10 @@ public class Station {
     private String[] connectors;
 
     private int rating;
-    private boolean favourite;
+    private Boolean favourite;
 
-    public Station() {}
-
-    /**
-     * Initialises a new station.
-
-     * @param id id according to the database.
-     * @param name name.
-     * @param operator operator.
-     * @param owner owner.
-     * @param address location of station.
-     * @param is24Hours whether the station is open 24 hours.
-     * @param carParkCount number of car parks.
-     * @param hasCarParkCost whether parking costs money.
-     * @param maxTimeLimit maximum time allowed to stay.
-     * @param hasTouristAttraction whether there is an attraction nearby.
-     * @param latitude latitude.
-     * @param longitude longitude.
-     * @param currentType type of current provided (AC/DC/Mixed).
-     * @param dateFirstOperational date first online.
-     * @param numberOfConnectors number of connectors.
-     * @param connectorsList information about connectors.
-     * @param hasChargingCost whether charging costs money.
-     */
-    public Station(int id, String name, String operator, String owner, String address,
-                   Boolean is24Hours, int carParkCount, Boolean hasCarParkCost,
-                   int maxTimeLimit, Boolean hasTouristAttraction, float latitude,
-                   float longitude, String currentType, String dateFirstOperational,
-                   int numberOfConnectors, String[] connectorsList, Boolean hasChargingCost) {
-        this.objectid = id;
-        this.name = name;
-        this.operator = operator;
-        this.owner = owner;
-        this.address = address;
-        this.is24Hours = is24Hours;
-        this.carParkCount = carParkCount;
-        this.hasCarParkCost = hasCarParkCost;
-        this.maxTime = maxTimeLimit;
-        this.hasTouristAttraction = hasTouristAttraction;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.currentType = currentType;
-        this.dateFirstOperational = dateFirstOperational;
-        this.numberOfConnectors = numberOfConnectors;
-        this.connectors = connectorsList;
-        this.hasChargingCost = hasChargingCost;
-        rating = 0;
-        favourite = false;
-    }
-
-    /**
-     * Initialises new Station with rating and favourite
-
-     * @param id id according to the database.
-     * @param name name.
-     * @param operator operator.
-     * @param owner owner.
-     * @param address location of station.
-     * @param is24Hours whether the station is open 24 hours.
-     * @param carParkCount number of car parks.
-     * @param hasCarParkCost whether parking costs money.
-     * @param maxTimeLimit maximum time allowed to stay.
-     * @param hasTouristAttraction whether there is an attraction nearby.
-     * @param latitude latitude.
-     * @param longitude longitude.
-     * @param currentType type of current provided (AC/DC/Mixed).
-     * @param dateFirstOperational date first online.
-     * @param numberOfConnectors number of connectors.
-     * @param connectorsList information about connectors.
-     * @param hasChargingCost whether charging costs money.
-     * @param rating chargers rating.
-     * @param favourite whether the station has been favourited or not.
-     */
-    public Station(int id, String name, String operator, String owner, String address,
-                   Boolean is24Hours, int carParkCount, Boolean hasCarParkCost,
-                   int maxTimeLimit, Boolean hasTouristAttraction, float latitude,
-                   float longitude, String currentType, String dateFirstOperational,
-                   int numberOfConnectors, String[] connectorsList,
-                   Boolean hasChargingCost, int rating, boolean favourite) {
-        this.objectid = id;
-        this.name = name;
-        this.operator = operator;
-        this.owner = owner;
-        this.address = address;
-        this.is24Hours = is24Hours;
-        this.carParkCount = carParkCount;
-        this.hasCarParkCost = hasCarParkCost;
-        this.maxTime = maxTimeLimit;
-        this.hasTouristAttraction = hasTouristAttraction;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.currentType = currentType;
-        this.dateFirstOperational = dateFirstOperational;
-        this.numberOfConnectors = numberOfConnectors;
-        this.connectors = connectorsList;
-        this.hasChargingCost = hasChargingCost;
-        this.rating = rating;
-        this.favourite = favourite;
+    public Station() {
+        // Empty constructor, fields should be passed in using setters
     }
 
     /**
@@ -184,7 +89,7 @@ public class Station {
         this.rating = rating;
     }
 
-    public boolean getFavourite() {
+    public Boolean getFavourite() {
         return favourite;
     }
 
@@ -200,6 +105,8 @@ public class Station {
 
         this.maxTime = maxTime;
     }
+
+
 
     public String[] getConnectors() {
 
@@ -221,7 +128,7 @@ public class Station {
         this.address = address;
     }
 
-    public boolean isIs24Hours() {
+    public Boolean isIs24Hours() {
         return is24Hours;
     }
 

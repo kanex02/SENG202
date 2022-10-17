@@ -8,7 +8,9 @@ package journey.data;
 public class QueryStation extends Station {
     private double range;
 
-
+    /**
+     * calls the constructor of the station class
+     */
     public QueryStation() {
         super();
     }

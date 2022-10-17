@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -17,9 +19,11 @@ import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
 
 
 /**
@@ -32,6 +36,11 @@ public class MapController {
     @FXML private Button toggleRouteButton;
     @FXML private AnchorPane legendWrapper;
     @FXML private Button legendButton;
+    @FXML private ImageView legendAImage;
+    @FXML private ImageView legendBImage;
+    @FXML private ImageView legendCImage;
+    @FXML private ImageView legendDImage;
+    @FXML private ImageView legendEImage;
     private JavaScriptBridge javaScriptBridge;
     private JSObject javaScriptConnector;
     private boolean routeDisplayed = false;
@@ -57,18 +66,48 @@ public class MapController {
         }
     }
 
+    private void insertLegendImg() {
+        Image img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/blue-marker.png"))
+                ));
+        (legendAImage).setImage(img);
+        img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/marker-icon-2x-violet.png"))
+                ));
+        (legendBImage).setImage(img);
+        img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/marker-icon-2x-gold.png"))
+                ));
+        (legendCImage).setImage(img);
+        img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/marker-icon-2x-green.png"))
+                ));
+        (legendDImage).setImage(img);
+        img = new Image(
+                new BufferedInputStream(
+                        Objects.requireNonNull(getClass().getResourceAsStream("/images/marker-icon-2x-red.png"))
+                ));
+        (legendEImage).setImage(img);
+
+    }
+
     /**
      * View the marker legend.
      */
     private void viewLegend() {
         try {
-            FXMLLoader legendLoader = new FXMLLoader(getClass().getResource("/fxml/legend.fxml"));
-            Parent plannedJourneysViewParent = legendLoader.load();
-            legendWrapper.getChildren().add(plannedJourneysViewParent);
-            AnchorPane.setTopAnchor(plannedJourneysViewParent, 0d);
-            AnchorPane.setBottomAnchor(plannedJourneysViewParent, 0d);
-            AnchorPane.setLeftAnchor(plannedJourneysViewParent, 0d);
-            AnchorPane.setRightAnchor(plannedJourneysViewParent, 0d);
+            FXMLLoader legendLoader = new FXMLLoader(MapController.class.getResource("/fxml/legend.fxml"));
+            Parent legendParent = legendLoader.load();
+            insertLegendImg();
+            legendWrapper.getChildren().add(legendParent);
+            AnchorPane.setTopAnchor(legendParent, 0d);
+            AnchorPane.setBottomAnchor(legendParent, 0d);
+            AnchorPane.setLeftAnchor(legendParent, 0d);
+            AnchorPane.setRightAnchor(legendParent, 0d);
             legendButton.setText("Hide Legend");
             showLegend = true;
         } catch (IOException e) {
@@ -78,22 +117,13 @@ public class MapController {
     }
 
     /**
-     * Initialise map class.
-     */
-    public void init(MainController mainController) {
-        javaScriptBridge = new JavaScriptBridge(this::getStationFromClick,
-                this::getLatLongFromClick,
-                this::changeLatLong,
-                this::addToRoute,
-                this::editWaypoint,
-                this::insertWaypoint);
-        this.mainController = mainController;
-        // set custom cell factory for list view
-        setToggle(false);
-        initMap();
-        viewLegend();
-    }
+     * Insert Waypoint.
 
+     * @param lat latitude
+     * @param lng longitude
+     * @param position position
+     * @return true
+     */
     private boolean insertWaypoint(double lat, double lng, int position) {
         mainController.insertWaypoint(lat, lng, position);
         return true;
@@ -148,7 +178,7 @@ public class MapController {
      * @param journey Journey to map
      */
     public void mapJourney(Journey journey) {
-        ArrayList<String> waypoints = (ArrayList<String>) journey.getWaypoints();
+        List<String> waypoints = journey.getWaypoints();
         if (waypoints.size() >= 2) {
             String waypointString = Utils.convertArrayToString(waypoints.toArray(String[]::new), "//");
             javaScriptConnector.call("mapJourney", waypointString.substring(0, waypointString.length() - 2), false);
@@ -345,5 +375,23 @@ public class MapController {
      */
     public void clearRoute() {
         javaScriptConnector.call("removeRoute");
+    }
+
+    /**
+     * Initialise map class.
+     */
+    public void init(MainController mainController) {
+        javaScriptBridge = new JavaScriptBridge(this::getStationFromClick,
+                this::getLatLongFromClick,
+                this::changeLatLong,
+                this::addToRoute,
+                this::editWaypoint,
+                this::insertWaypoint);
+        this.mainController = mainController;
+        // set custom cell factory for list view
+        setToggle(false);
+        initMap();
+        viewLegend();
+
     }
 }

@@ -243,6 +243,9 @@ public class SearchController {
         search();
     }
 
+    /**
+     * Added to the tooltip so that the user can click or hover to display.
+     */
     @FXML private void clickToolTip() {
         final Tooltip customTooltip = new Tooltip(
                 "Click the map to place a marker after clicking on the green marker button.");

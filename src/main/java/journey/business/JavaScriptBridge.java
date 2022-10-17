@@ -55,8 +55,7 @@ public class JavaScriptBridge {
     }
 
     /**
-     * Takes the id of a sale and passes this to the getSaleInterface implementation.
-     * Currently, this takes the ID and adds it to a list within the {@link MapController}.
+     * Gets the id of a station from clicking on the marker. References: {@link MapController}.
 
      * @param id id of station
      * @return true if the underlying operation succeeded
@@ -66,7 +65,7 @@ public class JavaScriptBridge {
     }
 
     /**
-     * Currently this takes the lat and lng within the {@link MapController}.
+     * takes the lat and lng within the {@link MapController}.
 
      * @param lat latitude of click.
      * @param lng longitude of click.
@@ -100,7 +99,7 @@ public class JavaScriptBridge {
     }
 
     /**
-     * Edit a waypoint on journey plan refererenced by: {@link MapController}, {@link CreateJourneyController}.
+     * Edit a waypoint on journey plan referenced by: {@link MapController}, {@link CreateJourneyController}.
 
      * @param lat longitude of waypoint.
      * @param lng longitude of waypoint.

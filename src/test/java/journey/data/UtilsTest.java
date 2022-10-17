@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for Utils class
  */
-public class UtilsTest {
+class UtilsTest {
 
     @Test
     void isIntTrue() {
@@ -30,54 +30,54 @@ public class UtilsTest {
     void arrToString() {
         String[] arr = {"We", "are", "the", "Journey", "development", "team"};
         String str = Utils.convertArrayToString(arr, " ");
-        Assertions.assertEquals(str, "We are the Journey development team ");
+        Assertions.assertEquals("We are the Journey development team ", str);
     }
     @Test
     void emptyArrToString() {
         String[] arr = {};
         String str = Utils.convertArrayToString(arr, " ");
-        Assertions.assertEquals(str, "");
+        Assertions.assertEquals("", str);
     }
 
 
     @Test
     void convertArrayListToString() {
-        ArrayList arr = new ArrayList<>(asList("We", "are", "the", "Journey", "development", "team"));
+        ArrayList<String> arr = new ArrayList<>(asList("We", "are", "the", "Journey", "development", "team"));
         String str = Utils.convertArrayListToString(arr, " ");
-        Assertions.assertEquals(str, "We are the Journey development team");
+        Assertions.assertEquals("We are the Journey development team", str);
     }
     @Test
     void convertEmptyArrayListToString() {
-        ArrayList arr = new ArrayList<>();
+        ArrayList<String> arr = new ArrayList<>();
         String str = Utils.convertArrayListToString(arr, " ");
-        Assertions.assertEquals(str, "");
+        Assertions.assertEquals("", str);
 
     }
     @Test
     void locToLatLng() {
         String loc = "jack erskine";
         String str = Utils.locToLatLng(loc);
-        Assertions.assertEquals(str, 	"-43.52249#172.58119");
+        Assertions.assertEquals("-43.52249#172.58119", str);
     }
     @Test
     void locToLatLngEmpty() {
         String loc = "this is not a valid address";
         String str = Utils.locToLatLng(loc);
-        Assertions.assertEquals(str, "0.0#0.0");
+        Assertions.assertEquals("0.0#0.0", str);
     }
     @Test
     void latLngToAddr() {
         double lat = -43.52249;
         double lng = 172.58119;
         String str = Utils.latLngToAddr(lat, lng);
-        Assertions.assertEquals(str, "University of Canterbury, Waimairi Road, Upper Riccarton, Christchurch, Christchurch City, Canterbury, 8041");
+        Assertions.assertEquals("University of Canterbury, Waimairi Road, Upper Riccarton, Christchurch, Christchurch City, Canterbury, 8041", str);
     }
     @Test
     void latLngToAddrEmpty() {
         double lat = 0;
         double lng = 0;
         String str = Utils.latLngToAddr(lat, lng);
-        Assertions.assertEquals(str, "Soul Buoy");
+        Assertions.assertEquals("Soul Buoy", str);
     }
 
 }
