@@ -49,3 +49,9 @@ Please refer to the documentation found in [`Journey_User_Guide.pdf`](../User_Gu
 ### Known Bugs
 - The leaflet API can sometimes crash and stop displaying the map. This comes from the leaflet API and therefore the only way to fix it
 is to right click and refresh the map. Can also be achieved by switching to the table view and then back to the map view.
+
+### Screenshots
+![image](https://user-images.githubusercontent.com/87688497/217664712-d6a8970b-cdd1-4e2f-9373-b31e84315786.png)
+![image](https://user-images.githubusercontent.com/87688497/217664876-4c760c16-a9cd-45c5-982b-3c413f348f87.png)
+![image](https://user-images.githubusercontent.com/87688497/217664976-81c5d625-59be-4fa1-8eef-93284abc1d8d.png)
+
